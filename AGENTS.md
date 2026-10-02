@@ -98,4 +98,12 @@ Fill this in after the team forms on Saturday.
 
 ## Stack
 
-TBD once the problem is announced (Saturday 11:30).
+- **Hosting: Vercel** (Joao's account), connected to this GitHub repo.
+  - `main` deploys to production. That URL is the one we demo.
+  - Every PR gets its own preview deployment. Check your preview before asking
+    for a merge.
+  - Env vars live in the Vercel project settings, not in the repo. When you
+    add one, add its name to `.env.example` and tell Joao so it gets set in Vercel.
+  - Pick frameworks Vercel deploys with zero config (e.g. Next.js) unless there's
+    a strong reason not to.
+- Framework, language and database: TBD once the problem is announced (Saturday 11:30).
