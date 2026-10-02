@@ -17,7 +17,7 @@ and judging criteria.
 - **Never commit directly to `main`.** `main` must always build and run, so it can
   be demoed at any moment.
 - Every piece of work goes on its own branch, named `<handle>/<short-topic>`,
-  for example `joao/api-setup` or `maria/landing-page`.
+  for example `joao/api-setup` or `arthur/landing-page`.
 - Only work on your own branches. Never commit to, rebase or force-push a
   teammate's branch. If you need their change, wait for it to merge into `main`.
 - Start every branch from a fresh `main`:
@@ -92,9 +92,9 @@ Fill this in after the team forms on Saturday.
 | Teammate | Handle | Area / owns | Branch prefix |
 |----------|--------|-------------|---------------|
 | Joao Vitor | joao | TBD | `joao/` |
-| TBD | | | |
-| TBD | | | |
-| TBD | | | |
+| Arthur | arthur | TBD | `arthur/` |
+| Ryan | ryan | TBD | `ryan/` |
+| Denis | denis | TBD | `denis/` |
 
 ## Stack
 
