@@ -49,14 +49,46 @@ export interface Kpi {
   target: number | null;
   status: "ok" | "simulated" | "awaiting_data";
   anchor2027: boolean;
+  /** "coo15" = the one-page scorecard of slide 35; "extended" = the rest of slides 33-34. */
+  group: "coo15" | "extended";
   note?: string;
+}
+
+export interface CategoryKpiRow {
+  category: string;
+  /** Σ net_cents of the category's orders. */
+  revenueCents: number;
+  /** Σ net_cents minus shipping charged on paid orders. */
+  marginCents: number;
+  /** Σ quantity of paid order lines. */
+  units: number;
+  /** Items sold / items available × 100 (synthetic item data); null without item data. */
+  sellThroughPct: number | null;
+  /** Paid gross / paid units; null when no units sold. */
+  aspCents: number | null;
+}
+
+export interface MarketplaceMetricsRow {
+  channel: string;
+  /** Marketplace's own scale (e.g. 4.8 of 5). */
+  csat: number | null;
+  /** −100..100. */
+  nps: number | null;
+  /** Percent (2.4 = 2.4%). */
+  conversionRate: number | null;
+  sellerRating: number | null;
 }
 
 export interface ScorecardView {
   period: string;
+  /** The 15 KPIs of slide 35 (group "coo15") first, then the extended KPIs of slides 33-34. */
   kpis: Kpi[];
   topCategoriesByRevenue: { category: string; revenueCents: number }[];
   topCategoriesByMargin: { category: string; marginCents: number }[];
+  /** Every category with orders or items in the period, sorted by revenue. */
+  categories: CategoryKpiRow[];
+  /** One row per channel with marketplace metrics in the period; empty = awaiting data. */
+  marketplaceMetrics: MarketplaceMetricsRow[];
 }
 
 export interface SourceStatus {

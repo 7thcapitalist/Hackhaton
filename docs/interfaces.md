@@ -181,6 +181,48 @@ Money-line amount types that never count as revenue or cost: `statement_payment`
 (Goodwill Books control total) and `wallet_refund` (EasyPost payment-log refund; the
 shipment report carries the same refund, see `src/sources/shipping_osm_pb_easypost.ts`).
 
+### Scorecard: extended KPIs (additive, 2026-10-03)
+
+`ScorecardView.kpis` now holds the 15 KPIs of slide 35 first (ids unchanged, `group:
+"coo15"`), then every other KPI of slides 33-34 (`group: "extended"`). Show the 15 as the
+one-page scorecard and the rest as an extended list. Formulas: `docs/kpi-definitions.md`.
+Net Margin % now subtracts processing labor too, so its status is `simulated`.
+
+```ts
+export interface Kpi {
+  // ...existing fields...
+  group: "coo15" | "extended";   // NEW
+}
+export interface CategoryKpiRow {
+  category: string;
+  revenueCents: number;          // Σ net_cents
+  marginCents: number;           // Σ net_cents − shipping charged on paid orders
+  units: number;                 // Σ quantity, paid lines
+  sellThroughPct: number | null; // synthetic items; null without item data
+  aspCents: number | null;       // paid gross / paid units
+}
+export interface MarketplaceMetricsRow {
+  channel: string;
+  csat: number | null;           // marketplace's own scale (e.g. 4.8 of 5)
+  nps: number | null;            // −100..100
+  conversionRate: number | null; // percent (2.4 = 2.4%)
+  sellerRating: number | null;
+}
+export interface ScorecardView {
+  // ...existing fields...
+  categories: CategoryKpiRow[];               // NEW: every category, sorted by revenue
+  marketplaceMetrics: MarketplaceMetricsRow[]; // NEW: empty = awaiting data
+}
+```
+
+New table `marketplace_metrics` (id, ingest_run_id → ingest_runs cascade, channel →
+channels, period `YYYY-MM`, metric `csat | nps | conversion_rate | seller_rating`, value
+real, sample_size int null). Units as in `MarketplaceMetricsRow`. A source that loads CSAT/NPS/
+conversion writes one row per channel, period and metric.
+
+New optional env var `LABOR_RATE_CENTS_PER_HOUR` (default 1800 = $18.00/h): the loaded
+processing labor rate used by Gross Margin %, Net Margin % and Profit per Labor Hour.
+
 ## 3. Denis: outputs that leave the app
 
 Denis builds on the same view functions. Nothing reads the database directly outside
