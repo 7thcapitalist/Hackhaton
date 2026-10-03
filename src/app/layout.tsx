@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   description: "Nightly pulse, COO scorecard and month-end close for Goodwill Michiana e-commerce.",
 };
 
+// Every page reads the database. Without this, Next prerenders /, /scorecard and
+// /sources at build time and their numbers never change after an ingest or reset.
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const [pulse, period, sources] = await Promise.all([
     getPulse(LATEST_DATE),
