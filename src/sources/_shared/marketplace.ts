@@ -150,6 +150,34 @@ export function parseDateTime(raw: string, defaultTz: string = TIMEZONE): Date |
   return zonedToUtc(y, mo, d, h, mi, s, defaultTz);
 }
 
+/**
+ * Report time zone from a file-name hint, else `fallback`. Hints: `_et` /
+ * `_eastern` / `_indy` → Indianapolis, `_ct` / `_central` → Chicago, `_pt` /
+ * `_pacific` → Los Angeles, or an explicit `_tz-America-Indiana-Indianapolis`.
+ * For exports whose cells carry no zone (Upright, ShopGoodwill).
+ */
+export function zoneFromFileName(fileName: string, fallback: string): string {
+  const name = fileName.toLowerCase();
+  const tz = name.match(/tz[-_=]([a-z]+(?:-[a-z_]+)+)/);
+  if (tz) {
+    const iana = tz[1]
+      .split("-")
+      .map((p) => p.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("_"))
+      .join("/");
+    try {
+      cachedFormatter(iana, true);
+      return iana;
+    } catch {
+      /* not a zone: fall through */
+    }
+  }
+  const tag = (re: string) => new RegExp(`(^|[_\\-. ])(${re})([_\\-. ]|$)`).test(name);
+  if (tag("et|eastern|indy|indianapolis")) return "America/Indiana/Indianapolis";
+  if (tag("ct|central|chicago")) return "America/Chicago";
+  if (tag("pt|pacific|la")) return "America/Los_Angeles";
+  return fallback;
+}
+
 // ---------------------------------------------------------------------------
 // Orders and result bookkeeping
 // ---------------------------------------------------------------------------

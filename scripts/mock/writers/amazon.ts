@@ -7,10 +7,13 @@
  * Pacific time with a zone ("Sep 30, 2026 8:45:12 PM PDT"). Fees are negative,
  * marketplace-facilitator tax is collected and withheld in the same row.
  *
+ * 2026 columns Transaction Status / Transaction Release Date are included
+ * (nightly files: Deferred; prior-year month files: Released).
+ *
  * Messy cases: no file for MISSING_AMAZON_DATE; a Refund row for an order of
  * an earlier file (LATE_REFUND_DATE); an unknown "Liquidations" row (2026-09-24).
  */
-import { daysBetween } from "../../../src/lib/views/dates";
+import { addDays, daysBetween } from "../../../src/lib/views/dates";
 import { amazonDate, csvRow, dec, lines } from "../format";
 import { LATE_REFUND_DATE, MISSING_AMAZON_DATE, type AmazonEvent, type MockModel, type MockOrder } from "../model";
 import { ALL_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
@@ -31,7 +34,7 @@ const HEADER = [
   "fulfillment", "order city", "order state", "order postal", "tax collection model", "product sales",
   "product sales tax", "shipping credits", "shipping credits tax", "gift wrap credits", "giftwrap credits tax",
   "Regulatory Fee", "promotional rebates", "promotional rebates tax", "marketplace withheld tax", "selling fees",
-  "fba fees", "other transaction fees", "other", "total",
+  "fba fees", "other transaction fees", "other", "total", "Transaction Status", "Transaction Release Date",
 ];
 const QUOTED = new Set([0]);
 
@@ -39,6 +42,18 @@ const QUOTED = new Set([0]);
 function settlementId(date: string, isTransfer: boolean): string {
   const idx = Math.floor(daysBetween("2026-07-24", date) / 14) - (isTransfer ? 1 : 0);
   return String(18_800_000_000 + idx);
+}
+
+const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/**
+ * 2026 columns: in a nightly file, order money is still "Deferred" (released
+ * 7 days after posting); month files of the prior year are all "Released".
+ */
+function release(fileKey: string, date: string): [string, string] {
+  if (fileKey.length === 7) return ["Released", ""];
+  const r = addDays(date, 7);
+  return ["Deferred", `${MON[Number(r.slice(5, 7)) - 1]} ${Number(r.slice(8, 10))}, ${r.slice(0, 4)}`];
 }
 
 function orderRow(o: MockOrder): string[] {
@@ -84,17 +99,17 @@ export function writeAmazon(model: MockModel): FixtureFile[] {
     const rows: { t: number; seq: number; cells: string[] }[] = [];
     let late = false;
     for (const o of amazon) {
-      if (match(o.businessDate)) rows.push({ t: o.ts.getTime(), seq: o.seq, cells: orderRow(o) });
+      if (match(o.businessDate)) rows.push({ t: o.ts.getTime(), seq: o.seq, cells: [...orderRow(o), ...release(key, o.businessDate)] });
       if (o.status === "refunded" && o.refundTs) {
         const refundDate = o.lateRefund ? LATE_REFUND_DATE : o.businessDate;
         if (match(refundDate)) {
-          rows.push({ t: o.refundTs.getTime(), seq: o.seq, cells: refundRow(o, refundDate) });
+          rows.push({ t: o.refundTs.getTime(), seq: o.seq, cells: [...refundRow(o, refundDate), ...release(key, refundDate)] });
           late ||= o.lateRefund;
         }
       }
     }
     for (const e of model.amazonEvents) {
-      if (match(e.businessDate)) rows.push({ t: e.ts.getTime(), seq: 0, cells: eventRow(e) });
+      if (match(e.businessDate)) rows.push({ t: e.ts.getTime(), seq: 0, cells: [...eventRow(e), "Released", ""] });
     }
     rows.sort((a, b) => a.t - b.t || a.seq - b.seq);
     const body = [
@@ -104,7 +119,7 @@ export function writeAmazon(model: MockModel): FixtureFile[] {
     ];
     const notes: string[] = [];
     if (late) notes.push("refund row for an order in an earlier file");
-    if (rows.some((r) => r.cells[2] === "Liquidations")) notes.push('unknown transaction type "Liquidations"');
+    if (rows.some((r) => r.cells[2] === "Liquidations")) notes.push('unknown transaction type "Liquidations" (booked as an adjustment, with a warning)');
     files.push({
       sourceId: "amazon",
       path: `amazon/amazon_${key}.csv`,

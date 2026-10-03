@@ -137,6 +137,10 @@ const FOREIGN: Record<string, RawTable> = {
     ["Item ID", "Title", "Category", "End Date", "Winning Bid", "Shipping", "Handling", "Seller Fee", "Net", "Buyer ID", "Status", "Period"],
     ["1", "Vase", "Home", "09/01/2026", "$12.00", "$8.00", "$3.00", "$1.20", "$21.80", "B1", "Paid", "Period 1"],
   ],
+  "upright-paid-order-items-real.csv": [
+    ["Channel", "Channel Item ID", "Channel Order ID", "Upright Order ID", "Upright Product ID", "Quantity", "Inventory Location", "Product SKU", "Product Title", "Product Category", "Supplier", "Product Carrier", "Order Shipping Method", "Order Item Price", "Order Item Subtotal", "Order Ordered At", "Order Paid At", "Order Shipped At", "Order Cancelled At", "Order Payment Id", "Order Payment Type", "Order Total", "Order Subtotal", "Order Shipping Total", "Order Handling Total", "Order Final Value Fee", "Order Payment Processing Fee", "Refund Amount", "Poster", "Product Weight", "Channel Buyer ID", "Secondary Channel Order ID", "Currency Code", "Order Channel Fee Or Credit Amount"],
+    ["ShopGoodwill", "210000104", "SGW-7700104", "UP-1", "UPP-1", "1", "BIN-A1", "SKU-1", "Pocket Watch", "Jewelry", "Store 07", "USPS", "USPS", "90.00", "90.00", "9/7/2026 3:45:00 PM", "9/7/2026 3:45:00 PM", "", "", "", "Stripe", "100.00", "90.00", "8.00", "2.00", "0.00", "10.80", "0.00", "lister_D", "1.2", "b1", "", "USD", ""],
+  ],
   "upright-paid-order-items.csv": [
     ["Channel", "Channel Item ID", "Channel Order ID", "Title", "Upright Product ID", "Quantity", "Category", "Price", "Shipping", "Fees", "Ordered At", "Paid At"],
     ["eBay", "100000000000", "01-00000-00000", "Lamp", "U1", "1", "Home", "20.00", "5.00", "2.60", "2026-09-01 10:00", "2026-09-01 10:05"],

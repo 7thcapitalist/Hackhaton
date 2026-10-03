@@ -6,7 +6,20 @@ import type { RawTable } from "../types";
 export const TIMEZONE = "America/Indiana/Indianapolis" as const;
 
 /** Lowercase, trim, collapse spaces, strip quotes/BOM. */
+const normalized = new Map<string, string>();
+
 export function normalizeHeader(cell: string): string {
+  // Memoized: auto-detect normalizes the same header cells and aliases many times.
+  let n = normalized.get(cell);
+  if (n === undefined) {
+    n = normalizeUncached(cell);
+    if (normalized.size > 50_000) normalized.clear();
+    normalized.set(cell, n);
+  }
+  return n;
+}
+
+function normalizeUncached(cell: string): string {
   return cell
     .replace(/^﻿/, "")
     .replace(/["']/g, "")

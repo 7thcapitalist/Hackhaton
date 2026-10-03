@@ -205,6 +205,10 @@ export const shippingOsmPbEasypostParser: SourceParser = {
 
     const hdr = headerSet(header);
     const pbFileKind = found.layout === "pitney_bowes" ? pbKind(ctx.fileName, hdr) : "shipments";
+    const epShip = columnIndex(header, EP_SHIP);
+    const epPay = columnIndex(header, EP_PAY);
+    const pb = columnIndex(header, PB);
+    const osm = columnIndex(header, OSM);
 
     for (let i = found.header + 1; i < table.length; i++) {
       const row = table[i];
@@ -212,7 +216,7 @@ export const shippingOsmPbEasypostParser: SourceParser = {
       if (isBlankRow(row) || isTotalRow(row)) continue;
 
       if (found.layout === "easypost_shipments") {
-        const c = columnIndex(header, EP_SHIP);
+        const c = epShip;
         const d = parseDate(cell(row, c.labelDate)) ?? parseDate(cell(row, c.date));
         if (!d) { warn(rowNo, `Bad created_at "${cell(row, c.date)}"; skipped.`); continue; }
         const tracking = cell(row, c.tracking) || cell(row, c.id) || null;
@@ -249,7 +253,7 @@ export const shippingOsmPbEasypostParser: SourceParser = {
           warn(rowNo, `Shipment ${tracking ?? ""}: unknown refund_status "${refund}".`);
         }
       } else if (found.layout === "easypost_payment_log") {
-        const c = columnIndex(header, EP_PAY);
+        const c = epPay;
         const d = parseDate(cell(row, c.date));
         const amt = toCents(cell(row, c.amount));
         if (!d || amt == null) { warn(rowNo, "Payment log row without date or amount; skipped."); continue; }
@@ -285,7 +289,7 @@ export const shippingOsmPbEasypostParser: SourceParser = {
           out.push(line(rowNo, d.businessDate, "adjustment", signed(-1), ref, memo));
         } else warn(rowNo, `Payment log: unknown charge_type "${type}"; not counted.`);
       } else if (found.layout === "pitney_bowes") {
-        const c = columnIndex(header, PB);
+        const c = pb;
         const d = parseDate(cell(row, c.date));
         const amt = toCents(cell(row, c.amount));
         if (!d || amt == null) { warn(rowNo, "Pitney Bowes row without date or amount; skipped."); continue; }
@@ -310,7 +314,7 @@ export const shippingOsmPbEasypostParser: SourceParser = {
           out.push(line(rowNo, d.businessDate, "shipping_label", -abs, tracking, memo));
         }
       } else {
-        const c = columnIndex(header, OSM);
+        const c = osm;
         const d = parseDate(cell(row, c.date));
         const amt = toCents(cell(row, c.amount));
         if (!d || amt == null) { warn(rowNo, "OSM row without date or amount; skipped."); continue; }
@@ -325,7 +329,7 @@ export const shippingOsmPbEasypostParser: SourceParser = {
         message: `${carrierBilled.n} EasyPost label(s) billed by the carrier (OSM/FedEx/UPS; rates ${fmt(carrierBilled.rate)}): postage not counted here, it comes from the carrier's invoice.`,
       });
     }
-    if (labelServiceFees && !(found.layout === "easypost_payment_log" && (columnIndex(header, EP_PAY).tracking >= 0 || columnIndex(header, EP_PAY).shipmentId >= 0))) {
+    if (labelServiceFees && !(found.layout === "easypost_payment_log" && (epPay.tracking >= 0 || epPay.shipmentId >= 0))) {
       result.warnings.push({
         message: `${labelServiceFees} service_fee row(s) without a tracking/shipment column were treated as label purchases and not counted (the shipment report is the authority for label cost).`,
       });

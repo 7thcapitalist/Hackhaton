@@ -53,6 +53,7 @@ import {
   parseDateTime,
   stamp,
   warnMissingColumns,
+  zoneFromFileName,
 } from "./_shared/marketplace";
 
 const ALIASES = {
@@ -103,23 +104,7 @@ export function channelOf(raw: string): ChannelId {
  * ParseContext type), else a file-name hint, else America/Los_Angeles.
  */
 export function uprightTimezone(ctx: Pick<ParseContext, "fileName"> & { reportTimezone?: string }): string {
-  if (ctx.reportTimezone) return ctx.reportTimezone;
-  const name = ctx.fileName.toLowerCase();
-  const tz = name.match(/tz[-_=]([a-z]+(?:-[a-z_]+)+)/i);
-  if (tz) {
-    const iana = tz[1].split("-").map((p) => p.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("_")).join("/");
-    try {
-      new Intl.DateTimeFormat("en-US", { timeZone: iana });
-      return iana;
-    } catch {
-      /* fall through */
-    }
-  }
-  const tag = (re: RegExp) => new RegExp(`(^|[_\\-. ])(${re.source})([_\\-. ]|$)`).test(name);
-  if (tag(/et|eastern|indy|indianapolis/)) return "America/Indiana/Indianapolis";
-  if (tag(/ct|central|chicago/)) return "America/Chicago";
-  if (tag(/pt|pacific|la/)) return "America/Los_Angeles";
-  return DEFAULT_UPRIGHT_TIMEZONE;
+  return ctx.reportTimezone || zoneFromFileName(ctx.fileName, DEFAULT_UPRIGHT_TIMEZONE);
 }
 
 export const uprightParser: SourceParser = {
