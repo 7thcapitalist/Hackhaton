@@ -3,7 +3,7 @@
  * Pure, no I/O. Builds on ./table.ts without changing it.
  */
 import type { ParsedOrder, ParseResult, RawTable } from "../types";
-import { businessDateOf, normalizeHeader, periodOf, TIMEZONE, toCents } from "./table";
+import { businessDateOf, cachedFormatter, normalizeHeader, periodOf, TIMEZONE, toCents } from "./table";
 
 export type ChannelId = "shopgoodwill" | "amazon" | "ebay" | "goodwill_books" | "other";
 
@@ -59,12 +59,7 @@ const ZONE_OFFSETS: Record<string, number> = {
 
 /** Offset (minutes) of `tz` at instant `utcMs`. */
 function tzOffsetMinutes(utcMs: number, tz: string): number {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: tz,
-    hourCycle: "h23",
-    year: "numeric", month: "2-digit", day: "2-digit",
-    hour: "2-digit", minute: "2-digit", second: "2-digit",
-  }).formatToParts(new Date(utcMs));
+  const parts = cachedFormatter(tz, true).formatToParts(new Date(utcMs));
   const get = (t: string) => Number(parts.find((p) => p.type === t)?.value ?? 0);
   const asUtc = Date.UTC(get("year"), get("month") - 1, get("day"), get("hour") % 24, get("minute"), get("second"));
   return Math.round((asUtc - utcMs) / 60000);
