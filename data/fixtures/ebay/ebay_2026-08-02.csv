@@ -1,0 +1,31 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+9091,15-13337-04307,ebuyer_002985,,310000013337,Vintage Film Camera,EL-013337,1,$27.99,$5.91,$2.37,$36.27,Yes,eBay Managed Payments,Aug-02-26 00:30:31,Aug-02-26 00:30:31,Paid,
+9083,14-13329-81323,ebuyer_002581,,310000013329,Antique Sandals,SH-013329,1,$22.99,$7.98,$2.17,$33.14,Yes,eBay Managed Payments,Aug-02-26 01:09:59,Aug-02-26 01:09:59,Paid,
+9075,04-13321-54475,ebuyer_003492,,310000013321,Retro Silk Blouse,CL-013321,1,$12.99,$0.00,$0.91,$13.90,Yes,eBay Managed Payments,Aug-02-26 01:20:06,Aug-02-26 01:20:06,Paid,
+9090,10-13336-77169,ebuyer_002957,,310000013336,Handmade Pyrex Bowl,KT-013336,1,$48.99,$12.70,$4.32,$66.01,Yes,eBay Managed Payments,Aug-02-26 01:23:30,Aug-02-26 01:23:30,Paid,
+9073,07-13319-08407,ebuyer_002580,,310000013319,Like New Crossbody Bag,HB-013319,1,$36.99,$11.81,$3.42,$52.22,Yes,eBay Managed Payments,Aug-02-26 06:29:32,Aug-02-26 06:29:32,Paid,
+9094,19-13340-85484,ebuyer_002732,,310000013340,Like New Tote Bag,HB-013340,1,$50.99,$0.00,$3.57,$54.56,Yes,eBay Managed Payments,Aug-02-26 06:50:18,Aug-02-26 06:50:18,Paid,
+9089,25-13335-82230,ebuyer_003184,,310000013335,Retro Running Shoes,SH-013335,1,$25.99,$0.00,$1.82,$27.81,Yes,eBay Managed Payments,Aug-02-26 08:38:23,Aug-02-26 08:38:23,Paid,
+9076,19-13322-23823,ebuyer_003572,,310000013322,Handmade Leather Boots,SH-013322,1,$55.99,$0.00,$3.92,$59.91,Yes,eBay Managed Payments,Aug-02-26 09:48:51,Aug-02-26 09:48:51,Paid,
+9078,15-13324-44896,ebuyer_002530,,310000013324,Classic Coin Lot,CO-013324,1,$12.99,$9.95,$1.61,$24.55,Yes,eBay Managed Payments,Aug-02-26 10:16:01,Aug-02-26 10:16:01,Paid,
+9072,21-13318-17732,ebuyer_002524,,310000013318,Retro Leather Boots,SH-013318,1,$29.99,$15.11,$3.16,$48.26,Yes,eBay Managed Payments,Aug-02-26 10:36:19,Aug-02-26 10:36:19,Paid,
+9086,26-13332-00162,ebuyer_002507,,310000013332,Mid-Century Sandals,SH-013332,1,$19.99,$0.00,$1.40,$21.39,Yes,eBay Managed Payments,Aug-02-26 10:42:19,Aug-02-26 10:42:19,Paid,
+9088,09-13334-75508,ebuyer_003225,,310000013334,Pre-owned Cashmere Sweater,CL-013334,1,$6.99,$8.25,$1.07,$16.31,Yes,eBay Managed Payments,Aug-02-26 11:02:43,Aug-02-26 11:02:43,Paid,
+9087,12-13333-34938,ebuyer_003049,,310000013333,Classic Coin Lot,CO-013333,1,$48.99,$0.00,$3.43,$52.42,Yes,eBay Managed Payments,Aug-02-26 12:12:19,Aug-02-26 12:12:19,Paid,
+9077,06-13323-08374,ebuyer_003663,,310000013323,Used Portable Radio,EL-013323,1,$27.99,$8.98,$2.59,$39.56,Yes,eBay Managed Payments,Aug-02-26 12:51:40,Aug-02-26 12:51:40,Paid,
+9095,03-13341-04569,ebuyer_003029,,310000013341,Pre-owned Tote Bag,HB-013341,1,$168.99,$5.24,$12.20,$186.43,Yes,eBay Managed Payments,Aug-02-26 12:54:50,Aug-02-26 12:54:50,Paid,
+9079,25-13325-48409,ebuyer_003096,,310000013325,Classic Crossbody Bag,HB-013325,1,$22.99,$10.02,$2.31,$35.32,Yes,eBay Managed Payments,Aug-02-26 14:19:15,Aug-02-26 14:19:15,Refunded,$33.01
+9084,18-13330-88510,ebuyer_003261,,310000013330,Handmade Denim Jacket,CL-013330,1,$61.99,$6.05,$4.76,$72.80,Yes,eBay Managed Payments,Aug-02-26 14:20:48,Aug-02-26 14:20:48,Paid,
+9080,18-13326-12208,ebuyer_002894,,310000013326,Retro Trading Card Lot,CO-013326,1,$39.99,$9.43,$3.46,$52.88,Yes,eBay Managed Payments,Aug-02-26 15:00:09,Aug-02-26 15:00:09,Paid,
+9096,25-13342-06536,ebuyer_002504,,310000013342,Vintage Stoneware Mugs,KT-013342,2,$36.99,$6.75,$5.65,$86.38,Yes,eBay Managed Payments,Aug-02-26 15:05:25,Aug-02-26 15:05:25,Paid,
+9081,19-13327-91478,ebuyer_002529,,310000013327,Vintage Cashmere Sweater,CL-013327,1,$76.99,$0.00,$5.39,$82.38,Yes,eBay Managed Payments,Aug-02-26 16:55:09,Aug-02-26 16:55:09,Paid,
+9093,02-13339-04058,ebuyer_003368,,310000013339,Pre-owned Fishing Reel,SG-013339,2,$52.99,$0.00,$7.42,$113.40,Yes,eBay Managed Payments,Aug-02-26 18:04:08,Aug-02-26 18:04:08,Paid,
+9074,11-13320-30842,ebuyer_003186,,310000013320,Used Sandals,SH-013320,1,$33.99,$9.98,$3.08,$47.05,Yes,eBay Managed Payments,Aug-02-26 18:16:34,Aug-02-26 18:16:34,Paid,
+9092,02-13338-12750,ebuyer_002854,,310000013338,Lot of 2 Tote Bag,HB-013338,1,$33.99,$0.00,$2.38,$36.37,Yes,eBay Managed Payments,Aug-02-26 19:06:37,Aug-02-26 19:06:37,Paid,
+9085,12-13331-70998,ebuyer_003171,,310000013331,Used Leather Satchel,HB-013331,1,$99.99,$0.00,$7.00,$106.99,Yes,eBay Managed Payments,Aug-02-26 20:03:11,Aug-02-26 20:03:11,Paid,
+9082,24-13328-25621,ebuyer_002584,,310000013328,Pre-owned Running Shoes,SH-013328,1,$24.99,$0.00,$1.75,$26.74,Yes,eBay Managed Payments,Aug-02-26 21:40:37,Aug-02-26 21:40:37,Paid,
+9097,15-13343-66414,ebuyer_002518,,310000013343,Like New Fishing Reel,SG-013343,1,$33.99,$8.40,$2.97,$45.36,Yes,eBay Managed Payments,Aug-02-26 23:44:02,Aug-02-26 23:44:02,Paid,
+
+"26 record(s) downloaded,from Aug-02-26 to Aug-02-26"
+Seller ID : goodwill_michiana_test
