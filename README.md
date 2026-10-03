@@ -29,7 +29,7 @@ npx vercel env pull .env.local
 cp .env.example .env.local   # TURSO_DATABASE_URL=file:local.db
 
 npm run db:push   # create/update tables (drizzle-kit push; run from a laptop, never in the Vercel build)
-npm run seed      # stub for now: prints row counts per table
+npm run seed      # deterministic synthetic data, 2026-08-01..2026-10-03 (wipes + reloads facts)
 npm run dev       # http://localhost:3000
 ```
 
@@ -42,7 +42,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
-| `npm run seed` | Load demo data (stub until the fixtures task lands) |
+| `npm run seed` | Wipe and reload deterministic synthetic data (sources, channels, KPI targets, orders, money lines, items, labor hours, exceptions) for 2026-08-01..2026-10-03 |
 
 ### Env vars
 
@@ -62,6 +62,24 @@ See `.env.example`.
 Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_URL`)
 are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts`
 (`getDb()`), `drizzle.config.ts`.
+
+## View functions
+
+Pages, exports and the pulse email read data only through these server-only functions
+(`src/lib/views`, types in `src/lib/views/types.ts`). Money is integer cents; dates are
+business dates in America/Indiana/Indianapolis. KPI formulas live in `src/kpis/`.
+
+| Function | JSON route | Notes |
+|----------|-----------|-------|
+| `getPulse(date)` | `/api/views/pulse?date=YYYY-MM-DD` (default yesterday) | Rows per pulse group; a channel with no file that day is `"missing"` with nulls, excluded from totals |
+| `getPulseSeries(from, to)` | `/api/views/pulse-series?from=…&to=…` (≤ 366 days) | Same rules, one value per day |
+| `getScorecard(period)` | `/api/views/scorecard?period=YYYY-MM` (default last full month) | 15 KPIs; `status` is `ok`, `simulated` (synthetic items/labor) or `awaiting_data` (value null) |
+| `getSourceStatus(period)` | `/api/views/sources?period=YYYY-MM` (default this month) | `received` / `warnings` / `missing` per source, open exceptions |
+| `getOrders({channel,date,period,limit,offset})` | `/api/views/orders?…` | Drill-down rows with `ingestRunId` + `sourceRow` |
+
+Bad dates or periods return 400. Seeded demo cases: Amazon is `"missing"` on
+2026-10-02; Upright has an open duplicate-order exception in 2026-09; month-end sources
+(Cash Monkey, Jewelry, shipping, FedEx, Goodwill Books) have no October files yet.
 
 ## Where to read next
 
