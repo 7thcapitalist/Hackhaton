@@ -11,20 +11,52 @@
  * 2. Twins: the eBay getOrders JSON and the eBay Orders CSV for 2026-10-01
  *    must yield the SAME dedupe keys and amounts; the EasyPost shipments JSON
  *    and the EasyPost Shipment CSV must yield the SAME money lines.
+ *    Upright: the /reports/order_items JSON and the Paid Order Items CSV
+ *    (2026-09) yield the SAME dedupe keys and, per order, the same gross,
+ *    shipping, fee, refund, tax, net and status (order-level money is counted
+ *    once per order in the JSON). Amazon: the Finances listTransactions JSON
+ *    and the Date Range Transaction CSV (2026-10-01) yield the SAME orders
+ *    (keys + amounts) and the same money lines.
  * 3. Isolation: no CSV parser accepts a JSON document and no JSON parser
  *    accepts any CSV sample.
- * 4. Mock connectors (amazon, ebay, easypost) for 2026-10-01..03: every file
- *    is detected as its connector's source and parses with no warnings.
+ * 4. Mock connectors (amazon, ebay, easypost, upright) for 2026-10-01..03:
+ *    every file is detected as its connector's source and parses with no
+ *    warnings.
+ *
+ * upright_api / amazon_api are added to the JSON pool here even before they
+ * are registered in src/sources/index.ts (a no-op once they are).
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { readTable } from "../src/ingest/read";
-import { detectParser, getParser, jsonParsers, parsers } from "../src/sources";
+import { detectParser as registryDetect, getParser, jsonParsers as registeredJson, parsers } from "../src/sources";
+import { isJsonTable } from "../src/sources/_shared/json";
+import { amazonApiParser } from "../src/sources/amazon_api";
+import { uprightApiParser } from "../src/sources/upright_api";
 import { businessDateOf } from "../src/sources/_shared/table";
 import type { ParsedMoneyLine, ParsedOrder, ParseResult } from "../src/sources/types";
 import { amazonConnector } from "../src/connectors/amazon";
 import { ebayConnector } from "../src/connectors/ebay";
 import { easypostConnector } from "../src/connectors/easypost";
+import { uprightConnector } from "../src/connectors/upright";
+import type { RawTable, SourceParser } from "../src/sources/types";
+
+const jsonParsers: SourceParser[] = [
+  ...registeredJson,
+  ...[uprightApiParser, amazonApiParser].filter(
+    (p) => !registeredJson.some((r) => r.sourceId === p.sourceId && r.version === p.version),
+  ),
+];
+function detectParser(table: RawTable, fileName: string): SourceParser | undefined {
+  if (!isJsonTable(table)) return registryDetect(table, fileName);
+  return jsonParsers.find((p) => {
+    try {
+      return p.accepts(table, fileName);
+    } catch {
+      return false;
+    }
+  });
+}
 
 const TZ = "America/Indiana/Indianapolis" as const;
 const SAMPLES = join(__dirname, "..", "src", "sources", "__samples__");
@@ -59,7 +91,12 @@ const usd = (c: number) => (c / 100).toFixed(2);
 async function main() {
   // 1. JSON samples
   const apiDir = join(SAMPLES, "api");
-  const expectOf = (f: string) => (f.startsWith("ebay_api") ? "ebay" : f.startsWith("easypost_api") ? "shipping_osm_pb_easypost" : undefined);
+  const expectOf = (f: string) =>
+    f.startsWith("ebay_api") ? "ebay"
+    : f.startsWith("easypost_api") ? "shipping_osm_pb_easypost"
+    : f.startsWith("upright_api") ? "upright"
+    : f.startsWith("amazon_api") ? "amazon"
+    : undefined;
   const parsed = new Map<string, ParseResult>();
   for (const f of readdirSync(apiDir).filter((n) => n.endsWith(".json")).sort()) {
     const res = await parseFile(join(apiDir, f), f, expectOf(f));
@@ -120,6 +157,92 @@ async function main() {
     if (epJson.warnings.length !== epCsv.warnings.length) fail("EasyPost JSON and CSV warning counts differ");
   }
 
+  // 2c. Upright twins (per item: keys, gross, ts; per order: order-level money)
+  const upJson = parsed.get("upright_api_order_items_2026-09.json");
+  const upCsv = await parseFile(join(SAMPLES, "upright_2026-09.csv"), "upright_2026-09.csv", "upright");
+  if (!upJson || !upCsv) fail("Upright twin samples missing");
+  else {
+    const csvByKey = new Map(upCsv.orders.map((o) => [key(o), o]));
+    const jsonKeys = upJson.orders.map(key);
+    const same = jsonKeys.filter((k) => csvByKey.has(k));
+    console.log(`\n== Upright JSON vs CSV (2026-09): ${same.length}/${jsonKeys.length} JSON keys found in the CSV (${upCsv.orders.length} CSV rows)`);
+    if (same.length !== jsonKeys.length || jsonKeys.length !== upCsv.orders.length) fail("Upright JSON and CSV dedupe keys differ");
+    for (const j of upJson.orders) {
+      const c = csvByKey.get(key(j));
+      if (!c) continue;
+      for (const f of ["orderTs", "businessDate", "grossCents", "quantity", "buyerId", "channel"] as const) {
+        if (j[f] !== c[f]) fail(`Upright twin ${key(j)}: ${f} JSON=${j[f]} CSV=${c[f]}`);
+      }
+    }
+    const perOrder = (os: ParsedOrder[]) => {
+      const groups = new Map<string, ParsedOrder[]>();
+      for (const o of os) {
+        const k = `${o.channel}:${o.externalOrderId}`;
+        groups.set(k, [...(groups.get(k) ?? []), o]);
+      }
+      const out = new Map<string, string>();
+      for (const [k, xs] of groups) {
+        const t = (f: "grossCents" | "shippingCents" | "feeCents" | "refundCents" | "taxCents" | "netCents") =>
+          xs.reduce((a, o) => a + (o[f] ?? 0), 0);
+        const st = xs.some((o) => o.status === "cancelled") ? "cancelled" : xs.some((o) => o.status === "refunded") ? "refunded" : "paid";
+        out.set(k, `gross ${t("grossCents")} ship ${t("shippingCents")} fee ${t("feeCents")} refund ${t("refundCents")} tax ${t("taxCents")} net ${t("netCents")} ${st}`);
+      }
+      return out;
+    };
+    const pj = perOrder(upJson.orders);
+    const pc = perOrder(upCsv.orders);
+    let diff = 0;
+    for (const [k, v] of pj) {
+      if (pc.get(k) !== v) {
+        diff++;
+        fail(`Upright twin order ${k}: JSON ${v} | CSV ${pc.get(k)}`);
+      }
+    }
+    const net = (os: ParsedOrder[]) => os.reduce((a, o) => a + (o.netCents ?? 0), 0);
+    console.log(`   ${pj.size} orders, ${diff} with different order-level money; Σ net JSON ${usd(net(upJson.orders))} CSV ${usd(net(upCsv.orders))}`);
+    const ex = upJson.orders[0];
+    const cx = csvByKey.get(key(ex));
+    console.log(`   example: JSON channel_order_id=${ex.externalOrderId} channel_item_id=${ex.externalItemId} → dedupe_key ${key(ex)}`);
+    if (cx) console.log(`            CSV  Channel Order ID=${cx.externalOrderId} Channel Item ID=${cx.externalItemId} → dedupe_key ${key(cx)}`);
+    const multi = [...pj.keys()].find((k) => upJson.orders.filter((o) => `${o.channel}:${o.externalOrderId}` === k).length > 1);
+    if (multi) console.log(`   multi-item order ${multi}: order-level money counted once (${pj.get(multi)})`);
+  }
+
+  // 2d. Amazon twins (orders by key + money lines)
+  const azJson = parsed.get("amazon_api_transactions_2026-10-01.json");
+  const azCsv = await parseFile(join(SAMPLES, "amazon_2026-10-01.csv"), "amazon_2026-10-01.csv", "amazon");
+  if (!azJson || !azCsv) fail("Amazon twin samples missing");
+  else {
+    const csvByKey = new Map(azCsv.orders.map((o) => [key(o), o]));
+    const jsonKeys = azJson.orders.map(key);
+    const same = jsonKeys.filter((k) => csvByKey.has(k));
+    console.log(`\n== Amazon Finances JSON vs Transaction CSV (2026-10-01): ${same.length}/${jsonKeys.length} JSON keys found in the CSV (${azCsv.orders.length} CSV orders)`);
+    if (same.length !== jsonKeys.length || jsonKeys.length !== azCsv.orders.length) fail("Amazon JSON and CSV dedupe keys differ");
+    for (const j of azJson.orders) {
+      const c = csvByKey.get(key(j));
+      if (!c) continue;
+      for (const f of ["orderTs", "businessDate", "grossCents", "shippingCents", "taxCents", "feeCents", "refundCents", "netCents", "status", "quantity"] as const) {
+        if (j[f] !== c[f]) fail(`Amazon twin ${key(j)}: ${f} JSON=${j[f]} CSV=${c[f]}`);
+      }
+    }
+    const sig = (m: ParsedMoneyLine) => [m.lineDate, m.amountType, m.amountCents, m.reference, m.settlementId, m.memo].join("|");
+    const a = azJson.moneyLines.map(sig).sort();
+    const b = azCsv.moneyLines.map(sig).sort();
+    const equal = a.length === b.length && a.every((x, i) => x === b[i]);
+    console.log(`   money lines: JSON ${a.length}, CSV ${b.length}; identical: ${equal}; warnings JSON ${azJson.warnings.length} CSV ${azCsv.warnings.length}`);
+    if (!equal) {
+      fail("Amazon JSON and CSV money lines differ");
+      console.log("   only JSON:", a.filter((x) => !b.includes(x)));
+      console.log("   only CSV: ", b.filter((x) => !a.includes(x)));
+    }
+    if (azJson.warnings.length !== azCsv.warnings.length) fail("Amazon JSON and CSV warning counts differ");
+    const net = (os: ParsedOrder[]) => os.reduce((t, o) => t + (o.netCents ?? 0), 0);
+    const tax = (os: ParsedOrder[]) => os.reduce((t, o) => t + (o.taxCents ?? 0), 0);
+    console.log(`   Σ net JSON ${usd(net(azJson.orders))} CSV ${usd(net(azCsv.orders))}; Σ tax (never revenue) JSON ${usd(tax(azJson.orders))} CSV ${usd(tax(azCsv.orders))}`);
+    const refunded = azJson.orders.find((o) => o.status === "refunded");
+    if (refunded) console.log(`   refunded: ${key(refunded)} refund ${usd(refunded.refundCents ?? 0)} (CSV ${usd(csvByKey.get(key(refunded))?.refundCents ?? 0)})`);
+  }
+
   // 3. Isolation
   const jsonTables = await Promise.all(
     readdirSync(apiDir).filter((n) => n.endsWith(".json")).map(async (f) => [f, await readTable(readFileSync(join(apiDir, f)), f)] as const),
@@ -143,7 +266,7 @@ async function main() {
 
   // 4. Mock connectors
   console.log("\n== Mock connectors 2026-10-01..2026-10-03");
-  for (const c of [amazonConnector, ebayConnector, easypostConnector]) {
+  for (const c of [amazonConnector, ebayConnector, easypostConnector, uprightConnector]) {
     const files = await c.pull({ from: "2026-10-01", to: "2026-10-03", mock: true });
     const again = await c.pull({ from: "2026-10-01", to: "2026-10-03", mock: true });
     if (files.some((f, i) => !again[i] || !f.bytes.equals(again[i].bytes))) fail(`${c.sourceId}: mock is not deterministic`);
