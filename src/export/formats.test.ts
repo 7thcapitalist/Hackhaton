@@ -5,7 +5,8 @@ import ExcelJS from "exceljs";
 import { pulseCsv } from "./pulse";
 import { scorecardCsv, scorecardTables } from "./scorecard";
 import { pulseXlsx, scorecardXlsx } from "./xlsx";
-import { parseScorecard } from "./validation";
+import { reportProvider } from "./provider";
+import { parseScorecard, ReportError } from "./validation";
 import { monthlyReportHtml } from "../report/monthly";
 import { samplePulse, sampleScorecard } from "./testing/fixtures";
 import { GET as pulseGET } from "../app/api/export/pulse/route";
@@ -70,7 +71,7 @@ test("scorecard preserves units, percentage scale, previous, target and category
   assert.ok(scorecardCsv(parsed).includes('"category_margin"'));
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.load(Uint8Array.from(await scorecardXlsx(parsed)).buffer);
-  assert.deepEqual(workbook.worksheets.map(sheet => sheet.name), ["Scorecard", "Categories Revenue", "Categories Margin"]);
+  assert.deepEqual(workbook.worksheets.map(sheet => sheet.name), ["Scorecard", "Categories Revenue", "Categories Margin", "Category Detail", "Marketplace Metrics"]);
   assert.equal(workbook.worksheets[0].getCell("G4").value, 0.15);
   assert.ok(!workbook.worksheets[0].getCell("G4").numFmt?.includes("%"));
   assert.equal(workbook.worksheets[0].getCell("L9").value, "awaiting_data");
@@ -115,24 +116,18 @@ test("a pulse without channels is marked partial in the file and download header
   const empty = { ...samplePulse, rows: [], missingChannels: [],
     totals: { revenueCents: 0, customers: 0, orders: 0 } };
   assert.ok(pulseCsv(empty).includes('"partial"'));
-  t.mock.method(globalThis, "fetch", async () => Response.json(empty));
+  t.mock.method(reportProvider, "loadPulse", async () => empty);
   const response = await pulseGET(new Request("http://localhost:3000/api/export/pulse?date=2026-10-02"));
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("X-Report-Status"), "partial");
 });
 
 test("routes deliver CSV, XLSX and HTML with correct filters and metadata", async t => {
-  const prior = process.env.REPORTS_VIEW_ORIGIN;
-  process.env.REPORTS_VIEW_ORIGIN = "https://demo.example";
-  t.after(() => { if (prior === undefined) delete process.env.REPORTS_VIEW_ORIGIN; else process.env.REPORTS_VIEW_ORIGIN = prior; });
-  t.mock.method(globalThis, "fetch", async (input: string) => {
-    const url = new URL(input);
-    if (url.pathname.endsWith("pulse")) {
-      assert.equal(url.searchParams.get("date"), "2026-10-02");
-      return Response.json(samplePulse);
-    }
-    assert.equal(url.searchParams.get("period"), "2026-09");
-    return Response.json(sampleScorecard);
+  t.mock.method(reportProvider, "loadPulse", async (date: string) => {
+    assert.equal(date, "2026-10-02"); return samplePulse;
+  });
+  t.mock.method(reportProvider, "loadScorecard", async (period: string) => {
+    assert.equal(period, "2026-09"); return sampleScorecard;
   });
   const csv = await pulseGET(new Request("https://demo.example/api/export/pulse?date=2026-10-02"));
   assert.equal(csv.status, 200);
@@ -146,14 +141,14 @@ test("routes deliver CSV, XLSX and HTML with correct filters and metadata", asyn
   assert.ok(xlsx.headers.get("Content-Type")?.includes("spreadsheetml"));
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.load(await xlsx.arrayBuffer());
-  assert.equal(workbook.worksheets.length, 3);
+  assert.equal(workbook.worksheets.length, 5);
   const html = await monthlyGET(new Request("https://demo.example/api/export/monthly?period=2026-09"));
   assert.equal(html.status, 200);
   assert.ok((await html.text()).includes("Monthly COO scorecard"));
 });
 
 test("route upstream errors return explicit failures instead of a downloaded error page", async t => {
-  t.mock.method(globalThis, "fetch", async () => new Response("not ready", { status: 404 }));
+  t.mock.method(reportProvider, "loadScorecard", async () => { throw new ReportError(503, "view_unavailable", "Shared data unavailable."); });
   const response = await scorecardGET(new Request("http://localhost:3000/api/export/scorecard?period=2026-09"));
   assert.equal(response.status, 503);
   assert.equal((await response.json()).error, "view_unavailable");
@@ -161,4 +156,46 @@ test("route upstream errors return explicit failures instead of a downloaded err
   assert.equal(invalid.status, 400);
   const format = await pulseGET(new Request("http://localhost:3000/api/export/pulse?date=2026-10-02&format=pdf"));
   assert.equal(format.status, 400);
+});
+
+test("extended groups, category detail and marketplace metrics survive all formats", async () => {
+  const view = parseScorecard({ ...sampleScorecard, kpis: [...sampleScorecard.kpis,
+    { ...sampleScorecard.kpis[1], id: "extra_growth", label: "Extra growth", group: "extended" }] }, "2026-09");
+  assert.equal(view.kpis.length, 16);
+  assert.equal(view.kpis[15].group, "extended");
+  assert.deepEqual(view.categories, sampleScorecard.categories);
+  assert.deepEqual(view.marketplaceMetrics, sampleScorecard.marketplaceMetrics);
+  const csv = scorecardCsv(view);
+  assert.ok(csv.includes('"category_detail"'));
+  assert.ok(csv.includes('"marketplace_metrics"'));
+  assert.ok(csv.includes('"kpi_group"'));
+  assert.ok(csv.includes('"dataset_provenance"'));
+  assert.ok(csv.includes('"extended"'));
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.load(Uint8Array.from(await scorecardXlsx(view)).buffer);
+  const detail = workbook.getWorksheet("Category Detail")!;
+  assert.equal(detail.getCell("C2").value, 12345);
+  assert.equal(detail.getCell("D2").value, 123.45);
+  assert.equal(detail.getCell("F2").value, -1.05);
+  assert.equal(detail.getCell("H2").value, 50);
+  assert.equal(detail.getCell("I3").value, null);
+  assert.equal(detail.getCell("J3").value, "awaiting data");
+  const metrics = workbook.getWorksheet("Marketplace Metrics")!;
+  assert.equal(metrics.getCell("D2").value, -15);
+  assert.equal(metrics.getCell("E2").value, 2.4);
+  assert.equal(metrics.getCell("C3").value, null);
+  const html = monthlyReportHtml(view);
+  assert.ok(html.includes("Extended indicators"));
+  assert.ok(html.includes("Extra growth"));
+  assert.ok(html.includes("All category performance"));
+  assert.ok(html.includes("Marketplace metrics"));
+  assert.ok(html.includes("does not certify real data"));
+  assert.ok(!html.includes("scale unconfirmed"));
+});
+
+test("invalid group and invalid new monetary details fail explicitly", () => {
+  assert.throws(() => parseScorecard({ ...sampleScorecard,
+    kpis: [{ ...sampleScorecard.kpis[0], group: "unknown" }] }, "2026-09"));
+  assert.throws(() => parseScorecard({ ...sampleScorecard,
+    categories: [{ ...sampleScorecard.categories[0], aspCents: 1.2 }] }, "2026-09"));
 });

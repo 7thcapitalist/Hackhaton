@@ -1,19 +1,11 @@
 import type { PulseExportData, ScorecardExportData, KpiUnit } from "./types";
+import { isValidDate as validBusinessDate, isValidPeriod as validPeriod } from "@/lib/views/dates";
+export { validBusinessDate, validPeriod };
 
 export class ReportError extends Error {
   constructor(public readonly status: number, public readonly code: string, message: string) {
     super(message);
   }
-}
-
-export function validBusinessDate(value: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const date = new Date(value + "T00:00:00Z");
-  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
-}
-
-export function validPeriod(value: string): boolean {
-  return /^\d{4}-(0[1-9]|1[0-2])$/.test(value);
 }
 
 function invalid(): never {
@@ -61,7 +53,7 @@ export function parsePulse(value: unknown, expectedDate: string): PulseExportDat
   const rows = list(data.rows).map(value => {
     const row = object(value);
     if (row.status !== "ok" && row.status !== "missing") invalid();
-    const result: PulseExportData["rows"][number] = { channelId: text(row.channelId), label: text(row.label),
+    const result: PulseExportData["rows"][number] = { channelId: text(row.channelId) as PulseExportData["rows"][number]["channelId"], label: text(row.label),
       status: row.status, revenueCents: nullable(row.revenueCents, true),
       customers: nullableCount(row.customers), orders: nullableCount(row.orders) };
     if (result.status === "missing" &&
@@ -71,7 +63,7 @@ export function parsePulse(value: unknown, expectedDate: string): PulseExportDat
   return { businessDate, timezone: data.timezone, rows,
     totals: { revenueCents: number(totals.revenueCents, true), customers: count(totals.customers),
       orders: count(totals.orders) },
-    missingChannels: list(data.missingChannels).map(text), isSynthetic: bool(data.isSynthetic) };
+    missingChannels: list(data.missingChannels).map(value => text(value) as PulseExportData["missingChannels"][number]), isSynthetic: bool(data.isSynthetic) };
 }
 
 export function parseScorecard(value: unknown, expectedPeriod: string): ScorecardExportData {
@@ -82,12 +74,14 @@ export function parseScorecard(value: unknown, expectedPeriod: string): Scorecar
   const kpis = list(data.kpis).map(value => {
     const row = object(value);
     if (!units.includes(row.unit as KpiUnit) ||
-      !["ok", "simulated", "awaiting_data"].includes(String(row.status))) invalid();
-    return { id: text(row.id), label: text(row.label), pillar: text(row.pillar),
+      !["ok", "simulated", "awaiting_data"].includes(String(row.status)) ||
+      !["coo15", "extended"].includes(String(row.group))) invalid();
+    return { id: text(row.id), label: text(row.label), pillar: text(row.pillar) as ScorecardExportData["kpis"][number]["pillar"],
       unit: row.unit as KpiUnit, value: nullable(row.value, row.unit === "cents"),
       previous: nullable(row.previous, row.unit === "cents"),
       target: nullable(row.target, row.unit === "cents"), status: row.status as "ok" | "simulated" | "awaiting_data",
-      anchor2027: bool(row.anchor2027), ...(row.note === undefined ? {} : { note: text(row.note) }) };
+      anchor2027: bool(row.anchor2027), group: row.group as "coo15" | "extended",
+      ...(row.note === undefined ? {} : { note: text(row.note) }) };
   });
   function categories(value: unknown, field: "revenueCents" | "marginCents") {
     return list(value).map(value => {
@@ -97,5 +91,16 @@ export function parseScorecard(value: unknown, expectedPeriod: string): Scorecar
   }
   return { period, kpis,
     topCategoriesByRevenue: categories(data.topCategoriesByRevenue, "revenueCents") as ScorecardExportData["topCategoriesByRevenue"],
-    topCategoriesByMargin: categories(data.topCategoriesByMargin, "marginCents") as ScorecardExportData["topCategoriesByMargin"] };
+    topCategoriesByMargin: categories(data.topCategoriesByMargin, "marginCents") as ScorecardExportData["topCategoriesByMargin"],
+    categories: list(data.categories).map(value => {
+      const row = object(value);
+      return { category: text(row.category), revenueCents: number(row.revenueCents, true),
+        marginCents: number(row.marginCents, true), units: count(row.units),
+        sellThroughPct: nullable(row.sellThroughPct), aspCents: nullable(row.aspCents, true) };
+    }),
+    marketplaceMetrics: list(data.marketplaceMetrics).map(value => {
+      const row = object(value);
+      return { channel: text(row.channel), csat: nullable(row.csat), nps: nullable(row.nps),
+        conversionRate: nullable(row.conversionRate), sellerRating: nullable(row.sellerRating) };
+    }) };
 }

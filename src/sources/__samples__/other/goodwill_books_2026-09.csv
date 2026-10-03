@@ -1,0 +1,24 @@
+GoodwillBooks.com Seller Payment Statement (synthetic sample),,,,,,,
+Seller: SAMPLE-SELLER,,,,,,,
+Statement Period: 09/01/2026 - 09/30/2026,,,,,,,
+Payment Date: 10/05/2026,,,,,,,
+,,,,,,,
+Order #,Order Date,SKU,ISBN,Title,Qty,Item Price,Commission
+GWB-880101,09/01/2026,BK-0001,9780000000017,Sample Paperback One,1,$8.99,$1.35
+GWB-880102,09/02/2026,BK-0002,9780000000024,Sample Hardcover Two,1,$14.50,$2.18
+GWB-880103,09/03/2026,BK-0003,9780000000031,Sample Cookbook Three,1,$11.25,$1.69
+GWB-880104,09/05/2026,BK-0004,9780000000048,Sample Textbook Four,1,$42.00,$6.30
+GWB-880105,09/07/2026,BK-0005,9780000000055,Sample Novel Five,1,$6.49,$0.97
+GWB-880106,09/10/2026,BK-0006,9780000000062,Sample DVD Six,1,$5.99,$0.90
+GWB-880107,09/12/2026,BK-0007,9780000000079,Sample Atlas Seven,1,$19.95,$2.99
+GWB-880104,09/14/2026,BK-0004,9780000000048,Sample Textbook Four (return),1,-$42.00,$6.30
+GWB-880108,09/16/2026,BK-0008,9780000000086,Sample Biography Eight,1,$9.75,$1.46
+GWB-880109,09/19/2026,BK-0009,9780000000093,Sample Poetry Nine,1,$7.25,$1.09
+GWB-880110,09/22/2026,BK-0010,9780000000109,Sample Picture Book Ten,1,$4.99,$0.75
+GWB-880111,09/26/2026,BK-0011,9780000000116,Sample Audiobook Eleven,1,$12.00,$1.80
+GWB-880112,09/29/2026,BK-0012,9780000000123,Sample Comic Twelve,1,$8.00,$1.20
+,,,,,,,
+Total Sales,,,,,,$109.16,
+Total Commission,,,,,,,$16.38
+Adjustments,,,,,,,-$2.50
+Net Payment,,,,,,,$90.28

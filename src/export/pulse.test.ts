@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { centsText, spreadsheetText, tableToCsv } from "./csv";
 import { pulseCsv, pulseTable } from "./pulse";
-import { loadPulse, reportOrigin } from "./provider";
+import { createReportProvider, reportProvider } from "./provider";
 import { parsePulse, ReportError, validBusinessDate, validPeriod } from "./validation";
 import { GET } from "../app/api/export/pulse/route";
 import { samplePulse } from "./testing/fixtures";
@@ -59,27 +59,33 @@ test("calendar validation rejects impossible dates and invalid periods", () => {
   assert.equal(validPeriod("2026-09"), true);
 });
 
-test("provider requests fixed trusted origin and forwards date without any secrets", async () => {
-  const view = await loadPulse("2026-10-02", { env: { REPORTS_VIEW_ORIGIN: "https://demo.example" },
-    fetch: (async (input, init) => {
-      assert.equal(input, "https://demo.example/api/views/pulse?date=2026-10-02");
-      assert.equal(init?.redirect, "error");
-      assert.equal(init?.cache, "no-store");
-      assert.equal(init?.headers, undefined);
-      return Response.json(samplePulse);
-    }) as typeof fetch });
-  assert.equal(view.totals.revenueCents, 90000);
-  assert.throws(() => reportOrigin({ NODE_ENV: "production" }));
-  assert.throws(() => reportOrigin({ REPORTS_VIEW_ORIGIN: "https://user:password@example.com" }));
+test("provider calls the shared view with the selected date and preserves totals", async t => {
+  t.mock.method(globalThis, "fetch", async () => { throw new Error("No HTTP self-fetch permitted"); });
+  const provider = createReportProvider({
+    getPulse: async date => { assert.equal(date, "2026-10-02"); return samplePulse; },
+    getScorecard: async () => { throw new Error("unexpected"); },
+  });
+  assert.equal((await provider.loadPulse("2026-10-02")).totals.revenueCents, 90000);
 });
 
-test("missing upstream returns an explicit unavailable error", async () => {
-  await assert.rejects(loadPulse("2026-10-02", { env: { REPORTS_VIEW_ORIGIN: "https://demo.example" },
-    fetch: (async () => new Response("not ready", { status: 404 })) as typeof fetch }),
-    (error: unknown) => error instanceof ReportError && error.status === 503);
+test("shared view failures are unavailable and do not expose database errors", async () => {
+  const provider = createReportProvider({
+    getPulse: async () => { throw new Error("private-database-key"); },
+    getScorecard: async () => { throw new Error("unexpected"); },
+  });
+  await assert.rejects(provider.loadPulse("2026-10-02"), (error: unknown) =>
+    error instanceof ReportError && error.status === 503 && !error.message.includes("private-database-key"));
 });
 
-test("download route rejects invalid input before any upstream call", async () => {
+test("provider rejects mismatched shared-view dates", async () => {
+  const provider = createReportProvider({ getPulse: async () => samplePulse,
+    getScorecard: async () => { throw new Error("unexpected"); } });
+  await assert.rejects(provider.loadPulse("2026-10-01"), (error: unknown) =>
+    error instanceof ReportError && error.status === 502);
+});
+
+test("download route rejects invalid input before any upstream call", async t => {
+  t.mock.method(reportProvider, "loadPulse", async () => { throw new Error("unexpected view call"); });
   const response = await GET(new Request("https://demo.example/api/export/pulse?date=2026-02-30"));
   assert.equal(response.status, 400);
   assert.equal((await response.json()).error, "invalid_date");

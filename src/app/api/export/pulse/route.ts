@@ -1,6 +1,6 @@
 import { pulseCsv, pulseIsPartial } from "@/export/pulse";
 import { pulseXlsx } from "@/export/xlsx";
-import { loadPulse } from "@/export/provider";
+import { reportProvider } from "@/export/provider";
 import { download, reportFailure } from "@/export/http";
 import { ReportError, validBusinessDate } from "@/export/validation";
 
@@ -16,7 +16,7 @@ export async function GET(request: Request): Promise<Response> {
     if (format !== "csv" && format !== "xlsx") {
       throw new ReportError(400, "invalid_format", "Supported formats: csv, xlsx.");
     }
-    const view = await loadPulse(date);
+    const view = await reportProvider.loadPulse(date);
     const partial = pulseIsPartial(view);
     return download(format === "csv" ? pulseCsv(view) : await pulseXlsx(view),
       `daily-pulse-${date}.${format}`, format === "csv" ? "text/csv; charset=utf-8" :

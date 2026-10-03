@@ -75,7 +75,7 @@ export interface PulseRow {
   label: string;                 // ShopGoodwill | Amazon | eBay | Other e-commerce
   status: "ok" | "missing";      // missing = no file ingested for that day
   revenueCents: number | null;   // Σ net_cents
-  customers: number | null;      // distinct buyer_key
+  customers: number | null;      // distinct transactions (each one is a customer)
   orders: number | null;
 }
 export interface PulseView {
@@ -131,6 +131,97 @@ export interface OrdersView {
   total: number;
 }
 ```
+
+### Data health: exceptions, upload history, demo reset
+
+| Function | Route | Returns |
+|---|---|---|
+| `getExceptions({ status?, sourceId?, kind?, period?, limit?, offset? })` | `GET /api/views/exceptions?status=&sourceId=&kind=&period=YYYY-MM&limit=1..1000&offset=` | `ExceptionsView` |
+| `setExceptionStatus(id, { status, note? })` | `PATCH /api/exceptions/:id` body `{ status: "resolved"\|"waived"\|"open", note? }` | `ExceptionRow` (404 unknown id, 400 bad status) |
+| `getIngestRuns({ sourceId?, period?, limit?, offset? })` | `GET /api/views/ingest-runs?sourceId=&period=YYYY-MM&limit=1..500&offset=` | `IngestRunsView` |
+| `runSeed(db)` (`scripts/seed/run.ts`) | `POST /api/demo/reset` header `x-demo-secret: $DEMO_RESET_SECRET` | `{ ok, counts, ms }` (401 wrong/missing secret, 503 env unset) |
+
+- Newest first. Default limits: exceptions 100, ingest runs 50.
+- Period rule (same as `getSourceStatus`): via the ingest run (`period` or `business_date`
+  in the month), the close, or for a bare exception its `created_at` month.
+- `countsByKind` applies every filter except `kind`, so tabs can show counts per kind.
+- Resolving sets `resolvedAt` = now (`open` clears it). A `note` is appended to `message`
+  as `[YYYY-MM-DD resolved] note` (there is no notes column).
+- `parse_failed`: a file that could not be read, recognized or parsed. If a parser was
+  picked there is also a `failed` ingest run; if not (corrupt file, unknown layout) the
+  exception has `ingestRunId: null` and `sourceId` = the requested source or `null`.
+- Demo reset wipes facts (ingest runs, orders, money lines, items, labor hours, exceptions
+  without a close) and reloads the synthetic seed. Close tables are untouched.
+
+```ts
+export type ExceptionKind = "missing_source" | "parse_warning" | "parse_failed"
+  | "reconcile_mismatch" | "unmapped_amount" | "duplicate_file" | "duplicate_order"
+  | "unbalanced_document";
+export type ExceptionStatus = "open" | "resolved" | "waived";
+export interface ExceptionRow {
+  id: string; kind: ExceptionKind; sourceId: string | null; sourceName: string | null;
+  message: string; owner: string | null; status: ExceptionStatus;
+  expectedCents: number | null; actualCents: number | null;
+  ingestRunId: string | null; createdAt: string; resolvedAt: string | null;
+}
+export interface ExceptionsView { rows: ExceptionRow[]; total: number;
+                                  countsByKind: Record<string, number> }
+
+export interface IngestRunRow {
+  id: string; sourceId: string; sourceName: string; fileName: string;
+  period: string | null; businessDate: string | null; periodLabel: string | null;
+  status: "parsed" | "parsed_with_warnings" | "failed"; rowCount: number;
+  warnings: string[];            // first 20, "row N: message"; failed run → the error
+  isSynthetic: boolean; uploadedAt: string;
+}
+export interface IngestRunsView { rows: IngestRunRow[]; total: number }
+```
+
+Money-line amount types that never count as revenue or cost: `statement_payment`
+(Goodwill Books control total) and `wallet_refund` (EasyPost payment-log refund; the
+shipment report carries the same refund, see `src/sources/shipping_osm_pb_easypost.ts`).
+
+### Scorecard: extended KPIs (additive, 2026-10-03)
+
+`ScorecardView.kpis` now holds the 15 KPIs of slide 35 first (ids unchanged, `group:
+"coo15"`), then every other KPI of slides 33-34 (`group: "extended"`). Show the 15 as the
+one-page scorecard and the rest as an extended list. Formulas: `docs/kpi-definitions.md`.
+Net Margin % now subtracts processing labor too, so its status is `simulated`.
+
+```ts
+export interface Kpi {
+  // ...existing fields...
+  group: "coo15" | "extended";   // NEW
+}
+export interface CategoryKpiRow {
+  category: string;
+  revenueCents: number;          // Σ net_cents
+  marginCents: number;           // Σ net_cents − shipping charged on paid orders
+  units: number;                 // Σ quantity, paid lines
+  sellThroughPct: number | null; // synthetic items; null without item data
+  aspCents: number | null;       // paid gross / paid units
+}
+export interface MarketplaceMetricsRow {
+  channel: string;
+  csat: number | null;           // marketplace's own scale (e.g. 4.8 of 5)
+  nps: number | null;            // −100..100
+  conversionRate: number | null; // percent (2.4 = 2.4%)
+  sellerRating: number | null;
+}
+export interface ScorecardView {
+  // ...existing fields...
+  categories: CategoryKpiRow[];               // NEW: every category, sorted by revenue
+  marketplaceMetrics: MarketplaceMetricsRow[]; // NEW: empty = awaiting data
+}
+```
+
+New table `marketplace_metrics` (id, ingest_run_id → ingest_runs cascade, channel →
+channels, period `YYYY-MM`, metric `csat | nps | conversion_rate | seller_rating`, value
+real, sample_size int null). Units as in `MarketplaceMetricsRow`. A source that loads CSAT/NPS/
+conversion writes one row per channel, period and metric.
+
+New optional env var `LABOR_RATE_CENTS_PER_HOUR` (default 1800 = $18.00/h): the loaded
+processing labor rate used by Gross Margin %, Net Margin % and Profit per Labor Hour.
 
 ## 3. Denis: outputs that leave the app
 
