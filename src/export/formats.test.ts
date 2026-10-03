@@ -79,6 +79,16 @@ test("scorecard preserves units, percentage scale, previous, target and category
   assert.equal(workbook.worksheets[2].getCell("D2").value, -1.05);
 });
 
+test("fractional metrics beyond Excel precision are preserved as text", async () => {
+  const value = 1.2345678901234567;
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.load(Uint8Array.from(await scorecardXlsx({ ...sampleScorecard,
+    kpis: [{ ...sampleScorecard.kpis[1], value, previous: value, target: value }] })).buffer);
+  for (const column of ["F", "G", "H", "I", "J", "K"]) {
+    assert.equal(workbook.worksheets[0].getCell(`${column}2`).value, String(value));
+  }
+});
+
 test("monthly HTML identifies simulation, unavailable data and safely renders text", () => {
   const html = monthlyReportHtml({ ...sampleScorecard, kpis: [{ ...sampleScorecard.kpis[0],
     label: '<img src=x onerror="alert(1)">', note: "<script>unsafe</script>" }, ...sampleScorecard.kpis.slice(1)] });

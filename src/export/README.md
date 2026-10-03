@@ -29,7 +29,8 @@ Raw values, previous values, targets, units, notes and simulation/availability s
 are preserved. Money display columns convert cents only; percent scale is unconfirmed,
 so percentage values remain raw, without an automatic x100 or Excel percent format.
 No fixed count of indicators is enforced: the upstream view supplies the list.
-Amounts beyond Excel's 15-significant-digit limit are text, avoiding silent rounding.
+Amounts and fractional metrics beyond Excel's 15-significant-digit limit are text,
+avoiding silent rounding.
 `unit` describes raw values; `display_unit` describes formatted KPI amounts (currency
 units or currency units per hour). Monetary amounts in `cents` must be safe integers.
 Empty pulse channel lists are partial even when the supplied totals are zero.

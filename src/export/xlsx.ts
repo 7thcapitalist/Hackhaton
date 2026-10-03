@@ -4,15 +4,19 @@ import { pulseTable } from "./pulse";
 import { scorecardTables } from "./scorecard";
 import type { PulseExportData, ReportCell, ReportTable, ScorecardExportData } from "./types";
 
+function exceedsExcelPrecision(value: string): boolean {
+  const mantissa = value.split(/[eE]/)[0];
+  return mantissa.replace(/[^0-9]/g, "").replace(/^0+/, "").replace(/0+$/, "").length > 15;
+}
+
 function excelValue(value: ReportCell): ExcelJS.CellValue {
   if (value === null) return null;
   if (typeof value === "object") {
-    const digits = value.numeric.replace(/[^0-9]/g, "").replace(/^0+/, "").replace(/0+$/, "");
     // Excel only retains 15 significant digits. Large amounts are stored as text
     // rather than silently rounding away cents; raw columns retain the source.
-    return digits.length > 15 ? value.numeric : Number(value.numeric);
+    return exceedsExcelPrecision(value.numeric) ? value.numeric : Number(value.numeric);
   }
-  if (typeof value === "number" && Math.abs(value) >= 1e15) return String(value);
+  if (typeof value === "number" && (Math.abs(value) >= 1e15 || exceedsExcelPrecision(String(value)))) return String(value);
   return typeof value === "string" ? spreadsheetText(value) : value;
 }
 
