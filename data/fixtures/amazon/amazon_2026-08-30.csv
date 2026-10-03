@@ -1,0 +1,67 @@
+"Includes Amazon Marketplace, Fulfillment by Amazon (FBA), and Amazon Webstore transactions"
+"All amounts in USD, unless specified"
+"Definitions:"
+"Sales tax collected: Includes sales tax collected from buyers for product sales, shipping, and gift wrap."
+"Selling fees: Includes variable closing fees and referral fees."
+"Other transaction fees: Includes sales tax collection fees."
+"Other: Includes non-order transaction amounts. For more details, see the ""Type"" and ""Description"" columns for each order ID."
+date/time,settlement id,type,order id,sku,description,quantity,marketplace,fulfillment,order city,order state,order postal,tax collection model,product sales,product sales tax,shipping credits,shipping credits tax,gift wrap credits,giftwrap credits tax,Regulatory Fee,promotional rebates,promotional rebates tax,marketplace withheld tax,selling fees,fba fees,other transaction fees,other,total
+"Aug 29, 2026 11:22:30 PM PDT",18800000002,Order,114-7717559-2734488,CO-017559,Handmade Figurine,1,amazon.com,Seller,,,,MarketplaceFacilitator,50.99,3.57,5.99,0.42,0,0,0,0.00,0,-3.99,-7.65,0.00,0.00,0.00,49.33
+"Aug 29, 2026 11:55:12 PM PDT",18800000002,Order,111-1717608-9886586,BK-017608,Lot of 2 Biography,1,amazon.com,Seller,,,,MarketplaceFacilitator,26.99,1.89,3.99,0.28,0,0,0,0.00,0,-2.17,-5.85,0.00,0.00,0.00,25.13
+"Aug 30, 2026 12:33:00 AM PDT",18800000002,Order,114-1917595-5242090,CO-017595,Lot of 2 Coin Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,31.99,2.24,5.99,0.42,0,0,0,0.00,0,-2.66,-4.80,0.00,0.00,0.00,33.18
+"Aug 30, 2026 2:02:24 AM PDT",18800000002,Order,111-0417577-6107259,BK-017577,Used Biography,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.99,0.84,3.99,0.28,0,0,0,0.00,0,-1.12,-3.60,0.00,0.00,0.00,12.38
+"Aug 30, 2026 2:14:53 AM PDT",18800000002,Order,114-0317571-0156772,BK-017571,Vintage Field Guide,1,amazon.com,Seller,,,,MarketplaceFacilitator,5.99,0.42,3.99,0.28,0,0,0,0.00,0,-0.70,-2.70,0.00,0.00,0.00,7.28
+"Aug 30, 2026 2:16:02 AM PDT",18800000002,Order,112-3817565-3268432,BK-017565,Mid-Century Poetry Collection,1,amazon.com,Seller,,,,MarketplaceFacilitator,8.99,0.63,3.99,0.28,0,0,0,0.00,0,-0.91,-3.15,0.00,0.00,0.00,9.83
+"Aug 30, 2026 2:54:12 AM PDT",18800000002,Order,111-2117609-0214692,BK-017609,Lot of 2 Textbook,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.99,0.84,3.99,0.28,0,0,0,0.00,0,-1.12,-3.60,0.00,0.00,0.00,12.38
+"Aug 30, 2026 3:11:23 AM PDT",18800000002,Order,113-4017600-2755747,MD-017600,Handmade Vinyl Record,1,amazon.com,Seller,,,,MarketplaceFacilitator,10.99,0.77,3.99,0.28,0,0,0,0.00,0,-1.05,-3.45,0.00,0.00,0.00,11.53
+"Aug 30, 2026 3:31:27 AM PDT",18800000002,Order,113-9017556-1972819,MD-017556,Handmade Vinyl Record,1,amazon.com,Seller,,,,MarketplaceFacilitator,13.99,0.98,3.99,0.28,0,0,0,0.00,0,-1.26,-3.90,0.00,0.00,0.00,14.08
+"Aug 30, 2026 3:43:18 AM PDT",18800000002,Order,111-9017606-6582074,BK-017606,Vintage Biography,1,amazon.com,Seller,,,,MarketplaceFacilitator,7.99,0.56,3.99,0.28,0,0,0,0.00,0,-0.84,-3.00,0.00,0.00,0.00,8.98
+"Aug 30, 2026 3:50:48 AM PDT",18800000002,Order,114-3817586-4731843,BK-017586,Retro Atlas,1,amazon.com,Seller,,,,MarketplaceFacilitator,20.99,1.47,3.99,0.28,0,0,0,0.00,0,-1.75,-4.95,0.00,0.00,0.00,20.03
+"Aug 30, 2026 4:16:55 AM PDT",18800000002,Order,112-1917572-9939662,BK-017572,Pre-owned Poetry Collection,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.99,0.84,3.99,0.28,0,0,0,0.00,0,-1.12,-3.60,0.00,0.00,0.00,12.38
+"Aug 30, 2026 4:24:23 AM PDT",18800000002,Order,111-0017561-0375880,BK-017561,Used Field Guide,1,amazon.com,Seller,,,,MarketplaceFacilitator,4.99,0.35,3.99,0.28,0,0,0,0.00,0,-0.63,-2.55,0.00,0.00,0.00,6.43
+"Aug 30, 2026 4:47:55 AM PDT",18800000002,Order,111-7117593-7839838,BK-017593,Antique Paperback Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,36.99,2.59,3.99,0.28,0,0,0,0.00,0,-2.87,-7.35,0.00,0.00,0.00,33.63
+"Aug 30, 2026 5:01:00 AM PDT",18800000002,Order,114-4617598-6550356,MD-017598,Pre-owned DVD Box Set,1,amazon.com,Seller,,,,MarketplaceFacilitator,17.99,1.26,3.99,0.28,0,0,0,0.00,0,-1.54,-4.50,0.00,0.00,0.00,17.48
+"Aug 30, 2026 6:24:17 AM PDT",18800000002,Order,111-0617611-7133005,BK-017611,Handmade Hardcover Novel,1,amazon.com,Seller,,,,MarketplaceFacilitator,7.99,0.56,3.99,0.28,0,0,0,0.00,0,-0.84,-3.00,0.00,0.00,0.00,8.98
+"Aug 30, 2026 7:31:55 AM PDT",18800000002,Order,113-5517610-0302927,EL-017610,Classic Camera Lens,1,amazon.com,Seller,,,,MarketplaceFacilitator,48.99,3.43,5.99,0.42,0,0,0,0.00,0,-3.85,-7.35,0.00,0.00,0.00,47.63
+"Aug 30, 2026 7:58:34 AM PDT",18800000002,Order,113-1117584-5956559,MD-017584,Retro Blu-ray Set,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.99,0.84,3.99,0.28,0,0,0,0.00,0,-1.12,-3.60,0.00,0.00,0.00,12.38
+"Aug 30, 2026 8:07:49 AM PDT",18800000002,Order,114-2617575-1525259,BK-017575,Vintage Poetry Collection,1,amazon.com,Seller,,,,MarketplaceFacilitator,4.99,0.35,3.99,0.28,0,0,0,0.00,0,-0.63,-2.55,0.00,0.00,0.00,6.43
+"Aug 30, 2026 8:15:35 AM PDT",18800000002,Order,114-4817580-3732722,MD-017580,Lot of 2 Audiobook,1,amazon.com,Seller,,,,MarketplaceFacilitator,12.99,0.91,3.99,0.28,0,0,0,0.00,0,-1.19,-3.75,0.00,0.00,0.00,13.23
+"Aug 30, 2026 8:42:13 AM PDT",18800000002,Order,113-7917583-8743482,BK-017583,Retro Biography,1,amazon.com,Seller,,,,MarketplaceFacilitator,38.99,2.73,3.99,0.28,0,0,0,0.00,0,-3.01,-7.65,0.00,0.00,0.00,35.33
+"Aug 30, 2026 8:57:40 AM PDT",18800000002,Order,114-2717587-4113680,BK-017587,Antique Atlas,1,amazon.com,Seller,,,,MarketplaceFacilitator,10.99,0.77,3.99,0.28,0,0,0,0.00,0,-1.05,-3.45,0.00,0.00,0.00,11.53
+"Aug 30, 2026 9:02:29 AM PDT",18800000002,Order,113-7617601-9278212,BK-017601,Pre-owned Poetry Collection,1,amazon.com,Seller,,,,MarketplaceFacilitator,7.99,0.56,3.99,0.28,0,0,0,0.00,0,-0.84,-3.00,0.00,0.00,0.00,8.98
+"Aug 30, 2026 9:02:31 AM PDT",18800000002,Order,112-1017612-4541869,CO-017612,Antique Trading Card Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,17.99,1.26,5.99,0.42,0,0,0,0.00,0,-1.68,-2.70,0.00,0.00,0.00,21.28
+"Aug 30, 2026 9:51:09 AM PDT",18800000002,Order,112-8617567-3792790,BK-017567,Retro Hardcover Novel,1,amazon.com,Seller,,,,MarketplaceFacilitator,7.99,0.56,3.99,0.28,0,0,0,0.00,0,-0.84,-3.00,0.00,0.00,0.00,8.98
+"Aug 30, 2026 10:25:55 AM PDT",18800000002,Order,114-0517597-8904767,MD-017597,Retro DVD Box Set,1,amazon.com,Seller,,,,MarketplaceFacilitator,6.99,0.49,3.99,0.28,0,0,0,0.00,0,-0.77,-2.85,0.00,0.00,0.00,8.13
+"Aug 30, 2026 11:11:09 AM PDT",18800000002,Order,114-7917590-5616565,BK-017590,Vintage Field Guide,1,amazon.com,Seller,,,,MarketplaceFacilitator,3.99,0.28,3.99,0.28,0,0,0,0.00,0,-0.56,-2.40,0.00,0.00,0.00,5.58
+"Aug 30, 2026 11:27:57 AM PDT",18800000002,Order,113-2317603-7129954,BK-017603,Antique Biography,1,amazon.com,Seller,,,,MarketplaceFacilitator,13.99,0.98,3.99,0.28,0,0,0,0.00,0,-1.26,-3.90,0.00,0.00,0.00,14.08
+"Aug 30, 2026 11:55:11 AM PDT",18800000002,Order,111-8817558-5232506,BK-017558,Antique Poetry Collection,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.99,0.84,3.99,0.28,0,0,0,0.00,0,-1.12,-3.60,0.00,0.00,0.00,12.38
+"Aug 30, 2026 12:05:07 PM PDT",18800000002,Order,113-3517596-1530186,BK-017596,Pre-owned Cookbook,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.99,0.84,3.99,0.28,0,0,0,0.00,0,-1.12,-3.60,0.00,0.00,0.00,12.38
+"Aug 30, 2026 12:27:28 PM PDT",18800000002,Order,111-8017555-6696452,MD-017555,Classic CD Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,7.99,0.56,3.99,0.28,0,0,0,0.00,0,-0.84,-3.00,0.00,0.00,0.00,8.98
+"Aug 30, 2026 1:04:23 PM PDT",18800000002,Order,113-4817607-4664388,BK-017607,Classic Hardcover Novel,1,amazon.com,Seller,,,,MarketplaceFacilitator,16.99,1.19,3.99,0.28,0,0,0,0.00,0,-1.47,-4.35,0.00,0.00,0.00,16.63
+"Aug 30, 2026 1:16:45 PM PDT",18800000002,Order,113-2017605-9943652,EL-017605,Like New Film Camera,1,amazon.com,Seller,,,,MarketplaceFacilitator,16.99,1.19,5.99,0.42,0,0,0,0.00,0,-1.61,-2.55,0.00,0.00,0.00,20.43
+"Aug 30, 2026 1:20:24 PM PDT",18800000002,Order,111-5017589-5036485,MD-017589,Used Audiobook,1,amazon.com,Seller,,,,MarketplaceFacilitator,7.99,0.56,3.99,0.28,0,0,0,0.00,0,-0.84,-3.00,0.00,0.00,0.00,8.98
+"Aug 30, 2026 1:28:08 PM PDT",18800000002,Order,112-8517557-3654407,MD-017557,Pre-owned CD Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,48.99,3.43,3.99,0.28,0,0,0,0.00,0,-3.71,-9.15,0.00,0.00,0.00,43.83
+"Aug 30, 2026 3:29:59 PM PDT",18800000002,Order,113-1117581-3932143,MD-017581,Classic Blu-ray Set,1,amazon.com,Seller,,,,MarketplaceFacilitator,19.99,1.40,3.99,0.28,0,0,0,0.00,0,-1.68,-4.80,0.00,0.00,0.00,19.18
+"Aug 30, 2026 3:35:10 PM PDT",18800000002,Order,114-7217560-6087500,TY-017560,Retro Board Game,1,amazon.com,Seller,,,,MarketplaceFacilitator,14.99,1.05,5.99,0.42,0,0,0,0.00,0,-1.47,-2.25,0.00,0.00,0.00,18.73
+"Aug 30, 2026 3:47:31 PM PDT",18800000002,Order,111-3717594-1166061,BK-017594,Classic Hardcover Novel,1,amazon.com,Seller,,,,MarketplaceFacilitator,8.99,0.63,3.99,0.28,0,0,0,0.00,0,-0.91,-3.15,0.00,0.00,0.00,9.83
+"Aug 30, 2026 3:58:52 PM PDT",18800000002,Order,113-4517582-9327126,BK-017582,Antique Paperback Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,9.99,0.70,3.99,0.28,0,0,0,0.00,0,-0.98,-3.30,0.00,0.00,0.00,10.68
+"Aug 30, 2026 4:08:54 PM PDT",18800000002,Order,114-6217569-6966743,CO-017569,Lot of 2 Snow Globe,1,amazon.com,Seller,,,,MarketplaceFacilitator,16.99,1.19,5.99,0.42,0,0,0,0.00,0,-1.61,-2.55,0.00,0.00,0.00,20.43
+"Aug 30, 2026 4:25:10 PM PDT",18800000002,Order,112-5217592-1602550,BK-017592,Lot of 2 Field Guide,1,amazon.com,Seller,,,,MarketplaceFacilitator,9.99,0.70,3.99,0.28,0,0,0,0.00,0,-0.98,-3.30,0.00,0.00,0.00,10.68
+"Aug 30, 2026 4:44:11 PM PDT",18800000002,Order,113-0817570-4779523,BK-017570,Lot of 2 Hardcover Novel,1,amazon.com,Seller,,,,MarketplaceFacilitator,9.99,0.70,3.99,0.28,0,0,0,0.00,0,-0.98,-3.30,0.00,0.00,0.00,10.68
+"Aug 30, 2026 5:12:38 PM PDT",18800000002,Order,111-2917588-3782433,MD-017588,Classic Vinyl Record,1,amazon.com,Seller,,,,MarketplaceFacilitator,35.99,2.52,3.99,0.28,0,0,0,0.00,0,-2.80,-7.20,0.00,0.00,0.00,32.78
+"Aug 30, 2026 5:18:58 PM PDT",18800000002,Order,111-4817568-0383184,MD-017568,Classic Blu-ray Set,1,amazon.com,Seller,,,,MarketplaceFacilitator,26.99,1.89,3.99,0.28,0,0,0,0.00,0,-2.17,-5.85,0.00,0.00,0.00,25.13
+"Aug 30, 2026 6:15:27 PM PDT",18800000002,Order,114-2317585-7325440,MD-017585,Handmade CD Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,14.99,1.05,3.99,0.28,0,0,0,0.00,0,-1.33,-4.05,0.00,0.00,0.00,14.93
+"Aug 30, 2026 6:25:42 PM PDT",18800000002,Order,111-9917574-1639003,CO-017574,Vintage Pewter Mug,1,amazon.com,Seller,,,,MarketplaceFacilitator,9.99,0.70,5.99,0.42,0,0,0,0.00,0,-1.12,-1.50,0.00,0.00,0.00,14.48
+"Aug 30, 2026 6:47:46 PM PDT",18800000002,Order,114-8817604-0728353,MD-017604,Mid-Century Blu-ray Set,1,amazon.com,Seller,,,,MarketplaceFacilitator,10.99,0.77,3.99,0.28,0,0,0,0.00,0,-1.05,-3.45,0.00,0.00,0.00,11.53
+"Aug 30, 2026 6:50:51 PM PDT",18800000002,Order,113-3217602-5524174,BK-017602,Pre-owned Paperback Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,21.99,1.54,3.99,0.28,0,0,0,0.00,0,-1.82,-5.10,0.00,0.00,0.00,20.88
+"Aug 30, 2026 6:58:30 PM PDT",18800000002,Order,111-6017573-6891802,TY-017573,Vintage Lego Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,14.99,1.05,5.99,0.42,0,0,0,0.00,0,-1.47,-2.25,0.00,0.00,0.00,18.73
+"Aug 30, 2026 7:17:01 PM PDT",18800000002,Order,113-6217566-1978815,EL-017566,Mid-Century Turntable,1,amazon.com,Seller,,,,MarketplaceFacilitator,32.99,2.31,5.99,0.42,0,0,0,0.00,0,-2.73,-4.95,0.00,0.00,0.00,34.03
+"Aug 30, 2026 7:31:14 PM PDT",18800000002,Order,113-8217579-8880916,MD-017579,Used CD Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,14.99,1.05,3.99,0.28,0,0,0,0.00,0,-1.33,-4.05,0.00,0.00,0.00,14.93
+"Aug 30, 2026 7:37:18 PM PDT",18800000002,Order,113-5717591-6387984,MD-017591,Mid-Century Audiobook,1,amazon.com,Seller,,,,MarketplaceFacilitator,5.99,0.42,3.99,0.28,0,0,0,0.00,0,-0.70,-2.70,0.00,0.00,0.00,7.28
+"Aug 30, 2026 7:47:27 PM PDT",18800000002,Order,112-4717563-2268534,BK-017563,Classic Textbook,1,amazon.com,Seller,,,,MarketplaceFacilitator,19.99,1.40,3.99,0.28,0,0,0,0.00,0,-1.68,-4.80,0.00,0.00,0.00,19.18
+"Aug 30, 2026 7:58:44 PM PDT",18800000002,Order,112-1817564-7596934,BK-017564,Retro Paperback Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,15.99,1.12,3.99,0.28,0,0,0,0.00,0,-1.40,-4.20,0.00,0.00,0.00,15.78
+"Aug 30, 2026 8:10:51 PM PDT",18800000002,Order,111-8017576-2531025,BK-017576,Vintage Cookbook,1,amazon.com,Seller,,,,MarketplaceFacilitator,10.99,0.77,3.99,0.28,0,0,0,0.00,0,-1.05,-3.45,0.00,0.00,0.00,11.53
+"Aug 30, 2026 8:15:44 PM PDT",18800000002,Order,112-8117562-1795291,BK-017562,Retro Biography,1,amazon.com,Seller,,,,MarketplaceFacilitator,30.99,2.17,3.99,0.28,0,0,0,0.00,0,-2.45,-6.45,0.00,0.00,0.00,28.53
+"Aug 30, 2026 8:16:16 PM PDT",18800000002,Order,113-6517578-1886616,MD-017578,Like New Vinyl Record,1,amazon.com,Seller,,,,MarketplaceFacilitator,5.99,0.42,3.99,0.28,0,0,0,0.00,0,-0.70,-2.70,0.00,0.00,0.00,7.28
+"Aug 30, 2026 8:23:21 PM PDT",18800000002,Order,114-1717599-9178507,EL-017599,Pre-owned Game Console,1,amazon.com,Seller,,,,MarketplaceFacilitator,65.99,4.62,5.99,0.42,0,0,0,0.00,0,-5.04,-9.90,0.00,0.00,0.00,62.08
+"Aug 30, 2026 8:59:59 PM PDT",18800000002,Refund,113-5717591-6387984,MD-017591,Mid-Century Audiobook,1,amazon.com,Seller,,,,MarketplaceFacilitator,-5.99,-0.42,-3.99,-0.28,0,0,0,0.00,0,0.70,2.16,0.00,0.00,0.00,-7.82

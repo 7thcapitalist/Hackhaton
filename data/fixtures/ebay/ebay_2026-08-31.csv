@@ -1,0 +1,32 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+9786,03-17766-73324,ebuyer_003627,,310000017766,Handmade Trading Card Lot,CO-017766,1,$33.99,$6.92,$2.86,$43.77,Yes,eBay Managed Payments,Aug-31-26 03:44:03,Aug-31-26 03:44:03,Paid,
+9779,12-17759-10799,ebuyer_002500,,310000017759,Retro Figurine,CO-017759,1,$33.99,$6.69,$2.85,$43.53,Yes,eBay Managed Payments,Aug-31-26 04:28:31,Aug-31-26 04:28:31,Paid,
+9796,07-17776-85564,ebuyer_003012,,310000017776,Used Rain Jacket,CL-017776,1,$47.99,$0.00,$3.36,$51.35,Yes,eBay Managed Payments,Aug-31-26 04:57:06,Aug-31-26 04:57:06,Paid,
+9785,20-17765-86524,ebuyer_002819,,310000017765,Vintage Golf Balls,SG-017765,1,$31.99,$0.00,$2.24,$34.23,Yes,eBay Managed Payments,Aug-31-26 05:02:52,Aug-31-26 05:02:52,Paid,
+9784,14-17764-56870,ebuyer_002593,,310000017764,Mid-Century Snow Globe,CO-017764,1,$44.99,$8.25,$3.73,$56.97,Yes,eBay Managed Payments,Aug-31-26 06:18:12,Aug-31-26 06:18:12,Paid,
+9781,02-17761-90503,ebuyer_002539,,310000017761,Mid-Century Figurine,CO-017761,1,$44.99,$4.22,$3.45,$52.66,Yes,eBay Managed Payments,Aug-31-26 06:39:13,Aug-31-26 06:39:13,Paid,
+9780,06-17760-07073,ebuyer_003610,,310000017760,Mid-Century Silk Blouse,CL-017760,1,$36.99,$6.04,$3.01,$46.04,Yes,eBay Managed Payments,Aug-31-26 07:19:46,Aug-31-26 07:19:46,Refunded,$43.03
+9777,13-17757-31336,ebuyer_002810,,310000017757,Handmade Silk Blouse,CL-017757,1,$44.99,$0.00,$3.15,$48.14,Yes,eBay Managed Payments,Aug-31-26 09:47:32,Aug-31-26 09:47:32,Paid,
+9774,21-17754-89145,ebuyer_002612,,310000017754,Antique Portable Radio,EL-017754,1,$66.99,$14.50,$5.71,$87.20,Yes,eBay Managed Payments,Aug-31-26 10:00:35,Aug-31-26 10:00:35,Paid,
+9782,26-17762-87130,ebuyer_003447,,310000017762,Pre-owned Loafers,SH-017762,1,$19.99,$9.28,$2.05,$31.32,Yes,eBay Managed Payments,Aug-31-26 10:26:11,Aug-31-26 10:26:11,Paid,
+9794,16-17774-16665,ebuyer_003178,,310000017774,Lot of 2 Fishing Reel,SG-017774,1,$25.99,$9.07,$2.45,$37.51,Yes,eBay Managed Payments,Aug-31-26 13:00:05,Aug-31-26 13:00:05,Paid,
+9776,16-17756-51747,ebuyer_003079,,310000017756,Retro Cashmere Sweater,CL-017756,1,$24.99,$0.00,$1.75,$26.74,Yes,eBay Managed Payments,Aug-31-26 15:08:44,Aug-31-26 15:08:44,Paid,
+9792,22-17772-13609,ebuyer_002504,,310000017772,Vintage Golf Balls,SG-017772,1,$83.99,$11.02,$6.65,$101.66,Yes,eBay Managed Payments,Aug-31-26 16:24:39,Aug-31-26 16:24:39,Refunded,$95.01
+9788,13-17768-48660,ebuyer_002565,,310000017768,Antique Leather Satchel,HB-017768,1,$80.99,$11.38,$6.47,$98.84,Yes,eBay Managed Payments,Aug-31-26 16:44:30,Aug-31-26 16:44:30,Paid,
+9800,18-17780-23775,ebuyer_003133,,310000017780,Like New Film Camera,EL-017780,1,$38.99,$8.14,$3.30,$50.43,Yes,eBay Managed Payments,Aug-31-26 16:59:03,Aug-31-26 16:59:03,Paid,
+9793,20-17773-22630,ebuyer_003380,,310000017773,Like New Tote Bag,HB-017773,1,$25.99,$7.09,$2.32,$35.40,Yes,eBay Managed Payments,Aug-31-26 17:01:06,Aug-31-26 17:01:06,Paid,
+9775,05-17755-56150,ebuyer_003282,,310000017755,Retro Pewter Mug,CO-017755,1,$11.99,$7.81,$1.39,$21.19,Yes,eBay Managed Payments,Aug-31-26 17:12:50,Aug-31-26 17:12:50,Paid,
+9791,25-17771-25169,ebuyer_003594,,310000017771,Lot of 2 Crossbody Bag,HB-017771,1,$25.99,$8.59,$2.42,$37.00,Yes,eBay Managed Payments,Aug-31-26 17:37:30,Aug-31-26 17:37:30,Paid,
+9795,09-17775-99517,ebuyer_003549,,310000017775,Vintage Sandals,SH-017775,1,$13.99,$11.28,$1.77,$27.04,Yes,eBay Managed Payments,Aug-31-26 19:32:32,Aug-31-26 19:32:32,Refunded,$25.27
+9783,02-17763-71775,ebuyer_003196,,310000017763,Mid-Century Wool Coat,CL-017763,1,$37.99,$10.29,$3.38,$51.66,Yes,eBay Managed Payments,Aug-31-26 20:31:59,Aug-31-26 20:31:59,Paid,
+9778,15-17758-11303,ebuyer_003390,,310000017758,Antique Pewter Mug,CO-017758,1,$21.99,$4.73,$1.87,$28.59,Yes,eBay Managed Payments,Aug-31-26 21:55:18,Aug-31-26 21:55:18,Paid,
+9799,11-17779-34233,ebuyer_002969,,310000017779,Vintage Portable Radio,EL-017779,1,$80.99,$10.59,$6.41,$97.99,Yes,eBay Managed Payments,Aug-31-26 22:18:45,Aug-31-26 22:18:45,Paid,
+9798,04-17778-23139,ebuyer_003108,,310000017778,Mid-Century Running Shoes,SH-017778,1,$66.99,$13.59,$5.64,$86.22,Yes,eBay Managed Payments,Aug-31-26 22:28:15,Aug-31-26 22:28:15,Paid,
+9789,21-17769-44725,ebuyer_002626,,310000017769,Lot of 2 Portable Radio,EL-017769,1,$15.99,$8.42,$1.71,$26.12,Yes,eBay Managed Payments,Aug-31-26 22:39:42,Aug-31-26 22:39:42,Paid,
+9787,25-17767-52721,ebuyer_003003,,310000017767,Vintage Loafers,SH-017767,1,$25.99,$0.00,$1.82,$27.81,Yes,eBay Managed Payments,Aug-31-26 23:08:04,Aug-31-26 23:08:04,Paid,
+9790,04-17770-11419,ebuyer_003259,,310000017770,Lot of 2 Figurine,CO-017770,1,$30.99,$5.95,$2.59,$39.53,Yes,eBay Managed Payments,Aug-31-26 23:09:36,Aug-31-26 23:09:36,Paid,
+9797,23-17777-58449,ebuyer_002615,,310000017777,Like New Film Camera,EL-017777,1,$66.99,$9.58,$5.36,$81.93,Yes,eBay Managed Payments,Aug-31-26 23:33:45,Aug-31-26 23:33:45,Paid,
+
+"27 record(s) downloaded,from Aug-31-26 to Aug-31-26"
+Seller ID : goodwill_michiana_test

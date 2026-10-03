@@ -1,0 +1,28 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+9406,11-15486-89688,ebuyer_002587,,310000015486,Handmade Game Console,EL-015486,1,$33.99,$7.46,$2.90,$44.35,Yes,eBay Managed Payments,Aug-16-26 02:25:23,Aug-16-26 02:25:23,Paid,
+9413,04-15493-67092,ebuyer_003671,,310000015493,Vintage Hiking Boots,SH-015493,1,$93.99,$7.89,$7.13,$109.01,Yes,eBay Managed Payments,Aug-16-26 03:32:21,Aug-16-26 03:32:21,Paid,
+9402,24-15482-87977,ebuyer_002514,,310000015482,Vintage Stoneware Mugs,KT-015482,1,$45.99,$5.29,$3.59,$54.87,Yes,eBay Managed Payments,Aug-16-26 04:22:34,Aug-16-26 04:22:34,Paid,
+9418,04-15498-49649,ebuyer_003685,,310000015498,Pre-owned Rain Jacket,CL-015498,1,$39.99,$0.00,$2.80,$42.79,Yes,eBay Managed Payments,Aug-16-26 06:28:14,Aug-16-26 06:28:14,Refunded,$39.99
+9404,14-15484-42032,ebuyer_002502,,310000015484,Mid-Century Pewter Mug,CO-015484,1,$11.99,$6.84,$1.32,$20.15,Yes,eBay Managed Payments,Aug-16-26 10:28:10,Aug-16-26 10:28:10,Paid,
+9408,04-15488-55760,ebuyer_002568,,310000015488,Lot of 2 Film Camera,EL-015488,1,$20.99,$0.00,$1.47,$22.46,Yes,eBay Managed Payments,Aug-16-26 11:19:57,Aug-16-26 11:19:57,Paid,
+9401,25-15481-80491,ebuyer_002906,,310000015481,Antique Cashmere Sweater,CL-015481,1,$13.99,$11.56,$1.79,$27.34,Yes,eBay Managed Payments,Aug-16-26 12:08:16,Aug-16-26 12:08:16,Paid,
+9417,17-15497-20232,ebuyer_003295,,310000015497,Mid-Century Hiking Boots,SH-015497,1,$53.99,$0.00,$3.78,$57.77,Yes,eBay Managed Payments,Aug-16-26 12:09:08,Aug-16-26 12:09:08,Paid,
+9421,25-15501-63832,ebuyer_002929,,310000015501,Used Trading Card Lot,CO-015501,1,$87.99,$6.31,$6.60,$100.90,Yes,eBay Managed Payments,Aug-16-26 12:25:05,Aug-16-26 12:25:05,Paid,
+9420,07-15500-30579,ebuyer_002848,,310000015500,Mid-Century Stoneware Mugs,KT-015500,1,$25.99,$7.91,$2.37,$36.27,Yes,eBay Managed Payments,Aug-16-26 12:32:36,Aug-16-26 12:32:36,Paid,
+9422,16-15502-83035,ebuyer_002751,,310000015502,Retro Fishing Reel,SG-015502,1,$36.99,$0.00,$2.59,$39.58,Yes,eBay Managed Payments,Aug-16-26 12:39:51,Aug-16-26 12:39:51,Paid,
+9403,05-15483-83715,ebuyer_002551,,310000015483,Classic Cashmere Sweater,CL-015483,1,$40.99,$5.87,$3.28,$50.14,Yes,eBay Managed Payments,Aug-16-26 12:40:46,Aug-16-26 12:40:46,Paid,
+9405,16-15485-87084,ebuyer_002703,,310000015485,Lot of 2 Camera Lens,EL-015485,1,$37.99,$0.00,$2.66,$40.65,Yes,eBay Managed Payments,Aug-16-26 13:38:01,Aug-16-26 13:38:01,Paid,
+9400,08-15480-05880,ebuyer_002776,,310000015480,Vintage Wool Coat,CL-015480,1,$14.99,$9.77,$1.73,$26.49,Yes,eBay Managed Payments,Aug-16-26 15:33:33,Aug-16-26 15:33:33,Paid,
+9416,11-15496-08690,ebuyer_002513,,310000015496,Mid-Century Cast Iron Skillet,KT-015496,1,$8.99,$4.88,$0.97,$14.84,Yes,eBay Managed Payments,Aug-16-26 15:54:15,Aug-16-26 15:54:15,Paid,
+9415,16-15495-70475,ebuyer_002834,,310000015495,Pre-owned Trading Card Lot,CO-015495,1,$49.99,$9.25,$4.15,$63.39,Yes,eBay Managed Payments,Aug-16-26 17:07:43,Aug-16-26 17:07:43,Paid,
+9414,20-15494-76103,ebuyer_003668,,310000015494,Pre-owned Denim Jacket,CL-015494,1,$68.99,$8.65,$5.44,$83.08,Yes,eBay Managed Payments,Aug-16-26 17:16:02,Aug-16-26 17:16:02,Paid,
+9409,13-15489-94656,ebuyer_003226,,310000015489,Classic Figurine,CO-015489,1,$33.99,$8.36,$2.97,$45.32,Yes,eBay Managed Payments,Aug-16-26 17:32:15,Aug-16-26 17:32:15,Paid,
+9407,04-15487-66710,ebuyer_002961,,310000015487,Classic Pyrex Bowl,KT-015487,1,$87.99,$0.00,$6.16,$94.15,Yes,eBay Managed Payments,Aug-16-26 18:41:36,Aug-16-26 18:41:36,Paid,
+9419,21-15499-00441,ebuyer_002509,,310000015499,Handmade Pyrex Bowl,KT-015499,1,$33.99,$7.39,$2.90,$44.28,Yes,eBay Managed Payments,Aug-16-26 19:17:08,Aug-16-26 19:17:08,Paid,
+9412,14-15492-79268,ebuyer_002629,,310000015492,Handmade Snow Globe,CO-015492,1,$28.99,$0.00,$2.03,$31.02,Yes,eBay Managed Payments,Aug-16-26 21:25:30,Aug-16-26 21:25:30,Paid,
+9410,27-15490-39888,ebuyer_002632,,310000015490,Classic Crossbody Bag,HB-015490,1,$30.99,$0.00,$2.17,$33.16,Yes,eBay Managed Payments,Aug-16-26 21:45:34,Aug-16-26 21:45:34,Paid,
+9411,11-15491-47648,ebuyer_003299,,310000015491,Antique Denim Jacket,CL-015491,1,$52.99,$0.00,$3.71,$56.70,Yes,eBay Managed Payments,Aug-16-26 22:54:57,Aug-16-26 22:54:57,Paid,
+
+"23 record(s) downloaded,from Aug-16-26 to Aug-16-26"
+Seller ID : goodwill_michiana_test

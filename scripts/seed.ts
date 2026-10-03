@@ -1,15 +1,15 @@
 /**
- * Deterministic synthetic seed. Run: npm run seed
+ * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged]
  *
- * - Upserts config: the 9 sources, 5 channels, kpi_targets.
- * - Wipes and reinserts the fact tables it owns: ingest_runs, orders,
- *   money_lines, items, labor_hours, exceptions (idempotent).
- * - Leaves close tables (closes, journal_lines, ar_*, workbook_baseline,
- *   gl_rules) untouched.
+ * Wipes the facts, upserts config + KPI targets, then ingests every mock
+ * export in data/fixtures (manifest order = upload order) through ingestFile(),
+ * exactly like an upload. Only items and labor_hours (no source file yet) are
+ * inserted directly. Close tables are untouched. See scripts/seed/run.ts.
  *
- * Uses TURSO_DATABASE_URL (default file:local.db). Run `npm run db:push` first.
- * All data is synthetic; see scripts/seed/generate.ts for the messy cases.
- * The core lives in scripts/seed/run.ts (also used by POST /api/demo/reset).
+ * Mode: a local file DB ingests directly ("direct"); a remote Turso DB is
+ * staged in a scratch SQLite file and copied in one transaction ("staged").
+ * Uses TURSO_DATABASE_URL (default file:local.db). Run `npm run db:push` and
+ * `npm run mock:generate` (or use the committed fixtures) first.
  */
 import { config } from "dotenv";
 
@@ -21,20 +21,33 @@ async function main() {
   const { getDb } = await import("../src/db/client");
   const { resolveDbConfig, redactSecrets } = await import("../src/db/env");
   const { runSeed } = await import("./seed/run");
+  const { fixturesFromDisk } = await import("./seed/fixtures");
 
   const { isLocalFile } = resolveDbConfig();
-  console.log(`Database: ${isLocalFile ? "local file" : "remote Turso"}`);
+  const argv = process.argv.slice(2);
+  const mode = argv.includes("--staged") ? "staged" : argv.includes("--direct") ? "direct" : isLocalFile ? "direct" : "staged";
+  const fixtures = await fixturesFromDisk();
+  console.log(`Database: ${isLocalFile ? "local file" : "remote Turso"} · mode ${mode} · ${fixtures.length} fixture files`);
 
-  let result;
+  let r;
   try {
-    result = await runSeed(getDb());
+    r = await runSeed(getDb(), { fixtures, mode, log: (l) => console.log(l) });
   } catch (err) {
     const root = err instanceof Error && err.cause instanceof Error ? err.cause : err;
     throw new Error(redactSecrets(root instanceof Error ? root.message : String(root)));
   }
 
-  for (const [name, n] of Object.entries(result.counts)) console.log(`${name.padEnd(14)} ${n}`);
-  console.log(`Seeded in ${(result.ms / 1000).toFixed(1)}s (all rows synthetic).`);
+  console.log(`\nFiles ingested: ${r.files.total} (${Object.entries(r.files.byStatus).map(([k, v]) => `${k} ${v}`).join(", ")})`);
+  for (const [name, n] of Object.entries(r.counts)) console.log(`  ${name.padEnd(14)} ${n}`);
+  console.log(`Duplicate orders: ${r.duplicateOrders} dropped, ${r.ordersReplaced} replaced by Upright`);
+  console.log(`Exceptions: ${Object.entries(r.exceptionsByKind).map(([k, v]) => `${k} ${v}`).join(", ") || "none"}`);
+  if (r.copyRoundTrips !== undefined) console.log(`Copy to target: ${r.copyRoundTrips} round trips`);
+  console.log(`Seeded in ${(r.ms / 1000).toFixed(1)}s (ingest ${(r.ingestMs / 1000).toFixed(1)}s). All rows synthetic.`);
+  if (r.problems.length) {
+    console.error(`\n${r.problems.length} problem(s):`);
+    for (const p of r.problems) console.error(`  ${p}`);
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {
