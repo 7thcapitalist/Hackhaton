@@ -8,8 +8,9 @@
  * Deliberate messy cases:
  * - No Amazon ingest run for 2026-10-02 (pulse shows Amazon "missing").
  * - eBay 2026-09-15 file parsed with a warning (renamed column), resolved.
- * - Upright 2026-09-20 reports an order eBay already reported: the Upright row
- *   is skipped (eBay is revenue authority) and a duplicate_order exception is open.
+ * - Upright and eBay both report the same order on 2026-09-20: the order is
+ *   kept from Upright (the source of truth for orders), the eBay row is
+ *   skipped, and a duplicate_order exception is open.
  * - Monthly sources (Cash Monkey, Jewelry, shipping, FedEx, Goodwill Books)
  *   only have files for 2026-08 and 2026-09; October is not closed yet.
  */
@@ -394,22 +395,29 @@ export function generate(): SeedData {
     }
   }
 
-  // ---- Duplicate: Upright reports an eBay order on 2026-09-20 ---------------
+  // ---- Duplicate: Upright and eBay both report an eBay order on 2026-09-20 ---
+  // Upright is the source of truth for orders, so the order is kept from the
+  // Upright file and the eBay file's row is the one skipped.
   {
     const dupDate = "2026-09-20";
     const ebayOrder = orders.find((o) => o.channel === "ebay" && o.businessDate === dupDate)!;
+    const ebayRunId = ebayOrder.ingestRunId;
+    const skippedRow = ebayOrder.sourceRow; // the row stays in the eBay file, not in orders
     const uprightRun = dailyRun("upright", dupDate);
-    const skippedRow = nextRow(uprightRun.id); // the row exists in the file, not in orders
-    uprightRun.status = "parsed_with_warnings";
-    uprightRun.warningsJson = JSON.stringify([
-      { row: skippedRow, message: `Duplicate of eBay order ${ebayOrder.externalOrderId}; skipped (eBay is revenue authority)` },
+    ebayOrder.sourceId = "upright";
+    ebayOrder.ingestRunId = uprightRun.id;
+    ebayOrder.sourceRow = nextRow(uprightRun.id);
+    const ebayRun = runs.get(ebayRunId)!;
+    ebayRun.status = "parsed_with_warnings";
+    ebayRun.warningsJson = JSON.stringify([
+      { row: skippedRow, message: `Order ${ebayOrder.externalOrderId} already reported by Upright; eBay row skipped (Upright is the source of truth for orders)` },
     ]);
     exceptions.push({
       id: "exc-dup-upright-ebay-2026-09-20",
-      sourceId: "upright",
-      ingestRunId: uprightRun.id,
+      sourceId: "ebay",
+      ingestRunId: ebayRunId,
       kind: "duplicate_order",
-      message: `Upright row ${skippedRow} reports eBay order ${ebayOrder.externalOrderId} (${ebayOrder.dedupeKey}) already loaded from eBay. Upright row skipped; confirm and resolve.`,
+      message: `eBay row ${skippedRow} reports order ${ebayOrder.externalOrderId} (${ebayOrder.dedupeKey}), already loaded from Upright (row ${ebayOrder.sourceRow}). Kept Upright, skipped the eBay row; confirm and resolve.`,
       expectedCents: ebayOrder.netCents ?? 0,
       actualCents: ebayOrder.netCents ?? 0,
       owner: "E-commerce manager",

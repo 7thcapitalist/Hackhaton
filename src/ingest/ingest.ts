@@ -11,10 +11,10 @@
  * - dedupe_key = `${channel}:${externalOrderId}:${externalItemId ?? ''}`.
  *   A repeat inside the same file keeps the first row. A repeat of a row already
  *   in the DB keeps the DB row, UNLESS the DB row came from a source with
- *   revenue_authority = 0 (e.g. Upright, which re-reports eBay/ShopGoodwill orders)
- *   and the new file's source has revenue_authority = 1: then the new
- *   (channel-native) row replaces the old one, in the same transaction. So the
- *   marketplace's own report wins no matter which file arrives first. Every
+ *   revenue_authority = 0 (e.g. the eBay or ShopGoodwill report) and the new
+ *   file's source has revenue_authority = 1 (Upright, the source of truth for
+ *   orders): then the new row replaces the old one, in the same transaction. So
+ *   Upright wins no matter which file arrives first. Every
  *   dropped or replaced row gets a `duplicate_order` exception naming both sources.
  * - net_cents is recomputed as gross + shipping − refund − fee when the parser
  *   left it 0 with nonzero gross, and corrected if it visibly includes tax.
@@ -74,7 +74,7 @@ export interface IngestSummary {
   fileName: string;
   status: IngestStatus;
   ordersInserted: number;
-  /** Lower-authority rows (e.g. Upright) replaced by this file's rows. */
+  /** Lower-authority rows (e.g. eBay, ShopGoodwill) replaced by this file's rows. */
   ordersReplaced: number;
   moneyLinesInserted: number;
   itemsInserted: number;

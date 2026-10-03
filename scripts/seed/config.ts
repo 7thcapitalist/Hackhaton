@@ -27,7 +27,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: "ShopGoodwill",
     acquisition: "Periodic marketplace reports: filter year/month; Period 1 periodic only; Period 3 all reports",
     owner: "E-commerce manager",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
     configJson: cfg({ channels: ["shopgoodwill"], cadence: "daily" }),
   },
   {
@@ -37,7 +37,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: "Amazon",
     acquisition: "Payments summary: Seller Central, request/refresh/download",
     owner: "E-commerce manager",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
     configJson: cfg({ channels: ["amazon"], cadence: "daily" }),
   },
   {
@@ -47,7 +47,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: "eBay",
     acquisition: "Listing sales report: Seller Center, change date, generate/download",
     owner: "E-commerce manager",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
     configJson: cfg({ channels: ["ebay"], cadence: "daily" }),
   },
   {
@@ -57,7 +57,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: "Other e-commerce",
     acquisition: "Orders, full month: submit/download CSV; save as Excel",
     owner: "Finance (accounting clerk)",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
     configJson: cfg({ channels: ["other"], cadence: "monthly" }),
   },
   {
@@ -68,7 +68,7 @@ export const SOURCES: NewSource[] = [
     // Slide 38 says full month; for the nightly pulse we assume a daily pull.
     acquisition: "Paid order items: generate; email delivery; save as Excel",
     owner: "E-commerce manager",
-    revenueAuthority: 0, // eBay wins when both report the same order
+    revenueAuthority: 1, // Upright is the source of truth for orders (Joao, 2026-10-03)
     configJson: cfg({ channels: ["other", "ebay"], cadence: "daily" }),
   },
   {
@@ -105,7 +105,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: "Other e-commerce",
     acquisition: "Prior-month payment statement: monthly email attachment",
     owner: "Finance (accounting clerk)",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
     configJson: cfg({ channels: ["goodwill_books"], cadence: "monthly" }),
   },
 ];

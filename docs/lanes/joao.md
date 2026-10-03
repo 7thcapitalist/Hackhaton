@@ -105,7 +105,7 @@ For each source Ryan documents in `docs/sources/<id>.md` with files in `data/fix
 | From | What | Until it arrives |
 |---|---|---|
 | Ryan | Real column layouts + fixtures per source | Parsers use public docs and their own samples |
-| Amanda (Goodwill) | What counts as a customer, gross vs net, the day cutoff, Upright vs eBay as source of truth | Documented defaults: net revenue, distinct buyers, Indiana midnight, marketplace report wins over Upright |
+| Amanda (Goodwill) | What counts as a customer, gross vs net, the day cutoff, whether Upright covers every channel | Documented defaults: net revenue, distinct buyers, Indiana midnight, Upright is the source of truth for orders |
 | Gabriel, Denis | Nothing. They depend on me | — |
 
 ## 6. Open questions to bring to Amanda (via Ryan)

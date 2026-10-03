@@ -51,7 +51,7 @@ src/sources/<id>.ts       pure parser: find header, map columns, cents, Indiana 
 src/ingest/ingest.ts      cleaning + one atomic write:
                            • same file again (sha256)       → ignored, duplicate_file
                            • same order from 2 sources      → kept once, duplicate_order
-                             (marketplace report beats Upright, whichever arrives first)
+                             (Upright beats the marketplace reports, whichever arrives first)
                            • buyer id → salted hash (raw id never stored)
                            • tax kept out of net; net = gross + shipping − refund − fee
                            • warnings → ingest_runs.warnings_json + 1 parse_warning
@@ -124,9 +124,11 @@ Use `npm run db:studio` to browse the tables.
 
 ## Decisions the agents made (you should know these, and confirm with Amanda)
 
-1. **Source of truth for duplicate orders:** the marketplace's own report beats Upright
-   (`revenue_authority`: 1 for ShopGoodwill, Amazon, eBay, Cash Monkey and Goodwill Books;
-   0 for Upright, Jewelry and shipping).
+1. **Source of truth for duplicate orders: Upright** (Joao's decision). Upright covers
+   ShopGoodwill, eBay and other channels in one export, so Goodwill depends on fewer
+   reports. `revenue_authority` is 1 for Upright and 0 for every other source.
+   Marketplace files still load: they fill orders Upright doesn't list, plus fees,
+   payouts and refunds.
 2. **Revenue = net** = gross + shipping charged − refunds − fees. Tax is never included.
 3. **Customers = distinct hashed buyers per channel.** The total is the sum of the channels.
    **Amazon's transaction report has no buyer id**, so Amazon customer counts can't come
@@ -213,7 +215,7 @@ Accounting choices to confirm:
 
 ## Open questions for Amanda (consolidated)
 
-1. Which report is the source of truth when Upright and eBay/ShopGoodwill both show an order?
+1. We treat Upright as the source of truth for orders. Does Upright list every channel (Amazon? Goodwill Books?) and include fees and refunds?
 2. "Customers": unique buyers or orders? Summed across channels?
 3. Revenue: gross, or net of fees and refunds?
 4. ShopGoodwill: the real columns, what Period 1 and Period 3 mean, the time zone of End Date, who keeps the buyer premium.

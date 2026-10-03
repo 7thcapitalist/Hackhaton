@@ -12,10 +12,12 @@ import { channels, sources, type NewChannel, type NewSource } from "@/db/schema"
 export type ChannelId = "shopgoodwill" | "amazon" | "ebay" | "goodwill_books" | "other";
 
 /**
- * revenue_authority = 1 for the channel-native report (the marketplace's own
- * export), 0 for aggregators like Upright that re-report orders from other
- * channels. When two sources report the same dedupe_key, the authoritative
- * one wins (see ingest.ts). TBC with Amanda which source is the revenue truth.
+ * revenue_authority: which source wins when two sources report the same order
+ * (same dedupe_key). Decision (Joao, 2026-10-03): Upright is the source of
+ * truth for orders, because it covers ShopGoodwill, eBay and other channels in
+ * one export, so Goodwill depends on fewer reports. Upright = 1, every other
+ * source = 0. Marketplace files still load: they fill orders Upright doesn't
+ * list, plus fees, payouts and refunds. See ingest.ts.
  */
 export const SOURCE_CONFIG: NewSource[] = [
   {
@@ -24,7 +26,7 @@ export const SOURCE_CONFIG: NewSource[] = [
     kind: "marketplace",
     channelGroup: "ShopGoodwill",
     acquisition: "Seller portal: filter year/month; Period 1 periodic only; Period 3 all reports",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
   },
   {
     id: "amazon",
@@ -32,7 +34,7 @@ export const SOURCE_CONFIG: NewSource[] = [
     kind: "marketplace",
     channelGroup: "Amazon",
     acquisition: "Seller Central payments summary: request/refresh/download",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
   },
   {
     id: "ebay",
@@ -40,7 +42,7 @@ export const SOURCE_CONFIG: NewSource[] = [
     kind: "marketplace",
     channelGroup: "eBay",
     acquisition: "Seller Center listing sales report: change date, generate/download",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
   },
   {
     id: "cashmonkey",
@@ -48,7 +50,7 @@ export const SOURCE_CONFIG: NewSource[] = [
     kind: "marketplace",
     channelGroup: "Other e-commerce",
     acquisition: "Orders, full month: submit/download CSV; save as Excel",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
   },
   {
     id: "upright",
@@ -56,7 +58,7 @@ export const SOURCE_CONFIG: NewSource[] = [
     kind: "marketplace",
     channelGroup: null, // spans channels; pulse uses orders.channel
     acquisition: "Paid order items, full month: generate; email delivery; save as Excel",
-    revenueAuthority: 0,
+    revenueAuthority: 1, // Upright is the source of truth for orders (Joao, 2026-10-03)
   },
   {
     id: "jewelry",
@@ -88,7 +90,7 @@ export const SOURCE_CONFIG: NewSource[] = [
     kind: "statement",
     channelGroup: "Other e-commerce",
     acquisition: "Prior-month payment statement: monthly email attachment",
-    revenueAuthority: 1,
+    revenueAuthority: 0,
   },
 ];
 
