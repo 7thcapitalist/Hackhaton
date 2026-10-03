@@ -40,6 +40,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 |--------|--------------|
 | `npm run dev` / `build` / `start` | Next.js dev server, production build, production server |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm run test:exports` | Tests for report exports, without a database or email delivery |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
 | `npm run seed` | Load demo data (stub until the fixtures task lands) |
@@ -58,12 +59,15 @@ See `.env.example`.
 | `BUYER_KEY_SALT` | Salt for hashed buyer keys (privacy) |
 | `DEMO_RESET_SECRET` | Guards the "Reset demo data" route |
 | `ANTHROPIC_API_KEY` | Optional AI note on the scorecard |
+| `REPORTS_VIEW_ORIGIN` | Optional trusted origin for the report JSON views; defaults to the Vercel deployment or localhost in dev |
 
 Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_URL`)
 are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts`
 (`getDb()`), `drizzle.config.ts`.
 
 ## Where to read next
+
+- [src/export/README.md](src/export/README.md): CSV download contract and pending shared-view dependency
 
 - [AGENTS.md](AGENTS.md): team rules, branches, PRs, who owns what
 - [CONTEXT.md](CONTEXT.md): event, schedule, judging criteria
