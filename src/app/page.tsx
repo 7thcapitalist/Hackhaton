@@ -9,6 +9,10 @@ import {
 } from "./_lib/live-data";
 import { formatDay, formatInt, formatKpiShort, formatMoneyCompact, formatStampFull, pctChange, shiftDay, TRACK, trackStatus } from "./_lib/format";
 
+// Hits the database (real pulse/scorecard/sources data) — must not be statically
+// prerendered at build time. See the note in layout.tsx.
+export const dynamic = "force-dynamic";
+
 export default async function OverviewPage() {
   const pulse = await getPulse(LATEST_DATE);
   const reporting = pulse.rows.filter(r => r.status === "ok").map(r => r.channelId);

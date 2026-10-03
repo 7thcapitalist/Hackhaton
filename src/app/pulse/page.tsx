@@ -5,6 +5,10 @@ import { shiftDay } from "../_lib/format";
 
 export const metadata: Metadata = { title: "Daily Pulse – Mission Control" };
 
+// Already dynamic via `searchParams`, but marked explicitly for consistency
+// with the other DB-backed pages — see the note in layout.tsx.
+export const dynamic = "force-dynamic";
+
 export default async function PulsePage({ searchParams }: { searchParams: Promise<{ date?: string }> }) {
   const { date: requested } = await searchParams;
   const date = isPulseDate(requested) ? requested : LATEST_DATE;

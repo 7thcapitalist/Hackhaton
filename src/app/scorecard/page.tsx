@@ -8,6 +8,10 @@ import { formatStampFull, trackStatus } from "../_lib/format";
 
 export const metadata: Metadata = { title: "COO Scorecard – Mission Control" };
 
+// Hits the database — must not be statically prerendered at build time.
+// See the note in layout.tsx.
+export const dynamic = "force-dynamic";
+
 export default async function ScorecardPage() {
   const [{ period, kpis, insights }, src] = await Promise.all([
     getScorecard(SCORECARD_PERIOD_ID),

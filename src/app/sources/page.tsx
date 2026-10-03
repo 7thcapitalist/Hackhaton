@@ -7,6 +7,10 @@ import { SCORECARD_PERIOD_ID, SOURCES_DUE, getPeriodMeta, getSourceIssues, getSo
 
 export const metadata: Metadata = { title: "Data Sources – Mission Control" };
 
+// Hits the database — must not be statically prerendered at build time.
+// See the note in layout.tsx.
+export const dynamic = "force-dynamic";
+
 export default async function SourcesPage() {
   const [period, sources, issues, src] = await Promise.all([
     getPeriodMeta(SCORECARD_PERIOD_ID),

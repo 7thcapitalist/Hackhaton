@@ -15,6 +15,12 @@ export const metadata: Metadata = {
   description: "Nightly pulse, COO scorecard and month-end close for Goodwill Michiana e-commerce.",
 };
 
+// This layout now hits the database on every request (sidebar counts, last-import
+// time). Without this, `next build` tries to prerender it statically — which either
+// fails outright against an unseeded DB, or bakes one build-time snapshot into static
+// HTML forever against a seeded one, defeating the whole point of a "nightly" dashboard.
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const [pulse, period, sources] = await Promise.all([
     getPulse(LATEST_DATE),
