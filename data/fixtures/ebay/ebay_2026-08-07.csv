@@ -1,0 +1,24 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+9194,08-14032-81337,ebuyer_009430,,310000014032,Antique Wool Coat,CL-014032,1,$52.99,$0.00,$3.71,$56.70,Yes,eBay Managed Payments,Aug-07-26 00:44:08,Aug-07-26 00:44:08,Paid,
+9193,18-14031-42989,ebuyer_006083,,310000014031,Vintage Hiking Boots,SH-014031,1,$27.99,$8.47,$2.55,$39.01,Yes,eBay Managed Payments,Aug-07-26 01:25:39,Aug-07-26 01:25:39,Paid,
+9190,20-14028-18117,ebuyer_006119,,310000014028,Used Cashmere Sweater,CL-014028,1,$61.99,$6.81,$4.82,$73.62,Yes,eBay Managed Payments,Aug-07-26 01:37:56,Aug-07-26 01:37:56,Paid,
+9198,25-14036-83047,ebuyer_007099,,310000014036,Mid-Century Sandals,SH-014036,2,$36.99,$0.00,$5.18,$79.16,Yes,eBay Managed Payments,Aug-07-26 04:46:38,Aug-07-26 04:46:38,Paid,
+9183,23-14021-19187,ebuyer_009370,,310000014021,Used Wool Coat,CL-014021,1,$45.99,$8.01,$3.78,$57.78,Yes,eBay Managed Payments,Aug-07-26 05:43:42,Aug-07-26 05:43:42,Paid,
+9197,11-14035-93987,ebuyer_006185,,310000014035,Lot of 2 Flannel Shirt,CL-014035,1,$30.99,$0.00,$2.17,$33.16,Yes,eBay Managed Payments,Aug-07-26 07:03:44,Aug-07-26 07:03:44,Paid,
+9182,14-14020-14287,ebuyer_006383,,310000014020,Antique Leather Boots,SH-014020,1,$14.99,$9.62,$1.72,$26.33,Yes,eBay Managed Payments,Aug-07-26 10:02:52,Aug-07-26 10:02:52,Paid,
+9184,07-14022-17385,ebuyer_006507,,310000014022,Retro Wool Coat,CL-014022,1,$41.99,$3.70,$3.20,$48.89,Yes,eBay Managed Payments,Aug-07-26 11:18:48,Aug-07-26 11:18:48,Paid,
+9181,24-14019-02956,ebuyer_006498,,310000014019,Lot of 2 Pyrex Bowl,KT-014019,1,$12.99,$0.00,$0.91,$13.90,Yes,eBay Managed Payments,Aug-07-26 11:40:26,Aug-07-26 11:40:26,Cancelled,$12.99
+9185,14-14023-71963,ebuyer_007895,,310000014023,Mid-Century Pyrex Bowl,KT-014023,1,$50.99,$8.63,$4.17,$63.79,Yes,eBay Managed Payments,Aug-07-26 14:51:42,Aug-07-26 14:51:42,Paid,
+9196,16-14034-34090,ebuyer_007883,,310000014034,Retro Rain Jacket,CL-014034,1,$37.99,$9.14,$3.30,$50.43,Yes,eBay Managed Payments,Aug-07-26 15:27:26,Aug-07-26 15:27:26,Paid,
+9199,01-14037-32469,ebuyer_006568,,310000014037,Pre-owned Film Camera,EL-014037,1,$50.99,$7.45,$4.09,$62.53,Yes,eBay Managed Payments,Aug-07-26 15:56:54,Aug-07-26 15:56:54,Paid,
+9188,27-14026-60112,ebuyer_006885,,310000014026,Like New Flannel Shirt,CL-014026,1,$10.99,$10.53,$1.51,$23.03,Yes,eBay Managed Payments,Aug-07-26 18:19:07,Aug-07-26 18:19:07,Paid,
+9189,23-14027-14399,ebuyer_008319,,310000014027,Mid-Century Silk Blouse,CL-014027,1,$36.99,$0.00,$2.59,$39.58,Yes,eBay Managed Payments,Aug-07-26 20:10:06,Aug-07-26 20:10:06,Paid,
+9186,09-14024-75225,ebuyer_006859,,310000014024,Retro Tennis Racket,SG-014024,1,$68.99,$0.00,$4.83,$73.82,Yes,eBay Managed Payments,Aug-07-26 20:11:45,Aug-07-26 20:11:45,Paid,
+9195,02-14033-21619,ebuyer_008949,,310000014033,Classic Crossbody Bag,HB-014033,1,$25.99,$0.00,$1.82,$27.81,Yes,eBay Managed Payments,Aug-07-26 20:27:41,Aug-07-26 20:27:41,Paid,
+9187,11-14025-40487,ebuyer_009286,,310000014025,Lot of 2 Silk Blouse,CL-014025,1,$26.99,$12.43,$2.76,$42.18,Yes,eBay Managed Payments,Aug-07-26 20:54:57,Aug-07-26 20:54:57,Paid,
+9191,27-14029-07019,ebuyer_006103,,310000014029,Antique Camera Lens,EL-014029,1,$26.99,$0.00,$1.89,$28.88,Yes,eBay Managed Payments,Aug-07-26 22:17:27,Aug-07-26 22:17:27,Paid,
+9192,24-14030-69355,ebuyer_006363,,310000014030,Handmade Rain Jacket,CL-014030,1,$57.99,$0.00,$4.06,$62.05,Yes,eBay Managed Payments,Aug-07-26 22:25:44,Aug-07-26 22:25:44,Paid,
+
+"19 record(s) downloaded,from Aug-07-26 to Aug-07-26"
+Seller ID : goodwill_michiana_test

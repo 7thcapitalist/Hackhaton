@@ -1,0 +1,26 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+10047,04-19467-21002,ebuyer_006012,,310000019467,Like New Leather Satchel,HB-019467,1,$39.99,$10.46,$3.53,$53.98,Yes,eBay Managed Payments,Sep-11-26 04:47:24,Sep-11-26 04:47:24,Paid,
+10062,27-19482-52809,ebuyer_006295,,310000019482,Antique Figurine,CO-019482,1,$14.99,$0.00,$1.05,$16.04,Yes,eBay Managed Payments,Sep-11-26 07:23:48,Sep-11-26 07:23:48,Paid,
+10052,09-19472-83332,ebuyer_008443,,310000019472,Antique Wool Coat,CL-019472,1,$31.99,$0.00,$2.24,$34.23,Yes,eBay Managed Payments,Sep-11-26 07:42:00,Sep-11-26 07:42:00,Paid,
+10057,18-19477-91044,ebuyer_006845,,310000019477,Mid-Century Clutch,HB-019477,2,$44.99,$0.00,$6.30,$96.28,Yes,eBay Managed Payments,Sep-11-26 09:15:16,Sep-11-26 09:15:16,Paid,
+10053,03-19473-92515,ebuyer_008933,,310000019473,Antique Silk Blouse,CL-019473,1,$38.99,$0.00,$2.73,$41.72,Yes,eBay Managed Payments,Sep-11-26 09:43:16,Sep-11-26 09:43:16,Paid,
+10061,21-19481-00782,ebuyer_007117,,310000019481,Retro Trading Card Lot,CO-019481,1,$33.99,$6.44,$2.83,$43.26,Yes,eBay Managed Payments,Sep-11-26 10:06:04,Sep-11-26 10:06:04,Paid,
+10066,21-19486-19337,ebuyer_006345,,310000019486,Like New Portable Radio,EL-019486,1,$18.99,$0.00,$1.33,$20.32,Yes,eBay Managed Payments,Sep-11-26 10:09:20,Sep-11-26 10:09:20,Refunded,$18.99
+10050,26-19470-65097,ebuyer_006269,,310000019470,Retro Cashmere Sweater,CL-019470,1,$66.99,$8.02,$5.25,$80.26,Yes,eBay Managed Payments,Sep-11-26 11:12:40,Sep-11-26 11:12:40,Paid,
+10059,21-19479-45967,ebuyer_008479,,310000019479,Retro Turntable,EL-019479,1,$31.99,$0.00,$2.24,$34.23,Yes,eBay Managed Payments,Sep-11-26 11:59:44,Sep-11-26 11:59:44,Paid,
+10054,04-19474-76786,ebuyer_009524,,310000019474,Lot of 2 Film Camera,EL-019474,1,$74.99,$4.29,$5.55,$84.83,Yes,eBay Managed Payments,Sep-11-26 12:00:39,Sep-11-26 12:00:39,Paid,
+10056,27-19476-76421,ebuyer_007837,,310000019476,Mid-Century Camera Lens,EL-019476,2,$17.99,$7.86,$3.07,$46.91,Yes,eBay Managed Payments,Sep-11-26 14:14:42,Sep-11-26 14:14:42,Paid,
+10046,23-19466-64933,ebuyer_008217,,310000019466,Handmade Tennis Racket,SG-019466,1,$12.99,$6.63,$1.37,$20.99,Yes,eBay Managed Payments,Sep-11-26 15:12:16,Sep-11-26 15:12:16,Paid,
+10064,03-19484-12698,ebuyer_009203,,310000019484,Handmade Flannel Shirt,CL-019484,1,$23.99,$0.00,$1.68,$25.67,Yes,eBay Managed Payments,Sep-11-26 16:16:26,Sep-11-26 16:16:26,Paid,
+10065,19-19485-05143,ebuyer_006163,,310000019485,Pre-owned Flannel Shirt,CL-019485,1,$10.99,$12.90,$1.67,$25.56,Yes,eBay Managed Payments,Sep-11-26 16:41:16,Sep-11-26 16:41:16,Paid,
+10058,26-19478-30863,ebuyer_007327,,310000019478,Vintage Portable Radio,EL-019478,1,$67.99,$8.31,$5.34,$81.64,Yes,eBay Managed Payments,Sep-11-26 17:32:39,Sep-11-26 17:32:39,Paid,
+10049,08-19469-25102,ebuyer_007747,,310000019469,Classic Wool Coat,CL-019469,1,$15.99,$9.68,$1.80,$27.47,Yes,eBay Managed Payments,Sep-11-26 19:15:50,Sep-11-26 19:15:50,Paid,
+10063,25-19483-58851,ebuyer_006490,,310000019483,Retro Leather Satchel,HB-019483,1,$43.99,$5.96,$3.50,$53.45,Yes,eBay Managed Payments,Sep-11-26 19:53:01,Sep-11-26 19:53:01,Paid,
+10051,25-19471-26100,ebuyer_006637,,310000019471,Mid-Century Stoneware Mugs,KT-019471,1,$57.99,$0.00,$4.06,$62.05,Yes,eBay Managed Payments,Sep-11-26 21:01:30,Sep-11-26 21:01:30,Paid,
+10048,03-19468-17623,ebuyer_006035,,310000019468,Mid-Century Leather Boots,SH-019468,1,$31.99,$0.00,$2.24,$34.23,Yes,eBay Managed Payments,Sep-11-26 23:18:38,Sep-11-26 23:18:38,Paid,
+10055,19-19475-89897,ebuyer_007621,,310000019475,Mid-Century Golf Balls,SG-019475,1,$24.99,$0.00,$1.75,$26.74,Yes,eBay Managed Payments,Sep-11-26 23:18:53,Sep-11-26 23:18:53,Paid,
+10060,04-19480-53674,ebuyer_007753,,310000019480,Used Fishing Reel,SG-019480,1,$48.99,$7.27,$3.94,$60.20,Yes,eBay Managed Payments,Sep-11-26 23:23:28,Sep-11-26 23:23:28,Paid,
+
+"21 record(s) downloaded,from Sep-11-26 to Sep-11-26"
+Seller ID : goodwill_michiana_test

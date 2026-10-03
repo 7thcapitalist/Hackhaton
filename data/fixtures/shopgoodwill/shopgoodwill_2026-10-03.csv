@@ -1,0 +1,35 @@
+ShopGoodwill Seller Portal
+Periodic Marketplace Report
+Seller,Goodwill Industries of Michiana (TEST DATA)
+Year,2026,Month,October
+Report,Period 1
+
+Order ID,Item ID,Title,Category,End Date,Winning Bid,Shipping,Handling,Buyer Premium,Seller Fee,Refund,Net,Buyer ID,Status
+SGW-7722895,210022895,Used Trading Card Lot,Collectibles,10/03/2026 12:27 AM,32.00,7.72,2.00,1.60,0.00,41.72,0.00,sgw_bidder_000290,Cancelled
+SGW-7722886,210022886,Classic Framed Print,Art,10/03/2026 12:35 AM,15.00,18.15,2.00,0.75,1.20,0.00,33.95,sgw_bidder_000044,Paid
+SGW-7722881,210022881,Mid-Century Art Print,Art,10/03/2026 01:59 AM,63.00,9.34,2.00,3.15,5.04,0.00,69.30,sgw_bidder_000196,Paid
+SGW-7722873,210022873,Mid-Century Sterling Ring,Jewelry,10/03/2026 02:26 AM,62.00,10.85,2.00,3.10,4.96,0.00,69.89,sgw_bidder_003888,Paid
+SGW-7722889,210022889,Antique Mantel Clock,Home Decor,10/03/2026 02:45 AM,27.00,7.69,2.00,1.35,2.16,0.00,34.53,sgw_bidder_001712,Paid
+SGW-7722880,210022880,Pre-owned Headphones,Electronics,10/03/2026 03:56 AM,11.00,6.61,2.00,0.55,0.88,0.00,18.73,sgw_bidder_001292,Shipped
+SGW-7722884,210022884,Antique Flannel Shirt,Clothing,10/03/2026 03:59 AM,9.00,5.57,2.00,0.45,0.72,0.00,15.85,sgw_bidder_004821,Shipped
+SGW-7722879,210022879,Vintage Camera Lens,Electronics,10/03/2026 04:05 AM,35.00,6.42,2.00,1.75,2.80,0.00,40.62,sgw_bidder_005884,Paid
+SGW-7722870,210022870,Mid-Century Snow Globe,Collectibles,10/03/2026 04:06 AM,32.00,9.83,2.00,1.60,0.51,43.83,-0.51,sgw_bidder_001966,Refunded
+SGW-7722871,210022871,Handmade Chronograph Watch,Watches,10/03/2026 04:08 AM,29.00,6.76,2.00,1.45,2.32,0.00,35.44,sgw_bidder_004582,Paid
+SGW-7722887,210022887,Antique Sterling Ring,Jewelry,10/03/2026 04:31 AM,60.00,10.97,2.00,3.00,4.80,0.00,68.17,sgw_bidder_004082,Paid
+SGW-7722872,210022872,Like New Gold Tone Necklace,Jewelry,10/03/2026 04:39 AM,100.00,9.09,2.00,5.00,8.00,0.00,103.09,sgw_bidder_005042,Shipped
+SGW-7722890,210022890,Used Charm Bracelet,Jewelry,10/03/2026 04:44 AM,36.00,5.63,2.00,1.80,2.88,0.00,40.75,sgw_bidder_001706,Paid
+SGW-7722893,210022893,Like New Snow Globe,Collectibles,10/03/2026 05:16 AM,62.00,10.96,2.00,3.10,4.96,0.00,70.00,sgw_bidder_000020,Paid
+SGW-7722891,210022891,Like New Turntable,Electronics,10/03/2026 06:38 AM,57.00,5.85,2.00,2.85,4.56,0.00,60.29,sgw_bidder_001727,Paid
+SGW-7722876,210022876,Used Lego Lot,Toys,10/03/2026 06:40 AM,22.00,6.89,2.00,1.10,1.76,0.00,29.13,sgw_bidder_000048,Shipped
+SGW-7722875,210022875,Antique Pyrex Bowl,Kitchen,10/03/2026 06:40 AM,16.00,8.42,2.00,0.80,1.28,0.00,25.14,sgw_bidder_002254,Paid
+SGW-7722882,210022882,Handmade Camera Lens,Electronics,10/03/2026 07:51 AM,44.00,12.91,2.00,2.20,3.52,0.00,55.39,sgw_bidder_001592,Paid
+SGW-7722874,210022874,Retro Golf Balls,Sporting Goods,10/03/2026 08:29 AM,15.00,9.81,2.00,0.75,1.20,0.00,25.61,sgw_bidder_004722,Paid
+SGW-7722885,210022885,Classic Plush Bear,Toys,10/03/2026 08:38 AM,14.00,13.72,2.00,0.70,1.12,0.00,28.60,sgw_bidder_000206,Paid
+SGW-7722877,210022877,Mid-Century Golf Balls,Sporting Goods,10/03/2026 08:53 AM,31.00,13.48,2.00,1.55,2.48,0.00,44.00,sgw_bidder_000669,Paid
+SGW-7722878,210022878,Classic Silk Blouse,Clothing,10/03/2026 09:22 AM,23.00,9.42,2.00,1.15,1.84,0.00,32.58,sgw_bidder_007183,Paid
+SGW-7722888,210022888,Lot of 2 Camera Lens,Electronics,10/03/2026 09:43 AM,22.00,8.92,2.00,1.10,1.76,0.00,31.16,sgw_bidder_003924,Shipped
+SGW-7722892,210022892,Antique Ceramic Vase,Home Decor,10/03/2026 10:45 AM,47.00,8.45,2.00,2.35,3.76,0.00,53.69,sgw_bidder_002578,Shipped
+SGW-7722894,210022894,Classic Pocket Watch,Watches,10/03/2026 11:00 AM,38.00,7.00,2.00,1.90,3.04,0.00,43.96,sgw_bidder_007417,Paid
+SGW-7722869,210022869,Antique Denim Jacket,Clothing,10/03/2026 11:19 AM,14.00,8.61,2.00,0.70,1.12,0.00,23.49,sgw_bidder_006758,Paid
+SGW-7722883,210022883,Like New Cashmere Sweater,Clothing,10/03/2026 11:27 AM,31.00,11.45,2.00,1.55,2.48,0.00,41.97,sgw_bidder_000306,Paid
+Totals,,,,,947.00,,,,,,,,

@@ -1,0 +1,39 @@
+created_at,id,status,source_type,target_type,charge_type,amount,balance,description
+2026-09-02T20:30:59Z,paylog_000177,complete,bank_account,easypost_bank,recharge,1000.00,1304.50,Recharge from bank account
+2026-09-02T22:00:00Z,paylog_000178,complete,refund,user,refund,5.58,1283.83,Refund for shp_00007454
+2026-09-05T13:15:13Z,paylog_000179,complete,bank_account,easypost_bank,recharge,1000.00,1304.12,Recharge from bank account
+2026-09-05T22:00:00Z,paylog_000180,complete,refund,user,refund,14.74,840.18,Refund for shp_00007608
+2026-09-07T13:56:15Z,paylog_000181,complete,bank_account,easypost_bank,recharge,1000.00,1303.87,Recharge from bank account
+2026-09-07T22:00:00Z,paylog_000182,complete,refund,user,refund,8.47,845.75,Refund for shp_00007675
+2026-09-07T22:00:00Z,paylog_000183,complete,refund,user,refund,3.86,849.61,Refund for shp_00007790
+2026-09-08T22:00:00Z,paylog_000184,complete,refund,user,refund,3.35,411.79,Refund for shp_00007703
+2026-09-09T15:18:19Z,paylog_000185,complete,bank_account,easypost_bank,recharge,1000.00,1303.99,Recharge from bank account
+2026-09-09T22:00:00Z,paylog_000186,complete,refund,user,refund,3.38,1013.93,Refund for shp_00007915
+2026-09-11T19:17:18Z,paylog_000187,complete,bank_account,easypost_bank,recharge,1000.00,1304.66,Recharge from bank account
+2026-09-11T22:00:00Z,paylog_000188,complete,refund,user,refund,10.80,1173.15,Refund for shp_00007954
+2026-09-11T22:00:00Z,paylog_000189,complete,refund,user,refund,16.56,1189.71,Refund for shp_00008021
+2026-09-12T22:00:00Z,paylog_000190,complete,refund,user,refund,3.77,683.44,Refund for shp_00008103
+2026-09-13T19:57:23Z,paylog_000191,complete,bank_account,easypost_bank,recharge,1000.00,1302.05,Recharge from bank account
+2026-09-13T22:00:00Z,paylog_000192,complete,refund,user,refund,15.24,1272.74,Refund for shp_00008150
+2026-09-15T12:00:00Z,paylog_000193,complete,user,easypost_bank,service_fee,1.00,827.28,Monthly service fee
+2026-09-15T19:09:12Z,paylog_000194,complete,bank_account,easypost_bank,recharge,1000.00,1304.23,Recharge from bank account
+2026-09-15T22:00:00Z,paylog_000195,complete,refund,user,refund,7.48,1169.61,Refund for shp_00008288
+2026-09-15T22:00:00Z,paylog_000196,complete,refund,user,refund,5.32,1174.93,Refund for shp_00008242
+2026-09-16T22:00:00Z,paylog_000197,complete,refund,user,refund,5.10,739.45,Refund for shp_00008407
+2026-09-18T13:30:17Z,paylog_000198,complete,bank_account,easypost_bank,recharge,1000.00,1303.57,Recharge from bank account
+2026-09-20T17:09:14Z,paylog_000199,complete,bank_account,easypost_bank,recharge,1000.00,1304.74,Recharge from bank account
+2026-09-22T19:38:25Z,paylog_000200,complete,bank_account,easypost_bank,recharge,1000.00,1306.28,Recharge from bank account
+2026-09-22T22:00:00Z,paylog_000201,complete,refund,user,refund,5.51,1237.75,Refund for shp_00008760
+2026-09-24T22:00:00Z,paylog_000202,complete,refund,user,refund,14.97,422.68,Refund for shp_00008862
+2026-09-24T22:00:00Z,paylog_000203,complete,refund,user,refund,3.30,425.98,Refund for shp_00008882
+2026-09-25T14:40:04Z,paylog_000204,complete,bank_account,easypost_bank,recharge,1000.00,1309.06,Recharge from bank account
+2026-09-26T19:59:46Z,paylog_000205,complete,bank_account,easypost_bank,recharge,1000.00,1307.69,Recharge from bank account
+2026-09-26T22:00:00Z,paylog_000206,complete,refund,user,refund,3.29,1222.25,Refund for shp_00009036
+2026-09-28T19:45:10Z,paylog_000207,complete,bank_account,easypost_bank,recharge,1000.00,1307.12,Recharge from bank account
+2026-09-28T22:00:00Z,paylog_000208,complete,refund,user,refund,3.77,1269.63,Refund for shp_00009096
+2026-09-29T22:00:00Z,paylog_000209,complete,refund,user,refund,10.35,869.84,Refund for shp_00009273
+2026-09-29T22:00:00Z,paylog_000210,complete,refund,user,refund,4.79,874.63,Refund for shp_00009124
+2026-09-29T22:00:00Z,paylog_000211,complete,refund,user,refund,11.85,886.48,Refund for shp_00009230
+2026-09-29T22:00:00Z,paylog_000212,complete,refund,user,refund,3.87,890.35,Refund for shp_00009248
+2026-09-30T22:00:00Z,paylog_000213,complete,refund,user,refund,9.38,369.84,Refund for shp_00009293
+2026-09-30T22:00:00Z,paylog_000214,complete,refund,user,refund,6.55,376.39,Refund for shp_00009370

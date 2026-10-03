@@ -1,0 +1,31 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+9212,27-14184-98026,ebuyer_008227,,310000014184,Antique Sandals,SH-014184,1,$61.99,$0.00,$4.34,$66.33,Yes,eBay Managed Payments,Aug-08-26 00:34:33,Aug-08-26 00:34:33,Paid,
+9218,23-14190-94062,ebuyer_007576,,310000014190,Retro Flannel Shirt,CL-014190,1,$11.99,$6.38,$1.29,$19.66,Yes,eBay Managed Payments,Aug-08-26 01:03:15,Aug-08-26 01:03:15,Paid,
+9205,15-14177-54840,ebuyer_007754,,310000014177,Retro Coin Lot,CO-014177,1,$19.99,$11.50,$2.21,$33.70,Yes,eBay Managed Payments,Aug-08-26 01:21:43,Aug-08-26 01:21:43,Paid,
+9209,26-14181-68369,ebuyer_006002,,310000014181,Antique Cashmere Sweater,CL-014181,1,$54.99,$4.90,$4.19,$64.08,Yes,eBay Managed Payments,Aug-08-26 01:33:29,Aug-08-26 01:33:29,Paid,
+9210,16-14182-02979,ebuyer_006082,,310000014182,Vintage Leather Satchel,HB-014182,1,$19.99,$0.00,$1.40,$21.39,Yes,eBay Managed Payments,Aug-08-26 01:53:12,Aug-08-26 01:53:12,Paid,
+9223,15-14195-24210,ebuyer_006000,,310000014195,Classic Camera Lens,EL-014195,1,$15.99,$7.26,$1.63,$24.88,Yes,eBay Managed Payments,Aug-08-26 02:44:38,Aug-08-26 02:44:38,Paid,
+9211,09-14183-32718,ebuyer_006627,,310000014183,Retro Wool Coat,CL-014183,1,$27.99,$5.80,$2.37,$36.16,Yes,eBay Managed Payments,Aug-08-26 02:52:29,Aug-08-26 02:52:29,Paid,
+9221,11-14193-82435,ebuyer_006176,,310000014193,Mid-Century Silk Blouse,CL-014193,1,$44.99,$6.62,$3.61,$55.22,Yes,eBay Managed Payments,Aug-08-26 03:44:17,Aug-08-26 03:44:17,Paid,
+9215,04-14187-43938,ebuyer_007523,,310000014187,Pre-owned Wool Coat,CL-014187,1,$46.99,$7.90,$3.84,$58.73,Yes,eBay Managed Payments,Aug-08-26 03:48:11,Aug-08-26 03:48:11,Paid,
+9214,15-14186-99073,ebuyer_006017,,310000014186,Lot of 2 Portable Radio,EL-014186,1,$35.99,$8.39,$3.11,$47.49,Yes,eBay Managed Payments,Aug-08-26 05:57:03,Aug-08-26 05:57:03,Paid,
+9200,25-14172-68570,ebuyer_008486,,310000014172,Classic Leather Boots,SH-014172,1,$33.99,$0.00,$2.38,$36.37,Yes,eBay Managed Payments,Aug-08-26 08:49:14,Aug-08-26 08:49:14,Paid,
+9217,14-14189-97446,ebuyer_007853,,310000014189,Lot of 2 Flannel Shirt,CL-014189,1,$15.99,$5.67,$1.52,$23.18,Yes,eBay Managed Payments,Aug-08-26 09:03:07,Aug-08-26 09:03:07,Paid,
+9222,06-14194-43950,ebuyer_007144,,310000014194,Lot of 2 Pyrex Bowl,KT-014194,2,$16.99,$0.00,$2.38,$36.36,Yes,eBay Managed Payments,Aug-08-26 09:15:12,Aug-08-26 09:15:12,Paid,
+9206,09-14178-51026,ebuyer_009113,,310000014178,Retro Leather Boots,SH-014178,1,$42.99,$0.00,$3.01,$46.00,Yes,eBay Managed Payments,Aug-08-26 10:50:34,Aug-08-26 10:50:34,Refunded,$42.99
+9208,07-14180-41480,ebuyer_007563,,310000014180,Retro Yoga Mat,SG-014180,1,$23.99,$0.00,$1.68,$25.67,Yes,eBay Managed Payments,Aug-08-26 12:40:30,Aug-08-26 12:40:30,Paid,
+9202,06-14174-18517,ebuyer_009035,,310000014174,Lot of 2 Figurine,CO-014174,1,$59.99,$7.54,$4.73,$72.26,Yes,eBay Managed Payments,Aug-08-26 14:05:53,Aug-08-26 14:05:53,Paid,
+9204,03-14176-78612,ebuyer_006820,,310000014176,Classic Sandals,SH-014176,1,$28.99,$0.00,$2.03,$31.02,Yes,eBay Managed Payments,Aug-08-26 14:39:55,Aug-08-26 14:39:55,Paid,
+9219,07-14191-07500,ebuyer_006381,,310000014191,Like New Tennis Racket,SG-014191,1,$19.99,$0.00,$1.40,$21.39,Yes,eBay Managed Payments,Aug-08-26 17:13:34,Aug-08-26 17:13:34,Paid,
+9213,12-14185-33441,ebuyer_006211,,310000014185,Classic Portable Radio,EL-014185,1,$39.99,$4.28,$3.10,$47.37,Yes,eBay Managed Payments,Aug-08-26 17:23:03,Aug-08-26 17:23:03,Paid,
+9216,04-14188-47271,ebuyer_006023,,310000014188,Pre-owned Cashmere Sweater,CL-014188,1,$87.99,$0.00,$6.16,$94.15,Yes,eBay Managed Payments,Aug-08-26 18:04:06,Aug-08-26 18:04:06,Paid,
+9201,20-14173-32599,ebuyer_006639,,310000014173,Like New Figurine,CO-014173,1,$52.99,$0.00,$3.71,$56.70,Yes,eBay Managed Payments,Aug-08-26 19:20:12,Aug-08-26 19:20:12,Paid,
+9207,06-14179-19339,ebuyer_006133,,310000014179,Used Sandals,SH-014179,1,$27.99,$8.42,$2.55,$38.96,Yes,eBay Managed Payments,Aug-08-26 20:33:50,Aug-08-26 20:33:50,Paid,
+9225,04-14197-97932,ebuyer_006317,,310000014197,Classic Wool Coat,CL-014197,1,$27.99,$8.29,$2.54,$38.82,Yes,eBay Managed Payments,Aug-08-26 20:38:28,Aug-08-26 20:38:28,Paid,
+9203,23-14175-64652,ebuyer_006617,,310000014175,Mid-Century Leather Satchel,HB-014175,1,$45.99,$0.00,$3.22,$49.21,Yes,eBay Managed Payments,Aug-08-26 21:23:10,Aug-08-26 21:23:10,Paid,
+9220,24-14192-45947,ebuyer_007403,,310000014192,Mid-Century Clutch,HB-014192,1,$46.99,$0.00,$3.29,$50.28,Yes,eBay Managed Payments,Aug-08-26 21:40:57,Aug-08-26 21:40:57,Paid,
+9224,14-14196-98412,ebuyer_009463,,310000014196,Lot of 2 Film Camera,EL-014196,1,$29.99,$7.79,$2.65,$40.43,Yes,eBay Managed Payments,Aug-08-26 22:29:01,Aug-08-26 22:29:01,Paid,
+
+"26 record(s) downloaded,from Aug-08-26 to Aug-08-26"
+Seller ID : goodwill_michiana_test

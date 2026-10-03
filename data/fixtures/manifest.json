@@ -1,0 +1,1857 @@
+[
+  {
+    "path": "cashmonkey/cashmonkey_2025-08.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2025-09-03T14:00:00.000Z",
+    "bytes": 1097
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2025-08.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2025-09-03T14:00:00.000Z",
+    "bytes": 216612
+  },
+  {
+    "path": "amazon/amazon_2025-08.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2025-09-03T14:02:00.000Z",
+    "bytes": 292006
+  },
+  {
+    "path": "ebay/ebay_2025-08.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2025-09-03T14:04:00.000Z",
+    "bytes": 114248
+  },
+  {
+    "path": "jewelry/jewelry_2025-08.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2025-09-03T14:05:00.000Z",
+    "bytes": 1703
+  },
+  {
+    "path": "goodwill_books/goodwill_books_2025-08.csv",
+    "sourceId": "goodwill_books",
+    "uploadedAt": "2025-09-03T14:10:00.000Z",
+    "bytes": 27679
+  },
+  {
+    "path": "fedex/fedex_2025-08.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2025-09-03T14:15:00.000Z",
+    "bytes": 50026
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-09-03T14:20:00.000Z",
+    "bytes": 210737
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-09-03T14:21:00.000Z",
+    "bytes": 4259
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2025-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-09-03T14:22:00.000Z",
+    "bytes": 58964
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2025-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-09-03T14:23:00.000Z",
+    "bytes": 49412
+  },
+  {
+    "path": "upright/upright_2025-08.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2025-09-03T14:30:00.000Z",
+    "bytes": 152996
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2025-09.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2025-10-03T14:00:00.000Z",
+    "bytes": 1304
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2025-09.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2025-10-03T14:00:00.000Z",
+    "bytes": 225176
+  },
+  {
+    "path": "amazon/amazon_2025-09.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2025-10-03T14:02:00.000Z",
+    "bytes": 289562
+  },
+  {
+    "path": "ebay/ebay_2025-09.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2025-10-03T14:04:00.000Z",
+    "bytes": 114049
+  },
+  {
+    "path": "jewelry/jewelry_2025-09.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2025-10-03T14:05:00.000Z",
+    "bytes": 1232
+  },
+  {
+    "path": "goodwill_books/goodwill_books_2025-09.csv",
+    "sourceId": "goodwill_books",
+    "uploadedAt": "2025-10-03T14:10:00.000Z",
+    "bytes": 31896
+  },
+  {
+    "path": "fedex/fedex_2025-09.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2025-10-03T14:15:00.000Z",
+    "bytes": 57774
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-10-03T14:20:00.000Z",
+    "bytes": 212858
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-10-03T14:21:00.000Z",
+    "bytes": 5053
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2025-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-10-03T14:22:00.000Z",
+    "bytes": 61918
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2025-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-10-03T14:23:00.000Z",
+    "bytes": 50386
+  },
+  {
+    "path": "upright/upright_2025-09.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2025-10-03T14:30:00.000Z",
+    "bytes": 170133
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2025-10.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2025-11-03T14:00:00.000Z",
+    "bytes": 1360
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2025-10.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2025-11-03T14:00:00.000Z",
+    "bytes": 234280
+  },
+  {
+    "path": "amazon/amazon_2025-10.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2025-11-03T14:02:00.000Z",
+    "bytes": 324020
+  },
+  {
+    "path": "ebay/ebay_2025-10.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2025-11-03T14:04:00.000Z",
+    "bytes": 135287
+  },
+  {
+    "path": "jewelry/jewelry_2025-10.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2025-11-03T14:05:00.000Z",
+    "bytes": 1249
+  },
+  {
+    "path": "goodwill_books/goodwill_books_2025-10.csv",
+    "sourceId": "goodwill_books",
+    "uploadedAt": "2025-11-03T14:10:00.000Z",
+    "bytes": 33752
+  },
+  {
+    "path": "fedex/fedex_2025-10.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2025-11-03T14:15:00.000Z",
+    "bytes": 59307
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-11-03T14:20:00.000Z",
+    "bytes": 227064
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-11-03T14:21:00.000Z",
+    "bytes": 4555
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2025-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-11-03T14:22:00.000Z",
+    "bytes": 70423
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2025-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-11-03T14:23:00.000Z",
+    "bytes": 58158
+  },
+  {
+    "path": "upright/upright_2025-10.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2025-11-03T14:30:00.000Z",
+    "bytes": 188185
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-01.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-02T10:30:00.000Z",
+    "bytes": 8276
+  },
+  {
+    "path": "amazon/amazon_2026-08-01.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-02T10:32:00.000Z",
+    "bytes": 13559
+  },
+  {
+    "path": "ebay/ebay_2026-08-01.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-02T10:34:00.000Z",
+    "bytes": 4848
+  },
+  {
+    "path": "upright/upright_2026-08-01.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-02T11:00:00.000Z",
+    "bytes": 5445
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-02.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-03T10:30:00.000Z",
+    "bytes": 8213
+  },
+  {
+    "path": "amazon/amazon_2026-08-02.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-03T10:32:00.000Z",
+    "bytes": 12263
+  },
+  {
+    "path": "ebay/ebay_2026-08-02.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-03T10:34:00.000Z",
+    "bytes": 4993
+  },
+  {
+    "path": "upright/upright_2026-08-02.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-03T11:00:00.000Z",
+    "bytes": 5541
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-03.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-04T10:30:00.000Z",
+    "bytes": 8903
+  },
+  {
+    "path": "amazon/amazon_2026-08-03.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-04T10:32:00.000Z",
+    "bytes": 8672
+  },
+  {
+    "path": "ebay/ebay_2026-08-03.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-04T10:34:00.000Z",
+    "bytes": 4256
+  },
+  {
+    "path": "upright/upright_2026-08-03.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-04T11:00:00.000Z",
+    "bytes": 6353
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-04.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-05T10:30:00.000Z",
+    "bytes": 8252
+  },
+  {
+    "path": "amazon/amazon_2026-08-04.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-05T10:32:00.000Z",
+    "bytes": 9575
+  },
+  {
+    "path": "ebay/ebay_2026-08-04.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-05T10:34:00.000Z",
+    "bytes": 4075
+  },
+  {
+    "path": "upright/upright_2026-08-04.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-05T11:00:00.000Z",
+    "bytes": 5274
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-05.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-06T10:30:00.000Z",
+    "bytes": 6920
+  },
+  {
+    "path": "amazon/amazon_2026-08-05.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-06T10:32:00.000Z",
+    "bytes": 11437
+  },
+  {
+    "path": "ebay/ebay_2026-08-05.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-06T10:34:00.000Z",
+    "bytes": 3213
+  },
+  {
+    "path": "upright/upright_2026-08-05.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-06T11:00:00.000Z",
+    "bytes": 5413
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-06.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-07T10:30:00.000Z",
+    "bytes": 6827
+  },
+  {
+    "path": "amazon/amazon_2026-08-06.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-07T10:32:00.000Z",
+    "bytes": 12049
+  },
+  {
+    "path": "ebay/ebay_2026-08-06.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-07T10:34:00.000Z",
+    "bytes": 4668
+  },
+  {
+    "path": "upright/upright_2026-08-06.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-07T11:00:00.000Z",
+    "bytes": 3861
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-07.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-08T10:30:00.000Z",
+    "bytes": 7411
+  },
+  {
+    "path": "amazon/amazon_2026-08-07.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-08T10:32:00.000Z",
+    "bytes": 11034
+  },
+  {
+    "path": "ebay/ebay_2026-08-07.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-08T10:34:00.000Z",
+    "bytes": 3753
+  },
+  {
+    "path": "upright/upright_2026-08-07.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-08T11:00:00.000Z",
+    "bytes": 4984
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-08.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-09T10:30:00.000Z",
+    "bytes": 9761
+  },
+  {
+    "path": "amazon/amazon_2026-08-08.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-09T10:32:00.000Z",
+    "bytes": 11260
+  },
+  {
+    "path": "ebay/ebay_2026-08-08.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-09T10:34:00.000Z",
+    "bytes": 4980
+  },
+  {
+    "path": "upright/upright_2026-08-08.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-09T11:00:00.000Z",
+    "bytes": 7065
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-09.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-10T10:30:00.000Z",
+    "bytes": 8934
+  },
+  {
+    "path": "amazon/amazon_2026-08-09.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-10T10:32:00.000Z",
+    "bytes": 12012
+  },
+  {
+    "path": "ebay/ebay_2026-08-09.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-10T10:34:00.000Z",
+    "bytes": 5004
+  },
+  {
+    "path": "upright/upright_2026-08-09.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-10T11:00:00.000Z",
+    "bytes": 9579
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-10.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-11T10:30:00.000Z",
+    "bytes": 10312
+  },
+  {
+    "path": "amazon/amazon_2026-08-10.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-11T10:32:00.000Z",
+    "bytes": 12740
+  },
+  {
+    "path": "ebay/ebay_2026-08-10.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-11T10:34:00.000Z",
+    "bytes": 4625
+  },
+  {
+    "path": "upright/upright_2026-08-10.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-11T11:00:00.000Z",
+    "bytes": 6819
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-11.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-12T10:30:00.000Z",
+    "bytes": 8054
+  },
+  {
+    "path": "amazon/amazon_2026-08-11.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-12T10:32:00.000Z",
+    "bytes": 10687
+  },
+  {
+    "path": "ebay/ebay_2026-08-11.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-12T10:34:00.000Z",
+    "bytes": 5507
+  },
+  {
+    "path": "upright/upright_2026-08-11.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-12T11:00:00.000Z",
+    "bytes": 5410
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-12.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-13T10:30:00.000Z",
+    "bytes": 9629
+  },
+  {
+    "path": "amazon/amazon_2026-08-12.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-13T10:32:00.000Z",
+    "bytes": 11534
+  },
+  {
+    "path": "ebay/ebay_2026-08-12.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-13T10:34:00.000Z",
+    "bytes": 4984
+  },
+  {
+    "path": "upright/upright_2026-08-12.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-13T11:00:00.000Z",
+    "bytes": 6073
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-13.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-14T10:30:00.000Z",
+    "bytes": 8838
+  },
+  {
+    "path": "amazon/amazon_2026-08-13.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-14T10:32:00.000Z",
+    "bytes": 11726
+  },
+  {
+    "path": "ebay/ebay_2026-08-13.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-14T10:34:00.000Z",
+    "bytes": 4138
+  },
+  {
+    "path": "upright/upright_2026-08-13.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-14T11:00:00.000Z",
+    "bytes": 4340
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-14.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-15T10:30:00.000Z",
+    "bytes": 8989
+  },
+  {
+    "path": "amazon/amazon_2026-08-14.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-15T10:32:00.000Z",
+    "bytes": 11495
+  },
+  {
+    "path": "ebay/ebay_2026-08-14.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-15T10:34:00.000Z",
+    "bytes": 5182
+  },
+  {
+    "path": "upright/upright_2026-08-14.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-15T11:00:00.000Z",
+    "bytes": 4735
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-15.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-16T10:30:00.000Z",
+    "bytes": 8572
+  },
+  {
+    "path": "amazon/amazon_2026-08-15.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-16T10:32:00.000Z",
+    "bytes": 13466
+  },
+  {
+    "path": "ebay/ebay_2026-08-15.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-16T10:34:00.000Z",
+    "bytes": 4091
+  },
+  {
+    "path": "upright/upright_2026-08-15.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-16T11:00:00.000Z",
+    "bytes": 6874
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-16.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-17T10:30:00.000Z",
+    "bytes": 11251
+  },
+  {
+    "path": "amazon/amazon_2026-08-16.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-17T10:32:00.000Z",
+    "bytes": 10621
+  },
+  {
+    "path": "ebay/ebay_2026-08-16.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-17T10:34:00.000Z",
+    "bytes": 4498
+  },
+  {
+    "path": "upright/upright_2026-08-16.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-17T11:00:00.000Z",
+    "bytes": 8375
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-17.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-18T10:30:00.000Z",
+    "bytes": 7632
+  },
+  {
+    "path": "amazon/amazon_2026-08-17.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-18T10:32:00.000Z",
+    "bytes": 12714
+  },
+  {
+    "path": "ebay/ebay_2026-08-17.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-18T10:34:00.000Z",
+    "bytes": 3593
+  },
+  {
+    "path": "upright/upright_2026-08-17.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-18T11:00:00.000Z",
+    "bytes": 7004
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-18.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-19T10:30:00.000Z",
+    "bytes": 8276
+  },
+  {
+    "path": "amazon/amazon_2026-08-18.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-19T10:32:00.000Z",
+    "bytes": 11477
+  },
+  {
+    "path": "ebay/ebay_2026-08-18.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-19T10:34:00.000Z",
+    "bytes": 4478
+  },
+  {
+    "path": "upright/upright_2026-08-18.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-19T11:00:00.000Z",
+    "bytes": 7046
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-19.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-20T10:30:00.000Z",
+    "bytes": 9081
+  },
+  {
+    "path": "amazon/amazon_2026-08-19.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-20T10:32:00.000Z",
+    "bytes": 12365
+  },
+  {
+    "path": "ebay/ebay_2026-08-19.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-20T10:34:00.000Z",
+    "bytes": 5534
+  },
+  {
+    "path": "upright/upright_2026-08-19.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-20T11:00:00.000Z",
+    "bytes": 5899
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-20.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-21T10:30:00.000Z",
+    "bytes": 7997
+  },
+  {
+    "path": "amazon/amazon_2026-08-20.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-21T10:32:00.000Z",
+    "bytes": 10363
+  },
+  {
+    "path": "ebay/ebay_2026-08-20.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-21T10:34:00.000Z",
+    "bytes": 4461
+  },
+  {
+    "path": "upright/upright_2026-08-20.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-21T11:00:00.000Z",
+    "bytes": 3910
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-21.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-22T10:30:00.000Z",
+    "bytes": 8180
+  },
+  {
+    "path": "amazon/amazon_2026-08-21.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-22T10:32:00.000Z",
+    "bytes": 8490
+  },
+  {
+    "path": "ebay/ebay_2026-08-21.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-22T10:34:00.000Z",
+    "bytes": 3750
+  },
+  {
+    "path": "upright/upright_2026-08-21.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-22T11:00:00.000Z",
+    "bytes": 5199
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-22.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-23T10:30:00.000Z",
+    "bytes": 8807
+  },
+  {
+    "path": "amazon/amazon_2026-08-22.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-23T10:32:00.000Z",
+    "bytes": 13663
+  },
+  {
+    "path": "ebay/ebay_2026-08-22.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-23T10:34:00.000Z",
+    "bytes": 4832
+  },
+  {
+    "path": "upright/upright_2026-08-22.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-23T11:00:00.000Z",
+    "bytes": 7852
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-23.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-24T10:30:00.000Z",
+    "bytes": 8502
+  },
+  {
+    "path": "amazon/amazon_2026-08-23.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-24T10:32:00.000Z",
+    "bytes": 12767
+  },
+  {
+    "path": "ebay/ebay_2026-08-23.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-24T10:34:00.000Z",
+    "bytes": 5707
+  },
+  {
+    "path": "upright/upright_2026-08-23.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-24T11:00:00.000Z",
+    "bytes": 6024
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-24.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-25T10:30:00.000Z",
+    "bytes": 7624
+  },
+  {
+    "path": "amazon/amazon_2026-08-24.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-25T10:32:00.000Z",
+    "bytes": 11208
+  },
+  {
+    "path": "ebay/ebay_2026-08-24.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-25T10:34:00.000Z",
+    "bytes": 4801
+  },
+  {
+    "path": "upright/upright_2026-08-24.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-25T11:00:00.000Z",
+    "bytes": 6476
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-25.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-26T10:30:00.000Z",
+    "bytes": 6501
+  },
+  {
+    "path": "amazon/amazon_2026-08-25.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-26T10:32:00.000Z",
+    "bytes": 9836
+  },
+  {
+    "path": "ebay/ebay_2026-08-25.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-26T10:34:00.000Z",
+    "bytes": 3397
+  },
+  {
+    "path": "upright/upright_2026-08-25.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-26T11:00:00.000Z",
+    "bytes": 6418
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-26.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-27T10:30:00.000Z",
+    "bytes": 8765
+  },
+  {
+    "path": "amazon/amazon_2026-08-26.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-27T10:32:00.000Z",
+    "bytes": 10485
+  },
+  {
+    "path": "ebay/ebay_2026-08-26.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-27T10:34:00.000Z",
+    "bytes": 4104
+  },
+  {
+    "path": "upright/upright_2026-08-26.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-27T11:00:00.000Z",
+    "bytes": 6250
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-27.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-28T10:30:00.000Z",
+    "bytes": 6952
+  },
+  {
+    "path": "amazon/amazon_2026-08-27.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-28T10:32:00.000Z",
+    "bytes": 13243
+  },
+  {
+    "path": "ebay/ebay_2026-08-27.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-28T10:34:00.000Z",
+    "bytes": 4279
+  },
+  {
+    "path": "upright/upright_2026-08-27.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-28T11:00:00.000Z",
+    "bytes": 6704
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-28.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-29T10:30:00.000Z",
+    "bytes": 7142
+  },
+  {
+    "path": "amazon/amazon_2026-08-28.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-29T10:32:00.000Z",
+    "bytes": 8950
+  },
+  {
+    "path": "ebay/ebay_2026-08-28.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-29T10:34:00.000Z",
+    "bytes": 5312
+  },
+  {
+    "path": "upright/upright_2026-08-28.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-29T11:00:00.000Z",
+    "bytes": 4983
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-29.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-30T10:30:00.000Z",
+    "bytes": 9049
+  },
+  {
+    "path": "amazon/amazon_2026-08-29.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-30T10:32:00.000Z",
+    "bytes": 12996
+  },
+  {
+    "path": "ebay/ebay_2026-08-29.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-30T10:34:00.000Z",
+    "bytes": 6788
+  },
+  {
+    "path": "upright/upright_2026-08-29.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-30T11:00:00.000Z",
+    "bytes": 6078
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-30.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-08-31T10:30:00.000Z",
+    "bytes": 8922
+  },
+  {
+    "path": "amazon/amazon_2026-08-30.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-08-31T10:32:00.000Z",
+    "bytes": 13411
+  },
+  {
+    "path": "ebay/ebay_2026-08-30.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-08-31T10:34:00.000Z",
+    "bytes": 6559
+  },
+  {
+    "path": "upright/upright_2026-08-30.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-08-31T11:00:00.000Z",
+    "bytes": 8732
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-08-31.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-01T10:30:00.000Z",
+    "bytes": 5213
+  },
+  {
+    "path": "amazon/amazon_2026-08-31.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-01T10:32:00.000Z",
+    "bytes": 10407
+  },
+  {
+    "path": "ebay/ebay_2026-08-31.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-01T10:34:00.000Z",
+    "bytes": 5194
+  },
+  {
+    "path": "upright/upright_2026-08-31.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-01T11:00:00.000Z",
+    "bytes": 5790
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-01.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-02T10:30:00.000Z",
+    "bytes": 8636
+  },
+  {
+    "path": "amazon/amazon_2026-09-01.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-02T10:32:00.000Z",
+    "bytes": 11682
+  },
+  {
+    "path": "ebay/ebay_2026-09-01.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-02T10:34:00.000Z",
+    "bytes": 4447
+  },
+  {
+    "path": "upright/upright_2026-09-01.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-02T11:00:00.000Z",
+    "bytes": 6723
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-02.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-03T10:30:00.000Z",
+    "bytes": 6510
+  },
+  {
+    "path": "amazon/amazon_2026-09-02.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-03T10:32:00.000Z",
+    "bytes": 10640
+  },
+  {
+    "path": "ebay/ebay_2026-09-02.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-03T10:34:00.000Z",
+    "bytes": 5186
+  },
+  {
+    "path": "upright/upright_2026-09-02.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-03T11:00:00.000Z",
+    "bytes": 8890
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-03T14:00:00.000Z",
+    "bytes": 1323
+  },
+  {
+    "path": "jewelry/jewelry_2026-08.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-03T14:05:00.000Z",
+    "bytes": 1233
+  },
+  {
+    "path": "goodwill_books/goodwill_books_2026-08.csv",
+    "sourceId": "goodwill_books",
+    "uploadedAt": "2026-09-03T14:10:00.000Z",
+    "bytes": 33131
+  },
+  {
+    "path": "fedex/fedex_2026-08.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-03T14:15:00.000Z",
+    "bytes": 60741
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T14:20:00.000Z",
+    "bytes": 240382
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T14:21:00.000Z",
+    "bytes": 5193
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T14:22:00.000Z",
+    "bytes": 66133
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T14:23:00.000Z",
+    "bytes": 57821
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-03.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-04T10:30:00.000Z",
+    "bytes": 9078
+  },
+  {
+    "path": "amazon/amazon_2026-09-03.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-04T10:32:00.000Z",
+    "bytes": 10822
+  },
+  {
+    "path": "ebay/ebay_2026-09-03.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-04T10:34:00.000Z",
+    "bytes": 4295
+  },
+  {
+    "path": "upright/upright_2026-09-03.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-04T11:00:00.000Z",
+    "bytes": 6452
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-04.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-05T10:30:00.000Z",
+    "bytes": 8093
+  },
+  {
+    "path": "amazon/amazon_2026-09-04.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-05T10:32:00.000Z",
+    "bytes": 11410
+  },
+  {
+    "path": "ebay/ebay_2026-09-04.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-05T10:34:00.000Z",
+    "bytes": 4301
+  },
+  {
+    "path": "upright/upright_2026-09-04.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-05T11:00:00.000Z",
+    "bytes": 5091
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-05.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-06T10:30:00.000Z",
+    "bytes": 9351
+  },
+  {
+    "path": "amazon/amazon_2026-09-05.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-06T10:32:00.000Z",
+    "bytes": 12671
+  },
+  {
+    "path": "ebay/ebay_2026-09-05.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-06T10:34:00.000Z",
+    "bytes": 5865
+  },
+  {
+    "path": "upright/upright_2026-09-05.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-06T11:00:00.000Z",
+    "bytes": 5658
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-06.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-07T10:30:00.000Z",
+    "bytes": 8687
+  },
+  {
+    "path": "amazon/amazon_2026-09-06.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-07T10:32:00.000Z",
+    "bytes": 16102
+  },
+  {
+    "path": "ebay/ebay_2026-09-06.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-07T10:34:00.000Z",
+    "bytes": 6783
+  },
+  {
+    "path": "upright/upright_2026-09-06.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-07T11:00:00.000Z",
+    "bytes": 6889
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-07.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-08T10:30:00.000Z",
+    "bytes": 8122
+  },
+  {
+    "path": "amazon/amazon_2026-09-07.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-08T10:32:00.000Z",
+    "bytes": 11369
+  },
+  {
+    "path": "ebay/ebay_2026-09-07.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-08T10:34:00.000Z",
+    "bytes": 4809
+  },
+  {
+    "path": "upright/upright_2026-09-07.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-08T11:00:00.000Z",
+    "bytes": 6394
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-08.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-09T10:30:00.000Z",
+    "bytes": 8682
+  },
+  {
+    "path": "amazon/amazon_2026-09-08.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-09T10:32:00.000Z",
+    "bytes": 8928
+  },
+  {
+    "path": "ebay/ebay_2026-09-08.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-09T10:34:00.000Z",
+    "bytes": 3601
+  },
+  {
+    "path": "upright/upright_2026-09-08.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-09T11:00:00.000Z",
+    "bytes": 7259
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-09.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-10T10:30:00.000Z",
+    "bytes": 6172
+  },
+  {
+    "path": "amazon/amazon_2026-09-09.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-10T10:32:00.000Z",
+    "bytes": 12468
+  },
+  {
+    "path": "ebay/ebay_2026-09-09.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-10T10:34:00.000Z",
+    "bytes": 4636
+  },
+  {
+    "path": "upright/upright_2026-09-09.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-10T11:00:00.000Z",
+    "bytes": 4576
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-10.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-11T10:30:00.000Z",
+    "bytes": 9365
+  },
+  {
+    "path": "amazon/amazon_2026-09-10.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-11T10:32:00.000Z",
+    "bytes": 11499
+  },
+  {
+    "path": "ebay/ebay_2026-09-10.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-11T10:34:00.000Z",
+    "bytes": 3412
+  },
+  {
+    "path": "upright/upright_2026-09-10.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-11T11:00:00.000Z",
+    "bytes": 6304
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-11.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-12T10:30:00.000Z",
+    "bytes": 7460
+  },
+  {
+    "path": "amazon/amazon_2026-09-11.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-12T10:32:00.000Z",
+    "bytes": 10481
+  },
+  {
+    "path": "ebay/ebay_2026-09-11.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-12T10:34:00.000Z",
+    "bytes": 4151
+  },
+  {
+    "path": "upright/upright_2026-09-11.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-12T11:00:00.000Z",
+    "bytes": 6233
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-12.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-13T10:30:00.000Z",
+    "bytes": 8665
+  },
+  {
+    "path": "amazon/amazon_2026-09-12.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-13T10:32:00.000Z",
+    "bytes": 13812
+  },
+  {
+    "path": "ebay/ebay_2026-09-12.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-13T10:34:00.000Z",
+    "bytes": 4493
+  },
+  {
+    "path": "upright/upright_2026-09-12.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-13T11:00:00.000Z",
+    "bytes": 4141
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-13.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-14T10:30:00.000Z",
+    "bytes": 10888
+  },
+  {
+    "path": "amazon/amazon_2026-09-13.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-14T10:32:00.000Z",
+    "bytes": 11976
+  },
+  {
+    "path": "ebay/ebay_2026-09-13.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-14T10:34:00.000Z",
+    "bytes": 6810
+  },
+  {
+    "path": "upright/upright_2026-09-13.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-14T11:00:00.000Z",
+    "bytes": 7232
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-14.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-15T10:30:00.000Z",
+    "bytes": 6119
+  },
+  {
+    "path": "amazon/amazon_2026-09-14.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-15T10:32:00.000Z",
+    "bytes": 11625
+  },
+  {
+    "path": "ebay/ebay_2026-09-14.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-15T10:34:00.000Z",
+    "bytes": 6215
+  },
+  {
+    "path": "upright/upright_2026-09-14.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-15T11:00:00.000Z",
+    "bytes": 8729
+  },
+  {
+    "path": "ebay/ebay_2026-09-14_reupload.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-15T13:04:00.000Z",
+    "bytes": 6215,
+    "note": "exact duplicate upload of ebay_2026-09-14.csv"
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-15.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-16T10:30:00.000Z",
+    "bytes": 10858
+  },
+  {
+    "path": "amazon/amazon_2026-09-15.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-16T10:32:00.000Z",
+    "bytes": 12687
+  },
+  {
+    "path": "ebay/ebay_2026-09-15.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-16T10:34:00.000Z",
+    "bytes": 2887,
+    "note": "renamed columns (Order ID, Buyer User ID, Item Price, Order Date)"
+  },
+  {
+    "path": "upright/upright_2026-09-15.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-16T11:00:00.000Z",
+    "bytes": 7707
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-16.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-17T10:30:00.000Z",
+    "bytes": 8177
+  },
+  {
+    "path": "amazon/amazon_2026-09-16.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-17T10:32:00.000Z",
+    "bytes": 12999
+  },
+  {
+    "path": "ebay/ebay_2026-09-16.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-17T10:34:00.000Z",
+    "bytes": 4475
+  },
+  {
+    "path": "upright/upright_2026-09-16.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-17T11:00:00.000Z",
+    "bytes": 5235
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-17.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-18T10:30:00.000Z",
+    "bytes": 7891
+  },
+  {
+    "path": "amazon/amazon_2026-09-17.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-18T10:32:00.000Z",
+    "bytes": 10470
+  },
+  {
+    "path": "ebay/ebay_2026-09-17.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-18T10:34:00.000Z",
+    "bytes": 4098
+  },
+  {
+    "path": "upright/upright_2026-09-17.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-18T11:00:00.000Z",
+    "bytes": 5103
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-18.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-19T10:30:00.000Z",
+    "bytes": 6777
+  },
+  {
+    "path": "amazon/amazon_2026-09-18.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-19T10:32:00.000Z",
+    "bytes": 9987
+  },
+  {
+    "path": "ebay/ebay_2026-09-18.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-19T10:34:00.000Z",
+    "bytes": 5027
+  },
+  {
+    "path": "upright/upright_2026-09-18.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-19T11:00:00.000Z",
+    "bytes": 5595
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-19.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-20T10:30:00.000Z",
+    "bytes": 10023
+  },
+  {
+    "path": "amazon/amazon_2026-09-19.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-20T10:32:00.000Z",
+    "bytes": 10402
+  },
+  {
+    "path": "ebay/ebay_2026-09-19.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-20T10:34:00.000Z",
+    "bytes": 5712
+  },
+  {
+    "path": "upright/upright_2026-09-19.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-20T11:00:00.000Z",
+    "bytes": 6552
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-20.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-21T10:30:00.000Z",
+    "bytes": 8985
+  },
+  {
+    "path": "amazon/amazon_2026-09-20.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-21T10:32:00.000Z",
+    "bytes": 10622
+  },
+  {
+    "path": "ebay/ebay_2026-09-20.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-21T10:34:00.000Z",
+    "bytes": 7467
+  },
+  {
+    "path": "upright/upright_2026-09-20.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-21T11:00:00.000Z",
+    "bytes": 6532,
+    "note": "4 order(s) also in that day's eBay/ShopGoodwill files (every Upright file overlaps a little)"
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-21.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-22T10:30:00.000Z",
+    "bytes": 8252
+  },
+  {
+    "path": "amazon/amazon_2026-09-21.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-22T10:32:00.000Z",
+    "bytes": 9951
+  },
+  {
+    "path": "ebay/ebay_2026-09-21.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-22T10:34:00.000Z",
+    "bytes": 2683
+  },
+  {
+    "path": "upright/upright_2026-09-21.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-22T11:00:00.000Z",
+    "bytes": 3581
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-22.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-23T10:30:00.000Z",
+    "bytes": 7490
+  },
+  {
+    "path": "amazon/amazon_2026-09-22.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-23T10:32:00.000Z",
+    "bytes": 11443
+  },
+  {
+    "path": "ebay/ebay_2026-09-22.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-23T10:34:00.000Z",
+    "bytes": 5548
+  },
+  {
+    "path": "upright/upright_2026-09-22.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-23T11:00:00.000Z",
+    "bytes": 6086
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-23.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-24T10:30:00.000Z",
+    "bytes": 7333
+  },
+  {
+    "path": "amazon/amazon_2026-09-23.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-24T10:32:00.000Z",
+    "bytes": 11461
+  },
+  {
+    "path": "ebay/ebay_2026-09-23.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-24T10:34:00.000Z",
+    "bytes": 4286
+  },
+  {
+    "path": "upright/upright_2026-09-23.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-24T11:00:00.000Z",
+    "bytes": 6926
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-24.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-25T10:30:00.000Z",
+    "bytes": 10887
+  },
+  {
+    "path": "amazon/amazon_2026-09-24.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-25T10:32:00.000Z",
+    "bytes": 9748,
+    "note": "unknown transaction type \"Liquidations\""
+  },
+  {
+    "path": "ebay/ebay_2026-09-24.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-25T10:34:00.000Z",
+    "bytes": 5387
+  },
+  {
+    "path": "upright/upright_2026-09-24.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-25T11:00:00.000Z",
+    "bytes": 5073
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-25.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-26T10:30:00.000Z",
+    "bytes": 10462
+  },
+  {
+    "path": "amazon/amazon_2026-09-25.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-26T10:32:00.000Z",
+    "bytes": 10891
+  },
+  {
+    "path": "ebay/ebay_2026-09-25.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-26T10:34:00.000Z",
+    "bytes": 3770
+  },
+  {
+    "path": "upright/upright_2026-09-25.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-26T11:00:00.000Z",
+    "bytes": 6851
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-26.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-27T10:30:00.000Z",
+    "bytes": 10967
+  },
+  {
+    "path": "amazon/amazon_2026-09-26.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-27T10:32:00.000Z",
+    "bytes": 14905
+  },
+  {
+    "path": "ebay/ebay_2026-09-26.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-27T10:34:00.000Z",
+    "bytes": 5542
+  },
+  {
+    "path": "upright/upright_2026-09-26.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-27T11:00:00.000Z",
+    "bytes": 6833
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-27.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-28T10:30:00.000Z",
+    "bytes": 11674
+  },
+  {
+    "path": "amazon/amazon_2026-09-27.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-28T10:32:00.000Z",
+    "bytes": 13567
+  },
+  {
+    "path": "ebay/ebay_2026-09-27.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-28T10:34:00.000Z",
+    "bytes": 5732
+  },
+  {
+    "path": "upright/upright_2026-09-27.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-28T11:00:00.000Z",
+    "bytes": 6490
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-28.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-29T10:30:00.000Z",
+    "bytes": 6803
+  },
+  {
+    "path": "amazon/amazon_2026-09-28.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-29T10:32:00.000Z",
+    "bytes": 12088
+  },
+  {
+    "path": "ebay/ebay_2026-09-28.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-29T10:34:00.000Z",
+    "bytes": 4514
+  },
+  {
+    "path": "upright/upright_2026-09-28.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-29T11:00:00.000Z",
+    "bytes": 6261
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-29.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-09-30T10:30:00.000Z",
+    "bytes": 8158
+  },
+  {
+    "path": "amazon/amazon_2026-09-29.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-09-30T10:32:00.000Z",
+    "bytes": 12973
+  },
+  {
+    "path": "ebay/ebay_2026-09-29.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-09-30T10:34:00.000Z",
+    "bytes": 5530
+  },
+  {
+    "path": "upright/upright_2026-09-29.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-09-30T11:00:00.000Z",
+    "bytes": 5790
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-09-30.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-10-01T10:30:00.000Z",
+    "bytes": 8519,
+    "note": "auction ending 11:45 PM Eastern"
+  },
+  {
+    "path": "amazon/amazon_2026-09-30.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-10-01T10:32:00.000Z",
+    "bytes": 9798
+  },
+  {
+    "path": "ebay/ebay_2026-09-30.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-10-01T10:34:00.000Z",
+    "bytes": 3419
+  },
+  {
+    "path": "upright/upright_2026-09-30.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-10-01T11:00:00.000Z",
+    "bytes": 7479
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-10-01.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-10-02T10:30:00.000Z",
+    "bytes": 10478
+  },
+  {
+    "path": "amazon/amazon_2026-10-01.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-10-02T10:32:00.000Z",
+    "bytes": 12990,
+    "note": "refund row for an order in an earlier file"
+  },
+  {
+    "path": "ebay/ebay_2026-10-01.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-10-02T10:34:00.000Z",
+    "bytes": 4339
+  },
+  {
+    "path": "upright/upright_2026-10-01.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-10-02T11:00:00.000Z",
+    "bytes": 6509
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-10-02.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-10-03T10:30:00.000Z",
+    "bytes": 9874
+  },
+  {
+    "path": "ebay/ebay_2026-10-02.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-10-03T10:34:00.000Z",
+    "bytes": 4118
+  },
+  {
+    "path": "upright/upright_2026-10-02.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-10-03T11:00:00.000Z",
+    "bytes": 6208
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-10-03T14:00:00.000Z",
+    "bytes": 1215
+  },
+  {
+    "path": "jewelry/jewelry_2026-09.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-10-03T14:05:00.000Z",
+    "bytes": 1700,
+    "note": "one row without Supplier; one return"
+  },
+  {
+    "path": "goodwill_books/goodwill_books_2026-09.csv",
+    "sourceId": "goodwill_books",
+    "uploadedAt": "2026-10-03T14:10:00.000Z",
+    "bytes": 34097
+  },
+  {
+    "path": "fedex/fedex_2026-09.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-10-03T14:15:00.000Z",
+    "bytes": 58539
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T14:20:00.000Z",
+    "bytes": 240358
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T14:21:00.000Z",
+    "bytes": 4183
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T14:22:00.000Z",
+    "bytes": 70835
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T14:23:00.000Z",
+    "bytes": 57116
+  },
+  {
+    "path": "shopgoodwill/shopgoodwill_2026-10-03.csv",
+    "sourceId": "shopgoodwill",
+    "uploadedAt": "2026-10-03T15:20:00.000Z",
+    "bytes": 3960
+  },
+  {
+    "path": "amazon/amazon_2026-10-03.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-10-03T15:22:00.000Z",
+    "bytes": 5341
+  },
+  {
+    "path": "ebay/ebay_2026-10-03.csv",
+    "sourceId": "ebay",
+    "uploadedAt": "2026-10-03T15:24:00.000Z",
+    "bytes": 3449
+  },
+  {
+    "path": "upright/upright_2026-10-03.csv",
+    "sourceId": "upright",
+    "uploadedAt": "2026-10-03T15:50:00.000Z",
+    "bytes": 3362
+  }
+]

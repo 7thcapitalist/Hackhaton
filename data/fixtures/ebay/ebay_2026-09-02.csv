@@ -1,0 +1,32 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+9850,27-18070-58923,ebuyer_007056,,310000018070,Handmade Headphones,EL-018070,1,$19.99,$7.62,$1.93,$29.54,Yes,eBay Managed Payments,Sep-02-26 01:34:32,Sep-02-26 01:34:32,Refunded,$27.61
+9845,23-18065-39707,ebuyer_008296,,310000018065,Mid-Century Cashmere Sweater,CL-018065,1,$11.99,$12.25,$1.70,$25.94,Yes,eBay Managed Payments,Sep-02-26 04:44:20,Sep-02-26 04:44:20,Paid,
+9824,14-18044-41179,ebuyer_008292,,310000018044,Classic Cast Iron Skillet,KT-018044,1,$21.99,$0.00,$1.54,$23.53,Yes,eBay Managed Payments,Sep-02-26 05:17:43,Sep-02-26 05:17:43,Paid,
+9826,02-18046-59459,ebuyer_006146,,310000018046,Like New Yoga Mat,SG-018046,1,$15.99,$9.18,$1.76,$26.93,Yes,eBay Managed Payments,Sep-02-26 05:37:25,Sep-02-26 05:37:25,Paid,
+9832,03-18052-27128,ebuyer_009097,,310000018052,Antique Sandals,SH-018052,1,$63.99,$0.00,$4.48,$68.47,Yes,eBay Managed Payments,Sep-02-26 06:31:57,Sep-02-26 06:31:57,Paid,
+9844,18-18064-50194,ebuyer_006209,,310000018064,Used Loafers,SH-018064,1,$26.99,$0.00,$1.89,$28.88,Yes,eBay Managed Payments,Sep-02-26 06:48:38,Sep-02-26 06:48:38,Paid,
+9829,01-18049-50949,ebuyer_007926,,310000018049,Classic Figurine,CO-018049,1,$33.99,$0.00,$2.38,$36.37,Yes,eBay Managed Payments,Sep-02-26 08:00:30,Sep-02-26 08:00:30,Paid,
+9841,25-18061-20101,ebuyer_006127,,310000018061,Like New Cashmere Sweater,CL-018061,1,$6.99,$0.00,$0.49,$7.48,Yes,eBay Managed Payments,Sep-02-26 08:35:13,Sep-02-26 08:35:13,Paid,
+9848,08-18068-25881,ebuyer_006497,,310000018068,Antique Camera Lens,EL-018068,1,$55.99,$10.10,$4.63,$70.72,Yes,eBay Managed Payments,Sep-02-26 10:57:49,Sep-02-26 10:57:49,Paid,
+9847,24-18067-78464,ebuyer_006996,,310000018067,Classic Hiking Boots,SH-018067,1,$60.99,$12.43,$5.14,$78.56,Yes,eBay Managed Payments,Sep-02-26 11:48:19,Sep-02-26 11:48:19,Paid,
+9836,27-18056-82146,ebuyer_007614,,310000018056,Antique Crossbody Bag,HB-018056,1,$83.99,$7.19,$6.38,$97.56,Yes,eBay Managed Payments,Sep-02-26 12:02:38,Sep-02-26 12:02:38,Paid,
+9827,05-18047-73270,ebuyer_007641,,310000018047,Used Denim Jacket,CL-018047,1,$26.99,$0.00,$1.89,$28.88,Yes,eBay Managed Payments,Sep-02-26 12:25:31,Sep-02-26 12:25:31,Paid,
+9837,24-18057-65221,ebuyer_006811,,310000018057,Handmade Turntable,EL-018057,1,$132.99,$0.00,$9.31,$142.30,Yes,eBay Managed Payments,Sep-02-26 12:45:31,Sep-02-26 12:45:31,Paid,
+9833,16-18053-42361,ebuyer_008633,,310000018053,Retro Glass Pitcher,KT-018053,1,$25.99,$12.07,$2.66,$40.72,Yes,eBay Managed Payments,Sep-02-26 13:58:17,Sep-02-26 13:58:17,Paid,
+9831,08-18051-73700,ebuyer_007131,,310000018051,Retro Cashmere Sweater,CL-018051,1,$20.99,$9.77,$2.15,$32.91,Yes,eBay Managed Payments,Sep-02-26 16:37:29,Sep-02-26 16:37:29,Refunded,$30.76
+9846,11-18066-99295,ebuyer_006457,,310000018066,Lot of 2 Golf Balls,SG-018066,1,$110.99,$8.32,$8.35,$127.66,Yes,eBay Managed Payments,Sep-02-26 16:40:47,Sep-02-26 16:40:47,Paid,
+9825,10-18045-28421,ebuyer_006053,,310000018045,Classic Silk Blouse,CL-018045,1,$49.99,$7.62,$4.03,$61.64,Yes,eBay Managed Payments,Sep-02-26 19:17:30,Sep-02-26 19:17:30,Paid,
+9840,12-18060-31731,ebuyer_009197,,310000018060,Classic Trading Card Lot,CO-018060,1,$46.99,$5.50,$3.68,$56.17,Yes,eBay Managed Payments,Sep-02-26 19:48:49,Sep-02-26 19:48:49,Paid,
+9849,19-18069-77287,ebuyer_006046,,310000018069,Mid-Century Tennis Racket,SG-018069,1,$10.99,$9.49,$1.43,$21.91,Yes,eBay Managed Payments,Sep-02-26 19:49:20,Sep-02-26 19:49:20,Paid,
+9843,17-18063-12634,ebuyer_006902,,310000018063,Lot of 2 Wool Coat,CL-018063,1,$74.99,$8.52,$5.85,$89.36,Yes,eBay Managed Payments,Sep-02-26 20:37:44,Sep-02-26 20:37:44,Paid,
+9838,13-18058-14576,ebuyer_009350,,310000018058,Like New Leather Boots,SH-018058,1,$80.99,$6.37,$6.12,$93.48,Yes,eBay Managed Payments,Sep-02-26 21:11:15,Sep-02-26 21:11:15,Paid,
+9835,11-18055-42732,ebuyer_009290,,310000018055,Used Crossbody Bag,HB-018055,1,$45.99,$5.48,$3.60,$55.07,Yes,eBay Managed Payments,Sep-02-26 22:08:18,Sep-02-26 22:08:18,Paid,
+9842,18-18062-25682,ebuyer_008757,,310000018062,Vintage Running Shoes,SH-018062,1,$45.99,$0.00,$3.22,$49.21,Yes,eBay Managed Payments,Sep-02-26 23:10:09,Sep-02-26 23:10:09,Paid,
+9828,22-18048-24692,ebuyer_006499,,310000018048,Mid-Century Glass Pitcher,KT-018048,1,$20.99,$0.00,$1.47,$22.46,Yes,eBay Managed Payments,Sep-02-26 23:19:38,Sep-02-26 23:19:38,Paid,
+9834,06-18054-31427,ebuyer_008936,,310000018054,Lot of 2 Pyrex Bowl,KT-018054,1,$15.99,$0.00,$1.12,$17.11,Yes,eBay Managed Payments,Sep-02-26 23:40:28,Sep-02-26 23:40:28,Paid,
+9830,12-18050-95525,ebuyer_008329,,310000018050,Used Crossbody Bag,HB-018050,1,$65.99,$10.01,$5.32,$81.32,Yes,eBay Managed Payments,Sep-02-26 23:46:23,Sep-02-26 23:46:23,Paid,
+9839,27-18059-30142,ebuyer_007113,,310000018059,Retro Coin Lot,CO-018059,1,$77.99,$0.00,$5.46,$83.45,Yes,eBay Managed Payments,Sep-02-26 23:57:57,Sep-02-26 23:57:57,Paid,
+
+"27 record(s) downloaded,from Sep-02-26 to Sep-02-26"
+Seller ID : goodwill_michiana_test

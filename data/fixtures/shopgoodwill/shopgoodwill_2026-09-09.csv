@@ -1,0 +1,51 @@
+ShopGoodwill Seller Portal
+Periodic Marketplace Report
+Seller,Goodwill Industries of Michiana (TEST DATA)
+Year,2026,Month,September
+Report,Period 1
+
+Order ID,Item ID,Title,Category,End Date,Winning Bid,Shipping,Handling,Buyer Premium,Seller Fee,Refund,Net,Buyer ID,Status
+SGW-7719106,210019106,Used Charm Bracelet,Jewelry,09/09/2026 12:47 AM,87.00,10.23,2.00,4.35,6.96,0.00,92.27,sgw_bidder_003047,Paid
+SGW-7719074,210019074,Lot of 2 Turntable,Electronics,09/09/2026 01:20 AM,22.00,11.71,2.00,1.10,1.76,0.00,33.95,sgw_bidder_002191,Paid
+SGW-7719090,210019090,Mid-Century Camera Lens,Electronics,09/09/2026 02:44 AM,104.00,9.39,2.00,5.20,8.32,0.00,107.07,sgw_bidder_003083,Paid
+SGW-7719096,210019096,Classic Picture Frame Set,Home Decor,09/09/2026 03:10 AM,78.00,13.02,2.00,3.90,6.24,0.00,86.78,sgw_bidder_000016,Shipped
+SGW-7719097,210019097,Mid-Century Cast Iron Skillet,Kitchen,09/09/2026 04:08 AM,29.00,9.30,2.00,1.45,2.32,0.00,37.98,sgw_bidder_007602,Paid
+SGW-7719092,210019092,Handmade Mantel Clock,Home Decor,09/09/2026 04:22 AM,45.00,5.79,2.00,2.25,3.60,0.00,49.19,sgw_bidder_000481,Shipped
+SGW-7719115,210019115,Retro Yoga Mat,Sporting Goods,09/09/2026 05:36 AM,19.00,7.53,2.00,0.95,1.52,0.00,27.01,sgw_bidder_002496,Paid
+SGW-7719087,210019087,Lot of 2 Film Camera,Electronics,09/09/2026 05:40 AM,34.00,6.71,2.00,1.70,2.72,0.00,39.99,sgw_bidder_004306,Paid
+SGW-7719107,210019107,Classic Brooch,Jewelry,09/09/2026 06:35 AM,14.00,6.35,2.00,0.70,1.12,0.00,21.23,sgw_bidder_001769,Paid
+SGW-7719093,210019093,Mid-Century Framed Print,Art,09/09/2026 06:38 AM,42.00,7.72,2.00,2.10,3.36,0.00,48.36,sgw_bidder_004347,Paid
+SGW-7719111,210019111,Used Leather Satchel,Handbags,09/09/2026 07:07 AM,97.00,13.64,2.00,4.85,7.76,0.00,104.88,sgw_bidder_006847,Paid
+SGW-7719075,210019075,Vintage Tennis Racket,Sporting Goods,09/09/2026 07:24 AM,76.00,6.19,2.00,3.80,6.08,0.00,78.11,sgw_bidder_003789,Paid
+SGW-7719114,210019114,Vintage Pearl Earrings,Jewelry,09/09/2026 07:41 AM,42.00,11.05,2.00,2.10,3.36,0.00,51.69,sgw_bidder_001120,Paid
+SGW-7719091,210019091,Classic Turntable,Electronics,09/09/2026 08:34 AM,90.00,11.09,2.00,4.50,7.20,0.00,95.89,sgw_bidder_002150,Paid
+SGW-7719088,210019088,Pre-owned Figurine,Collectibles,09/09/2026 08:43 AM,25.00,7.14,2.00,1.25,2.00,0.00,32.14,sgw_bidder_003394,Shipped
+SGW-7719105,210019105,Lot of 2 Brass Candlesticks,Home Decor,09/09/2026 09:02 AM,12.00,17.76,2.00,0.60,0.19,31.76,-0.19,sgw_bidder_003672,Refunded
+SGW-7719078,210019078,Pre-owned Pearl Earrings,Jewelry,09/09/2026 09:18 AM,92.00,5.88,2.00,4.60,7.36,0.00,92.52,sgw_bidder_000457,Paid
+SGW-7719116,210019116,Used Watercolor,Art,09/09/2026 09:20 AM,39.00,5.22,2.00,1.95,3.12,0.00,43.10,sgw_bidder_001196,Shipped
+SGW-7719098,210019098,Pre-owned Trading Card Lot,Collectibles,09/09/2026 09:27 AM,15.00,5.90,2.00,0.75,1.20,0.00,21.70,sgw_bidder_006316,Paid
+SGW-7719108,210019108,Antique Portable Radio,Electronics,09/09/2026 10:04 AM,53.00,5.99,2.00,2.65,4.24,0.00,56.75,sgw_bidder_007660,Shipped
+SGW-7719095,210019095,Like New Golf Balls,Sporting Goods,09/09/2026 10:05 AM,59.00,14.83,2.00,2.95,4.72,0.00,71.11,sgw_bidder_000011,Paid
+SGW-7719083,210019083,Pre-owned Clutch,Handbags,09/09/2026 10:09 AM,19.00,14.95,2.00,0.95,0.00,35.95,0.00,sgw_bidder_000002,Cancelled
+SGW-7719086,210019086,Like New Turntable,Electronics,09/09/2026 10:13 AM,46.00,6.65,2.00,2.30,3.68,0.00,50.97,sgw_bidder_007940,Paid
+SGW-7719101,210019101,Pre-owned Table Lamp,Home Decor,09/09/2026 11:46 AM,40.00,6.69,2.00,2.00,3.20,0.00,45.49,sgw_bidder_004087,Paid
+SGW-7719109,210019109,Antique Oil Painting,Art,09/09/2026 12:44 PM,29.00,6.71,2.00,1.45,2.32,0.00,35.39,sgw_bidder_002381,Paid
+SGW-7719085,210019085,Used Ceramic Vase,Home Decor,09/09/2026 12:49 PM,9.00,9.93,2.00,0.45,0.72,0.00,20.21,sgw_bidder_000050,Paid
+SGW-7719113,210019113,Antique Gold Tone Necklace,Jewelry,09/09/2026 01:03 PM,37.00,8.37,2.00,1.85,2.96,0.00,44.41,sgw_bidder_006240,Paid
+SGW-7719089,210019089,Handmade Sterling Ring,Jewelry,09/09/2026 02:36 PM,35.00,12.70,2.00,1.75,2.80,0.00,46.90,sgw_bidder_007444,Paid
+SGW-7719094,210019094,Classic Picture Frame Set,Home Decor,09/09/2026 04:11 PM,22.00,10.47,2.00,1.10,0.35,34.47,-0.35,sgw_bidder_003003,Refunded
+SGW-7719102,210019102,Handmade Coin Lot,Collectibles,09/09/2026 04:34 PM,19.00,9.93,2.00,0.95,1.52,0.00,29.41,sgw_bidder_004593,Paid
+SGW-7719084,210019084,Mid-Century Brass Candlesticks,Home Decor,09/09/2026 04:36 PM,18.00,12.70,2.00,0.90,1.44,0.00,31.26,sgw_bidder_000601,Shipped
+SGW-7719103,210019103,Like New Pearl Earrings,Jewelry,09/09/2026 05:56 PM,90.00,8.28,2.00,4.50,7.20,0.00,93.08,sgw_bidder_007029,Paid
+SGW-7719099,210019099,Lot of 2 Gold Tone Necklace,Jewelry,09/09/2026 06:47 PM,93.00,13.16,2.00,4.65,7.44,0.00,100.72,sgw_bidder_006344,Paid
+SGW-7719100,210019100,Used Trading Card Lot,Collectibles,09/09/2026 07:24 PM,18.00,4.87,2.00,0.90,1.44,0.00,23.43,sgw_bidder_003806,Shipped
+SGW-7719081,210019081,Vintage Glass Pitcher,Kitchen,09/09/2026 07:44 PM,19.00,8.30,2.00,0.95,1.52,0.00,27.78,sgw_bidder_000357,Paid
+SGW-7719079,210019079,Retro Pocket Watch,Watches,09/09/2026 08:15 PM,12.00,11.60,2.00,0.60,0.96,0.00,24.64,sgw_bidder_003927,Paid
+SGW-7719110,210019110,Vintage Pocket Watch,Watches,09/09/2026 08:51 PM,15.00,7.35,2.00,0.75,1.20,0.00,23.15,sgw_bidder_001010,Paid
+SGW-7719112,210019112,Antique Puzzle 1000pc,Toys,09/09/2026 09:14 PM,15.00,6.23,2.00,0.75,1.20,0.00,22.03,sgw_bidder_007942,Shipped
+SGW-7719082,210019082,Vintage Gold Tone Necklace,Jewelry,09/09/2026 10:13 PM,35.00,15.81,2.00,1.75,2.80,0.00,50.01,sgw_bidder_002256,Paid
+SGW-7719104,210019104,Handmade Sterling Ring,Jewelry,09/09/2026 10:21 PM,61.00,6.62,2.00,3.05,4.88,0.00,64.74,sgw_bidder_000757,Shipped
+SGW-7719080,210019080,Vintage Ceramic Vase,Home Decor,09/09/2026 11:48 PM,29.00,6.17,2.00,1.45,2.32,0.00,34.85,sgw_bidder_000268,Shipped
+SGW-7719076,210019076,Like New Stoneware Mugs,Kitchen,09/09/2026 11:55 PM,9.00,4.99,2.00,0.45,0.72,0.00,15.27,sgw_bidder_000301,Shipped
+SGW-7719077,210019077,Lot of 2 Framed Print,Art,09/09/2026 11:58 PM,19.00,8.19,2.00,0.95,1.52,0.00,27.67,sgw_bidder_004938,Paid
+Totals,,,,,1763.00,,,,,,,,

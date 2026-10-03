@@ -1,0 +1,28 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+9811,06-17919-14123,ebuyer_007342,,310000017919,Vintage Coin Lot,CO-017919,1,$32.99,$8.27,$2.89,$44.15,Yes,eBay Managed Payments,Sep-01-26 01:06:30,Sep-01-26 01:06:30,Paid,
+9823,22-17931-64706,ebuyer_008216,,310000017931,Pre-owned Glass Pitcher,KT-017931,1,$14.99,$14.90,$2.09,$31.98,Yes,eBay Managed Payments,Sep-01-26 02:03:59,Sep-01-26 02:03:59,Paid,
+9812,17-17920-97571,ebuyer_006660,,310000017920,Pre-owned Loafers,SH-017920,1,$78.99,$5.59,$5.92,$90.50,Yes,eBay Managed Payments,Sep-01-26 02:04:34,Sep-01-26 02:04:34,Paid,
+9809,20-17917-80266,ebuyer_006099,,310000017917,Retro Coin Lot,CO-017917,1,$20.99,$0.00,$1.47,$22.46,Yes,eBay Managed Payments,Sep-01-26 04:38:19,Sep-01-26 04:38:19,Paid,
+9815,20-17923-16319,ebuyer_006612,,310000017923,Retro Coin Lot,CO-017923,1,$48.99,$6.41,$3.88,$59.28,Yes,eBay Managed Payments,Sep-01-26 06:00:11,Sep-01-26 06:00:11,Paid,
+9817,26-17925-52082,ebuyer_008209,,310000017925,Mid-Century Rain Jacket,CL-017925,1,$21.99,$8.98,$2.17,$33.14,Yes,eBay Managed Payments,Sep-01-26 06:01:18,Sep-01-26 06:01:18,Paid,
+9801,07-17909-12285,ebuyer_009542,,310000017909,Antique Rain Jacket,CL-017909,1,$18.99,$0.00,$1.33,$20.32,Yes,eBay Managed Payments,Sep-01-26 07:03:21,Sep-01-26 07:03:21,Paid,
+9807,13-17915-24569,ebuyer_006000,,310000017915,Used Silk Blouse,CL-017915,1,$17.99,$5.66,$1.66,$25.31,Yes,eBay Managed Payments,Sep-01-26 07:37:52,Sep-01-26 07:37:52,Paid,
+9803,07-17911-17476,ebuyer_006037,,310000017911,Pre-owned Leather Satchel,HB-017911,1,$47.99,$11.13,$4.14,$63.26,Yes,eBay Managed Payments,Sep-01-26 07:39:59,Sep-01-26 07:39:59,Paid,
+9814,14-17922-36635,ebuyer_006074,,310000017922,Pre-owned Wool Coat,CL-017922,1,$21.99,$7.24,$2.05,$31.28,Yes,eBay Managed Payments,Sep-01-26 11:51:52,Sep-01-26 11:51:52,Paid,
+9802,11-17910-32152,ebuyer_007610,,310000017910,Used Sandals,SH-017910,1,$34.99,$7.80,$3.00,$45.79,Yes,eBay Managed Payments,Sep-01-26 12:19:46,Sep-01-26 12:19:46,Paid,
+9816,06-17924-52067,ebuyer_007552,,310000017924,Pre-owned Silk Blouse,CL-017924,1,$10.99,$4.95,$1.12,$17.06,Yes,eBay Managed Payments,Sep-01-26 12:40:35,Sep-01-26 12:40:35,Paid,
+9822,23-17930-82784,ebuyer_006649,,310000017930,Pre-owned Cashmere Sweater,CL-017930,1,$19.99,$0.00,$1.40,$21.39,Yes,eBay Managed Payments,Sep-01-26 12:47:15,Sep-01-26 12:47:15,Paid,
+9804,04-17912-16460,ebuyer_007805,,310000017912,Used Stoneware Mugs,KT-017912,1,$20.99,$10.95,$2.24,$34.18,Yes,eBay Managed Payments,Sep-01-26 14:09:10,Sep-01-26 14:09:10,Paid,
+9820,13-17928-75712,ebuyer_008227,,310000017928,Antique Coin Lot,CO-017928,1,$13.99,$9.12,$1.62,$24.73,Yes,eBay Managed Payments,Sep-01-26 15:06:27,Sep-01-26 15:06:27,Paid,
+9821,09-17929-43852,ebuyer_006910,,310000017929,Lot of 2 Headphones,EL-017929,1,$62.99,$0.00,$4.41,$67.40,Yes,eBay Managed Payments,Sep-01-26 16:23:03,Sep-01-26 16:23:03,Paid,
+9808,11-17916-06988,ebuyer_007522,,310000017916,Classic Wool Coat,CL-017916,1,$40.99,$8.39,$3.46,$52.84,Yes,eBay Managed Payments,Sep-01-26 17:45:28,Sep-01-26 17:45:28,Cancelled,$49.38
+9813,03-17921-10220,ebuyer_007324,,310000017921,Like New Silk Blouse,CL-017921,1,$23.99,$7.63,$2.21,$33.83,Yes,eBay Managed Payments,Sep-01-26 18:41:50,Sep-01-26 18:41:50,Paid,
+9810,09-17918-99720,ebuyer_006659,,310000017918,Vintage Crossbody Bag,HB-017918,1,$63.99,$10.27,$5.20,$79.46,Yes,eBay Managed Payments,Sep-01-26 18:44:16,Sep-01-26 18:44:16,Paid,
+9818,10-17926-76435,ebuyer_008003,,310000017926,Mid-Century Silk Blouse,CL-017926,1,$27.99,$0.00,$1.96,$29.95,Yes,eBay Managed Payments,Sep-01-26 19:09:58,Sep-01-26 19:09:58,Paid,
+9806,23-17914-77462,ebuyer_008533,,310000017914,Retro Yoga Mat,SG-017914,1,$36.99,$0.00,$2.59,$39.58,Yes,eBay Managed Payments,Sep-01-26 21:36:22,Sep-01-26 21:36:22,Paid,
+9805,24-17913-13690,ebuyer_006236,,310000017913,Handmade Denim Jacket,CL-017913,1,$10.99,$9.12,$1.41,$21.52,Yes,eBay Managed Payments,Sep-01-26 22:07:05,Sep-01-26 22:07:05,Paid,
+9819,17-17927-57687,ebuyer_007130,,310000017927,Antique Glass Pitcher,KT-017927,1,$14.99,$9.40,$1.71,$26.10,Yes,eBay Managed Payments,Sep-01-26 23:50:17,Sep-01-26 23:50:17,Paid,
+
+"23 record(s) downloaded,from Sep-01-26 to Sep-01-26"
+Seller ID : goodwill_michiana_test

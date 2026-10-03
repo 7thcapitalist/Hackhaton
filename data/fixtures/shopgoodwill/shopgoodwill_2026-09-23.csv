@@ -1,0 +1,60 @@
+ShopGoodwill Seller Portal
+Periodic Marketplace Report
+Seller,Goodwill Industries of Michiana (TEST DATA)
+Year,2026,Month,September
+Report,Period 1
+
+Order ID,Item ID,Title,Category,End Date,Winning Bid,Shipping,Handling,Buyer Premium,Seller Fee,Refund,Net,Buyer ID,Status
+SGW-7721260,210021260,Mid-Century Brooch,Jewelry,09/23/2026 12:45 AM,18.00,7.70,2.00,0.90,1.44,0.00,26.26,sgw_bidder_000026,Shipped
+SGW-7721254,210021254,Vintage Gold Tone Necklace,Jewelry,09/23/2026 02:19 AM,65.00,11.70,2.00,3.25,5.20,0.00,73.50,sgw_bidder_000000,Paid
+SGW-7721238,210021238,Vintage Trading Card Lot,Collectibles,09/23/2026 02:54 AM,33.00,5.13,2.00,1.65,2.64,0.00,37.49,sgw_bidder_007206,Paid
+SGW-7721256,210021256,Pre-owned Gold Tone Necklace,Jewelry,09/23/2026 03:30 AM,25.00,6.81,2.00,1.25,2.00,0.00,31.81,sgw_bidder_008953,Shipped
+SGW-7721264,210021264,Pre-owned Figurine,Collectibles,09/23/2026 04:12 AM,15.00,11.89,2.00,0.75,1.20,0.00,27.69,sgw_bidder_000110,Shipped
+SGW-7721252,210021252,Antique Plush Bear,Toys,09/23/2026 04:23 AM,23.00,11.35,2.00,1.15,1.84,0.00,34.51,sgw_bidder_008516,Shipped
+SGW-7721274,210021274,Mid-Century Watercolor,Art,09/23/2026 04:32 AM,58.00,8.08,2.00,2.90,4.64,0.00,63.44,sgw_bidder_007376,Paid
+SGW-7721235,210021235,Vintage Silk Blouse,Clothing,09/23/2026 04:33 AM,82.00,4.56,2.00,4.10,6.56,0.00,82.00,sgw_bidder_003125,Paid
+SGW-7721231,210021231,Lot of 2 Pewter Mug,Collectibles,09/23/2026 04:49 AM,14.00,8.30,2.00,0.70,1.12,0.00,23.18,sgw_bidder_000289,Paid
+SGW-7721258,210021258,Pre-owned Sterling Ring,Jewelry,09/23/2026 04:55 AM,52.00,5.92,2.00,2.60,4.16,0.00,55.76,sgw_bidder_001935,Paid
+SGW-7721270,210021270,Classic Snow Globe,Collectibles,09/23/2026 05:37 AM,37.00,11.09,2.00,1.85,2.96,0.00,47.13,sgw_bidder_007495,Paid
+SGW-7721253,210021253,Antique Turntable,Electronics,09/23/2026 06:32 AM,113.00,10.54,2.00,5.65,9.04,0.00,116.50,sgw_bidder_006842,Paid
+SGW-7721248,210021248,Used Brooch,Jewelry,09/23/2026 06:44 AM,46.00,13.11,2.00,2.30,3.68,0.00,57.43,sgw_bidder_004561,Shipped
+SGW-7721266,210021266,Handmade Model Train,Toys,09/23/2026 07:58 AM,34.00,5.78,2.00,1.70,2.72,0.00,39.06,sgw_bidder_006712,Paid
+SGW-7721268,210021268,Mid-Century Chronograph Watch,Watches,09/23/2026 08:06 AM,52.00,9.30,2.00,2.60,4.16,0.00,59.14,sgw_bidder_001223,Shipped
+SGW-7721242,210021242,Mid-Century Chronograph Watch,Watches,09/23/2026 08:52 AM,34.00,10.11,2.00,1.70,2.72,0.00,43.39,sgw_bidder_000378,Paid
+SGW-7721271,210021271,Vintage Tennis Racket,Sporting Goods,09/23/2026 08:56 AM,9.00,11.08,2.00,0.45,0.72,0.00,21.36,sgw_bidder_000523,Paid
+SGW-7721263,210021263,Like New Chronograph Watch,Watches,09/23/2026 10:07 AM,23.00,9.71,2.00,1.15,1.84,0.00,32.87,sgw_bidder_005236,Paid
+SGW-7721257,210021257,Lot of 2 Chronograph Watch,Watches,09/23/2026 10:12 AM,72.00,14.81,2.00,3.60,5.76,0.00,83.05,sgw_bidder_007241,Paid
+SGW-7721250,210021250,Retro Silk Blouse,Clothing,09/23/2026 11:00 AM,16.00,6.11,2.00,0.80,1.28,0.00,22.83,sgw_bidder_007617,Paid
+SGW-7721269,210021269,Antique Sterling Ring,Jewelry,09/23/2026 11:24 AM,32.00,14.94,2.00,1.60,2.56,0.00,46.38,sgw_bidder_000394,Paid
+SGW-7721267,210021267,Classic Pearl Earrings,Jewelry,09/23/2026 11:43 AM,23.00,7.59,2.00,1.15,1.84,0.00,30.75,sgw_bidder_000076,Paid
+SGW-7721255,210021255,Lot of 2 Portable Radio,Electronics,09/23/2026 11:43 AM,51.00,6.19,2.00,2.55,4.08,0.00,55.11,sgw_bidder_001826,Paid
+SGW-7721234,210021234,Pre-owned Brooch,Jewelry,09/23/2026 11:58 AM,37.00,5.65,2.00,1.85,2.96,0.00,41.69,sgw_bidder_008733,Paid
+SGW-7721272,210021272,Antique Trading Card Lot,Collectibles,09/23/2026 12:30 PM,44.00,9.40,2.00,2.20,3.52,0.00,51.88,sgw_bidder_001403,Shipped
+SGW-7721243,210021243,Like New Sterling Ring,Jewelry,09/23/2026 12:39 PM,31.00,9.28,2.00,1.55,2.48,0.00,39.80,sgw_bidder_000953,Paid
+SGW-7721275,210021275,Lot of 2 Puzzle 1000pc,Toys,09/23/2026 12:46 PM,6.00,9.46,2.00,0.30,0.48,0.00,16.98,sgw_bidder_007965,Paid
+SGW-7721240,210021240,Mid-Century Denim Jacket,Clothing,09/23/2026 01:07 PM,14.00,11.39,2.00,0.70,1.12,0.00,26.27,sgw_bidder_000055,Shipped
+SGW-7721246,210021246,Pre-owned Table Lamp,Home Decor,09/23/2026 01:33 PM,30.00,5.86,2.00,1.50,2.40,0.00,35.46,sgw_bidder_000007,Paid
+SGW-7721247,210021247,Vintage Game Console,Electronics,09/23/2026 01:52 PM,41.00,12.59,2.00,2.05,3.28,0.00,52.31,sgw_bidder_000769,Paid
+SGW-7721261,210021261,Retro Fondue Set,Kitchen,09/23/2026 02:35 PM,19.00,5.20,2.00,0.95,1.52,0.00,24.68,sgw_bidder_003030,Paid
+SGW-7721229,210021229,Lot of 2 Film Camera,Electronics,09/23/2026 02:42 PM,34.00,10.50,2.00,1.70,2.72,0.00,43.78,sgw_bidder_004972,Paid
+SGW-7721276,210021276,Mid-Century Gold Tone Necklace,Jewelry,09/23/2026 02:43 PM,13.00,7.05,2.00,0.65,1.04,0.00,21.01,sgw_bidder_008066,Shipped
+SGW-7721259,210021259,Retro Art Print,Art,09/23/2026 06:35 PM,13.00,10.68,2.00,0.65,1.04,0.00,24.64,sgw_bidder_008125,Paid
+SGW-7721245,210021245,Lot of 2 Charm Bracelet,Jewelry,09/23/2026 06:35 PM,54.00,6.28,2.00,2.70,4.32,0.00,57.96,sgw_bidder_001484,Paid
+SGW-7721236,210021236,Handmade Framed Print,Art,09/23/2026 07:29 PM,21.00,11.67,2.00,1.05,1.68,0.00,32.99,sgw_bidder_002047,Shipped
+SGW-7721230,210021230,Vintage Film Camera,Electronics,09/23/2026 07:56 PM,24.00,9.65,2.00,1.20,1.92,0.00,33.73,sgw_bidder_008024,Paid
+SGW-7721265,210021265,Vintage Brooch,Jewelry,09/23/2026 08:45 PM,42.00,7.12,2.00,2.10,3.36,0.00,47.76,sgw_bidder_000771,Paid
+SGW-7721237,210021237,Classic Gold Tone Necklace,Jewelry,09/23/2026 08:51 PM,38.00,13.97,2.00,1.90,3.04,0.00,50.93,sgw_bidder_001798,Paid
+SGW-7721277,210021277,Handmade Coin Lot,Collectibles,09/23/2026 09:16 PM,15.00,5.54,2.00,0.75,1.20,0.00,21.34,sgw_bidder_006527,Paid
+SGW-7721273,210021273,Lot of 2 Wrist Watch,Watches,09/23/2026 09:50 PM,78.00,12.15,2.00,3.90,6.24,0.00,85.91,sgw_bidder_007583,Paid
+SGW-7721262,210021262,Classic Film Camera,Electronics,09/23/2026 10:10 PM,78.00,8.73,2.00,3.90,6.24,0.00,82.49,sgw_bidder_001410,Paid
+SGW-7721232,210021232,Like New Snow Globe,Collectibles,09/23/2026 10:19 PM,36.00,12.48,2.00,1.80,2.88,0.00,47.60,sgw_bidder_001013,Shipped
+SGW-7721239,210021239,Pre-owned Wrist Watch,Watches,09/23/2026 10:21 PM,38.00,5.76,2.00,1.90,3.04,0.00,42.72,sgw_bidder_005663,Paid
+SGW-7721244,210021244,Classic Table Lamp,Home Decor,09/23/2026 10:23 PM,20.00,6.61,2.00,1.00,1.60,0.00,27.01,sgw_bidder_000949,Shipped
+SGW-7721233,210021233,Pre-owned Pyrex Bowl,Kitchen,09/23/2026 10:23 PM,5.00,6.35,2.00,0.25,0.40,0.00,12.95,sgw_bidder_002097,Paid
+SGW-7721228,210021228,Vintage Oil Painting,Art,09/23/2026 10:26 PM,18.00,10.24,2.00,0.90,1.44,0.00,28.80,sgw_bidder_004103,Shipped
+SGW-7721251,210021251,Lot of 2 Rain Jacket,Clothing,09/23/2026 10:38 PM,4.00,8.83,2.00,0.20,0.32,0.00,14.51,sgw_bidder_003403,Paid
+SGW-7721249,210021249,Pre-owned Chronograph Watch,Watches,09/23/2026 10:57 PM,29.00,7.58,2.00,1.45,2.32,0.00,36.26,sgw_bidder_005356,Paid
+SGW-7721227,210021227,Retro Stoneware Mugs,Kitchen,09/23/2026 11:07 PM,19.00,7.85,2.00,0.95,1.52,0.00,27.33,sgw_bidder_002218,Paid
+SGW-7721226,210021226,Pre-owned Snow Globe,Collectibles,09/23/2026 11:26 PM,28.00,5.79,2.00,1.40,2.24,0.00,33.55,sgw_bidder_003792,Paid
+SGW-7721241,210021241,Antique Headphones,Electronics,09/23/2026 11:47 PM,68.00,7.32,2.00,3.40,5.44,0.00,71.88,sgw_bidder_007311,Paid
+Totals,,,,,1824.00,,,,,,,,
