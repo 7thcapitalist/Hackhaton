@@ -45,19 +45,31 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-08.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-09-03T14:20:00.000Z",
-    "bytes": 210737
+    "bytes": 753984
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-08.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-09-03T14:21:00.000Z",
-    "bytes": 4259
+    "bytes": 212562
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2025-08.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-09-03T14:22:00.000Z",
-    "bytes": 58964
+    "bytes": 81480
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2025-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-09-03T14:22:00.000Z",
+    "bytes": 839
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2025-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-09-03T14:22:00.000Z",
+    "bytes": 979
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2025-08.csv",
@@ -117,19 +129,31 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-09.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-10-03T14:20:00.000Z",
-    "bytes": 212858
+    "bytes": 761081
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-09.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-10-03T14:21:00.000Z",
-    "bytes": 5053
+    "bytes": 215319
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2025-09.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-10-03T14:22:00.000Z",
-    "bytes": 61918
+    "bytes": 85980
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2025-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-10-03T14:22:00.000Z",
+    "bytes": 901
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2025-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-10-03T14:22:00.000Z",
+    "bytes": 641
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2025-09.csv",
@@ -189,19 +213,31 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-10.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-11-03T14:20:00.000Z",
-    "bytes": 227064
+    "bytes": 811841
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-10.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-11-03T14:21:00.000Z",
-    "bytes": 4555
+    "bytes": 228842
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2025-10.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-11-03T14:22:00.000Z",
-    "bytes": 70423
+    "bytes": 97290
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2025-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-11-03T14:22:00.000Z",
+    "bytes": 963
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2025-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2025-11-03T14:22:00.000Z",
+    "bytes": 1203
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2025-10.csv",
@@ -1035,19 +1071,31 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2026-09-03T14:20:00.000Z",
-    "bytes": 240382
+    "bytes": 860272
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2026-09-03T14:21:00.000Z",
-    "bytes": 5193
+    "bytes": 242997
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2026-09-03T14:22:00.000Z",
-    "bytes": 66133
+    "bytes": 91484
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T14:22:00.000Z",
+    "bytes": 963
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T14:22:00.000Z",
+    "bytes": 927
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08.csv",
@@ -1811,19 +1859,33 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2026-10-03T14:20:00.000Z",
-    "bytes": 240358
+    "bytes": 860563,
+    "note": "real 43-column shipment report; 3 OSM labels bought through EasyPost (carrier-billed, 1-cent rate) must not count"
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2026-10-03T14:21:00.000Z",
-    "bytes": 4183
+    "bytes": 242160,
+    "note": "every label is also a service_fee row; refunds also in the shipment report; creditable recharge; payment_refund"
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2026-10-03T14:22:00.000Z",
-    "bytes": 70835
+    "bytes": 97812
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T14:22:00.000Z",
+    "bytes": 1025
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T14:22:00.000Z",
+    "bytes": 1198
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-09.csv",
