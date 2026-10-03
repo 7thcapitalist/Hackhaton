@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { NoData } from "@/components/NoData";
 import { Sidebar } from "@/components/Sidebar";
 import { themeInitScript } from "@/components/ThemeToggle";
-import { LATEST_DATE, SCORECARD_PERIOD_ID, getPeriodMeta, getPulse, getSourceSummary } from "./_lib/live-data";
+import { getDataRange, getSourcesScreen, periodShort, summarizeSources } from "./_lib/data";
 import { formatDay, formatStamp } from "./_lib/format";
+
+// Every page reads the database, so render on request (never at build time).
+export const dynamic = "force-dynamic";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
@@ -15,19 +19,9 @@ export const metadata: Metadata = {
   description: "Nightly pulse, COO scorecard and month-end close for Goodwill Michiana e-commerce.",
 };
 
-// Every page reads the database. Without this, Next prerenders /, /scorecard and
-// /sources at build time and their numbers never change after an ingest or reset.
-export const dynamic = "force-dynamic";
-
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const [pulse, period, sources] = await Promise.all([
-    getPulse(LATEST_DATE),
-    getPeriodMeta(SCORECARD_PERIOD_ID),
-    getSourceSummary(SCORECARD_PERIOD_ID),
-  ]);
-  const importLabel = pulse.lastImportAt
-    ? `${formatStamp(pulse.lastImportAt, { weekday: "short", month: "short", day: "numeric" })} · ${formatStamp(pulse.lastImportAt, { hour: "numeric", minute: "2-digit" })} ET`
-    : "—";
+  const range = await getDataRange();
+  const sources = range ? summarizeSources((await getSourcesScreen(range, range.defaultPeriod)).sources) : null;
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <head>
@@ -36,17 +30,17 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body>
         <div className="flex min-h-screen flex-col lg:flex-row">
           <Sidebar
-            pulseLabel={formatDay(LATEST_DATE, { month: "short", day: "numeric" })}
-            scorecardLabel={period.short}
-            sourcesLabel={`${sources.arrived}/${sources.total}`}
-            importLabel={importLabel}
+            pulseLabel={range ? formatDay(range.completeDate, { month: "short", day: "numeric" }) : ""}
+            scorecardLabel={range ? periodShort(range.defaultPeriod) : ""}
+            sourcesLabel={sources ? `${sources.arrived}/${sources.total}` : "–"}
+            importLabel={range ? `${formatStamp(range.lastImportAt, { weekday: "short", month: "short", day: "numeric" })} · ${formatStamp(range.lastImportAt, { hour: "numeric", minute: "2-digit" })} ET` : null}
           />
           <main className="flex min-w-0 flex-1 flex-col">
             <div data-print-hide className="flex min-h-[30px] items-center justify-center gap-2 border-b border-line bg-surface-2 px-4 py-1 text-center text-xs text-ink-2">
               <span className="size-1.5 shrink-0 rounded-full bg-warn-icon" />
-              <span><strong className="font-semibold text-ink">Demo</strong> · mock data run through the real parsers (README). No real customer data.</span>
+              <span><strong className="font-semibold text-ink">Demo</strong> · synthetic data. No real customer data.</span>
             </div>
-            {children}
+            {range ? children : <NoData />}
           </main>
         </div>
       </body>
