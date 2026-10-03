@@ -25,7 +25,7 @@ yet. Read this first, then [joao-database.md](joao-database.md) for the tables a
 
 | Task | Branch | Merges into |
 |---|---|---|
-| **A. Month-end close v1:** GL rules (slide 38 facts + marked placeholders) → balanced journal documents → reconcile checks → approve → Business Central Excel/CSV export with a Trace sheet; `getCloseView` for a close page; `/api/close/[period]`; `npm run close` | `joao/claude-close` | `joao/data-layer` |
+| **A. Month-end close v1:** GL rules (slide 38 facts + marked placeholders) → balanced journal documents → reconcile checks → approve → Business Central Excel/CSV export with a Trace sheet; `getCloseView` for a close page; `/api/close/[period]`; `npm run close` | ✅ merged into `joao/data-layer` | — |
 | **B. Data health + demo:** `getExceptions` and `getIngestRuns` views + routes, `PATCH /api/exceptions/[id]` to resolve, `parse_failed` kind, EasyPost double-count rule, statement total kept out of revenue, `POST /api/demo/reset` | ✅ merged into `joao/data-layer` | — |
 | **C. CI for parsers:** GitHub Actions runs typecheck, both parser checks and build on every PR | issue #17 (Dot) | `main` |
 
@@ -149,7 +149,54 @@ Use `npm run db:studio` to browse the tables.
    for tracing but never summed. **Postage top-ups are not a cost**: they're cash moved
    into the postage wallet, and the labels bought with that cash are already counted.
 
+## Month-end close (v1)
+
+`npm run close -- 2026-09 --approve <name> --export journal.xlsx`, or `GET/POST /api/close/2026-09`
+then `GET /api/close/2026-09/export?format=xlsx`. Gabriel can build a close page on
+`getCloseView(period)`, which includes `can: { generate, approve, forceApprove, export }`
+flags for the buttons.
+
+The flow:
+1. **Generate** reads the period's facts, then builds one balanced General Journal
+   document per source (`ECOM-2609-AMZ`, …) and one AR invoice for Goodwill Books.
+2. **Reconcile** checks:
+   - each document balances;
+   - the Goodwill Books invoice equals its statement payment;
+   - nothing is unmapped;
+   - no source is missing;
+   - the workbook baseline matches, if one is loaded.
+3. **Approve** is allowed only when no exceptions are open. `force` waives them, recording
+   who did it and when.
+4. **Export** produces an xlsx with three sheets (General Journal with BC's columns, Sales
+   Invoice, and a Trace sheet listing each line's source files and rows) or a csv.
+
+Test on seed data for 2026-09: 35 lines in 8 documents, all balanced ($190,760.24 each
+side). Nothing unmapped, no exceptions, and the Goodwill Books invoice equals its
+statement ($5,623.09). It works the same on the parsed sample files.
+
+**Most account numbers are placeholders (`TBC-…`, 31 of 35 lines).** Only slide 38's
+facts are real:
+- FedEx posts to G/L 40356, Dept 180, with vendor V00122;
+- shipping posts to G/L 10009 against 1st Source bank account 0101.
+
+The Trace sheet flags every placeholder line. Editing a `gl_rules` row in the database is
+never overwritten.
+
+Accounting choices to confirm:
+- Marketplace-collected tax is **not journaled** (the marketplace collects and pays it).
+- Goodwill Books goes **only on the AR invoice**, never in the journal.
+- Its statement payment is used only as the reconcile control total.
+
 ## Known gaps / risks
+
+- **Goodwill Books sales could be posted twice in the close.** Upright also lists
+  Goodwill Books orders, so they land in the Upright journal document *and* on the
+  Goodwill Books invoice. Fix this together with the gap below: the statement parser
+  should emit orders, so the duplicate check catches it.
+- **Postage top-ups in the close:** top-ups and label costs both post to G/L 10009 against
+  the bank. In accounting terms that's probably wrong (top-up = prepaid postage, label =
+  expense). Ask what 10009 is before the demo shows this.
+- Jewelry sales may already be in the ShopGoodwill file (ask which marketplace sells them).
 
 - **Layouts are guesses for ShopGoodwill, Cash Monkey, Jewelry, OSM and Goodwill Books.**
   Amazon, eBay, EasyPost and FedEx are partly confirmed from public docs. Expect fixes
@@ -178,6 +225,16 @@ Use `npm run db:studio` to browse the tables.
 10. FedEx "net BNKDEPOSIT refunds": do refunds come from bank deposits?
 11. Goodwill Books statement: format (CSV/XLSX/PDF), fees, payment date and account.
 12. Where do labor hours and item timestamps (donated → listed → sold) live?
+
+**For the accountant (month-end close):**
+
+13. The G/L numbers for revenue, shipping income, refunds, fees and receivables per marketplace. Is Dept 180 right for all e-commerce lines?
+14. What is G/L 10009: postage expense, prepaid postage, or cash? Do top-ups and labels both post there?
+15. Do marketplace payouts land in 1st Source 0101? Is there a clearing/receivable account per marketplace?
+16. Is marketplace-collected tax left out of the books, or recorded and cleared?
+17. Goodwill Books invoice: the customer number, how fees appear, and the external document number.
+18. One journal document per source, or the workbook's own grouping? What are the real template, batch and No. Series names?
+19. Can we get last month's allocation workbook output, to prove our journal matches it (slide 42)?
 
 ## Your next 30 minutes
 

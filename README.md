@@ -45,6 +45,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run seed` | Wipe and reload deterministic synthetic data (sources, channels, KPI targets, orders, money lines, items, labor hours, exceptions) for 2026-08-01..2026-10-03 |
 | `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
 | `npm run ingest -- --check <YYYY-MM or YYYY-MM-DD>` | List sources with no file for that period/day and record `missing_source` exceptions |
+| `npm run close -- YYYY-MM [--approve <name> [--force]] [--export file.xlsx]` | Month-end close: generate + reconcile the Business Central journal and AR invoice, approve, export. Same as `GET/POST /api/close/YYYY-MM` and `GET /api/close/YYYY-MM/export?format=xlsx (or csv)` |
 
 ### Env vars
 
