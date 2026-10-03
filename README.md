@@ -81,11 +81,9 @@ are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts
 
 `GET /api/cron/pulse` fetches `GET /api/export/pulse?date=YYYY-MM-DD&format=csv`,
 attaches that CSV unchanged, and links to `/pulse?date=YYYY-MM-DD`. No database reads,
-KPI formulas, mock data or recalculation are added here. **The shared view functions
-and their JSON APIs already exist on main as of `08ada603`.** The daily CSV endpoint
-is provided separately by [PR #19](https://github.com/7thcapitalist/Hackhaton/pull/19).
-Deploy that export endpoint on the configured trusted origin before enabling emails;
-this route returns `503` while the daily CSV is unavailable instead of reporting a
+KPI formulas, mock data or recalculation are added here. The CSV comes from the
+export routes in `src/export/` (see [src/export/README.md](src/export/README.md)).
+This route returns `503` while the daily CSV is unavailable instead of reporting a
 successful send.
 
 The dashboard link follows `/pulse`, added to main in `3b1a62d`. That page currently
@@ -104,10 +102,10 @@ Sending is **disabled by default**. Joao must set these names in Vercel (see `.e
 | `RESEND_API_KEY` | Server-only Resend API key |
 | `REPORTS_VIEW_ORIGIN` | Trusted HTTPS app origin used for exports and dashboard links; never derived from request headers |
 
-The origin falls back to `https://<VERCEL_URL>` on Vercel. Local development can use
-`http://localhost:3000`; production requires HTTPS. Protected preview deployments may
-block the export request and return an error; configure an accessible trusted origin
-before enabling emails. Credentials are not forwarded to the export endpoint.
+On Vercel the origin falls back to `https://<VERCEL_PROJECT_PRODUCTION_URL>`, then
+`https://<VERCEL_URL>`. The per-deployment `VERCEL_URL` sits behind Deployment
+Protection, so a dry run on a preview needs `REPORTS_VIEW_ORIGIN` set. Local
+development can use `http://localhost:3000`; production requires HTTPS. Credentials are not forwarded to the export endpoint.
 
 `vercel.json` schedules `0 11 * * *` UTC: 7 AM during Eastern daylight time and 6 AM
 during standard time. The default date is the **previous calendar day** in

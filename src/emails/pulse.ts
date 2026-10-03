@@ -47,7 +47,9 @@ function authenticate(request: Request, env: Environment): void {
 
 function getReportOrigin(env: Environment): URL {
   const configured = env.REPORTS_VIEW_ORIGIN?.trim();
-  const vercelHost = env.VERCEL_URL?.trim();
+  // Prefer the production domain: VERCEL_URL is the per-deployment URL, which
+  // Deployment Protection puts behind a login, so a self-fetch to it fails.
+  const vercelHost = env.VERCEL_PROJECT_PRODUCTION_URL?.trim() || env.VERCEL_URL?.trim();
   const production = env.NODE_ENV === "production" || env.VERCEL === "1";
   const value = configured || (vercelHost ? `https://${vercelHost}` : production ? "" : "http://localhost:3000");
   let origin: URL;
