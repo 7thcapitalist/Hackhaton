@@ -12,7 +12,8 @@
     "seed": "tsx scripts/seed.ts",
     "ingest": "tsx scripts/ingest-file.ts",
     "check:parsers-other": "tsx scripts/check-parsers-other.ts",
-    "check:parsers": "tsx scripts/check-parsers.ts"
+    "check:parsers": "tsx scripts/check-parsers.ts",
+    "close": "tsx scripts/close.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
