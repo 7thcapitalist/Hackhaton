@@ -10,7 +10,8 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "seed": "tsx scripts/seed.ts",
-    "ingest": "tsx scripts/ingest-file.ts"
+    "ingest": "tsx scripts/ingest-file.ts",
+    "check:parsers-other": "tsx scripts/check-parsers-other.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",

@@ -1,0 +1,7 @@
+created_at,id,status,source_type,target_type,charge_type,amount,balance,description
+2026-09-01T12:00:00Z,paylog_s0001,complete,bank_account,easypost_bank,recharge,250.00,250.00,Recharge from bank account
+2026-09-04T18:00:00Z,paylog_s0002,complete,refund,user,refund,5.12,198.31,Refund for shp_s0004
+2026-09-10T12:00:00Z,paylog_s0003,complete,bank_account,easypost_bank,recharge,250.00,401.22,Recharge from bank account
+2026-09-15T12:00:00Z,paylog_s0004,complete,user,easypost_bank,service_fee,1.00,380.10,Monthly service fee
+2026-09-20T12:00:00Z,paylog_s0005,pending,bank_account,easypost_bank,recharge,250.00,380.10,Recharge from bank account
+2026-09-21T12:00:00Z,paylog_s0006,complete,user,easypost_bank,carbon_offset,0.25,379.85,Carbon offset

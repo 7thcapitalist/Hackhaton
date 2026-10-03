@@ -1,0 +1,8 @@
+Pitney Bowes SendPro 360 - Shipment Details (synthetic sample),,,,,
+Shipment Create Date,Carrier Name,Service,Tracking Number,Total Charges,Transaction Type
+09/02/2026,USPS,Priority Mail,9405500000000000000001,$9.10,Label
+09/05/2026,USPS,Ground Advantage,9405500000000000000002,$5.40,Label
+09/06/2026,,Postage Refill,,$300.00,Refill
+09/12/2026,USPS,Priority Mail,9405500000000000000003,$9.85,Label
+09/13/2026,USPS,Priority Mail,9405500000000000000003,$9.85,Refund
+09/20/2026,UPS,Ground,1Z0000000000000099,$13.20,Label

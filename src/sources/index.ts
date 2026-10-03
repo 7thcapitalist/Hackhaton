@@ -2,10 +2,22 @@
  * Parser registry. The ingest service picks a parser from here, either by
  * explicit source id or by asking each parser whether it accepts the file.
  */
+import { cashmonkeyParser } from "./cashmonkey";
+import { fedexParser } from "./fedex";
+import { goodwillBooksParser } from "./goodwill_books";
+import { jewelryParser } from "./jewelry";
+import { shippingOsmPbEasypostParser } from "./shipping_osm_pb_easypost";
 import type { RawTable, SourceParser } from "./types";
 
-// parsers are registered here as they land: amazon, ebay, shopgoodwill, upright, ...
-export const parsers: SourceParser[] = [];
+// Order matters for auto-detect: the first parser that accepts a file wins.
+// Marketplace parsers (amazon, ebay, shopgoodwill, upright) go first when they land.
+export const parsers: SourceParser[] = [
+  cashmonkeyParser,
+  jewelryParser,
+  shippingOsmPbEasypostParser,
+  fedexParser,
+  goodwillBooksParser,
+];
 
 export function getParser(sourceId: string): SourceParser | undefined {
   return parsers.find((p) => p.sourceId === sourceId);
