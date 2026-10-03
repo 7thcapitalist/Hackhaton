@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
+import { ChatBubble } from "@/components/chat/ChatBubble";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { LATEST_DATE, SCORECARD_PERIOD_ID, getPeriodMeta, getPulse, getSourceSummary } from "./_lib/live-data";
 import { formatDay, formatStamp } from "./_lib/format";
@@ -49,6 +50,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             {children}
           </main>
         </div>
+        <ChatBubble />
       </body>
     </html>
   );
