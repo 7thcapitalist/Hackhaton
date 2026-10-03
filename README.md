@@ -183,8 +183,9 @@ demo data itself changes (new fixtures, parser changes); that refreshes the snap
 The `golden_*` tables are not in the Drizzle schema; `drizzle.config.ts` excludes them
 with `tablesFilter: ["!golden_*"]` so `npm run db:push` never offers to drop them.
 
-Bad dates or periods return 400. Demo cases in the fixtures: no Amazon file for
-2026-10-02 (pulse `"missing"`); Upright re-reports some eBay/ShopGoodwill orders every day
+Bad dates or periods return 400. Demo cases in the fixtures: every day has all its
+files (the Amazon gap on 2026-10-02 is off; set `MISSING_AMAZON_DATE` in
+`scripts/mock/model.ts` and run `npm run mock:generate` to bring it back); Upright re-reports some eBay/ShopGoodwill orders every day
 (`duplicate_order`, Upright kept); `ebay_2026-09-14_reupload.csv` is an exact duplicate
 upload; `ebay_2026-09-15.csv` has renamed columns; an unknown Amazon "Liquidations" row
 (2026-09-24); an Amazon refund for an earlier file's order (2026-09-29); 11:45 PM Eastern

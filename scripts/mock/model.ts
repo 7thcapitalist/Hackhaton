@@ -46,8 +46,12 @@ export const START_DATE = "2026-08-01";
 export const END_DATE = "2026-10-03";
 /** Months whose month-end files exist (October is not closed yet). */
 export const CLOSED_PERIODS = ["2026-08", "2026-09"] as const;
-/** The deliberate gap: no Amazon file for this business date. */
-export const MISSING_AMAZON_DATE = "2026-10-02";
+/**
+ * Optional deliberate gap: no Amazon file for this business date. null = no gap, every
+ * day has its Amazon file (Gabriel, 2026-10-03: the demo shows Oct 2 complete). Set a
+ * date, e.g. "2026-10-02", to bring the "Awaiting data" case back.
+ */
+export const MISSING_AMAZON_DATE: string | null = null;
 /** An Amazon refund whose order is in an earlier daily file. */
 export const LATE_REFUND_DATE = "2026-09-29";
 /**

@@ -234,20 +234,23 @@ async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => vo
     restore();
   }
 
-  // The nightly missing-source check for the deliberate Amazon gap.
-  const check = await checkCompleteness({ businessDate: MISSING_AMAZON_DATE }, { writeExceptions: true, db });
-  if (!check.missingSources.some((s) => s.id === "amazon")) {
-    // checkCompleteness counts a daily run as covering its whole month (the
-    // parser also sets `period` on daily files), so it misses a one-day gap.
-    // Record the exception the nightly check should have raised.
-    await db.insert(schema.exceptions).values({
-      id: `exc-missing-amazon-${MISSING_AMAZON_DATE}`,
-      sourceId: "amazon",
-      kind: "missing_source",
-      message: `No Amazon file ingested for business date ${MISSING_AMAZON_DATE}.`,
-      owner: "E-commerce manager",
-      createdAt: "2026-10-03T11:05:00.000Z",
-    });
+  // The nightly missing-source check for the deliberate Amazon gap (only when one is set).
+  if (MISSING_AMAZON_DATE) {
+    const missingDate = MISSING_AMAZON_DATE;
+    const check = await checkCompleteness({ businessDate: missingDate }, { writeExceptions: true, db });
+    if (!check.missingSources.some((s) => s.id === "amazon")) {
+      // checkCompleteness counts a daily run as covering its whole month (the
+      // parser also sets `period` on daily files), so it misses a one-day gap.
+      // Record the exception the nightly check should have raised.
+      await db.insert(schema.exceptions).values({
+        id: `exc-missing-amazon-${missingDate}`,
+        sourceId: "amazon",
+        kind: "missing_source",
+        message: `No Amazon file ingested for business date ${missingDate}.`,
+        owner: "E-commerce manager",
+        createdAt: "2026-10-03T11:05:00.000Z",
+      });
+    }
   }
 
   return { results, problems };

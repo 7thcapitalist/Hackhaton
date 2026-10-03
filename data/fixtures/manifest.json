@@ -1885,6 +1885,12 @@
     "bytes": 10250
   },
   {
+    "path": "amazon/amazon_2026-10-02.csv",
+    "sourceId": "amazon",
+    "uploadedAt": "2026-10-03T10:32:00.000Z",
+    "bytes": 12094
+  },
+  {
     "path": "ebay/ebay_2026-10-02.csv",
     "sourceId": "ebay",
     "uploadedAt": "2026-10-03T10:34:00.000Z",
