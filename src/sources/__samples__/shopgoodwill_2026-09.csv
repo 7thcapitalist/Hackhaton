@@ -1,0 +1,23 @@
+ShopGoodwill Seller Portal
+Periodic Marketplace Report
+Seller,Goodwill Industries of Michiana (TEST DATA)
+Year,2026,Month,September
+Report,Period 1
+
+Order ID,Item ID,Title,Category,End Date,Winning Bid,Shipping,Handling,Buyer Premium,Seller Fee,Refund,Net,Buyer ID,Status
+SGW-7700101,210000101,Sterling Ring Size 7,Jewelry,09/02/2026 06:30 PM,48.00,6.95,2.00,2.40,5.76,0.00,51.19,sgw_test_bidder_01,Paid
+SGW-7700102,210000102,Lladro-style Figurine,Collectibles,09/03/2026 07:15 PM,35.00,12.50,2.00,1.75,4.20,0.00,45.30,sgw_test_bidder_02,Paid
+SGW-7700103,210000103,Vintage Pyrex Lot,Kitchen,09/05/2026 08:00 PM,62.00,18.00,2.00,3.10,7.44,0.00,74.56,sgw_test_bidder_03,Paid
+SGW-7700104,210000104,Pocket Watch,Jewelry,09/07/2026 06:45 PM,90.00,8.00,2.00,4.50,10.80,0.00,89.20,sgw_test_bidder_04,Paid
+SGW-7700105,210000105,Lego Bulk 5 lb,Toys,09/09/2026 09:10 PM,41.00,15.00,2.00,2.05,4.92,0.00,53.08,sgw_test_bidder_05,Paid
+SGW-7700106,210000106,Designer Handbag,Clothing,09/11/2026 07:30 PM,120.00,10.00,2.00,6.00,14.40,132.00,-14.40,sgw_test_bidder_06,Refunded
+SGW-7700107,210000107,Coin Lot,Coins,09/13/2026 08:20 PM,55.00,5.00,2.00,2.75,6.60,0.00,55.40,sgw_test_bidder_07,Paid
+SGW-7700108,210000108,Guitar Pedal,Music,09/15/2026 06:05 PM,33.00,9.00,2.00,1.65,3.96,0.00,40.04,sgw_test_bidder_08,Cancelled
+SGW-7700109,210000109,Art Print Framed,Art,09/17/2026 07:50 PM,27.00,14.00,2.00,1.35,3.24,0.00,39.76,sgw_test_bidder_09,Paid
+SGW-7700110,210000110,Camera Lens 50mm,Electronics,09/19/2026 09:00 PM,75.00,9.50,2.00,3.75,9.00,0.00,77.50,sgw_test_bidder_10,Paid
+SGW-7700111,210000111,Wedgwood Plate,Collectibles,09/21/2026 06:15 PM,22.00,11.00,2.00,1.10,2.64,0.00,32.36,sgw_test_bidder_11,Paid
+SGW-7700111,210000112,Wedgwood Saucer,Collectibles,09/21/2026 06:15 PM,12.00,0.00,0.00,0.60,1.44,0.00,10.56,sgw_test_bidder_11,Paid
+SGW-7700113,210000113,Antique Clock,Home,09/24/2026 08:40 PM,66.00,22.00,2.00,3.30,7.92,0.00,82.08,sgw_test_bidder_12,Awaiting Pickup
+SGW-7700114,210000114,Sneakers Size 10,Clothing,09/27/2026 07:05 PM,31.00,10.50,2.00,1.55,3.72,0.00,39.78,sgw_test_bidder_13,Paid
+SGW-7700115,210000115,Late Night Auction: Sterling Chain,Jewelry,09/30/2026 11:45 PM,58.00,6.95,2.00,2.90,6.96,0.00,59.99,sgw_test_bidder_14,Paid
+Totals,,,,,775.00,,,,,,,,

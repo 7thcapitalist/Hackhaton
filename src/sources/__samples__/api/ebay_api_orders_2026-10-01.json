@@ -1,0 +1,1469 @@
+{
+  "href": "https://api.ebay.com/sell/fulfillment/v1/order?filter=creationdate:%5B2026-10-01T04:00:00.000Z..2026-10-02T04:00:00.000Z%5D&limit=200&offset=0",
+  "total": 10,
+  "limit": 200,
+  "offset": 0,
+  "orders": [
+    {
+      "orderId": "06-20001-30001",
+      "legacyOrderId": "06-20001-30001",
+      "creationDate": "2026-10-01T11:12:00.000Z",
+      "lastModifiedDate": "2026-10-01T11:12:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_nova",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "19.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "9.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "1.96",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "29.96",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "28.00",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "D36EE291ECB7",
+            "paymentDate": "2026-10-01T11:12:00.000Z",
+            "amount": {
+              "value": "29.96",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T11:12:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T11:12:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10044872983400",
+          "legacyItemId": "317000000001",
+          "sku": "",
+          "title": "Desk Lamp",
+          "lineItemCost": {
+            "value": "19.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "29.96",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "9.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "1.96",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T11:12:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T11:12:00.000Z",
+            "shipByDate": "2026-10-03T11:12:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7001",
+      "totalFeeBasisAmount": {
+        "value": "29.96",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20002-30002",
+      "legacyOrderId": "06-20002-30002",
+      "creationDate": "2026-10-01T13:30:00.000Z",
+      "lastModifiedDate": "2026-10-01T13:30:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_onyx",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "34.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "8.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "2.94",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "44.94",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "42.00",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "4A5FB69770C4",
+            "paymentDate": "2026-10-01T13:30:00.000Z",
+            "amount": {
+              "value": "44.94",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T13:30:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T13:30:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10549415400620",
+          "legacyItemId": "317000000002",
+          "sku": "",
+          "title": "Denim Jacket",
+          "lineItemCost": {
+            "value": "34.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "44.94",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "8.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "2.94",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T13:30:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T13:30:00.000Z",
+            "shipByDate": "2026-10-03T13:30:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7002",
+      "totalFeeBasisAmount": {
+        "value": "44.94",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20003-30003",
+      "legacyOrderId": "06-20003-30003",
+      "creationDate": "2026-10-01T14:45:00.000Z",
+      "lastModifiedDate": "2026-10-01T14:45:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_pine",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "11.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "6.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "1.19",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "18.19",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "17.00",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "0404CC2A4BE3",
+            "paymentDate": "2026-10-01T14:45:00.000Z",
+            "amount": {
+              "value": "18.19",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T14:45:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T14:45:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10315959256340",
+          "legacyItemId": "317000000003",
+          "sku": "",
+          "title": "Board Book Lot",
+          "lineItemCost": {
+            "value": "11.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "18.19",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "6.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "1.19",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T14:45:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T14:45:00.000Z",
+            "shipByDate": "2026-10-03T14:45:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7003",
+      "totalFeeBasisAmount": {
+        "value": "18.19",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20004-30004",
+      "legacyOrderId": "06-20004-30004",
+      "creationDate": "2026-10-01T16:05:00.000Z",
+      "lastModifiedDate": "2026-10-01T16:05:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_quill",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "8.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "4.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "0.84",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "12.84",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "12.00",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "0326BAC69FDB",
+            "paymentDate": "2026-10-01T16:05:00.000Z",
+            "amount": {
+              "value": "12.84",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T16:05:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T16:05:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10340200864530",
+          "legacyItemId": "317000000004",
+          "sku": "",
+          "title": "Camera Strap",
+          "lineItemCost": {
+            "value": "8.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "12.84",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "4.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "0.84",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T16:05:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T16:05:00.000Z",
+            "shipByDate": "2026-10-03T16:05:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7004",
+      "totalFeeBasisAmount": {
+        "value": "12.84",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20005-30005",
+      "legacyOrderId": "06-20005-30005",
+      "creationDate": "2026-10-01T17:20:00.000Z",
+      "lastModifiedDate": "2026-10-01T23:20:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PARTIALLY_REFUNDED",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_reed",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "24.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "10.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "2.38",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "36.38",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "24.00",
+          "currency": "USD"
+        },
+        "refunds": [
+          {
+            "refundId": "591153194114",
+            "refundStatus": "REFUNDED",
+            "amount": {
+              "value": "10.00",
+              "currency": "USD"
+            },
+            "refundDate": "2026-10-01T23:20:00.000Z",
+            "refundReferenceId": "86601092634908562"
+          }
+        ],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "2BEA4BBC6C02",
+            "paymentDate": "2026-10-01T17:20:00.000Z",
+            "amount": {
+              "value": "36.38",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T17:20:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T17:20:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10056010197600",
+          "legacyItemId": "317000000005",
+          "sku": "",
+          "title": "Fondue Set",
+          "lineItemCost": {
+            "value": "24.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "36.38",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "10.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "2.38",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [
+            {
+              "amount": {
+                "value": "10.00",
+                "currency": "USD"
+              },
+              "refundDate": "2026-10-01T23:20:00.000Z",
+              "refundId": "506949303509",
+              "refundReferenceId": "12188149774208104"
+            }
+          ],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T17:20:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T17:20:00.000Z",
+            "shipByDate": "2026-10-03T17:20:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7005",
+      "totalFeeBasisAmount": {
+        "value": "36.38",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20006-30006",
+      "legacyOrderId": "06-20006-30006",
+      "creationDate": "2026-10-01T19:00:00.000Z",
+      "lastModifiedDate": "2026-10-01T19:00:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_sage",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "14.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "7.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "1.47",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "22.47",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "21.00",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "041B308B40CB",
+            "paymentDate": "2026-10-01T19:00:00.000Z",
+            "amount": {
+              "value": "22.47",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T19:00:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T19:00:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10583520554050",
+          "legacyItemId": "317000000006",
+          "sku": "",
+          "title": "Golf Balls (24)",
+          "lineItemCost": {
+            "value": "14.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "22.47",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "7.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "1.47",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T19:00:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T19:00:00.000Z",
+            "shipByDate": "2026-10-03T19:00:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7006",
+      "totalFeeBasisAmount": {
+        "value": "22.47",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20007-30007",
+      "legacyOrderId": "06-20007-30007",
+      "creationDate": "2026-10-01T20:40:00.000Z",
+      "lastModifiedDate": "2026-10-01T20:40:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_teak",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "17.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "9.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "1.82",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "27.82",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "26.00",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "B74209E2966E",
+            "paymentDate": "2026-10-01T20:40:00.000Z",
+            "amount": {
+              "value": "27.82",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T20:40:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T20:40:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10330675675890",
+          "legacyItemId": "317000000007",
+          "sku": "",
+          "title": "Picture Frame Set",
+          "lineItemCost": {
+            "value": "17.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "27.82",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "9.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "1.82",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T20:40:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T20:40:00.000Z",
+            "shipByDate": "2026-10-03T20:40:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7007",
+      "totalFeeBasisAmount": {
+        "value": "27.82",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20008-30008",
+      "legacyOrderId": "06-20008-30008",
+      "creationDate": "2026-10-01T22:15:00.000Z",
+      "lastModifiedDate": "2026-10-01T22:15:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_umber",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "21.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "9.50",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "2.14",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "32.64",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "30.50",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "76A44D4CE7DC",
+            "paymentDate": "2026-10-01T22:15:00.000Z",
+            "amount": {
+              "value": "32.64",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-04T22:15:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-07T22:15:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10135353616050",
+          "legacyItemId": "317000000008",
+          "sku": "",
+          "title": "Cookie Jar",
+          "lineItemCost": {
+            "value": "21.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "32.64",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "9.50",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "2.14",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-04T22:15:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-07T22:15:00.000Z",
+            "shipByDate": "2026-10-03T22:15:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7008",
+      "totalFeeBasisAmount": {
+        "value": "32.64",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20009-30009",
+      "legacyOrderId": "06-20009-30009",
+      "creationDate": "2026-10-02T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-02T00:00:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_vale",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "13.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "4.50",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "1.23",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "18.73",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "17.50",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "0AC1DC361E4F",
+            "paymentDate": "2026-10-02T00:00:00.000Z",
+            "amount": {
+              "value": "18.73",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-05T00:00:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-08T00:00:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10340364092670",
+          "legacyItemId": "317000000009",
+          "sku": "",
+          "title": "Sewing Pattern Lot",
+          "lineItemCost": {
+            "value": "13.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "18.73",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "4.50",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "1.23",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-05T00:00:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-08T00:00:00.000Z",
+            "shipByDate": "2026-10-04T00:00:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7009",
+      "totalFeeBasisAmount": {
+        "value": "18.73",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    },
+    {
+      "orderId": "06-20010-30010",
+      "legacyOrderId": "06-20010-30010",
+      "creationDate": "2026-10-02T03:45:00.000Z",
+      "lastModifiedDate": "2026-10-02T03:45:00.000Z",
+      "orderFulfillmentStatus": "FULFILLED",
+      "orderPaymentStatus": "PAID",
+      "sellerId": "goodwill_mock_seller",
+      "buyer": {
+        "username": "test_buyer_willow",
+        "taxAddress": {
+          "stateOrProvince": "IN",
+          "postalCode": "46601",
+          "countryCode": "US"
+        }
+      },
+      "pricingSummary": {
+        "priceSubtotal": {
+          "value": "29.00",
+          "currency": "USD"
+        },
+        "deliveryCost": {
+          "value": "11.00",
+          "currency": "USD"
+        },
+        "tax": {
+          "value": "2.80",
+          "currency": "USD"
+        },
+        "total": {
+          "value": "42.80",
+          "currency": "USD"
+        }
+      },
+      "cancelStatus": {
+        "cancelState": "NONE_REQUESTED",
+        "cancelRequests": []
+      },
+      "paymentSummary": {
+        "totalDueSeller": {
+          "value": "40.00",
+          "currency": "USD"
+        },
+        "refunds": [],
+        "payments": [
+          {
+            "paymentMethod": "EBAY",
+            "paymentReferenceId": "C4A773BB24CC",
+            "paymentDate": "2026-10-02T03:45:00.000Z",
+            "amount": {
+              "value": "42.80",
+              "currency": "USD"
+            },
+            "paymentStatus": "PAID"
+          }
+        ]
+      },
+      "fulfillmentStartInstructions": [
+        {
+          "fulfillmentInstructionsType": "SHIP_TO",
+          "minEstimatedDeliveryDate": "2026-10-05T03:45:00.000Z",
+          "maxEstimatedDeliveryDate": "2026-10-08T03:45:00.000Z",
+          "ebaySupportedFulfillment": false,
+          "shippingStep": {
+            "shipTo": {
+              "fullName": "Mock Buyer",
+              "contactAddress": {
+                "addressLine1": "100 Test St",
+                "city": "South Bend",
+                "stateOrProvince": "IN",
+                "postalCode": "46601",
+                "countryCode": "US"
+              }
+            },
+            "shippingCarrierCode": "USPS",
+            "shippingServiceCode": "USPSGroundAdvantage"
+          }
+        }
+      ],
+      "fulfillmentHrefs": [],
+      "lineItems": [
+        {
+          "lineItemId": "10076321602340",
+          "legacyItemId": "317000000010",
+          "sku": "",
+          "title": "Late Night Order: Lantern",
+          "lineItemCost": {
+            "value": "29.00",
+            "currency": "USD"
+          },
+          "quantity": 1,
+          "soldFormat": "FIXED_PRICE",
+          "listingMarketplaceId": "EBAY_US",
+          "purchaseMarketplaceId": "EBAY_US",
+          "lineItemFulfillmentStatus": "FULFILLED",
+          "total": {
+            "value": "42.80",
+            "currency": "USD"
+          },
+          "deliveryCost": {
+            "shippingCost": {
+              "value": "11.00",
+              "currency": "USD"
+            }
+          },
+          "appliedPromotions": [],
+          "taxes": [],
+          "ebayCollectAndRemitTaxes": [
+            {
+              "taxType": "STATE_SALES_TAX",
+              "amount": {
+                "value": "2.80",
+                "currency": "USD"
+              },
+              "collectionMethod": "NET"
+            }
+          ],
+          "properties": {
+            "buyerProtection": true
+          },
+          "refunds": [],
+          "lineItemFulfillmentInstructions": {
+            "minEstimatedDeliveryDate": "2026-10-05T03:45:00.000Z",
+            "maxEstimatedDeliveryDate": "2026-10-08T03:45:00.000Z",
+            "shipByDate": "2026-10-04T03:45:00.000Z",
+            "guaranteedDelivery": false
+          },
+          "itemLocation": {
+            "location": "South Bend, Indiana",
+            "countryCode": "US",
+            "postalCode": "46601"
+          }
+        }
+      ],
+      "salesRecordReference": "7010",
+      "totalFeeBasisAmount": {
+        "value": "42.80",
+        "currency": "USD"
+      },
+      "totalMarketplaceFee": {
+        "value": "0.00",
+        "currency": "USD"
+      }
+    }
+  ]
+}

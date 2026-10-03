@@ -9,18 +9,27 @@
     "typecheck": "tsc --noEmit",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "ingest": "tsx scripts/ingest-file.ts",
+    "check:parsers-other": "tsx scripts/check-parsers-other.ts",
+    "check:parsers": "tsx scripts/check-parsers.ts",
+    "close": "tsx scripts/close.ts",
+    "check:parsers-api": "tsx scripts/check-parsers-api.ts",
+    "pull": "tsx scripts/pull.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
     "drizzle-orm": "^0.45.3",
+    "exceljs": "^4.4.0",
     "next": "^15.5.27",
+    "papaparse": "^5.7.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.4",
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "dotenv": "^18.0.5",
