@@ -72,7 +72,7 @@ owner named per task. `docs/pitch/**`, `docs/ethics.md`, `docs/demo-script.md` �
 |---|---|---|---|---|---|
 | T1 | Scaffold Next.js + Drizzle + Turso + full schema | Claude · agent:claude area:data p0 | repo root config, `src/db/**`, `drizzle.config.ts`, `.env.example`, README | none | Next.js 15 App Router TS; `src/db/schema.ts` = data contract incl. §6 changes; `src/db/client.ts` reads `TURSO_*` (with/without prefix), `file:local.db` locally; `db:push`, `seed` scripts; `/api/health`; builds on Vercel |
 | T2 | Synthetic fixture generator (Sept 2026 + 7 nightly days) | Claude · agent:claude area:data p0 | `scripts/gen-fixtures.ts`, `data/fixtures/**`, `data/baseline/**` | none (types only) | Seeded RNG; real header layouts from research.md §2; ~2–5k orders across channels; fake names only; messy cases: Amazon preamble lines, eBay blank line + footer, renamed column, TZ-boundary order, refunds, duplicate file, Upright∩eBay overlap, unmapped fee type, missing source on one night, workbook baseline with one deliberate mismatch; README in `data/fixtures` |
-| T3 | Parser framework + header detection + ingest service | Claude · agent:claude area:data p0 | `src/sources/_shared/**`, `src/ingest/**`, `src/app/api/ingest/route.ts` | T1 | `detectHeaderRow`, CSV + XLSX reading, auto-detect source; writes `ingest_runs` with sha256 dedupe, warnings; buyer_key salted hash; unit tests on 2 fixtures |
+| T3 | Parser framework + header detection + ingest service | Claude · agent:claude area:data p0 | `src/sources/_shared/**`, `src/ingest/**`, `src/app/api/ingest/route.ts` | T1 | `detectHeaderRow`, CSV + XLSX reading, auto-detect source; writes `ingest_runs` with sha256 dedupe, warnings; buyer_key salted hash; unit tests on 2 fixtures; header aliases in config; **column-mapping fallback** (API returns unmatched columns, accepts a user mapping) so an unseen judge file still ingests |
 | T4a | Parsers: Amazon transaction + eBay orders/transactions | Claude · agent:claude area:data p0 | `src/sources/amazon.ts`, `src/sources/ebay.ts` | T2,T3 | Parse fixtures with 0 errors; preamble/footer handled; tax excluded from revenue; tests |
 | T4b | Parsers: ShopGoodwill periodic + Upright paid order items | Claude · agent:claude area:data p0 | `src/sources/shopgoodwill.ts`, `src/sources/upright.ts` | T2,T3 | Period label captured; Upright rows mapped to `channel`; overlap with eBay flagged `duplicate_order` |
 | T4c | Parsers: FedEx, EasyPost/PB/OSM, Goodwill Books statement, Cash Monkey, Jewelry | Claude · agent:claude area:data p1 | `src/sources/{fedex,shipping,goodwill_books,cashmonkey,jewelry}.ts` | T2,T3 | Produce `money_lines` with correct `amount_type`; FedEx refunds as negative/shipping_refund |
@@ -121,16 +121,43 @@ Denis checklist (low risk, high visibility):
 - [ ] Sun 1:00 drive the dry run, timing each segment.
 - [ ] Sun 3:45 submission form checklist (§5).
 
-## 5. Demo video (7:00 hard cut; aim 6:30) and slides
+## 5. Demo (7:00 hard cut; aim 6:30) and slides
 
-Record on the **production URL**, one take, after "Reset demo data". Banner visible:
-"All data synthetic".
+### Printed judge card overrides the website on Working Evidence
+
+The paper judge card (seen Sat Oct 3) scores **live** runs, not recordings:
+
+| Level | Printed judge card, Working Evidence (26 pts) |
+|---|---|
+| 1 | Recording, mockup or slides only |
+| 2 | Parts ran live, but one step was a screenshot or narration |
+| 3 | Full workflow ran live on the team's own examples |
+| 4 | Full workflow ran live and **still worked when a judge or partner tried their own example** |
+
+Also on the card: "If two levels fit, take the lower one"; judges tick a flag (not dock
+points) if a team looks pre-built or claimed something that was not running.
+
+Consequences for the plan:
+- **Ask the facilitator: live or recorded?** Until answered, prepare both: a **live demo
+  on the production URL** as the primary, the recorded video as backup in the slides.
+- **Level-4 test: "judge tries their own file".** Amanda is the likeliest to drop a real
+  export into the pulse. Parsers must handle unseen files: header-row detection, header
+  aliases, warnings instead of crashes, and a **column-mapping fallback** in the upload
+  UI (user picks which column is date / order id / amount) so an unknown layout still
+  works in one extra step. "Try your own file" is on the demo path, not hidden.
+- Prod stability Sunday: "Reset demo data" button, Dot health check after every merge,
+  nothing risky merged after the 3:00 soft freeze.
+
+### Run of show
+
+Run live on the **production URL** (record the same flow as backup), after "Reset demo
+data". Banner visible: "All data synthetic". Lead with the pulse: it is Amanda's #1.
 
 | Time | Segment | On screen |
 |---|---|---|
 | 0:00–0:30 | **Problem in Goodwill's words**: slide 19 quotes ("From manual reporting to management visibility", "A nightly report creates a daily pulse", "From manual month-end close to Business Central integration") + 9 sources → workbook → BC picture | Slide |
 | 0:30–1:00 | Our answer in one line: one data layer, three outputs; usable tomorrow with their files, BC and the workbook kept | Diagram slide |
-| 1:00–2:15 | **Nightly pulse**: open email in inbox (sent by cron/"Send now"); then app: revenue + customers per marketplace + totals; one channel "missing" (didn't upload) instead of $0; click a number → source rows | Inbox + app |
+| 1:00–2:15 | **Nightly pulse (Amanda's #1)**: open email in inbox (sent by cron/"Send now"); then app: total sales + customers (= transactions) per marketplace + totals; one channel "missing" (didn't upload) instead of $0; click a number → source rows; **invite the judge/Amanda to drop their own file** | Inbox + app |
 | 2:15–4:45 | **Month-end close (example 1: clean source)**: checklist of 9 sources; drop Amazon file → parsed. **Example 2: messy file**: eBay export with footer + renamed column → parser warns, maps it, flags; Upright overlap → duplicate flagged to owner. Generate journal → balanced lines with GL 40356 / Dept 180 etc. → reconcile vs workbook → one mismatch exception routed to named owner → Approve → download BC journal xlsx; show it opened in Excel in BC column layout (and pasted into BC if trial worked) | App + Excel |
 | 4:45–5:45 | **COO scorecard**: 3 anchors on top (net margin, revenue/labor hour, sell-through), 15 KPIs with trend/target; "simulated" badges on labor/pipeline KPIs; AI note narrating only computed numbers | App |
 | 5:45–6:30 | Limits + next steps, honestly: synthetic data; BC via file, API next; their wave plan (slide 42) as our rollout; ethics in 3 bullets | Slide |
