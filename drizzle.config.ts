@@ -13,4 +13,7 @@ export default defineConfig({
   schema: "./src/db/schema.ts",
   out: "./drizzle",
   dbCredentials: { url, authToken },
+  // golden_* = demo reset snapshot (src/lib/demo/golden.ts), not in the schema:
+  // without this filter `drizzle-kit push` would offer to drop them.
+  tablesFilter: ["!golden_*"],
 });

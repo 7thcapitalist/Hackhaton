@@ -1,5 +1,5 @@
 /**
- * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged]
+ * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged] [--no-golden]
  *
  * Wipes the facts, upserts config + KPI targets, then pulls every mock export
  * in data/fixtures through the mock connectors (pullAndIngest, mock mode) into
@@ -10,6 +10,10 @@
  * the target in one transaction ("staged"); --direct ingests into the target.
  * Uses TURSO_DATABASE_URL (default file:local.db). Run `npm run db:push` and
  * `npm run mock:generate` (or use the committed fixtures) first.
+ *
+ * Ends by saving the golden snapshot (src/lib/demo/golden.ts) that
+ * `npm run demo:reset` and POST /api/demo/reset restore from in one batch.
+ * --no-golden skips it (an existing snapshot is left as it was).
  */
 import { config } from "dotenv";
 
@@ -22,6 +26,7 @@ async function main() {
   const { resolveDbConfig, redactSecrets } = await import("../src/db/env");
   const { runSeed } = await import("./seed/run");
   const { fixturesFromDisk } = await import("./seed/fixtures");
+  const { saveGolden } = await import("../src/lib/demo/golden");
 
   const { isLocalFile } = resolveDbConfig();
   const argv = process.argv.slice(2);
@@ -52,6 +57,16 @@ async function main() {
     console.error(`\n${r.problems.length} problem(s):`);
     for (const p of r.problems) console.error(`  ${p}`);
     process.exit(1);
+  }
+  if (argv.includes("--no-golden")) {
+    console.log("Golden snapshot: skipped (--no-golden).");
+  } else {
+    const t = Date.now();
+    const g = await saveGolden(getDb().$client);
+    const rows = Object.values(g.counts).reduce((a, b) => a + b, 0);
+    console.log(
+      `Golden snapshot saved in ${Date.now() - t} ms (${rows} rows, ${Object.keys(g.counts).length} tables). Reset with \`npm run demo:reset\`.`,
+    );
   }
 }
 
