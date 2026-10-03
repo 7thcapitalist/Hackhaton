@@ -105,18 +105,29 @@ class StatementBatch {
       params += n;
     }
     if (cur.length) groups.push(cur);
-    const tx = await client.transaction("write");
-    try {
-      for (const g of groups) await tx.batch(g);
-      await tx.commit();
-    } catch (err) {
-      await tx.rollback().catch(() => {});
-      throw err;
-    } finally {
-      tx.close();
+    // Over HTTP (Turso), an idle keep-alive connection can be closed by the
+    // server while the staged ingest runs locally; the next request then fails
+    // with ECONNRESET. The transaction is all-or-nothing, so retrying is safe.
+    for (let attempt = 1; ; attempt++) {
+      const tx = await client.transaction("write");
+      try {
+        for (const g of groups) await tx.batch(g);
+        await tx.commit();
+        return groups.length + 2; // + begin/commit
+      } catch (err) {
+        await tx.rollback().catch(() => {});
+        if (attempt >= 3 || !isConnectionReset(err)) throw err;
+      } finally {
+        tx.close();
+      }
     }
-    return groups.length + 2; // + begin/commit
   }
+}
+
+function isConnectionReset(err: unknown): boolean {
+  const e = err as { code?: string; message?: string; cause?: { code?: string } } | null;
+  const text = `${e?.code ?? ""} ${e?.cause?.code ?? ""} ${e?.message ?? ""}`;
+  return /ECONNRESET|socket hang up|other side closed|fetch failed/i.test(text);
 }
 
 /** Wipe facts, upsert config and KPI targets (statements only). */
