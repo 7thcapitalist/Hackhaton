@@ -29,7 +29,8 @@ npx vercel env pull .env.local
 cp .env.example .env.local   # TURSO_DATABASE_URL=file:local.db
 
 npm run db:push   # create/update tables (drizzle-kit push; run from a laptop, never in the Vercel build)
-npm run seed      # wipe facts, pull every mock export through the mock connectors into ingest
+npm run seed      # wipe facts, pull every mock export through the mock connectors into ingest, save the golden snapshot
+npm run demo:reset  # any time later: back to the seeded state in ~1-2 s (restores the golden snapshot)
 npm run dev       # http://localhost:3000
 ```
 
@@ -42,7 +43,8 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
-| `npm run seed [-- --direct\|--staged]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~18 s; remote Turso: stages in a scratch SQLite file and copies in one transaction |
+| `npm run seed [-- --direct\|--staged] [--no-golden]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that |
+| `npm run demo:reset` | Restore the golden snapshot into the live tables (one write batch, no rows over the network). ~1.3-2.5 s on a local file. Fails if `npm run seed` never ran against this database |
 | `npm run mock:generate [-- --check]` | Render the deterministic mock truth (`scripts/mock/model.ts`: 2026-08-01..2026-10-03 nightly + 2025-08..10 monthly) into each platform's real export layout under `data/fixtures/<source_id>/` (~308 files, ~6.5 MB). `--check` fails if the committed files differ |
 | `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
 | `npm run ingest -- --check <YYYY-MM or YYYY-MM-DD>` | List sources with no file for that period/day and record `missing_source` exceptions |
@@ -93,10 +95,26 @@ business dates in America/Indiana/Indianapolis. KPI formulas live in `src/kpis/`
 | `getExceptions({status,sourceId,kind,period,limit,offset})` | `/api/views/exceptions?…` | Exceptions inbox + `countsByKind`; resolve with `PATCH /api/exceptions/:id` `{ status, note? }` |
 | `getIngestRuns({sourceId,period,limit,offset})` | `/api/views/ingest-runs?…` | Upload history with the first 20 warnings per file |
 
-**Reset demo data:** `curl -X POST -H "x-demo-secret: $DEMO_RESET_SECRET" <url>/api/demo/reset`
-wipes uploads and reloads the demo data through the parsers (same code as `npm run seed`,
-staged mode, files rendered in memory; ~8 s locally, not yet timed on Turso).
-Returns 503 until `DEMO_RESET_SECRET` is set in Vercel.
+**Reset demo data: seed once, reset from golden.** The full seed is slow (~1000 mock
+files through ingest, then ~75k rows copied to Turso), so it runs once from a laptop:
+`npm run seed` against the production `TURSO_DATABASE_URL`. It ends by snapshotting the
+demo state INSIDE the same database (`src/lib/demo/golden.ts`): every fact table,
+`kpi_targets` and the close tables are copied server-side to `golden_<table>` twins
+(`CREATE TABLE … AS SELECT *`), with `golden_meta` holding the time and row counts.
+A reset then rewrites the live tables from those twins in one write batch (children
+deleted first, parents inserted first): only SQL text crosses the wire, never rows.
+Config (sources, channels, GL rules) is not touched. Re-run `npm run seed` whenever the
+demo data itself changes (new fixtures, parser changes); that refreshes the snapshot.
+
+- `npm run demo:reset` from a laptop, or
+- `curl -X POST -H "x-demo-secret: $DEMO_RESET_SECRET" <url>/api/demo/reset` →
+  `{ ok, mode: "golden", createdAt, counts, ms }`. 409 if the database has no snapshot yet
+  (run `npm run seed` once). `?mode=full` re-runs the whole seed through the parsers and
+  saves a new snapshot (local dev only, refused on Vercel; ~40 s).
+  Returns 503 until `DEMO_RESET_SECRET` is set in Vercel.
+
+The `golden_*` tables are not in the Drizzle schema; `drizzle.config.ts` excludes them
+with `tablesFilter: ["!golden_*"]` so `npm run db:push` never offers to drop them.
 
 Bad dates or periods return 400. Demo cases in the fixtures: no Amazon file for
 2026-10-02 (pulse `"missing"`); Upright re-reports some eBay/ShopGoodwill orders every day
