@@ -13,6 +13,7 @@ and a month-end close export for Business Central.
 | Database | Turso (libSQL / SQLite) via Drizzle ORM |
 | Email | Resend (nightly pulse) |
 | File parsing | SheetJS / exceljs for CSV and XLSX exports |
+| Report workbooks | ExcelJS (typed cells and separate KPI/category sheets) |
 | Scheduling | Vercel Cron, once a day (`0 11 * * *` UTC ≈ 7 AM Eastern) |
 
 ## Run it locally
@@ -67,7 +68,7 @@ are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts
 
 ## Where to read next
 
-- [src/export/README.md](src/export/README.md): CSV download contract and pending shared-view dependency
+- [src/export/README.md](src/export/README.md): CSV/XLSX and monthly report downloads, plus the pending shared-view dependency
 
 - [AGENTS.md](AGENTS.md): team rules, branches, PRs, who owns what
 - [CONTEXT.md](CONTEXT.md): event, schedule, judging criteria

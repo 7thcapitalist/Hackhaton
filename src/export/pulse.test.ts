@@ -5,18 +5,7 @@ import { pulseCsv, pulseTable } from "./pulse";
 import { loadPulse, reportOrigin } from "./provider";
 import { parsePulse, ReportError, validBusinessDate, validPeriod } from "./validation";
 import { GET } from "../app/api/export/pulse/route";
-import type { PulseExportData } from "./types";
-
-export const samplePulse: PulseExportData = {
-  businessDate: "2026-10-02", timezone: "America/Indiana/Indianapolis", isSynthetic: true,
-  rows: [
-    { channelId: "ebay", label: 'eBay, "Livros"\nMichiana', status: "ok", revenueCents: 123456, customers: 12, orders: 15 },
-    { channelId: "amazon", label: "Amazon", status: "ok", revenueCents: -105, customers: 0, orders: 0 },
-    { channelId: "other", label: "Other", status: "missing", revenueCents: null, customers: null, orders: null },
-  ],
-  totals: { revenueCents: 90000, customers: 11, orders: 14 }, // authoritative view totals; do not recompute
-  missingChannels: ["other"],
-};
+import { samplePulse } from "./testing/fixtures";
 
 test("pulse CSV preserves authoritative values, missing data and metadata", () => {
   const csv = pulseCsv(samplePulse);

@@ -1,9 +1,13 @@
 import { moneyCell, tableToCsv } from "./csv";
 import type { PulseExportData, ReportTable } from "./types";
 
-export function pulseTable(view: PulseExportData): ReportTable {
-  const partial = view.missingChannels.length > 0 || view.rows.some(row =>
+export function pulseIsPartial(view: PulseExportData): boolean {
+  return view.rows.length === 0 || view.missingChannels.length > 0 || view.rows.some(row =>
     row.status === "missing" || row.revenueCents === null || row.customers === null || row.orders === null);
+}
+
+export function pulseTable(view: PulseExportData): ReportTable {
+  const partial = pulseIsPartial(view);
   const metadata = [view.isSynthetic, partial ? "partial" : "complete", view.missingChannels.join(" | ")];
   return {
     name: "Daily Pulse",

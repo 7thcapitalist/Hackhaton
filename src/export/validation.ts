@@ -84,8 +84,9 @@ export function parseScorecard(value: unknown, expectedPeriod: string): Scorecar
     if (!units.includes(row.unit as KpiUnit) ||
       !["ok", "simulated", "awaiting_data"].includes(String(row.status))) invalid();
     return { id: text(row.id), label: text(row.label), pillar: text(row.pillar),
-      unit: row.unit as KpiUnit, value: nullable(row.value), previous: nullable(row.previous),
-      target: nullable(row.target), status: row.status as "ok" | "simulated" | "awaiting_data",
+      unit: row.unit as KpiUnit, value: nullable(row.value, row.unit === "cents"),
+      previous: nullable(row.previous, row.unit === "cents"),
+      target: nullable(row.target, row.unit === "cents"), status: row.status as "ok" | "simulated" | "awaiting_data",
       anchor2027: bool(row.anchor2027), ...(row.note === undefined ? {} : { note: text(row.note) }) };
   });
   function categories(value: unknown, field: "revenueCents" | "marginCents") {
