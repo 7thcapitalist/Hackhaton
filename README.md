@@ -12,7 +12,7 @@ and a month-end close export for Business Central.
 | Hosting | Vercel. `main` = production (the demo URL), every PR gets a preview |
 | Database | Turso (libSQL / SQLite) via Drizzle ORM |
 | Email | Resend (nightly pulse) |
-| File parsing | SheetJS / exceljs for CSV and XLSX exports |
+| File parsing | papaparse (CSV) and exceljs (XLSX) |
 | Scheduling | Vercel Cron, once a day (`0 11 * * *` UTC ≈ 7 AM Eastern) |
 
 ## Run it locally
@@ -43,6 +43,8 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
 | `npm run seed` | Wipe and reload deterministic synthetic data (sources, channels, KPI targets, orders, money lines, items, labor hours, exceptions) for 2026-08-01..2026-10-03 |
+| `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
+| `npm run ingest -- --check <YYYY-MM or YYYY-MM-DD>` | List sources with no file for that period/day and record `missing_source` exceptions |
 
 ### Env vars
 
