@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { buttonClass } from "@/components/Button";
 import { DrillDownDrawer, type DrawerContent } from "@/components/DrillDownDrawer";
 import { HeroStat } from "@/components/HeroStat";
@@ -9,9 +9,9 @@ import { DownloadIcon, MailIcon, WarnIcon } from "@/components/icons";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PulseChart } from "@/components/PulseChart";
 import { PulseTable, type PulseField } from "@/components/PulseTable";
-import { CHANNELS, getOrders, lastReceivedBefore } from "../_lib/demo-data";
-import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyCompact, pctChange } from "../_lib/format";
-import type { ChannelId, PulseSeries, PulseTotals, PulseView } from "../_lib/types";
+import { CHANNEL_LABEL, CHANNELS, GROUP_MEMBERS, sourcesForRow } from "../_lib/channels";
+import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyCompact, formatStampFull, pctChange } from "../_lib/format";
+import type { ChannelId, PulseSeries, PulseTotals, PulseView, SourceOrder } from "../_lib/types";
 
 type PulseScreenProps = {
   view: PulseView;
@@ -30,7 +30,8 @@ const href = (date: string) => `/pulse?date=${date}`;
 export function PulseScreen({ view, compare, series, prevDate, nextDate, latestDate }: PulseScreenProps) {
   const router = useRouter();
   const [drawer, setDrawer] = useState<DrawerState>(null);
-  const close = useCallback(() => setDrawer(null), []);
+  const [drawerContent, setDrawerContent] = useState<DrawerContent | null>(null);
+  const close = useCallback(() => { setDrawer(null); setDrawerContent(null); }, []);
   const date = view.businessDate;
   const dateLong = formatDayLong(date);
   const dateShort = formatDay(date);
@@ -39,7 +40,16 @@ export function PulseScreen({ view, compare, series, prevDate, nextDate, latestD
   const T = view.totals;
   const C = compare.totals;
 
-  const drawerContent = useMemo(() => drawer && buildDrawer(drawer, view), [drawer, view]);
+  // Every number here comes from the real database through the /api/views/* JSON
+  // routes (docs/interfaces.md §2: client components fetch, they don't import the
+  // server-only view functions directly).
+  const requestId = useRef(0);
+  useEffect(() => {
+    if (!drawer) return;
+    const id = ++requestId.current;
+    setDrawerContent(null);
+    buildDrawer(drawer, view).then(content => { if (requestId.current === id) setDrawerContent(content); });
+  }, [drawer, view]);
 
   const openCell = (channel: ChannelId | "total", field: PulseField) => setDrawer({ channel, field });
 
@@ -101,22 +111,59 @@ export function PulseScreen({ view, compare, series, prevDate, nextDate, latestD
   );
 }
 
-function buildDrawer(state: NonNullable<DrawerState>, view: PulseView): DrawerContent {
+// Minimal shapes for the two /api/views/* routes this drawer reads (full types
+// in src/lib/views/types.ts; client components can't import that server module).
+type RealOrderRow = {
+  channel: string; sourceId: string; externalOrderId: string; category: string | null;
+  grossCents: number; netCents: number; ingestRunId: string; sourceRow: number;
+};
+type RealIngestRun = { id: string; sourceId: string; businessDate: string | null; fileName: string; uploadedAt: string };
+
+async function fetchJson<T>(url: string): Promise<T | null> {
+  try {
+    const res = await fetch(url);
+    return res.ok ? ((await res.json()) as T) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function buildDrawer(state: NonNullable<DrawerState>, view: PulseView): Promise<DrawerContent> {
   const date = view.businessDate;
+  const period = date.slice(0, 7);
+
   if ("missing" in state) {
     const c = CHANNELS.find(x => x.id === state.channel)!;
     const row = view.rows.find(r => r.channelId === state.channel)!;
-    const last = lastReceivedBefore(state.channel, date);
+    const ids = sourcesForRow(state.channel);
+    const sourcesView = await fetchJson<{ sources: { sourceId: string; lastIngestAt: string | null }[] }>(`/api/views/sources?period=${period}`);
+    const at = (sourcesView?.sources ?? []).filter(s => ids.includes(s.sourceId) && s.lastIngestAt).map(s => s.lastIngestAt!);
     return {
       kind: "missing", title: `${c.label} · no file yet`, expectedFile: row.sourceFile, feeds: c.sublabel,
-      lastReceived: last ? `${formatDay(last)} at ${c.importedAt} ET` : "—",
+      lastReceived: at.length ? formatStampFull(at.sort().at(-1)!) : "—",
     };
   }
+
   const rows = view.rows.filter(r => r.status === "ok" && (state.channel === "total" || r.channelId === state.channel));
-  const orders = rows.flatMap(r => getOrders(r.channelId, date)).sort((a, b) => a.minute - b.minute);
-  const rev = rows.reduce((a, r) => a + r.revenueCents!, 0);
-  const ords = rows.reduce((a, r) => a + r.orders!, 0);
-  const custs = rows.reduce((a, r) => a + r.customers!, 0);
+  const members = rows.flatMap(r => GROUP_MEMBERS[r.channelId] ?? [r.channelId]);
+  const [orderResults, runsView] = await Promise.all([
+    Promise.all(members.map(c => fetchJson<{ rows: RealOrderRow[] }>(`/api/views/orders?channel=${c}&date=${date}&limit=1000`))),
+    fetchJson<{ rows: RealIngestRun[] }>(`/api/views/ingest-runs?period=${period}&limit=500`),
+  ]);
+  const fileById = new Map((runsView?.rows ?? []).map(r => [r.id, r.fileName]));
+  const orders: SourceOrder[] = orderResults.flatMap(v => (v?.rows ?? []).map(o => ({
+    orderId: o.externalOrderId,
+    channelLabel: CHANNEL_LABEL[o.channel as ChannelId] ?? o.channel,
+    category: o.category ?? "Uncategorized",
+    grossCents: o.grossCents,
+    netCents: o.netCents,
+    sourceFile: fileById.get(o.ingestRunId) ?? `${o.sourceId}.csv`,
+    sourceRow: o.sourceRow,
+  })));
+
+  const rev = rows.reduce((a, r) => a + (r.revenueCents ?? 0), 0);
+  const ords = rows.reduce((a, r) => a + (r.orders ?? 0), 0);
+  const custs = rows.reduce((a, r) => a + (r.customers ?? 0), 0);
   const one = state.channel === "total" ? null : rows[0];
   return {
     kind: "rows",

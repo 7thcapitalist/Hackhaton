@@ -3,15 +3,17 @@ import { KpiCard } from "@/components/KpiCard";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PrintButton } from "@/components/PrintButton";
 import { StatusLegend } from "@/components/StatusBadge";
-import { PILLARS, getScorecard, getSourceSummary } from "../_lib/demo-data";
+import { PILLARS, SCORECARD_PERIOD_ID, getScorecard, getSourceSummary } from "../_lib/live-data";
 import { formatStampFull, trackStatus } from "../_lib/format";
 
 export const metadata: Metadata = { title: "COO Scorecard – Mission Control" };
 
-export default function ScorecardPage() {
-  const { period, kpis, insights } = getScorecard();
+export default async function ScorecardPage() {
+  const [{ period, kpis, insights }, src] = await Promise.all([
+    getScorecard(SCORECARD_PERIOD_ID),
+    getSourceSummary(SCORECARD_PERIOD_ID),
+  ]);
   const anchors = kpis.filter(k => k.anchor2027);
-  const src = getSourceSummary();
   const month = period.label.split(" ")[0];
 
   return (
@@ -24,7 +26,7 @@ export default function ScorecardPage() {
         <div className="flex flex-wrap items-center gap-4">
           <StatusLegend />
           <div data-print-hide>
-            {/* The demo holds one closed month; real periods come from getScorecard(period). */}
+            {/* getScorecard(period) works for any YYYY-MM; this page just doesn't take a ?period= yet (see pulse/page.tsx for the pattern). */}
             <PeriodStepper label={period.label} prevHref={null} nextHref={null} prevLabel="Previous month" nextLabel="Next month" />
           </div>
           <PrintButton />
@@ -65,9 +67,9 @@ export default function ScorecardPage() {
       <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-3 text-xs text-ink-3">
         <span>
           Sources: {src.arrived} of {src.total} received for {month}
-          {src.missing.length > 0 && ` · ${src.missing.map(s => s.name).join(" and ")} files pending`} · Simulated values are demo estimates, not reported figures.
+          {src.missing.length > 0 && ` · ${src.missing.map(s => s.name).join(" and ")} files pending`} · "Simulated" KPIs use synthetic item/labor data, not reported figures.
         </span>
-        <span>Generated {formatStampFull(period.generatedAt)}</span>
+        <span>{period.generatedAt ? `Generated ${formatStampFull(period.generatedAt)}` : "Not yet generated — seed the database"}</span>
       </footer>
     </div>
   );
