@@ -1,0 +1,21 @@
+"Includes Amazon Marketplace, Fulfillment by Amazon (FBA), and Amazon Webstore transactions"
+"All amounts in USD, unless specified"
+"Definitions:"
+"Sales tax collected: Includes sales tax collected from buyers for product sales, shipping, and gift wrap."
+"Selling fees: Includes variable closing fees and referral fees."
+"Other transaction fees: Includes sales tax collection fees."
+"Other: Includes non-order transaction amounts. For more details, see the ""Type"" and ""Description"" columns for each order ID."
+date time,settlement id,type,amazon order id,sku,description,quantity,marketplace,fulfillment,order city,order state,order postal,tax collection model,product sales,product sales tax,shipping credits,shipping credits tax,gift wrap credits,giftwrap credits tax,Regulatory Fee,promotional rebates,promotional rebates tax,marketplace withheld tax,referral fees,fba fees,other transaction fees,other,total amount
+"Oct 1, 2026 6:02:11 AM PDT",18800000001,Order,112-2000001-0000001,BK-0101,Poetry Anthology,1,amazon.com,Seller,,,,MarketplaceFacilitator,9.00,0.63,3.99,0.28,0,0,0,0.00,0,-0.91,-1.35,0.00,0.00,0.00,11.64
+"Oct 1, 2026 7:15:00 AM PDT",18800000001,Order,112-2000002-0000002,HM-0102,Glass Pitcher,1,amazon.com,Seller,,,,MarketplaceFacilitator,16.00,1.12,7.00,0.49,0,0,0,0.00,0,-1.61,-2.40,0.00,0.00,0.00,20.60
+"Oct 1, 2026 8:44:44 AM PDT",18800000001,Order,112-2000003-0000003,TY-0103,Puzzle 1000pc,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.00,0.77,5.00,0.35,0,0,0,0.00,0,-1.12,-1.65,0.00,0.00,0.00,14.35
+"Oct 1, 2026 10:05:00 AM PDT",18800000001,Order,112-2000004-0000004,EL-0104,Portable Radio,1,amazon.com,Seller,,,,MarketplaceFacilitator,25.00,1.75,6.50,0.46,0,0,0,0.00,0,-2.21,-3.75,0.00,0.00,0.00,27.75
+"Oct 1, 2026 11:59:59 AM PDT",18800000001,Order,112-2000005-0000005,BK-0105,Cook's Atlas,1,amazon.com,Seller,,,,MarketplaceFacilitator,13.00,0.91,3.99,0.28,0,0,0,0.00,0,-1.19,-1.95,0.00,0.00,0.00,15.04
+"Oct 1, 2026 1:30:00 PM PDT",18800000001,Refund,112-2000002-0000002,HM-0102,Glass Pitcher,1,amazon.com,Seller,,,,MarketplaceFacilitator,-16.00,-1.12,0.00,0.00,0,0,0,0.00,0,1.12,1.92,0.00,0.00,0.00,-14.08
+"Oct 1, 2026 2:00:00 PM PDT",18800000001,Order,112-2000006-0000006,JW-0106,Silver Tone Bracelet,1,amazon.com,Seller,,,,MarketplaceFacilitator,21.00,1.47,3.50,0.25,0,0,0,0.00,0,-1.72,-3.15,0.00,0.00,0.00,21.35
+"Oct 1, 2026 3:15:00 PM PDT",18800000001,Service Fee,,,Cost of Advertising,,,,,,,,0.00,0.00,0.00,0.00,0,0,0,0.00,0,0.00,0.00,0.00,0.00,-4.25,-4.25
+"Oct 1, 2026 4:40:00 PM PDT",18800000001,Order,112-2000007-0000007,BK-0107,Sci-Fi Paperback Lot,1,amazon.com,Seller,,,,MarketplaceFacilitator,12.00,0.84,4.99,0.35,0,0,0,0.00,0,-1.19,-1.80,0.00,0.00,0.00,15.19
+"Oct 1, 2026 5:55:00 PM PDT",18800000001,Order,112-2000008-0000008,HM-0108,Wool Blanket,1,amazon.com,Seller,,,,MarketplaceFacilitator,28.00,1.96,9.00,0.63,0,0,0,0.00,0,-2.59,-4.20,0.00,0.00,0.00,32.80
+"Oct 1, 2026 7:10:00 PM PDT",18800000001,Order,112-2000009-0000009,TY-0109,Plush Bear,1,amazon.com,Seller,,,,MarketplaceFacilitator,8.00,0.56,4.00,0.28,0,0,0,0.00,0,-0.84,-1.20,0.00,0.00,0.00,10.80
+"Oct 1, 2026 8:45:00 PM PDT",18800000001,Order,112-2000010-0000010,BK-0110,Late Night Order: Dictionary,1,amazon.com,Seller,,,,MarketplaceFacilitator,10.00,0.70,3.99,0.28,0,0,0,0.00,0,-0.98,-1.50,0.00,0.00,0.00,12.49
+"Oct 1, 2026 8:50:00 PM PDT",18800000001,Transfer,,,To account ending in: 0101,,,,,,,,0.00,0.00,0.00,0.00,0,0,0,0.00,0,0.00,0.00,0.00,0.00,0.00,-120.00

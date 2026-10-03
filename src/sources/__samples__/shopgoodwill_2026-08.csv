@@ -1,0 +1,18 @@
+ShopGoodwill Seller Portal
+Periodic Marketplace Report - All Reports
+Seller,Goodwill Industries of Michiana (TEST DATA)
+Year,2026,Month,August
+Report,Period 3
+
+Order ID,Auction ID,Title,Category,End Date,High Bid,Shipping,Handling,Buyer Premium,Commission,Refund,Net,Bidder ID,Status
+SGW-7600201,209000201,Brass Lamp,Home,08/03/2026 07:00 PM,38.00,16.00,2.00,1.90,3.80,0.00,52.20,sgw_test_bidder_21,Paid
+SGW-7600202,209000202,Comic Book Lot,Books,08/06/2026 08:30 PM,44.00,7.00,2.00,2.20,4.40,0.00,48.60,sgw_test_bidder_22,Paid
+SGW-7600203,209000203,Gold Tone Earrings,Jewelry,08/09/2026 06:20 PM,19.00,5.50,2.00,0.95,1.90,0.00,24.60,sgw_test_bidder_23,Paid
+SGW-7600204,209000204,Bread Machine,Kitchen,08/12/2026 09:05 PM,25.00,19.00,2.00,1.25,2.50,25.00,18.50,sgw_test_bidder_24,Refunded
+SGW-7600205,209000205,Oil Painting,Art,08/15/2026 07:40 PM,85.00,25.00,2.00,4.25,8.50,0.00,103.50,sgw_test_bidder_25,Paid
+SGW-7600206,209000206,Record Player,Electronics,08/18/2026 08:10 PM,70.00,20.00,2.00,3.50,7.00,0.00,85.00,sgw_test_bidder_26,Paid
+SGW-7600207,209000207,Pewter Mug,Collectibles,08/21/2026 06:55 PM,16.00,8.00,2.00,0.80,1.60,0.00,24.40,sgw_test_bidder_27,Paid
+SGW-7600208,209000208,Fishing Reel,Sporting,08/24/2026 07:25 PM,29.00,9.00,2.00,1.45,2.90,0.00,37.10,sgw_test_bidder_28,Paid
+SGW-7600209,209000209,Silk Scarf,Clothing,08/27/2026 08:50 PM,14.00,5.00,2.00,0.70,1.40,0.00,19.60,sgw_test_bidder_29,Paid
+SGW-7600210,209000210,Late Night Auction: Cameo Pin,Jewelry,08/31/2026 11:45 PM,47.00,6.00,2.00,2.35,4.70,0.00,50.30,sgw_test_bidder_30,Paid
+Totals,,,,,387.00,,,,,,,,
