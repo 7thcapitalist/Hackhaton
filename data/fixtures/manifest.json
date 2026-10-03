@@ -69,7 +69,7 @@
     "path": "upright/upright_2025-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2025-09-03T14:30:00.000Z",
-    "bytes": 152996
+    "bytes": 185928
   },
   {
     "path": "cashmonkey/cashmonkey_2025-09.csv",
@@ -141,7 +141,7 @@
     "path": "upright/upright_2025-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2025-10-03T14:30:00.000Z",
-    "bytes": 170133
+    "bytes": 206362
   },
   {
     "path": "cashmonkey/cashmonkey_2025-10.csv",
@@ -213,7 +213,7 @@
     "path": "upright/upright_2025-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2025-11-03T14:30:00.000Z",
-    "bytes": 188185
+    "bytes": 227964
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-01.csv",
@@ -237,7 +237,7 @@
     "path": "upright/upright_2026-08-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-02T11:00:00.000Z",
-    "bytes": 5445
+    "bytes": 6955
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-02.csv",
@@ -261,7 +261,7 @@
     "path": "upright/upright_2026-08-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-03T11:00:00.000Z",
-    "bytes": 5541
+    "bytes": 7082
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-03.csv",
@@ -285,7 +285,7 @@
     "path": "upright/upright_2026-08-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-04T11:00:00.000Z",
-    "bytes": 6353
+    "bytes": 8005
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-04.csv",
@@ -309,7 +309,7 @@
     "path": "upright/upright_2026-08-04.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-05T11:00:00.000Z",
-    "bytes": 5274
+    "bytes": 6759
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-05.csv",
@@ -333,7 +333,7 @@
     "path": "upright/upright_2026-08-05.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-06T11:00:00.000Z",
-    "bytes": 5413
+    "bytes": 6890
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-06.csv",
@@ -357,7 +357,7 @@
     "path": "upright/upright_2026-08-06.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-07T11:00:00.000Z",
-    "bytes": 3861
+    "bytes": 5030
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-07.csv",
@@ -381,7 +381,7 @@
     "path": "upright/upright_2026-08-07.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-08T11:00:00.000Z",
-    "bytes": 4984
+    "bytes": 6427
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-08.csv",
@@ -405,7 +405,7 @@
     "path": "upright/upright_2026-08-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-09T11:00:00.000Z",
-    "bytes": 7065
+    "bytes": 8917
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-09.csv",
@@ -429,7 +429,7 @@
     "path": "upright/upright_2026-08-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-10T11:00:00.000Z",
-    "bytes": 9579
+    "bytes": 11975
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-10.csv",
@@ -453,7 +453,7 @@
     "path": "upright/upright_2026-08-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-11T11:00:00.000Z",
-    "bytes": 6819
+    "bytes": 8559
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-11.csv",
@@ -477,7 +477,7 @@
     "path": "upright/upright_2026-08-11.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-12T11:00:00.000Z",
-    "bytes": 5410
+    "bytes": 6852
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-12.csv",
@@ -501,7 +501,7 @@
     "path": "upright/upright_2026-08-12.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-13T11:00:00.000Z",
-    "bytes": 6073
+    "bytes": 7659
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-13.csv",
@@ -525,7 +525,7 @@
     "path": "upright/upright_2026-08-13.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-14T11:00:00.000Z",
-    "bytes": 4340
+    "bytes": 5559
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-14.csv",
@@ -549,7 +549,7 @@
     "path": "upright/upright_2026-08-14.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-15T11:00:00.000Z",
-    "bytes": 4735
+    "bytes": 6017
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-15.csv",
@@ -573,7 +573,7 @@
     "path": "upright/upright_2026-08-15.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-16T11:00:00.000Z",
-    "bytes": 6874
+    "bytes": 8681
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-16.csv",
@@ -597,7 +597,7 @@
     "path": "upright/upright_2026-08-16.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-17T11:00:00.000Z",
-    "bytes": 8375
+    "bytes": 10417
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-17.csv",
@@ -621,7 +621,7 @@
     "path": "upright/upright_2026-08-17.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-18T11:00:00.000Z",
-    "bytes": 7004
+    "bytes": 8855
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-18.csv",
@@ -645,7 +645,7 @@
     "path": "upright/upright_2026-08-18.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-19T11:00:00.000Z",
-    "bytes": 7046
+    "bytes": 8911
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-19.csv",
@@ -669,7 +669,7 @@
     "path": "upright/upright_2026-08-19.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-20T11:00:00.000Z",
-    "bytes": 5899
+    "bytes": 7422
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-20.csv",
@@ -693,7 +693,7 @@
     "path": "upright/upright_2026-08-20.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-21T11:00:00.000Z",
-    "bytes": 3910
+    "bytes": 5154
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-21.csv",
@@ -717,7 +717,7 @@
     "path": "upright/upright_2026-08-21.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-22T11:00:00.000Z",
-    "bytes": 5199
+    "bytes": 6609
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-22.csv",
@@ -741,7 +741,7 @@
     "path": "upright/upright_2026-08-22.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-23T11:00:00.000Z",
-    "bytes": 7852
+    "bytes": 9823
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-23.csv",
@@ -765,7 +765,7 @@
     "path": "upright/upright_2026-08-23.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-24T11:00:00.000Z",
-    "bytes": 6024
+    "bytes": 7612
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-24.csv",
@@ -789,7 +789,7 @@
     "path": "upright/upright_2026-08-24.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-25T11:00:00.000Z",
-    "bytes": 6476
+    "bytes": 8161
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-25.csv",
@@ -813,7 +813,7 @@
     "path": "upright/upright_2026-08-25.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-26T11:00:00.000Z",
-    "bytes": 6418
+    "bytes": 8066
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-26.csv",
@@ -837,7 +837,7 @@
     "path": "upright/upright_2026-08-26.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-27T11:00:00.000Z",
-    "bytes": 6250
+    "bytes": 7907
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-27.csv",
@@ -861,7 +861,7 @@
     "path": "upright/upright_2026-08-27.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-28T11:00:00.000Z",
-    "bytes": 6704
+    "bytes": 8494
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-28.csv",
@@ -885,7 +885,7 @@
     "path": "upright/upright_2026-08-28.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-29T11:00:00.000Z",
-    "bytes": 4983
+    "bytes": 6344
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-29.csv",
@@ -909,7 +909,7 @@
     "path": "upright/upright_2026-08-29.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-30T11:00:00.000Z",
-    "bytes": 6078
+    "bytes": 7786
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-30.csv",
@@ -933,7 +933,7 @@
     "path": "upright/upright_2026-08-30.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-31T11:00:00.000Z",
-    "bytes": 8732
+    "bytes": 10923
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-31.csv",
@@ -957,7 +957,7 @@
     "path": "upright/upright_2026-08-31.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-01T11:00:00.000Z",
-    "bytes": 5790
+    "bytes": 7320
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-01.csv",
@@ -981,7 +981,7 @@
     "path": "upright/upright_2026-09-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-02T11:00:00.000Z",
-    "bytes": 6723
+    "bytes": 8549
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-02.csv",
@@ -1005,7 +1005,7 @@
     "path": "upright/upright_2026-09-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-03T11:00:00.000Z",
-    "bytes": 8890
+    "bytes": 11044
   },
   {
     "path": "cashmonkey/cashmonkey_2026-08.csv",
@@ -1077,7 +1077,7 @@
     "path": "upright/upright_2026-09-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-04T11:00:00.000Z",
-    "bytes": 6452
+    "bytes": 8066
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-04.csv",
@@ -1101,7 +1101,7 @@
     "path": "upright/upright_2026-09-04.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-05T11:00:00.000Z",
-    "bytes": 5091
+    "bytes": 6486
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-05.csv",
@@ -1125,7 +1125,7 @@
     "path": "upright/upright_2026-09-05.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-06T11:00:00.000Z",
-    "bytes": 5658
+    "bytes": 7211
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-06.csv",
@@ -1149,7 +1149,7 @@
     "path": "upright/upright_2026-09-06.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-07T11:00:00.000Z",
-    "bytes": 6889
+    "bytes": 8728
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-07.csv",
@@ -1173,7 +1173,7 @@
     "path": "upright/upright_2026-09-07.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-08T11:00:00.000Z",
-    "bytes": 6394
+    "bytes": 8039
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-08.csv",
@@ -1197,7 +1197,7 @@
     "path": "upright/upright_2026-09-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-09T11:00:00.000Z",
-    "bytes": 7259
+    "bytes": 9180
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-09.csv",
@@ -1221,7 +1221,7 @@
     "path": "upright/upright_2026-09-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-10T11:00:00.000Z",
-    "bytes": 4576
+    "bytes": 5948
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-10.csv",
@@ -1245,7 +1245,7 @@
     "path": "upright/upright_2026-09-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-11T11:00:00.000Z",
-    "bytes": 6304
+    "bytes": 8015
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-11.csv",
@@ -1269,7 +1269,7 @@
     "path": "upright/upright_2026-09-11.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-12T11:00:00.000Z",
-    "bytes": 6233
+    "bytes": 7817
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-12.csv",
@@ -1293,7 +1293,7 @@
     "path": "upright/upright_2026-09-12.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-13T11:00:00.000Z",
-    "bytes": 4141
+    "bytes": 5301
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-13.csv",
@@ -1317,7 +1317,7 @@
     "path": "upright/upright_2026-09-13.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-14T11:00:00.000Z",
-    "bytes": 7232
+    "bytes": 9092
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-14.csv",
@@ -1341,7 +1341,7 @@
     "path": "upright/upright_2026-09-14.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-15T11:00:00.000Z",
-    "bytes": 8729
+    "bytes": 10988
   },
   {
     "path": "ebay/ebay_2026-09-14_reupload.csv",
@@ -1373,7 +1373,8 @@
     "path": "upright/upright_2026-09-15.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-16T11:00:00.000Z",
-    "bytes": 7707
+    "bytes": 9738,
+    "note": "2 two-item Mercari order(s): order-level money repeated on both item rows"
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-16.csv",
@@ -1397,7 +1398,7 @@
     "path": "upright/upright_2026-09-16.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-17T11:00:00.000Z",
-    "bytes": 5235
+    "bytes": 6688
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-17.csv",
@@ -1421,7 +1422,7 @@
     "path": "upright/upright_2026-09-17.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-18T11:00:00.000Z",
-    "bytes": 5103
+    "bytes": 6572
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-18.csv",
@@ -1445,7 +1446,7 @@
     "path": "upright/upright_2026-09-18.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-19T11:00:00.000Z",
-    "bytes": 5595
+    "bytes": 7150
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-19.csv",
@@ -1469,7 +1470,7 @@
     "path": "upright/upright_2026-09-19.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-20T11:00:00.000Z",
-    "bytes": 6552
+    "bytes": 8214
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-20.csv",
@@ -1493,7 +1494,7 @@
     "path": "upright/upright_2026-09-20.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-21T11:00:00.000Z",
-    "bytes": 6532,
+    "bytes": 8216,
     "note": "4 order(s) also in that day's eBay/ShopGoodwill files (every Upright file overlaps a little)"
   },
   {
@@ -1518,7 +1519,7 @@
     "path": "upright/upright_2026-09-21.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-22T11:00:00.000Z",
-    "bytes": 3581
+    "bytes": 4651
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-22.csv",
@@ -1542,7 +1543,7 @@
     "path": "upright/upright_2026-09-22.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-23T11:00:00.000Z",
-    "bytes": 6086
+    "bytes": 7736
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-23.csv",
@@ -1566,7 +1567,7 @@
     "path": "upright/upright_2026-09-23.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-24T11:00:00.000Z",
-    "bytes": 6926
+    "bytes": 8721
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-24.csv",
@@ -1591,7 +1592,7 @@
     "path": "upright/upright_2026-09-24.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-25T11:00:00.000Z",
-    "bytes": 5073
+    "bytes": 6531
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-25.csv",
@@ -1615,7 +1616,7 @@
     "path": "upright/upright_2026-09-25.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-26T11:00:00.000Z",
-    "bytes": 6851
+    "bytes": 8626
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-26.csv",
@@ -1639,7 +1640,7 @@
     "path": "upright/upright_2026-09-26.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-27T11:00:00.000Z",
-    "bytes": 6833
+    "bytes": 8554
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-27.csv",
@@ -1663,7 +1664,7 @@
     "path": "upright/upright_2026-09-27.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-28T11:00:00.000Z",
-    "bytes": 6490
+    "bytes": 8135
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-28.csv",
@@ -1687,7 +1688,7 @@
     "path": "upright/upright_2026-09-28.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-29T11:00:00.000Z",
-    "bytes": 6261
+    "bytes": 7984
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-29.csv",
@@ -1712,7 +1713,7 @@
     "path": "upright/upright_2026-09-29.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-30T11:00:00.000Z",
-    "bytes": 5790
+    "bytes": 7386
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-30.csv",
@@ -1737,7 +1738,7 @@
     "path": "upright/upright_2026-09-30.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-01T11:00:00.000Z",
-    "bytes": 7479
+    "bytes": 9391
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-10-01.csv",
@@ -1761,7 +1762,7 @@
     "path": "upright/upright_2026-10-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-02T11:00:00.000Z",
-    "bytes": 6509
+    "bytes": 8239
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-10-02.csv",
@@ -1779,7 +1780,7 @@
     "path": "upright/upright_2026-10-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-03T11:00:00.000Z",
-    "bytes": 6208
+    "bytes": 7869
   },
   {
     "path": "cashmonkey/cashmonkey_2026-09.csv",
@@ -1852,6 +1853,6 @@
     "path": "upright/upright_2026-10-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-03T15:50:00.000Z",
-    "bytes": 3362
+    "bytes": 4376
   }
 ]

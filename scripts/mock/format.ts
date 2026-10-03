@@ -127,9 +127,9 @@ export function sgwDate(utc: Date): string {
   return `${p2(w.mo)}/${p2(w.d)}/${w.y} ${p2(h)}:${p2(w.mi)} ${ap}`;
 }
 
-/** Upright: "9/30/2026 11:45:00 PM" (local). */
-export function uprightDate(utc: Date): string {
-  const w = wall(utc, INDY);
+/** Upright: "9/30/2026 11:45:00 PM" (wall clock in the zone picked when generating). */
+export function uprightDate(utc: Date, tz: string = INDY): string {
+  const w = wall(utc, tz);
   const { h, ap } = h12(w.h);
   return `${w.mo}/${w.d}/${w.y} ${h}:${p2(w.mi)}:${p2(w.s)} ${ap}`;
 }
