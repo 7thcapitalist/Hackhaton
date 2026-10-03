@@ -82,6 +82,12 @@ have `channel = "ShopGoodwill"`, `channel_item_id` = ShopGoodwill item number,
 
 ## 4. Parser gap (src/sources/shopgoodwill.ts)
 
+**Status (2026-10-03, parser v1.1.0):** 1 **open** (real header unknown) · 2 **fixed** (End
+Date read in America/Los_Angeles by default; file-name hint overrides) · 3 ok (handling is
+buyer-paid, booked with shipping, never gross) · 4 **fixed** (card processing fee aliases,
+added to fees) · 5 open (period label from preamble or file name) · 6 ok · 7 open (confirm
+which ids Upright uses for ShopGoodwill).
+
 Every column alias is a guess, so the real file will almost certainly fail header detection
 (`REQUIRED = itemId, endDate, winningBid`). Specific risks:
 

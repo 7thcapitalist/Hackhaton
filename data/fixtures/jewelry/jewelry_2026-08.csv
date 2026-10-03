@@ -1,18 +1,51 @@
-Jewelry Report - August 2026,,,,,,,,
-,,,,,,,,
-Sale Date,Order ID,Item ID,Description,Category,Sold Price,Shipping,Fees,Supplier
-2026-08-05,J-5046,JW-0046,Cameo pendant,Pendants,$47.99,$4.95,$4.80,Store 07
-2026-08-05,J-5047,JW-0047,Pearl earrings,Earrings,$37.99,$4.95,$3.80,Store 12
-2026-08-10,J-5048,JW-0048,Gold-tone necklace lot,Necklaces,$31.99,$4.95,$3.20,Outlet DC
-2026-08-16,J-5049,JW-0049,Sterling silver ring,Rings,$20.99,$4.95,$2.10,Store 07
-2026-08-17,J-5050,JW-0050,10k gold chain 18in,Chains,$145.99,$3.95,$14.60,Store 04
-2026-08-19,J-5051,JW-0051,Pearl earrings,Earrings,$139.99,$3.95,$14.00,Store 12
-2026-08-20,J-5052,JW-0052,Watch lot (5),Watches,$60.99,$4.95,$6.10,Outlet DC
-2026-08-23,J-5053,JW-0053,Turquoise bracelet,Bracelets,$173.99,$5.50,$17.40,Outlet DC
-2026-08-27,J-5054,JW-0054,Cameo pendant,Pendants,$38.99,$4.95,$3.90,Outlet DC
-2026-08-27,J-5055,JW-0055,Sterling silver ring,Rings,$22.99,$5.50,$2.30,Store 12
-2026-08-29,J-5056,JW-0056,Gold-tone necklace lot,Necklaces,$99.99,$4.95,$10.00,Store 12
-2026-08-29,J-5057,JW-0057,10k gold chain 18in,Chains,$99.99,$3.95,$10.00,Store 04
-2026-08-31,J-5058,JW-0058,Vintage brooch,Brooches,$29.99,$5.50,$3.00,Store 07
-,,,,,,,,
-Grand Total,,,,,$951.87,$63.00,$95.20,
+Jewelry Report - August 2026,,,,,,,,,
+,,,,,,,,,
+Sale Date,Marketplace,Order ID,Item ID,Description,Category,Sold Price,Shipping,Fees,Supplier
+2026-08-01,ShopGoodwill,SGW-7713074,210013074,Handmade Wrist Watch,Watches,$145.00,$16.17,$11.60,Store 12
+2026-08-03,ShopGoodwill,SGW-7713389,210013389,Classic Chronograph Watch,Watches,$177.00,$9.54,$14.16,Store 07
+2026-08-03,ShopGoodwill,SGW-7713412,210013412,Used Wrist Watch,Watches,$98.00,$14.89,$7.84,Store 04
+2026-08-03,ShopGoodwill,SGW-7713416,210013416,Like New Sterling Ring,Jewelry,$90.00,$11.47,$7.20,Store 04
+2026-08-03,ShopGoodwill,SGW-7713422,210013422,Mid-Century Charm Bracelet,Jewelry,$153.00,$7.66,$12.24,Store 12
+2026-08-05,Jewelry Counter,J-5046,JW-0046,Cameo pendant,Pendants,$47.99,$4.95,$4.80,Store 07
+2026-08-05,Jewelry Counter,J-5047,JW-0047,Pearl earrings,Earrings,$37.99,$4.95,$3.80,Store 12
+2026-08-07,ShopGoodwill,SGW-7713929,210013929,Classic Pocket Watch,Watches,$121.00,$15.33,$9.68,Store 07
+2026-08-07,ShopGoodwill,SGW-7713936,210013936,Like New Chronograph Watch,Watches,$92.00,$11.11,$7.36,Store 04
+2026-08-07,ShopGoodwill,SGW-7713948,210013948,Mid-Century Sterling Ring,Jewelry,$93.00,$8.34,$7.44,Store 04
+2026-08-09,ShopGoodwill,SGW-7714224,210014224,Mid-Century Wrist Watch,Watches,$99.00,$6.51,$7.92,Store 04
+2026-08-10,Jewelry Counter,J-5048,JW-0048,Gold-tone necklace lot,Necklaces,$31.99,$4.95,$3.20,Outlet DC
+2026-08-10,ShopGoodwill,SGW-7714426,210014426,Used Pocket Watch,Watches,$147.00,$13.34,$11.76,Store 12
+2026-08-10,ShopGoodwill,SGW-7714447,210014447,Lot of 2 Chronograph Watch,Watches,$97.00,$7.98,$7.76,Outlet DC
+2026-08-11,ShopGoodwill,SGW-7714624,210014624,Lot of 2 Wrist Watch,Watches,$113.00,$9.35,$9.04,Store 04
+2026-08-11,ShopGoodwill,SGW-7714626,210014626,Mid-Century Chronograph Watch,Watches,$162.00,$7.59,$12.96,Store 12
+2026-08-13,ShopGoodwill,SGW-7714895,210014895,Like New Sterling Ring,Jewelry,$137.00,$9.00,$10.96,Outlet DC
+2026-08-13,ShopGoodwill,SGW-7714905,210014905,Like New Pearl Earrings,Jewelry,$107.00,$11.85,$8.56,Store 07
+2026-08-13,ShopGoodwill,SGW-7714945,210014945,Vintage Wrist Watch,Watches,$98.00,$14.06,$7.84,Store 07
+2026-08-14,ShopGoodwill,SGW-7715064,210015064,Like New Chronograph Watch,Watches,$92.00,$15.72,$7.36,Store 04
+2026-08-16,Jewelry Counter,J-5049,JW-0049,Sterling silver ring,Rings,$20.99,$4.95,$2.10,Store 07
+2026-08-16,ShopGoodwill,SGW-7715389,210015389,Pre-owned Charm Bracelet,Jewelry,$104.00,$8.35,$8.32,Store 07
+2026-08-16,ShopGoodwill,SGW-7715405,210015405,Handmade Pearl Earrings,Jewelry,$100.00,$11.82,$8.00,Store 07
+2026-08-17,Jewelry Counter,J-5050,JW-0050,10k gold chain 18in,Chains,$145.99,$3.95,$14.60,Store 04
+2026-08-19,Jewelry Counter,J-5051,JW-0051,Pearl earrings,Earrings,$139.99,$3.95,$14.00,Store 12
+2026-08-19,ShopGoodwill,SGW-7715874,210015874,Antique Chronograph Watch,Watches,$120.00,$7.33,$9.60,Store 12
+2026-08-20,Jewelry Counter,J-5052,JW-0052,Watch lot (5),Watches,$60.99,$4.95,$6.10,Outlet DC
+2026-08-20,ShopGoodwill,SGW-7716037,210016037,Lot of 2 Chronograph Watch,Watches,$96.00,$8.68,$7.68,Store 07
+2026-08-21,ShopGoodwill,SGW-7716145,210016145,Like New Charm Bracelet,Jewelry,$90.00,$12.54,$7.20,Store 07
+2026-08-22,ShopGoodwill,SGW-7716283,210016283,Vintage Brooch,Jewelry,$160.00,$7.56,$12.80,Outlet DC
+2026-08-22,ShopGoodwill,SGW-7716288,210016288,Pre-owned Wrist Watch,Watches,$129.00,$6.57,$10.32,Store 04
+2026-08-22,ShopGoodwill,SGW-7716291,210016291,Lot of 2 Pearl Earrings,Jewelry,$112.00,$6.73,$8.96,Outlet DC
+2026-08-23,Jewelry Counter,J-5053,JW-0053,Turquoise bracelet,Bracelets,$173.99,$5.50,$17.40,Outlet DC
+2026-08-23,ShopGoodwill,SGW-7716447,210016447,Antique Sterling Ring,Jewelry,$91.00,$11.05,$7.28,Outlet DC
+2026-08-24,ShopGoodwill,SGW-7716608,210016608,Classic Pearl Earrings,Jewelry,$113.00,$10.04,$9.04,Store 04
+2026-08-24,ShopGoodwill,SGW-7716654,210016654,Like New Sterling Ring,Jewelry,$130.00,$10.31,$10.40,Store 12
+2026-08-26,ShopGoodwill,SGW-7716901,210016901,Lot of 2 Chronograph Watch,Watches,$108.00,$13.39,$8.64,Store 07
+2026-08-26,ShopGoodwill,SGW-7716925,210016925,Handmade Wrist Watch,Watches,$134.00,$16.51,$10.72,Store 07
+2026-08-26,ShopGoodwill,SGW-7716926,210016926,Vintage Pearl Earrings,Jewelry,$91.00,$11.61,$7.28,Store 12
+2026-08-27,Jewelry Counter,J-5054,JW-0054,Cameo pendant,Pendants,$38.99,$4.95,$3.90,Outlet DC
+2026-08-27,Jewelry Counter,J-5055,JW-0055,Sterling silver ring,Rings,$22.99,$5.50,$2.30,Store 12
+2026-08-29,Jewelry Counter,J-5056,JW-0056,Gold-tone necklace lot,Necklaces,$99.99,$4.95,$10.00,Store 12
+2026-08-29,Jewelry Counter,J-5057,JW-0057,10k gold chain 18in,Chains,$99.99,$3.95,$10.00,Store 04
+2026-08-29,ShopGoodwill,SGW-7717367,210017367,Like New Brooch,Jewelry,$108.00,$10.43,$8.64,Outlet DC
+2026-08-30,ShopGoodwill,SGW-7717536,210017536,Lot of 2 Gold Tone Necklace,Jewelry,$108.00,$12.72,$8.64,Store 04
+2026-08-31,Jewelry Counter,J-5058,JW-0058,Vintage brooch,Brooches,$29.99,$5.50,$3.00,Store 07
+,,,,,,,,,
+Grand Total,,,,,,"$4,766.87",$418.55,$400.40,

@@ -6,7 +6,20 @@ import type { RawTable } from "../types";
 export const TIMEZONE = "America/Indiana/Indianapolis" as const;
 
 /** Lowercase, trim, collapse spaces, strip quotes/BOM. */
+const normalized = new Map<string, string>();
+
 export function normalizeHeader(cell: string): string {
+  // Memoized: auto-detect normalizes the same header cells and aliases many times.
+  let n = normalized.get(cell);
+  if (n === undefined) {
+    n = normalizeUncached(cell);
+    if (normalized.size > 50_000) normalized.clear();
+    normalized.set(cell, n);
+  }
+  return n;
+}
+
+function normalizeUncached(cell: string): string {
   return cell
     .replace(/^﻿/, "")
     .replace(/["']/g, "")
@@ -77,13 +90,36 @@ export function toCents(value: string | undefined | null): number | null {
  * Convert a UTC instant to the business date (YYYY-MM-DD) in Goodwill's time
  * zone, so an order at 11:30 PM Eastern lands on the right day.
  */
+const dateFormatters = new Map<string, Intl.DateTimeFormat>();
+
+/**
+ * Cached Intl.DateTimeFormat per (kind, zone). Building a formatter is slow;
+ * parsing every fixture spent ~10 s just constructing them. Formatters are
+ * immutable, so sharing them is safe.
+ */
+export function cachedFormatter(tz: string, withTime: boolean): Intl.DateTimeFormat {
+  const key = `${withTime ? "t" : "d"}|${tz}`;
+  let f = dateFormatters.get(key);
+  if (!f) {
+    f = withTime
+      ? new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          hourCycle: "h23",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      : new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" });
+    dateFormatters.set(key, f);
+  }
+  return f;
+}
+
 export function businessDateOf(utc: Date): string {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: TIMEZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(utc);
+  const parts = cachedFormatter(TIMEZONE, false).formatToParts(utc);
   const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
   return `${get("year")}-${get("month")}-${get("day")}`;
 }

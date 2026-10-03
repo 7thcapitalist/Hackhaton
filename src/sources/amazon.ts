@@ -30,8 +30,15 @@
  *  - [guess] Transfer (disbursement to bank) is negative in the CSV; we store
  *    amount_type "payout" with + = money arriving in Goodwill's bank account.
  *    Open question: confirm the sign the close wants (gl_rules.journal_sign).
- *  - [guess] Service Fee → "marketplace_fee"; FBA Inventory Fee → "fulfillment_fee";
- *    Adjustment → "adjustment"; anything else → warning only.
+ *  - Non-order types map through MONEY_TYPES (Service Fee / Deal Fee →
+ *    "marketplace_fee", FBA fees → "fulfillment_fee", Shipping Services →
+ *    "shipping_label", Chargeback Refund / A-to-z claim → "refund",
+ *    Order_Retrocharge → "adjustment", Transfer / Debt →
+ *    "payout"). An unknown type is still booked ("adjustment", amount =
+ *    total) with a warning: money is never dropped.
+ *  - [fact] Regulatory Fee (col 20) is a fee. The 2026 columns Transaction
+ *    Status (Deferred / Released) and Transaction Release Date are read; a
+ *    deferred money line says so in its memo.
  */
 import type { ParsedMoneyLine, ParsedOrder, ParseResult, RawTable, SourceParser } from "./types";
 import { businessDateOf, columnIndex, isBlankRow, normalizeHeader, periodOf } from "./_shared/table";
@@ -68,23 +75,36 @@ const ALIASES = {
   sellingFees: ["selling fees", "referral fees", "selling fee"],
   fbaFees: ["fba fees", "fulfillment fees"],
   otherFees: ["other transaction fees"],
+  regulatoryFee: ["regulatory fee", "regulatory fees"],
+  txStatus: ["transaction status"],
+  releaseDate: ["transaction release date"],
   other: ["other"],
   total: ["total", "total amount"],
 };
 type Key = keyof typeof ALIASES;
 const REQUIRED: Key[] = ["date", "settlementId", "type", "orderId", "total"];
 
+/** Non-order row types → money line amount type (docs/sources/amazon.md §1). */
 const MONEY_TYPES: Record<string, string> = {
   "service fee": "marketplace_fee",
+  "deal fee": "marketplace_fee",
+  "fee adjustment": "marketplace_fee",
   "fba inventory fee": "fulfillment_fee",
   "fba customer return fee": "fulfillment_fee",
+  // Amazon "Buy Shipping" labels: a shipping cost (needs an Amazon shipping_label GL rule).
+  "shipping services": "shipping_label",
+  "chargeback refund": "refund",
+  "a-to-z guarantee claim": "refund",
+  order_retrocharge: "adjustment",
   adjustment: "adjustment",
   transfer: "payout",
+  // Amazon charging the seller's bank/card when the balance is negative.
+  debt: "payout",
 };
 
 export const amazonParser: SourceParser = {
   sourceId: "amazon",
-  version: "1.0.0",
+  version: "1.1.0",
 
   accepts(table: RawTable): boolean {
     return findHeaderRowByAliases(table, ALIASES, REQUIRED) >= 0;
@@ -134,7 +154,7 @@ export const amazonParser: SourceParser = {
           grossCents: cents(row, col.productSales) + cents(row, col.giftWrap) + cents(row, col.promoRebates),
           shippingCents: cents(row, col.shippingCredits),
           refundCents: 0,
-          feeCents: -(cents(row, col.sellingFees) + cents(row, col.fbaFees) + cents(row, col.otherFees)),
+          feeCents: -(cents(row, col.sellingFees) + cents(row, col.fbaFees) + cents(row, col.otherFees) + cents(row, col.regulatoryFee)),
           taxCents: tax !== 0 ? tax : -cents(row, col.withheldTax),
         };
         const key = `${orderId}:${sku ?? ""}`;
@@ -172,8 +192,20 @@ export const amazonParser: SourceParser = {
         continue;
       }
 
-      const amountType = MONEY_TYPES[type];
-      if (amountType) {
+      const known = MONEY_TYPES[type];
+      // Unknown types still carry money: book them as adjustments (never drop money).
+      const amountType = known ?? "adjustment";
+      if (!known) {
+        result.warnings.push({ row: sourceRow, message: `Unknown transaction type "${cell(row, col.type)}"; booked as an adjustment.` });
+      }
+      {
+        const deferred = /deferred/i.test(cell(row, col.txStatus));
+        const memo = [
+          cell(row, col.description) || (known ? "" : cell(row, col.type)),
+          deferred ? `(deferred until ${cell(row, col.releaseDate) || "release"})` : "",
+        ]
+          .filter(Boolean)
+          .join(" ");
         const total = cents(row, col.total);
         const lineDate = businessDateOf(when);
         const line: ParsedMoneyLine = {
@@ -187,13 +219,10 @@ export const amazonParser: SourceParser = {
           settlementId: cell(row, col.settlementId) || null,
           payoutId: amountType === "payout" ? cell(row, col.settlementId) || null : null,
           reference: cell(row, col.orderId) || null,
-          memo: cell(row, col.description) || null,
+          memo: memo || null,
         };
         result.moneyLines.push(line);
-        continue;
       }
-
-      result.warnings.push({ row: sourceRow, message: `Unknown transaction type "${cell(row, col.type)}"; row skipped.` });
     }
 
     // Fold refunds into their orders (after all orders are known, so a refund
@@ -205,7 +234,7 @@ export const amazonParser: SourceParser = {
         cents(row, col.productSales) + cents(row, col.shippingCredits) +
         cents(row, col.giftWrap) + cents(row, col.promoRebates)
       );
-      const feeBack = cents(row, col.sellingFees) + cents(row, col.fbaFees) + cents(row, col.otherFees);
+      const feeBack = cents(row, col.sellingFees) + cents(row, col.fbaFees) + cents(row, col.otherFees) + cents(row, col.regulatoryFee);
       const taxBack = -(
         cents(row, col.productSalesTax) + cents(row, col.shippingCreditsTax) +
         cents(row, col.giftWrapTax) + cents(row, col.promoRebatesTax)

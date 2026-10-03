@@ -103,6 +103,14 @@ extra `LF …` columns [fact].
   risk with `shipping_osm_pb_easypost`).
 
 ## Parser gap (real format vs `src/sources/fedex.ts`)
+
+**Status (2026-10-03, parser v0.2.0):** 1 **fixed** (credit = sign of Net Charge Amount only;
+all 25 descriptions go to the memo) · 2 **fixed enough** (all description columns read; no
+per-surcharge breakdown stored) · 3 **fixed** (fixtures and sample in the ~150-column
+yyyymmdd / plain-amount layout) · 4 **fixed** (`Net Chrg`, `Tracking Number`, `Ship Date`,
+`Type` accepted; EDI sample added) · 5 **open** (BNKDEPOSIT refunds need the bank statement) ·
+6 **fixed** (`Amount Due` alias removed) · 7 ok · 8 **fixed** (Resend / Past Due invoice rows
+and exact repeat rows skipped with a warning).
 1. **Description column**: the alias `Tracking ID Charge Description` matches the first of 25
    identical headers, which is usually a surcharge name (e.g. "Fuel Surcharge"), not a credit
    flag. Credit detection by description is unreliable; use the sign of Net Charge Amount, and
