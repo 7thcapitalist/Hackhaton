@@ -215,7 +215,7 @@ test("payload preserves CSV bytes, labels synthetic/partial, links to dated dash
   assert.equal(payload.attachments[0].filename, "pulse-2026-10-03.csv");
   assert.equal(Buffer.from(payload.attachments[0].content, "base64").toString("utf8"), csv);
   assert.match(payload.subject, /\[Synthetic\].*\[Partial\]/);
-  assert.match(payload.text, /Some channels are missing/);
+  assert.match(payload.text, /Some channels or metrics are unavailable/);
   assert.match(payload.html, /https:\/\/mission-control\.example\.test\/pulse\?date=2026-10-03/);
   assert.equal(new Headers(mock.calls[1].init.headers).get("authorization"), `Bearer ${env.RESEND_API_KEY}`);
 });

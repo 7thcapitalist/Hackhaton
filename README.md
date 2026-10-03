@@ -71,6 +71,10 @@ KPI formulas, mock data or recalculation are added here. **The export and view A
 must be deployed first**: they are separate work, so this route returns `503` while
 the daily CSV is unavailable instead of reporting a successful send.
 
+The dashboard link follows the agreed `/pulse` route. That page is Gabriel's
+responsibility and is not present on base main `e28dbf0`; confirm it is deployed
+before enabling emails so recipients can open the linked dashboard.
+
 Sending is **disabled by default**. Joao must set these names in Vercel (see `.env.example`):
 
 | Name | Purpose |

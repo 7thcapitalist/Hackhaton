@@ -160,7 +160,7 @@ function makePayload(date: string, dashboard: URL, csv: Buffer, report: ReportMe
   const completeness = report.reportStatus === "complete"
     ? "Report coverage: complete, according to the export metadata."
     : report.reportStatus === "partial"
-      ? "Report coverage: partial. Some channels are missing; their values are not zero."
+      ? "Report coverage: partial. Some channels or metrics are unavailable; missing values are not zero."
       : "Report coverage: unknown. Completeness has not been confirmed.";
   const dashboardUrl = dashboard.toString();
   const text = [
