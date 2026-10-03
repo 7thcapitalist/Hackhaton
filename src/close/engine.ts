@@ -190,6 +190,9 @@ export async function generateClose(period: string, opts: GenerateOptions = {}):
       statementRef ??= m.reference;
       continue; // control total, checked by reconcile
     }
+    // EasyPost payment-log refunds are informational: the shipment report is
+    // the authority for label refunds (see shipping_osm_pb_easypost.ts).
+    if (m.amountType === "wallet_refund") continue;
     add("money_lines", m.sourceId, m.amountType, m.channel, m.amountCents, m.id, m.ingestRunId, m.sourceRow);
   }
 

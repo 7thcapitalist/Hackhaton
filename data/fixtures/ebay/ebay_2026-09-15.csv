@@ -1,0 +1,19 @@
+Sales Record Number,Order ID,Buyer User ID,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Item Price,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Order Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+10167,24-20151-34608,ebuyer_003087,,310000020151,Handmade Rain Jacket,CL-020151,1,$28.99,$0.00,$2.03,$31.02,Yes,eBay Managed Payments,Sep-15-26 00:49:00,Sep-15-26 00:49:00,Paid,
+10168,24-20152-38998,ebuyer_002882,,310000020152,Like New Glass Pitcher,KT-020152,1,$39.99,$0.00,$2.80,$42.79,Yes,eBay Managed Payments,Sep-15-26 06:26:53,Sep-15-26 06:26:53,Paid,
+10161,02-20145-56118,ebuyer_003215,,310000020145,Antique Leather Boots,SH-020145,1,$32.99,$6.90,$2.79,$42.68,Yes,eBay Managed Payments,Sep-15-26 07:05:29,Sep-15-26 07:05:29,Paid,
+10163,08-20147-98866,ebuyer_003605,,310000020147,Handmade Stoneware Mugs,KT-020147,1,$43.99,$0.00,$3.08,$47.07,Yes,eBay Managed Payments,Sep-15-26 08:06:31,Sep-15-26 08:06:31,Refunded,$43.99
+10166,18-20150-26999,ebuyer_003262,,310000020150,Retro Trading Card Lot,CO-020150,1,$83.99,$0.00,$5.88,$89.87,Yes,eBay Managed Payments,Sep-15-26 12:26:16,Sep-15-26 12:26:16,Paid,
+10159,16-20143-77733,ebuyer_003322,,310000020143,Retro Rain Jacket,CL-020143,1,$17.99,$7.30,$1.77,$27.06,Yes,eBay Managed Payments,Sep-15-26 13:03:57,Sep-15-26 13:03:57,Paid,
+10164,20-20148-19153,ebuyer_002685,,310000020148,Lot of 2 Figurine,CO-020148,1,$62.99,$7.32,$4.92,$75.23,Yes,eBay Managed Payments,Sep-15-26 15:39:25,Sep-15-26 15:39:25,Paid,
+10169,22-20153-47738,ebuyer_002622,,310000020153,Pre-owned Coin Lot,CO-020153,1,$49.99,$0.00,$3.50,$53.49,Yes,eBay Managed Payments,Sep-15-26 16:38:12,Sep-15-26 16:38:12,Paid,
+10165,12-20149-81072,ebuyer_002616,,310000020149,Lot of 2 Pewter Mug,CO-020149,1,$36.99,$8.20,$3.16,$48.35,Yes,eBay Managed Payments,Sep-15-26 19:06:14,Sep-15-26 19:06:14,Paid,
+10172,23-20156-13089,ebuyer_002753,,310000020156,Pre-owned Tote Bag,HB-020156,1,$29.99,$0.00,$2.10,$32.09,Yes,eBay Managed Payments,Sep-15-26 20:09:37,Sep-15-26 20:09:37,Paid,
+10171,04-20155-58166,ebuyer_002527,,310000020155,Handmade Trading Card Lot,CO-020155,1,$31.99,$9.30,$2.89,$44.18,Yes,eBay Managed Payments,Sep-15-26 20:40:47,Sep-15-26 20:40:47,Paid,
+10170,24-20154-18015,ebuyer_002676,,310000020154,Like New Pyrex Bowl,KT-020154,1,$49.99,$9.69,$4.18,$63.86,Yes,eBay Managed Payments,Sep-15-26 20:45:55,Sep-15-26 20:45:55,Paid,
+10162,19-20146-22278,ebuyer_002633,,310000020146,Lot of 2 Turntable,EL-020146,1,$47.99,$14.51,$4.38,$66.88,Yes,eBay Managed Payments,Sep-15-26 21:00:07,Sep-15-26 21:00:07,Paid,
+10160,02-20144-54470,ebuyer_002978,,310000020144,Lot of 2 Tennis Racket,SG-020144,1,$35.99,$5.79,$2.93,$44.71,Yes,eBay Managed Payments,Sep-15-26 21:18:48,Sep-15-26 21:18:48,Paid,
+
+"14 record(s) downloaded,from Sep-15-26 to Sep-15-26"
+Seller ID : goodwill_michiana_test

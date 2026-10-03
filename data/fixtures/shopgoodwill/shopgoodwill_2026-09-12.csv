@@ -1,0 +1,70 @@
+ShopGoodwill Seller Portal
+Periodic Marketplace Report
+Seller,Goodwill Industries of Michiana (TEST DATA)
+Year,2026,Month,September
+Report,Period 1
+
+Order ID,Item ID,Title,Category,End Date,Winning Bid,Shipping,Handling,Buyer Premium,Seller Fee,Refund,Net,Buyer ID,Status
+SGW-7719533,210019533,Mid-Century Snow Globe,Collectibles,09/12/2026 12:09 AM,66.00,15.37,2.00,3.30,5.28,0.00,78.09,sgw_bidder_001019,Paid
+SGW-7719568,210019568,Retro Tote Bag,Handbags,09/12/2026 01:47 AM,140.00,13.21,2.00,7.00,11.20,0.00,144.01,sgw_bidder_001018,Shipped
+SGW-7719531,210019531,Like New Ceramic Vase,Home Decor,09/12/2026 02:18 AM,47.00,17.69,2.00,2.35,3.76,0.00,62.93,sgw_bidder_001510,Paid
+SGW-7719557,210019557,Retro Art Print,Art,09/12/2026 02:34 AM,81.00,4.50,2.00,4.05,6.48,0.00,81.02,sgw_bidder_002649,Paid
+SGW-7719518,210019518,Handmade Framed Print,Art,09/12/2026 02:38 AM,26.00,16.93,2.00,1.30,2.08,0.00,42.85,sgw_bidder_002282,Paid
+SGW-7719546,210019546,Pre-owned Yoga Mat,Sporting Goods,09/12/2026 03:03 AM,31.00,10.25,2.00,1.55,2.48,0.00,40.77,sgw_bidder_000902,Paid
+SGW-7719526,210019526,Mid-Century Brass Candlesticks,Home Decor,09/12/2026 03:23 AM,30.00,12.26,2.00,1.50,2.40,0.00,41.86,sgw_bidder_001328,Paid
+SGW-7719519,210019519,Used Chronograph Watch,Watches,09/12/2026 03:59 AM,38.00,11.45,2.00,1.90,3.04,0.00,48.41,sgw_bidder_002524,Paid
+SGW-7719513,210019513,Handmade Stoneware Mugs,Kitchen,09/12/2026 04:48 AM,35.00,16.51,2.00,1.75,2.80,0.00,50.71,sgw_bidder_000946,Paid
+SGW-7719563,210019563,Classic Pyrex Bowl,Kitchen,09/12/2026 05:01 AM,17.00,8.01,2.00,0.85,1.36,0.00,25.65,sgw_bidder_000051,Paid
+SGW-7719520,210019520,Antique Framed Print,Art,09/12/2026 05:10 AM,42.00,8.84,2.00,2.10,0.67,52.84,-0.67,sgw_bidder_000143,Refunded
+SGW-7719547,210019547,Mid-Century Clutch,Handbags,09/12/2026 05:48 AM,46.00,7.53,2.00,2.30,3.68,0.00,51.85,sgw_bidder_000193,Paid
+SGW-7719558,210019558,Antique Puzzle 1000pc,Toys,09/12/2026 05:57 AM,26.00,6.61,2.00,1.30,2.08,0.00,32.53,sgw_bidder_000006,Paid
+SGW-7719565,210019565,Lot of 2 Wrist Watch,Watches,09/12/2026 07:10 AM,35.00,13.90,2.00,1.75,2.80,0.00,48.10,sgw_bidder_000586,Paid
+SGW-7719561,210019561,Pre-owned Pearl Earrings,Jewelry,09/12/2026 07:11 AM,23.00,7.61,2.00,1.15,1.84,0.00,30.77,sgw_bidder_000004,Paid
+SGW-7719527,210019527,Antique Pearl Earrings,Jewelry,09/12/2026 07:13 AM,83.00,3.50,2.00,4.15,6.64,0.00,81.86,sgw_bidder_000000,Paid
+SGW-7719560,210019560,Antique Trading Card Lot,Collectibles,09/12/2026 07:17 AM,32.00,8.66,2.00,1.60,2.56,0.00,40.10,sgw_bidder_001181,Shipped
+SGW-7719511,210019511,Vintage Clutch,Handbags,09/12/2026 07:17 AM,22.00,10.97,2.00,1.10,1.76,0.00,33.21,sgw_bidder_000562,Paid
+SGW-7719543,210019543,Mid-Century Wrist Watch,Watches,09/12/2026 07:32 AM,50.00,10.75,2.00,2.50,4.00,0.00,58.75,sgw_bidder_000052,Paid
+SGW-7719515,210019515,Classic Turntable,Electronics,09/12/2026 07:51 AM,29.00,9.92,2.00,1.45,2.32,0.00,38.60,sgw_bidder_002148,Paid
+SGW-7719534,210019534,Handmade Pocket Watch,Watches,09/12/2026 07:55 AM,19.00,9.86,2.00,0.95,1.52,0.00,29.34,sgw_bidder_000195,Paid
+SGW-7719571,210019571,Vintage Chronograph Watch,Watches,09/12/2026 08:04 AM,37.00,5.21,2.00,1.85,2.96,0.00,41.25,sgw_bidder_001666,Paid
+SGW-7719532,210019532,Retro Sterling Ring,Jewelry,09/12/2026 10:19 AM,28.00,3.67,2.00,1.40,2.24,0.00,31.43,sgw_bidder_000734,Shipped
+SGW-7719537,210019537,Vintage Glass Pitcher,Kitchen,09/12/2026 10:30 AM,18.00,15.37,2.00,0.90,1.44,0.00,33.93,sgw_bidder_001996,Paid
+SGW-7719528,210019528,Retro Figurine,Collectibles,09/12/2026 11:04 AM,58.00,14.15,2.00,2.90,4.64,0.00,69.51,sgw_bidder_002404,Shipped
+SGW-7719548,210019548,Like New Fishing Reel,Sporting Goods,09/12/2026 11:55 AM,14.00,6.87,2.00,0.70,1.12,0.00,21.75,sgw_bidder_000367,Shipped
+SGW-7719510,210019510,Mid-Century Denim Jacket,Clothing,09/12/2026 01:07 PM,34.00,5.92,2.00,1.70,2.72,0.00,39.20,sgw_bidder_000307,Paid
+SGW-7719564,210019564,Lot of 2 Clutch,Handbags,09/12/2026 01:08 PM,71.00,9.21,2.00,3.55,5.68,0.00,76.53,sgw_bidder_000486,Shipped
+SGW-7719562,210019562,Vintage Wrist Watch,Watches,09/12/2026 01:18 PM,96.00,4.14,2.00,4.80,7.68,0.00,94.46,sgw_bidder_001109,Paid
+SGW-7719556,210019556,Retro Denim Jacket,Clothing,09/12/2026 01:35 PM,22.00,8.38,2.00,1.10,1.76,0.00,30.62,sgw_bidder_002902,Shipped
+SGW-7719554,210019554,Retro Chronograph Watch,Watches,09/12/2026 01:44 PM,32.00,9.48,2.00,1.60,2.56,0.00,40.92,sgw_bidder_001445,Paid
+SGW-7719522,210019522,Pre-owned Sterling Ring,Jewelry,09/12/2026 01:49 PM,50.00,16.98,2.00,2.50,4.00,0.00,64.98,sgw_bidder_002227,Paid
+SGW-7719567,210019567,Classic Chronograph Watch,Watches,09/12/2026 02:31 PM,42.00,9.92,2.00,2.10,3.36,0.00,50.56,sgw_bidder_000905,Paid
+SGW-7719552,210019552,Vintage Brooch,Jewelry,09/12/2026 03:01 PM,15.00,6.94,2.00,0.75,1.20,0.00,22.74,sgw_bidder_001424,Shipped
+SGW-7719542,210019542,Like New Trading Card Lot,Collectibles,09/12/2026 03:17 PM,15.00,5.89,2.00,0.75,1.20,0.00,21.69,sgw_bidder_000080,Paid
+SGW-7719544,210019544,Like New Table Lamp,Home Decor,09/12/2026 03:38 PM,66.00,10.14,2.00,3.30,5.28,0.00,72.86,sgw_bidder_000506,Shipped
+SGW-7719512,210019512,Lot of 2 Silk Blouse,Clothing,09/12/2026 03:41 PM,53.00,12.19,2.00,2.65,4.24,0.00,62.95,sgw_bidder_000020,Shipped
+SGW-7719523,210019523,Mid-Century Wrist Watch,Watches,09/12/2026 04:02 PM,77.00,10.45,2.00,3.85,6.16,0.00,83.29,sgw_bidder_002690,Paid
+SGW-7719530,210019530,Retro Oil Painting,Art,09/12/2026 04:11 PM,38.00,12.88,2.00,1.90,3.04,0.00,49.84,sgw_bidder_000196,Paid
+SGW-7719551,210019551,Used Wrist Watch,Watches,09/12/2026 04:26 PM,75.00,5.42,2.00,3.75,6.00,0.00,76.42,sgw_bidder_000006,Paid
+SGW-7719569,210019569,Vintage Snow Globe,Collectibles,09/12/2026 04:29 PM,22.00,9.75,2.00,1.10,1.76,0.00,31.99,sgw_bidder_002582,Paid
+SGW-7719540,210019540,Pre-owned Headphones,Electronics,09/12/2026 04:32 PM,72.00,12.74,2.00,3.60,5.76,0.00,80.98,sgw_bidder_000576,Shipped
+SGW-7719549,210019549,Classic Flannel Shirt,Clothing,09/12/2026 04:51 PM,9.00,11.92,2.00,0.45,0.72,0.00,22.20,sgw_bidder_000427,Paid
+SGW-7719524,210019524,Pre-owned Pyrex Bowl,Kitchen,09/12/2026 05:06 PM,18.00,9.63,2.00,0.90,1.44,0.00,28.19,sgw_bidder_000614,Shipped
+SGW-7719555,210019555,Handmade Wrist Watch,Watches,09/12/2026 05:10 PM,20.00,6.45,2.00,1.00,1.60,0.00,26.85,sgw_bidder_000694,Paid
+SGW-7719566,210019566,Like New Table Lamp,Home Decor,09/12/2026 05:14 PM,8.00,9.45,2.00,0.40,0.64,0.00,18.81,sgw_bidder_000809,Paid
+SGW-7719514,210019514,Used Silk Blouse,Clothing,09/12/2026 05:51 PM,19.00,13.99,2.00,0.95,1.52,0.00,33.47,sgw_bidder_002666,Paid
+SGW-7719536,210019536,Mid-Century Film Camera,Electronics,09/12/2026 05:55 PM,77.00,9.27,2.00,3.85,6.16,0.00,82.11,sgw_bidder_000171,Shipped
+SGW-7719525,210019525,Mid-Century Oil Painting,Art,09/12/2026 06:29 PM,75.00,4.71,2.00,3.75,6.00,0.00,75.71,sgw_bidder_001383,Paid
+SGW-7719516,210019516,Used Mantel Clock,Home Decor,09/12/2026 06:30 PM,19.00,7.44,2.00,0.95,1.52,0.00,26.92,sgw_bidder_001809,Shipped
+SGW-7719541,210019541,Lot of 2 Brass Candlesticks,Home Decor,09/12/2026 06:40 PM,16.00,7.58,2.00,0.80,1.28,0.00,24.30,sgw_bidder_002350,Paid
+SGW-7719535,210019535,Classic Brass Candlesticks,Home Decor,09/12/2026 07:14 PM,68.00,8.14,2.00,3.40,5.44,0.00,72.70,sgw_bidder_001052,Paid
+SGW-7719559,210019559,Antique Charm Bracelet,Jewelry,09/12/2026 08:13 PM,35.00,6.41,2.00,1.75,2.80,0.00,40.61,sgw_bidder_001555,Paid
+SGW-7719521,210019521,Lot of 2 Gold Tone Necklace,Jewelry,09/12/2026 08:26 PM,34.00,8.06,2.00,1.70,2.72,0.00,41.34,sgw_bidder_001734,Paid
+SGW-7719545,210019545,Used Cast Iron Skillet,Kitchen,09/12/2026 09:01 PM,4.00,16.10,2.00,0.20,0.32,0.00,21.78,sgw_bidder_001427,Paid
+SGW-7719539,210019539,Vintage Headphones,Electronics,09/12/2026 09:17 PM,62.00,8.88,2.00,3.10,4.96,0.00,67.92,sgw_bidder_000139,Paid
+SGW-7719517,210019517,Antique Pocket Watch,Watches,09/12/2026 09:23 PM,101.00,19.68,2.00,5.05,8.08,0.00,114.60,sgw_bidder_001110,Paid
+SGW-7719529,210019529,Antique Figurine,Collectibles,09/12/2026 09:59 PM,29.00,8.94,2.00,1.45,2.32,0.00,37.62,sgw_bidder_002727,Paid
+SGW-7719553,210019553,Lot of 2 Picture Frame Set,Home Decor,09/12/2026 10:57 PM,26.00,9.85,2.00,1.30,2.08,0.00,35.77,sgw_bidder_001865,Paid
+SGW-7719570,210019570,Vintage Pocket Watch,Watches,09/12/2026 11:00 PM,30.00,7.51,2.00,1.50,2.40,0.00,37.11,sgw_bidder_002304,Paid
+SGW-7719550,210019550,Classic Figurine,Collectibles,09/12/2026 11:12 PM,86.00,9.46,2.00,4.30,6.88,0.00,90.58,sgw_bidder_001505,Paid
+SGW-7719538,210019538,Antique Wrist Watch,Watches,09/12/2026 11:15 PM,47.00,6.67,2.00,2.35,3.76,0.00,51.91,sgw_bidder_000010,Paid
+Totals,,,,,2636.00,,,,,,,,

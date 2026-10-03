@@ -10,6 +10,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "seed": "tsx scripts/seed.ts",
+    "mock:generate": "tsx scripts/mock/generate.ts",
     "ingest": "tsx scripts/ingest-file.ts",
     "check:parsers-other": "tsx scripts/check-parsers-other.ts",
     "check:parsers": "tsx scripts/check-parsers.ts",
