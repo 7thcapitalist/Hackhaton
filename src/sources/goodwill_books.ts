@@ -53,7 +53,7 @@ const COLS = {
 };
 
 const REQUIRED_SETS = COLS.orderId.flatMap((o) => COLS.price.slice(0, 4).map((p) => [o, p]));
-const FOREIGN = ["settlement id", "sales record number", "channel order id", "winning bid", "supplier", "item count", "tracking id"];
+const FOREIGN = ["settlement id", "sales record number", "channel order id", "winning bid", "supplier", "item count", "tracking id", "marketplace"];
 
 function locateHeader(table: RawTable): number {
   return findHeaderRowAny(table, REQUIRED_SETS);
@@ -89,17 +89,27 @@ function footerAmount(row: string[]): number | null {
 
 export const goodwillBooksParser: SourceParser = {
   sourceId: "goodwill_books",
-  version: "0.1.0",
+  version: "0.2.0",
 
   accepts(table: RawTable, fileName: string): boolean {
     const h = locateHeader(table);
     if (h < 0) return false;
     const cells = headerSet(table[h]);
     if (FOREIGN.some((f) => cells.has(f))) return false;
-    const named = /goodwill[\s_-]*books/i.test(fileName) || preambleMatches(table.slice(0, h), /goodwill\s*books/i);
-    const hasIsbn = COLS.isbn.slice(0, 2).some((s) => cells.has(normalizeHeader(s)));
-    const hasCommission = cells.has("commission") || cells.has("commission/fee");
-    return named || (hasIsbn && hasCommission);
+    // Robust to a generic attachment name ("Statement_092026.xlsx"): any of
+    // a Goodwill Books name / title, a "payment statement" preamble with book
+    // columns, ISBN + a fee column, or GWB- order numbers is enough.
+    const preamble = table.slice(0, h);
+    const named =
+      /goodwill[\s_-]*books|(^|[^a-z])gwb([^a-z]|$)/i.test(fileName) || preambleMatches(preamble, /goodwill\s*books/i);
+    const idx = columnIndex(table[h], COLS);
+    const hasIsbn = idx.isbn >= 0;
+    const hasFee = idx.fee >= 0;
+    const statementPreamble = preambleMatches(preamble, /payment statement|statement period|seller statement/i);
+    const gwbIds = table
+      .slice(h + 1, h + 11)
+      .some((r) => /^GWB-/i.test(cell(r, idx.orderId)));
+    return named || (hasIsbn && hasFee) || (statementPreamble && (hasIsbn || hasFee)) || gwbIds;
   },
 
   parse(table: RawTable, ctx: ParseContext): ParseResult {

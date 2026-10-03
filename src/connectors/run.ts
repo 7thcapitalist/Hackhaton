@@ -10,10 +10,8 @@
  * Runs from a mock pull are flagged ingest_runs.is_synthetic = 1, so screens
  * can label the numbers "simulated".
  */
-import { eq } from "drizzle-orm";
 import { getDb, type Db } from "@/db/client";
 import { redactSecrets } from "@/db/env";
-import { ingestRuns } from "@/db/schema";
 import { IngestError, ingestFile, type IngestStatus } from "@/ingest";
 import { connectors, getConnector } from "./registry";
 import type { Connector, ConnectorMode } from "./types";
@@ -26,6 +24,8 @@ export interface PullAndIngestOptions {
   sourceIds?: string[];
   mock?: boolean;
   db?: Db;
+  /** ingest_runs.uploaded_at per pulled file (default: now). The seed uses the mock upload times. */
+  uploadedAt?: (sourceId: string, fileName: string) => string | undefined;
 }
 
 export interface PulledFileResult {
@@ -37,6 +37,9 @@ export interface PulledFileResult {
   ordersInserted: number;
   ordersReplaced: number;
   moneyLinesInserted: number;
+  itemsInserted: number;
+  laborHoursInserted: number;
+  marketplaceMetricsInserted: number;
   duplicates: number;
   warnings: number;
   error?: string;
@@ -82,6 +85,9 @@ const emptyFile = (fileName: string): PulledFileResult => ({
   ordersInserted: 0,
   ordersReplaced: 0,
   moneyLinesInserted: 0,
+  itemsInserted: 0,
+  laborHoursInserted: 0,
+  marketplaceMetricsInserted: 0,
   duplicates: 0,
   warnings: 0,
 });
@@ -118,6 +124,8 @@ async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise
         fileName: f.fileName,
         sourceId: isJson ? undefined : c.sourceId,
         db,
+        uploadedAt: opts.uploadedAt?.(c.sourceId, f.fileName),
+        isSynthetic: !!opts.mock,
       });
       Object.assign(out, {
         status: s.status,
@@ -126,15 +134,15 @@ async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise
         ordersInserted: s.ordersInserted,
         ordersReplaced: s.ordersReplaced,
         moneyLinesInserted: s.moneyLinesInserted,
+        itemsInserted: s.itemsInserted,
+        laborHoursInserted: s.laborHoursInserted,
+        marketplaceMetricsInserted: s.marketplaceMetricsInserted,
         duplicates: s.duplicates,
         warnings: s.warnings,
         error: s.error,
       });
       if (s.sourceId !== c.sourceId) {
         out.error = `ingested as ${s.sourceId}, expected ${c.sourceId}`;
-      }
-      if (opts.mock && s.status !== "duplicate") {
-        await db.update(ingestRuns).set({ isSynthetic: 1 }).where(eq(ingestRuns.id, s.ingestRunId));
       }
     } catch (err) {
       out.error = message(err);

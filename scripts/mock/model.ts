@@ -38,6 +38,8 @@
  */
 import { addDays, dateRange, daysBetween, localToUtc } from "../../src/lib/views/dates";
 import { Rng } from "../seed/prng";
+import { ebayLineFeeCents } from "../../src/connectors/mock/ebay";
+import { buildOps, type OpsModel } from "./ops";
 
 export const MOCK_SEED = 20261003;
 export const START_DATE = "2026-08-01";
@@ -173,6 +175,8 @@ export interface MockModel {
   gbAdjustments: Record<string, number>;
   /** Every label bought (orders, Cash Monkey lots, jewelry). */
   shipments: Shipment[];
+  /** Item lifecycle, labor, ratings, bank statement (./ops.ts; own random stream). */
+  ops: OpsModel;
 }
 
 // ---------------------------------------------------------------------------
@@ -235,7 +239,8 @@ const STREAMS: StreamDef[] = [
     ],
     uprightChannels: [["ShopGoodwill", 1]],
     shipping: (rng) => 200 + Math.round(rng.logNormal(850, 0.35)), // shipping + $2 handling
-    fee: (gross) => Math.round(gross * 0.08),
+    // ShopGoodwill keeps ~10% of the hammer price + ~3% card processing on what the buyer paid.
+    fee: (gross, shipping) => Math.round(gross * 0.1) + Math.round((gross + shipping) * 0.03),
     taxRate: 0,
   },
   {
@@ -260,7 +265,8 @@ const STREAMS: StreamDef[] = [
     ],
     uprightChannels: [["eBay", 1]],
     shipping: (rng) => (rng.chance(0.4) ? 0 : Math.round(rng.logNormal(800, 0.3))),
-    fee: (gross, shipping) => Math.round((gross + shipping) * 0.1325) + 30,
+    // Final value fee 13.6% of the item price + $0.40 per order (same formula as the eBay API mock).
+    fee: (gross) => ebayLineFeeCents(gross, true),
     taxRate: 0.07,
   },
   {
@@ -711,7 +717,8 @@ export function buildModel(): MockModel {
   const gbAdjustments: Record<string, number> = {};
   for (const period of MONTHLY_FILE_PERIODS) gbAdjustments[period] = -rng.int(150, 900);
 
-  return { orders, cashMonkey, jewelry, amazonEvents, gbAdjustments, shipments };
+  const base = { orders, cashMonkey, jewelry, amazonEvents, gbAdjustments, shipments };
+  return { ...base, ops: buildOps(base, [...MONTHLY_FILE_PERIODS, "2026-10"]) };
 }
 
 /** Orders of one business date for a stream, by time. */

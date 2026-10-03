@@ -23,7 +23,7 @@
  */
 import { shippingOsmPbEasypostParser } from "@/sources/shipping_osm_pb_easypost";
 import { businessDateOf } from "@/sources/_shared/table";
-import { fixtureFiles, fixtureRows } from "./fixtures";
+import { fixtureFiles, fixtureRows, fixturesOnly } from "./fixtures";
 import { generateShipments, paymentLogCsv, shipmentsFromCsvRows, shipmentsPage, type MockShipment } from "./mock/easypost";
 import { ConnectorError, type Connector, type PulledFile, type PullRequest } from "./types";
 import { assertRange, dayWindow, daysIn, env, hasEnv, http, httpJson, jsonFile, readLocal, sleep } from "./util";
@@ -99,7 +99,8 @@ async function mockShipments(day: string): Promise<MockShipment[]> {
       return isNaN(d.getTime()) ? null : businessDateOf(d);
     },
   );
-  return rows.length ? shipmentsFromCsvRows(rows) : generateShipments(day);
+  if (rows.length || fixturesOnly()) return shipmentsFromCsvRows(rows);
+  return generateShipments(day);
 }
 
 async function pullMock(req: PullRequest): Promise<PulledFile[]> {
@@ -108,11 +109,14 @@ async function pullMock(req: PullRequest): Promise<PulledFile[]> {
   for (const day of daysIn(req)) {
     const shipments = await mockShipments(day);
     out.push(jsonFile(`pull_easypost_api_shipments_${day}_p1.json`, shipmentsPage(shipments)));
-    if (!paylogFixtures.length) {
+    if (!paylogFixtures.length && !fixturesOnly()) {
       out.push({ fileName: `pull_easypost_payment_log_${day}.csv`, bytes: Buffer.from(paymentLogCsv(day, shipments), "utf8") });
     }
   }
   out.push(...paylogFixtures.map((f) => readLocal(f, "pull_")));
+  // Pitney Bowes and OSM are not EasyPost: their exports arrive by email/portal
+  // (same source id). In mock mode their fixture files ride along with this pull.
+  out.push(...fixtureFiles(SOURCE, req).filter((f) => /_(pb|osm)_/i.test(f.name)).map((f) => readLocal(f, "pull_")));
   return out;
 }
 

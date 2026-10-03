@@ -1,44 +1,45 @@
 /**
  * Jewelry: "Jewelry Report" (slide 38: "Request report; Co-Pivot populates Supplier").
+ * Research: docs/sources/jewelry.md (almost all guess).
  *
- * What it is
- *   Nothing public. Goodwill requests a jewelry report each month and a
- *   "Co-Pivot" step (an Excel pivot? Copilot?) fills in a Supplier column.
- *   We assume it is a SALES report of jewelry items sold online, one row per
- *   item, with the supplier (consignor / store / vendor that sourced the item)
- *   used to allocate revenue. [guess]
- *
- * Assumed layout [guess, all of it]
- *   Optional title lines, then a header row:
- *     Sale Date, Order ID, Item ID, Description, Category, Sale Price,
- *     Shipping, Fees, Supplier, Status
- *   Only a date and a price column are required. Aliases in COLS. A "Total" /
- *   "Grand Total" footer row (typical of a pivot) is skipped.
+ * What it is [guess]
+ *   A monthly list of jewelry items sold online, mostly on ShopGoodwill (some
+ *   on eBay), that finance requests; a "Co-Pivot" step (likely Copilot in
+ *   Excel or a pivot/lookup) fills a Supplier column used for allocation.
+ *   Those sales are ALREADY in the ShopGoodwill / eBay / Upright files, so
+ *   this report must not add revenue for them.
  *
  * What we emit
- *   One order per item, channel "other", category "Jewelry" (the row's own
- *   category, if any, is ignored on purpose so KPIs group it as Jewelry).
- *   No buyer id. Supplier has no column in `orders` yet, so it is NOT stored;
- *   rows without a Supplier get a warning ("Co-Pivot not run?").
- *   [contract gap: if allocation needs Supplier, add orders.supplier or put it in items]
+ *   One order per item with the MARKETPLACE channel and the marketplace's own
+ *   order and item ids, so ingest's dedupe (`channel:order:item`) catches the
+ *   rows already loaded from ShopGoodwill / eBay (first file wins; Upright
+ *   beats both). Only items no other file has (e.g. sold "Direct" / in store
+ *   → channel other) add revenue.
+ *   Channel: a Marketplace / Channel / Site column if present; else inferred
+ *   from the order id (SGW-… → shopgoodwill, 12-34567-89012 → ebay, 3-7-7
+ *   digits → amazon); else other. Category is always "Jewelry".
+ *   Supplier has no column in `orders`, so it is not stored (needed schema
+ *   field: orders.supplier, or an enrichment table keyed by dedupe_key). Rows
+ *   without a Supplier get ONE warning per file ("Co-Pivot not run?"); the raw
+ *   report (no Supplier column at all) is accepted, with one warning.
  *
- * Open questions for Goodwill
- *   1. What is "Co-Pivot", and what does Supplier mean (store, donor program,
- *      vendor, consignor)? Is it needed for the GL allocation?
- *   2. Which marketplace sells the jewelry? If it is ShopGoodwill or eBay,
- *      these items may already be in those files → double counting. Need the
- *      marketplace order id to dedupe (dedupe_key = channel:order:item).
- *   3. Is it a sales report or an inventory/cost report (cost of goods)?
- *   4. Real column names and file type (XLSX with a pivot sheet?).
+ * Layout [guess]
+ *   Optional title lines, then a header: Sale Date, Marketplace, Order ID,
+ *   Item ID, Description, Category, Sold Price, Shipping, Fees, Supplier.
+ *   Only a date and a price column are required. Pivot footers ("Grand
+ *   Total", "Store 12 Total") are skipped; an item described as "Total …" is
+ *   kept (only the first cell decides).
  */
 import type { ParseContext, ParseResult, ParsedOrder, RawTable, SourceParser } from "./types";
 import { columnIndex, isBlankRow, normalizeHeader, toCents } from "./_shared/table";
+import type { ChannelId } from "./_shared/marketplace";
 import { cell, choosePeriod, dominantPeriod, findHeaderRowAny, headerSet, isTotalRow, parseDate, preambleMatches, toInt } from "./_other";
 
 const COLS = {
   date: ["Sale Date", "Sold Date", "Date Sold", "Order Date", "Date", "End Date"],
-  orderId: ["Order ID", "Order #", "Order Number", "Order No"],
-  itemId: ["Item ID", "Item #", "Item Number", "SKU", "Tag", "Tag #", "Barcode"],
+  marketplace: ["Marketplace", "Channel", "Site", "Sales Channel", "Platform"],
+  orderId: ["Order ID", "Marketplace Order ID", "Order #", "Order Number", "Order No"],
+  itemId: ["Item ID", "Item #", "Item Number", "Listing ID", "SKU", "Tag", "Tag #", "Barcode"],
   description: ["Description", "Item Description", "Title", "Item"],
   category: ["Category", "Department"],
   price: ["Sale Price", "Sold Price", "Price", "Sold For", "Amount", "Gross", "Selling Price"],
@@ -51,24 +52,45 @@ const COLS = {
 
 const REQUIRED_SETS = COLS.date.flatMap((d) => COLS.price.slice(0, 4).map((p) => [d, p]));
 const FOREIGN = ["settlement id", "sales record number", "channel order id", "winning bid", "buyer username", "item count", "isbn", "tracking id"];
+const JEWELRY_WORDS = /jewel|ring|necklace|bracelet|earring|brooch|pendant|chain|watch|cameo|pearl|gold|silver|sterling/i;
 
 function locateHeader(table: RawTable): number {
   return findHeaderRowAny(table, REQUIRED_SETS);
 }
 
+export function jewelryChannel(marketplace: string, orderId: string): ChannelId {
+  const s = marketplace.toLowerCase().replace(/[^a-z]/g, "");
+  if (s) {
+    if (s.startsWith("shopgoodwill") || s === "sgw") return "shopgoodwill";
+    if (s.startsWith("ebay")) return "ebay";
+    if (s.startsWith("amazon")) return "amazon";
+    return "other";
+  }
+  if (/^SGW-/i.test(orderId)) return "shopgoodwill";
+  if (/^\d{2}-\d{5}-\d{5}$/.test(orderId)) return "ebay";
+  if (/^\d{3}-\d{7}-\d{7}$/.test(orderId)) return "amazon";
+  return "other";
+}
+
 export const jewelryParser: SourceParser = {
   sourceId: "jewelry",
-  version: "0.1.0",
+  version: "0.2.0",
 
   accepts(table: RawTable, fileName: string): boolean {
     const h = locateHeader(table);
     if (h < 0) return false;
     const cells = headerSet(table[h]);
     if (FOREIGN.some((f) => cells.has(f))) return false;
-    // Supplier column is the distinctive mark; otherwise need a jewelry hint.
+    // Supplier column is the distinctive mark; else a jewelry hint in the
+    // file name / title; else (raw report) mostly jewelry descriptions.
     const hasSupplier = COLS.supplier.some((s) => cells.has(normalizeHeader(s)));
     const named = /jewel/i.test(fileName) || preambleMatches(table.slice(0, h), /jewel/i);
-    return hasSupplier || named;
+    if (hasSupplier || named) return true;
+    const c = columnIndex(table[h], COLS);
+    if (c.description < 0 && c.category < 0) return false;
+    const sample = table.slice(h + 1, h + 21).filter((r) => !isBlankRow(r));
+    const hits = sample.filter((r) => JEWELRY_WORDS.test(`${cell(r, c.description)} ${cell(r, c.category)}`)).length;
+    return sample.length >= 3 && hits / sample.length >= 0.6;
   },
 
   parse(table: RawTable, ctx: ParseContext): ParseResult {
@@ -81,8 +103,7 @@ export const jewelryParser: SourceParser = {
     const header = table[headerRowIndex];
     result.header = header.map(normalizeHeader);
     const c = columnIndex(header, COLS);
-    result.warnings.push({ message: "Jewelry: layout is a guess; Supplier is read but not stored (no column in orders)." });
-    if (c.supplier < 0) result.warnings.push({ message: "Jewelry: no Supplier column. Was the Co-Pivot step run?" });
+    if (c.supplier < 0) result.warnings.push({ message: "Jewelry: no Supplier column (raw report). Was the Co-Pivot step run?" });
 
     const dates: string[] = [];
     let missingSupplier = 0;
@@ -117,13 +138,14 @@ export const jewelryParser: SourceParser = {
         status = "cancelled";
         grossCents = 0;
       }
-      const feeCents = status === "cancelled" ? 0 : fee;
+      // A fee on a return row is a fee reversal (money back in).
+      const feeCents = status === "cancelled" ? 0 : price < 0 ? -fee : fee;
       const shippingCents = status === "cancelled" ? 0 : shipping;
 
       dates.push(date.businessDate);
       result.orders.push({
         sourceRow: rowNo,
-        channel: "other",
+        channel: jewelryChannel(cell(row, c.marketplace), orderId),
         externalOrderId: orderId,
         externalItemId: itemId,
         orderTs: date.ts,

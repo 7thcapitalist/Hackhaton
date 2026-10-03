@@ -75,6 +75,11 @@ N/A.
 
 ## 4. Parser gap (src/sources/goodwill_books.ts)
 
+**Status (2026-10-03, parser v0.2.0):** 1 open (PDF) · 2 open (summary-only statement) ·
+3 **fixed** (also accepted with a generic name: GWB- order ids, a "payment statement" /
+"statement period" preamble with book columns, or ISBN + any fee column) · 4 ok · 5 open ·
+6 ok · 7 open (still money lines only; order emission left to the other lane).
+
 The parser is honest about being a guess (it always warns "statement layout is a guess"). Risks
 when the real file arrives:
 

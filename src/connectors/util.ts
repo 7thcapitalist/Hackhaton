@@ -135,6 +135,8 @@ export interface LocalFile {
   path: string;
   name: string;
   mtimeMs: number;
+  /** In-memory content (mock fixture set); otherwise read from path. */
+  bytes?: Buffer;
 }
 
 /** Ingestible files directly inside `dir` (none if it does not exist). */
@@ -171,7 +173,7 @@ export function newest(files: LocalFile[]): LocalFile | undefined {
 }
 
 export function readLocal(f: LocalFile, prefix: string): PulledFile {
-  return { fileName: `${prefix}${f.name}`, bytes: readFileSync(f.path) };
+  return { fileName: `${prefix}${f.name}`, bytes: f.bytes ?? readFileSync(f.path) };
 }
 
 // ---------------------------------------------------------------------------

@@ -25,7 +25,7 @@
  * built from data/fixtures/ebay/ when a fixture covers the day.
  */
 import { ebayParser } from "@/sources/ebay";
-import { fixtureOrders } from "./fixtures";
+import { fixtureOrders, fixturesOnly } from "./fixtures";
 import { generateOrders, ordersFromParsed, ordersPage, payoutsPage, transactionsPage, type MockOrder } from "./mock/ebay";
 import type { Connector, PulledFile, PullRequest } from "./types";
 import { assertRange, dayWindow, daysIn, env, hasEnv, httpJson, jsonFile } from "./util";
@@ -111,7 +111,8 @@ async function pullReal(req: PullRequest): Promise<PulledFile[]> {
 
 async function mockOrders(day: string): Promise<MockOrder[]> {
   const fromFixture = await fixtureOrders("ebay", ebayParser, day);
-  return fromFixture.length ? ordersFromParsed(fromFixture) : generateOrders(day);
+  if (fromFixture.length || fixturesOnly()) return ordersFromParsed(fromFixture);
+  return generateOrders(day);
 }
 
 async function pullMock(req: PullRequest): Promise<PulledFile[]> {

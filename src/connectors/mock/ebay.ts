@@ -46,10 +46,21 @@ const SELLER = "goodwill_mock_seller";
 const usd = (cents: number) => ({ value: dec(cents), currency: "USD" });
 const iso = (d: Date) => d.toISOString().replace(/\.\d{3}Z$/, ".000Z");
 
-/** eBay final value fee approximation: 13.25% of the total + $0.30 per order. */
-function feeFor(totalCents: number): number {
-  return Math.round(totalCents * 0.1325) + 30;
+/**
+ * eBay final value fee, as the mock charges it: 13.6% of the item price
+ * (lineItemCost) per line + $0.40 per order (eBay's most-categories rate for
+ * sales up to $7,500; the per-order fee is $0.40 above $10). Shared with the
+ * mock truth model (scripts/mock/model.ts) so the Upright fee column and the
+ * eBay API mock charge the same fee for the same sale.
+ */
+export const EBAY_FVF_RATE = 0.136;
+export const EBAY_PER_ORDER_FEE_CENTS = 40;
+export function ebayLineFeeCents(itemCents: number, firstLine: boolean): number {
+  return Math.round(itemCents * EBAY_FVF_RATE) + (firstLine ? EBAY_PER_ORDER_FEE_CENTS : 0);
 }
+/** Fee per line; a repeated item id (the same CSV row from a re-uploaded file) is charged once. */
+const lineFees = (m: MockOrder) =>
+  m.lines.map((l, j) => (m.lines.findIndex((x) => x.itemId === l.itemId) < j ? 0 : ebayLineFeeCents(l.costCents, j === 0)));
 
 export function generateOrders(day: string): MockOrder[] {
   const r: Rng = rng(`ebay:${day}`);
@@ -78,19 +89,24 @@ export function generateOrders(day: string): MockOrder[] {
       status = "refunded";
       lines[0].refundCents = Math.min(lines[0].costCents, r.int(5, 15) * 100);
     }
-    const total = lines.reduce((a, l) => a + l.costCents + l.shippingCents + l.taxCents, 0);
     return {
       orderId: `27-${mm}${dd}${i}-${r.digits(5)}`,
       createdAt,
       buyer: `mock_buyer_${r.hex(6)}`,
       lines,
       status,
-      feeCents: feeFor(total),
+      feeCents: lines.reduce((a, l, j) => a + ebayLineFeeCents(l.costCents, j === 0), 0),
     };
   });
 }
 
-/** ParsedOrder rows (e.g. from a CSV fixture) → mock orders with the same ids and amounts. */
+/**
+ * ParsedOrder rows (e.g. from a CSV fixture) → mock orders with the same ids and amounts.
+ * The Seller Hub Orders CSV has no fee column, so when the rows carry no fee the
+ * final value fee is computed (ebayLineFeeCents) and the API mock reports it
+ * in getOrders totalMarketplaceFee and in the getTransactions SALE fees.
+ * Cancelled orders are charged no fee.
+ */
 export function ordersFromParsed(rows: ParsedOrder[]): MockOrder[] {
   const byId = new Map<string, MockOrder>();
   for (const o of rows) {
@@ -118,7 +134,11 @@ export function ordersFromParsed(rows: ParsedOrder[]): MockOrder[] {
     m.feeCents += o.feeCents ?? 0;
     if (o.status !== "paid") m.status = o.status;
   }
-  return [...byId.values()];
+  const out = [...byId.values()];
+  for (const m of out) {
+    if (m.feeCents === 0 && m.status !== "cancelled") m.feeCents = lineFees(m).reduce((a, b) => a + b, 0);
+  }
+  return out;
 }
 
 /** One Order object as getOrders returns it. */
@@ -230,12 +250,24 @@ export function ordersPage(day: string, orders: MockOrder[]): Record<string, unk
   };
 }
 
-/** getTransactions response for one day: a SALE per order (skipped by the parser) and one ad fee. */
+/**
+ * getTransactions response for one day: a SALE per order and one ad fee.
+ * The final value fee rides on the SALE (totalFeeAmount, orderLineItems[].marketplaceFees
+ * FINAL_VALUE_FEE), as eBay reports it. The parser skips SALE transactions: the
+ * same fee already reaches orders.fee_cents through getOrders totalMarketplaceFee,
+ * so it is counted once. Only NON_SALE_CHARGE (the ad fee) becomes a
+ * "marketplace_fee" money line.
+ */
 export function transactionsPage(day: string, orders: MockOrder[]): Record<string, unknown> {
   const r = rng(`ebay-tx:${day}`);
   const { start, end } = dayWindow(day);
   const transactions: Record<string, unknown>[] = orders.map((o) => {
     const amount = o.lines.reduce((a, l) => a + l.costCents + l.shippingCents, 0) - o.feeCents;
+    // Split the order fee over the lines (formula share; the remainder goes on the first line).
+    const shares = lineFees(o);
+    const scale = shares.reduce((a, b) => a + b, 0);
+    const perLine = shares.map((f) => (scale > 0 ? Math.round((o.feeCents * f) / scale) : 0));
+    if (perLine.length) perLine[0] += o.feeCents - perLine.reduce((a, b) => a + b, 0);
     return {
       transactionId: `${r.digits(2)}-${r.digits(5)}-${r.digits(5)}`,
       orderId: o.orderId,
@@ -245,10 +277,10 @@ export function transactionsPage(day: string, orders: MockOrder[]): Record<strin
       amount: usd(amount),
       totalFeeBasisAmount: usd(o.lines.reduce((a, l) => a + l.costCents + l.shippingCents + l.taxCents, 0)),
       totalFeeAmount: usd(o.feeCents),
-      orderLineItems: o.lines.map((l) => ({
+      orderLineItems: o.lines.map((l, j) => ({
         lineItemId: l.itemId,
         feeBasisAmount: usd(l.costCents + l.shippingCents + l.taxCents),
-        marketplaceFees: [{ feeType: "FINAL_VALUE_FEE", amount: usd(o.feeCents), feeMemo: "" }],
+        marketplaceFees: [{ feeType: "FINAL_VALUE_FEE", amount: usd(perLine[j]), feeMemo: "" }],
       })),
       bookingEntry: "CREDIT",
       transactionDate: iso(o.createdAt),

@@ -1,7 +1,13 @@
-created_at,id,status,source_type,target_type,charge_type,amount,balance,description
-2026-09-01T12:00:00Z,paylog_s0001,complete,bank_account,easypost_bank,recharge,250.00,250.00,Recharge from bank account
-2026-09-04T18:00:00Z,paylog_s0002,complete,refund,user,refund,5.12,198.31,Refund for shp_s0004
-2026-09-10T12:00:00Z,paylog_s0003,complete,bank_account,easypost_bank,recharge,250.00,401.22,Recharge from bank account
-2026-09-15T12:00:00Z,paylog_s0004,complete,user,easypost_bank,service_fee,1.00,380.10,Monthly service fee
-2026-09-20T12:00:00Z,paylog_s0005,pending,bank_account,easypost_bank,recharge,250.00,380.10,Recharge from bank account
-2026-09-21T12:00:00Z,paylog_s0006,complete,user,easypost_bank,carbon_offset,0.25,379.85,Carbon offset
+created_at,id,status,source_type,target_type,charge_type,amount,balance,description,Tracking Number
+2026-09-01T12:00:00Z,paylog_s0001,creditable,bank_account,user,recharge,$250.00000,$250.00000,,
+2026-09-01T14:04:11Z,paylog_s0002,complete,user,easypost_bank,service_fee,$5.12000,$244.88000,,9400100000000000000001
+2026-09-01T20:05:40Z,paylog_s0003,complete,user,easypost_bank,service_fee,$6.48000,$238.40000,,9400100000000000000002
+2026-09-04T13:46:52Z,paylog_s0004,complete,user,easypost_bank,service_fee,$5.12000,$233.28000,,9400100000000000000004
+2026-09-04T18:00:00Z,paylog_s0005,complete,refund,user,refund,$5.12000,$238.40000,,9400100000000000000004
+2026-09-10T12:00:00Z,paylog_s0006,complete,bank_account,user,recharge,$250.00000,$488.40000,,
+2026-09-15T12:00:00Z,paylog_s0007,complete,user,easypost_bank,service_fee,$1.00000,$487.40000,,
+2026-09-20T12:00:00Z,paylog_s0008,pending,bank_account,user,recharge,$250.00000,$487.40000,,
+2026-09-21T12:00:00Z,paylog_s0009,complete,user,easypost_bank,carbon_offset,$0.25000,$487.15000,,
+2026-09-24T09:00:00Z,paylog_s0010,complete,user,easypost_bank,manual_debit,$2.40000,$484.75000,,
+2026-09-28T09:00:00Z,paylog_s0011,complete,user,payment_refund,payment_refund,$50.00000,$434.75000,,
+2026-09-29T09:00:00Z,paylog_s0012,complete,user,user,service_fee,$0.00000,$434.75000,,

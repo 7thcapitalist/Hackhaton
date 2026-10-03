@@ -248,6 +248,18 @@ Source: [Get Transaction Reports](https://docs.shippingapi.pitneybowes.com/api/g
 - PB exports cap at 3,000 rows: a month may need several exports.
 
 ## Parser gap (real format vs `src/sources/shipping_osm_pb_easypost.ts`)
+
+**Status (2026-10-03, parser v0.3.0):** 1 **fixed** (payment-log `service_fee` tied to a
+shipment = label purchase, not emitted; unlinked `service_fee` = real fee → adjustment; the
+shipment report stays the authority for labels and refunds) · 2 **fixed** (`payment_refund` →
++ postage_topup, bank 0101) · 3 **fixed** (`creditable` counts) · 4 **fixed** (unsigned
+`$x.xxxxx`, direction from source/target; `other = delta` → adjustment) · 5 **fixed**
+(carrier-billed OSM/FedEx/UPS labels never use `rate`; flagged, only EasyPost's own fees
+count) · 6 **fixed** (`postage_label_created_at`) · 7 **fixed** (43-column fixture; address
+columns never read) · 8 n/a · 9 **fixed** (separate Shipments / Postage refills / USPS
+Refunds files, kind from type column, file name or header; column names still a **guess**) ·
+10 **fixed** (POSTAGE FUND = top-up; APV / credit / debit adjustments signed) · 11 **open**
+(OSM layout guess) · 12 **open** (no bank-statement parser).
 1. **Payment log `service_fee` is booked as an `adjustment` (negative)**. Label purchases are
    logged as `service_fee`, so uploading the shipment report and the payment log together counts
    every label twice. Treat `service_fee` like refunds (informational) or only keep `recharge`

@@ -108,6 +108,52 @@ export const SOURCES: NewSource[] = [
     revenueAuthority: 0,
     configJson: cfg({ channels: ["goodwill_books"], cadence: "monthly" }),
   },
+  // Ops sources (no revenue): item lifecycle, labor, customer ratings, bank statement.
+  {
+    id: "production_tracking",
+    name: "Production tracking",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Production-tracking export: donated / identified / sent-to-e-com timestamps per item tag",
+    owner: "E-commerce manager",
+    configJson: cfg({ channels: [], cadence: "monthly" }),
+  },
+  {
+    id: "upright_inventory",
+    name: "Upright Lister inventory",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Upright Lister inventory/products export: listed / sold timestamps, lister, price, relists",
+    owner: "E-commerce manager",
+    configJson: cfg({ channels: [], cadence: "monthly" }),
+  },
+  {
+    id: "timekeeping",
+    name: "Timekeeping",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Payroll timecard export (REG/OT hours per employee id and day); e-commerce departments only",
+    owner: "HR / payroll",
+    configJson: cfg({ channels: [], cadence: "monthly" }),
+  },
+  {
+    id: "marketplace_ratings",
+    name: "Marketplace ratings",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Monthly CSAT / NPS / conversion / seller rating from each marketplace's seller dashboard",
+    owner: "E-commerce manager",
+    configJson: cfg({ channels: [], cadence: "monthly" }),
+  },
+  {
+    id: "bank_1st_source",
+    name: "1st Source bank (acct 0101)",
+    kind: "statement",
+    channelGroup: null,
+    acquisition: "1st Source online banking CSV export, acct 0101; informational until bank reconciliation",
+    owner: "Finance (AP)",
+    configJson: cfg({ channels: [], cadence: "monthly" }),
+  },
 ];
 
 /**

@@ -3,20 +3,89 @@
  *  - data/inbox/<source_id>/    drop folder fed by scheduled emails or humans
  *  - data/fixtures/<source_id>/ mock data generated for the demo (another lane)
  *  - src/sources/__samples__/   parser samples (last-resort mock data)
+ *
+ * Mock fixture set (useMockFixtures): the seed / demo reset hands the
+ * connectors an in-memory set of fixture files (the committed data/fixtures,
+ * or the same files rendered by the mock writers on Vercel, where data/ is not
+ * deployed). While a set is active, mock pulls read ONLY that set: no inbox,
+ * no parser samples, no generated data, so a reset loads exactly the mock
+ * truth. Parsed tables are cached per file for the duration of the set.
  */
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
 import { readTable } from "@/ingest/read";
 import { TIMEZONE } from "@/sources/_shared/table";
-import type { ParsedOrder, SourceParser } from "@/sources/types";
+import type { ParsedOrder, RawTable, SourceParser } from "@/sources/types";
 import type { PullRange } from "./types";
 import { dataDir, filesInRange, listFiles, type LocalFile } from "./util";
 
 export const inboxDir = (sourceId: string) => join(dataDir(), "inbox", sourceId);
 export const fixtureDir = (sourceId: string) => join(dataDir(), "fixtures", sourceId);
 
+/** One fixture file: path relative to data/fixtures ("<source_id>/<name>"). */
+export interface MockFixtureFile {
+  path: string;
+  bytes: Uint8Array;
+}
+
+let memSet: Map<string, LocalFile[]> | null = null;
+const tableCache = new Map<string, Promise<RawTable>>();
+const ordersCache = new Map<string, ParsedOrder[] | null>();
+const rowsCache = new Map<string, Map<string, Record<string, string>[]>>();
+
+/**
+ * Make mock pulls read `files` only (pass null to go back to data/fixtures on
+ * disk). Returns a function that restores the previous state.
+ */
+export function useMockFixtures(files: MockFixtureFile[] | null): () => void {
+  const prev = memSet;
+  memSet = null;
+  if (files) {
+    memSet = new Map();
+    for (const f of files) {
+      const slash = f.path.indexOf("/");
+      const sourceId = f.path.slice(0, slash);
+      const name = f.path.slice(slash + 1);
+      if (slash < 0 || name.includes("/")) continue;
+      const list = memSet.get(sourceId) ?? [];
+      list.push({ path: `mem:${f.path}`, name, mtimeMs: 0, bytes: Buffer.from(f.bytes) });
+      memSet.set(sourceId, list);
+    }
+  }
+  tableCache.clear();
+  ordersCache.clear();
+  rowsCache.clear();
+  return () => {
+    memSet = prev;
+    tableCache.clear();
+    ordersCache.clear();
+    rowsCache.clear();
+  };
+}
+
+/** True while an in-memory fixture set is active: mocks must not invent data. */
+export function fixturesOnly(): boolean {
+  return memSet !== null;
+}
+
+/** Every fixture file of a source (in-memory set, else data/fixtures/<source_id>/). */
+export function fixtureList(sourceId: string): LocalFile[] {
+  return memSet ? (memSet.get(sourceId) ?? []) : listFiles(fixtureDir(sourceId));
+}
+
 export function fixtureFiles(sourceId: string, range: PullRange): LocalFile[] {
-  return filesInRange(listFiles(fixtureDir(sourceId)), range);
+  return filesInRange(fixtureList(sourceId), range);
+}
+
+function tableOf(f: LocalFile): Promise<RawTable> {
+  const read = () => readTable(f.bytes ?? readFileSync(f.path), f.name);
+  if (!memSet) return read();
+  let t = tableCache.get(f.path);
+  if (!t) {
+    t = read();
+    tableCache.set(f.path, t);
+  }
+  return t;
 }
 
 /** Parser samples whose file name starts with the source id (top level and other/). */
@@ -33,21 +102,25 @@ export async function fixtureOrders(
   parser: SourceParser,
   day: string,
 ): Promise<ParsedOrder[]> {
-  const files = listFiles(fixtureDir(sourceId)).filter((f) => {
+  const files = fixtureList(sourceId).filter((f) => {
     const d = /(\d{4}-\d{2}-\d{2})/.exec(f.name)?.[1];
     const m = /(\d{4}-\d{2})(?!-?\d)/.exec(f.name)?.[1];
     return d === day || (!d && m === day.slice(0, 7));
   });
   const out: ParsedOrder[] = [];
   for (const f of files) {
-    try {
-      const table = await readTable(readFileSync(f.path), f.name);
-      if (!parser.accepts(table, f.name)) continue;
-      const res = parser.parse(table, { fileName: f.name, timezone: TIMEZONE });
-      out.push(...res.orders.filter((o) => o.businessDate === day));
-    } catch {
-      // unreadable fixture: fall back to generated data
+    const key = `${parser.sourceId}|${f.path}`;
+    let orders = memSet ? ordersCache.get(key) : undefined;
+    if (orders === undefined) {
+      try {
+        const table = await tableOf(f);
+        orders = parser.accepts(table, f.name) ? parser.parse(table, { fileName: f.name, timezone: TIMEZONE }).orders : null;
+      } catch {
+        orders = null; // unreadable fixture: fall back to generated data
+      }
+      if (memSet) ordersCache.set(key, orders);
     }
+    if (orders) out.push(...orders.filter((o) => o.businessDate === day));
   }
   return out;
 }
@@ -61,20 +134,34 @@ export async function fixtureRows(
   dateOf: (row: Record<string, string>) => string | null,
 ): Promise<Record<string, string>[]> {
   const out: Record<string, string>[] = [];
-  for (const f of listFiles(fixtureDir(sourceId))) {
-    try {
-      const table = await readTable(readFileSync(f.path), f.name);
-      if (!parser.accepts(table, f.name)) continue;
-      const h = table.findIndex((r) => requiredColumns.every((c) => r.map((x) => x.toLowerCase()).includes(c)));
-      if (h < 0) continue;
-      const header = table[h].map((x) => x.toLowerCase());
-      for (const row of table.slice(h + 1)) {
-        const rec = Object.fromEntries(header.map((k, i) => [k, row[i] ?? ""]));
-        if (dateOf(rec) === day) out.push(rec);
+  for (const f of fixtureList(sourceId)) {
+    // With a fixture set, rows are indexed by day once per file (same parser + columns => same dateOf).
+    const key = `${parser.sourceId}|${requiredColumns.join(",")}|${f.path}`;
+    let byDay = memSet ? rowsCache.get(key) : undefined;
+    if (byDay === undefined) {
+      byDay = new Map();
+      try {
+        const table = await tableOf(f);
+        if (parser.accepts(table, f.name)) {
+          const h = table.findIndex((r) => requiredColumns.every((c) => r.map((x) => x.toLowerCase()).includes(c)));
+          if (h >= 0) {
+            const header = table[h].map((x) => x.toLowerCase());
+            for (const row of table.slice(h + 1)) {
+              const rec = Object.fromEntries(header.map((k, i) => [k, row[i] ?? ""]));
+              const d = dateOf(rec);
+              if (!d) continue;
+              const list = byDay.get(d) ?? [];
+              list.push(rec);
+              byDay.set(d, list);
+            }
+          }
+        }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
+      if (memSet) rowsCache.set(key, byDay);
     }
+    out.push(...(byDay.get(day) ?? []));
   }
   return out;
 }

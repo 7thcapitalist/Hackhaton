@@ -1,24 +1,47 @@
-Jewelry Report - August 2025,,,,,,,,
-,,,,,,,,
-Sale Date,Order ID,Item ID,Description,Category,Sold Price,Shipping,Fees,Supplier
-2025-08-01,J-5001,JW-0001,Watch lot (5),Watches,$30.99,$5.50,$3.10,Store 12
-2025-08-02,J-5002,JW-0002,Gold-tone necklace lot,Necklaces,$36.99,$5.50,$3.70,Store 12
-2025-08-03,J-5003,JW-0003,Watch lot (5),Watches,$35.99,$5.50,$3.60,Store 12
-2025-08-06,J-5004,JW-0004,Gold-tone necklace lot,Necklaces,$86.99,$3.95,$8.70,Store 12
-2025-08-06,J-5005,JW-0005,Vintage brooch,Brooches,$32.99,$5.50,$3.30,Store 12
-2025-08-07,J-5006,JW-0006,Gold-tone necklace lot,Necklaces,$29.99,$3.95,$3.00,Store 04
-2025-08-07,J-5007,JW-0007,Sterling silver ring,Rings,$24.99,$3.95,$2.50,Outlet DC
-2025-08-08,J-5008,JW-0008,Vintage brooch,Brooches,$95.99,$3.95,$9.60,Store 04
-2025-08-09,J-5009,JW-0009,Vintage brooch,Brooches,$29.99,$5.50,$3.00,Store 04
-2025-08-11,J-5010,JW-0010,10k gold chain 18in,Chains,$43.99,$4.95,$4.40,Store 07
-2025-08-18,J-5011,JW-0011,Sterling silver ring,Rings,$31.99,$4.95,$3.20,Store 07
-2025-08-24,J-5012,JW-0012,Gold-tone necklace lot,Necklaces,$48.99,$5.50,$4.90,Outlet DC
-2025-08-24,J-5013,JW-0013,Cameo pendant,Pendants,$19.99,$3.95,$2.00,Store 12
-2025-08-26,J-5014,JW-0014,Cameo pendant,Pendants,$91.99,$5.50,$9.20,Store 07
-2025-08-26,J-5015,JW-0015,Turquoise bracelet,Bracelets,$65.99,$5.50,$6.60,Store 04
-2025-08-29,J-5016,JW-0016,Vintage brooch,Brooches,$32.99,$5.50,$3.30,Store 04
-2025-08-29,J-5017,JW-0017,Cameo pendant,Pendants,$41.99,$4.95,$4.20,Store 12
-2025-08-30,J-5018,JW-0018,Vintage brooch,Brooches,$25.99,$4.95,$2.60,Outlet DC
-2025-08-30,J-5019,JW-0019,Cameo pendant,Pendants,$47.99,$3.95,$4.80,Store 04
-,,,,,,,,
-Grand Total,,,,,$856.81,$93.00,$85.70,
+Jewelry Report - August 2025,,,,,,,,,
+,,,,,,,,,
+Sale Date,Marketplace,Order ID,Item ID,Description,Category,Sold Price,Shipping,Fees,Supplier
+2025-08-01,Jewelry Counter,J-5001,JW-0001,Watch lot (5),Watches,$30.99,$5.50,$3.10,Store 12
+2025-08-02,Jewelry Counter,J-5002,JW-0002,Gold-tone necklace lot,Necklaces,$36.99,$5.50,$3.70,Store 12
+2025-08-02,ShopGoodwill,SGW-7700131,210000131,Retro Pocket Watch,Watches,$131.00,$10.05,$17.33,Outlet DC
+2025-08-02,ShopGoodwill,SGW-7700139,210000139,Retro Gold Tone Necklace,Jewelry,$108.00,$8.22,$14.29,Outlet DC
+2025-08-02,ShopGoodwill,SGW-7700179,210000179,Mid-Century Charm Bracelet,Jewelry,$90.00,$9.56,$11.99,Outlet DC
+2025-08-03,Jewelry Counter,J-5003,JW-0003,Watch lot (5),Watches,$35.99,$5.50,$3.60,Store 12
+2025-08-03,ShopGoodwill,SGW-7700298,210000298,Vintage Pocket Watch,Watches,$106.00,$7.57,$14.01,Store 12
+2025-08-03,ShopGoodwill,SGW-7700332,210000332,Vintage Brooch,Jewelry,$105.00,$11.17,$13.99,Store 04
+2025-08-03,ShopGoodwill,SGW-7700335,210000335,Vintage Pocket Watch,Watches,$218.00,$7.65,$28.57,Outlet DC
+2025-08-06,Jewelry Counter,J-5004,JW-0004,Gold-tone necklace lot,Necklaces,$86.99,$3.95,$8.70,Store 12
+2025-08-06,Jewelry Counter,J-5005,JW-0005,Vintage brooch,Brooches,$32.99,$5.50,$3.30,Store 12
+2025-08-07,Jewelry Counter,J-5006,JW-0006,Gold-tone necklace lot,Necklaces,$29.99,$3.95,$3.00,Store 04
+2025-08-07,Jewelry Counter,J-5007,JW-0007,Sterling silver ring,Rings,$24.99,$3.95,$2.50,Outlet DC
+2025-08-07,ShopGoodwill,SGW-7700811,210000811,Lot of 2 Brooch,Jewelry,$90.00,$9.94,$12.00,Outlet DC
+2025-08-07,ShopGoodwill,SGW-7700815,210000815,Lot of 2 Pocket Watch,Watches,$194.00,$15.25,$25.68,Outlet DC
+2025-08-08,Jewelry Counter,J-5008,JW-0008,Vintage brooch,Brooches,$95.99,$3.95,$9.60,Store 04
+2025-08-09,Jewelry Counter,J-5009,JW-0009,Vintage brooch,Brooches,$29.99,$5.50,$3.00,Store 04
+2025-08-11,Jewelry Counter,J-5010,JW-0010,10k gold chain 18in,Chains,$43.99,$4.95,$4.40,Store 07
+2025-08-12,ShopGoodwill,SGW-7701471,210001471,Classic Pearl Earrings,Jewelry,$130.00,$20.02,$17.50,Outlet DC
+2025-08-13,ShopGoodwill,SGW-7701575,210001575,Antique Wrist Watch,Watches,$118.00,$12.40,$15.71,Outlet DC
+2025-08-13,ShopGoodwill,SGW-7701598,210001598,Like New Wrist Watch,Watches,$140.00,$9.99,$18.50,Store 12
+2025-08-15,ShopGoodwill,SGW-7701850,210001850,Like New Chronograph Watch,Watches,$94.00,$7.16,$12.43,Store 12
+2025-08-17,ShopGoodwill,SGW-7702140,210002140,Handmade Gold Tone Necklace,Jewelry,$106.00,$7.46,$14.00,Store 04
+2025-08-18,Jewelry Counter,J-5011,JW-0011,Sterling silver ring,Rings,$31.99,$4.95,$3.20,Store 07
+2025-08-18,ShopGoodwill,SGW-7702248,210002248,Retro Gold Tone Necklace,Jewelry,$137.00,$9.18,$18.09,Store 04
+2025-08-19,ShopGoodwill,SGW-7702400,210002400,Handmade Chronograph Watch,Watches,$173.00,$11.22,$22.83,Store 04
+2025-08-20,ShopGoodwill,SGW-7702521,210002521,Classic Chronograph Watch,Watches,$128.00,$17.67,$17.17,Store 07
+2025-08-21,ShopGoodwill,SGW-7702629,210002629,Used Wrist Watch,Watches,$142.00,$12.74,$18.84,Store 07
+2025-08-22,ShopGoodwill,SGW-7702775,210002775,Vintage Gold Tone Necklace,Jewelry,$101.00,$8.98,$13.40,Outlet DC
+2025-08-23,ShopGoodwill,SGW-7702914,210002914,Vintage Wrist Watch,Watches,$98.00,$7.13,$12.95,Store 12
+2025-08-24,Jewelry Counter,J-5012,JW-0012,Gold-tone necklace lot,Necklaces,$48.99,$5.50,$4.90,Outlet DC
+2025-08-24,Jewelry Counter,J-5013,JW-0013,Cameo pendant,Pendants,$19.99,$3.95,$2.00,Store 12
+2025-08-24,ShopGoodwill,SGW-7703065,210003065,Mid-Century Wrist Watch,Watches,$126.00,$5.95,$16.56,Store 07
+2025-08-26,Jewelry Counter,J-5014,JW-0014,Cameo pendant,Pendants,$91.99,$5.50,$9.20,Store 07
+2025-08-26,Jewelry Counter,J-5015,JW-0015,Turquoise bracelet,Bracelets,$65.99,$5.50,$6.60,Store 04
+2025-08-29,Jewelry Counter,J-5016,JW-0016,Vintage brooch,Brooches,$32.99,$5.50,$3.30,Store 04
+2025-08-29,Jewelry Counter,J-5017,JW-0017,Cameo pendant,Pendants,$41.99,$4.95,$4.20,Store 12
+2025-08-29,ShopGoodwill,SGW-7703721,210003721,Handmade Brooch,Jewelry,$93.00,$10.46,$12.40,Store 07
+2025-08-30,Jewelry Counter,J-5018,JW-0018,Vintage brooch,Brooches,$25.99,$4.95,$2.60,Outlet DC
+2025-08-30,Jewelry Counter,J-5019,JW-0019,Cameo pendant,Pendants,$47.99,$3.95,$4.80,Store 04
+2025-08-30,ShopGoodwill,SGW-7703875,210003875,Classic Pocket Watch,Watches,$111.00,$17.51,$14.96,Outlet DC
+2025-08-31,ShopGoodwill,SGW-7703988,210003988,Used Gold Tone Necklace,Jewelry,$197.00,$11.70,$25.96,Store 04
+,,,,,,,,,
+Grand Total,,,,,,"$3,792.81",$341.98,$474.86,

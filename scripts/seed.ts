@@ -1,15 +1,19 @@
 /**
- * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged]
+ * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged] [--no-golden]
  *
- * Wipes the facts, upserts config + KPI targets, then ingests every mock
- * export in data/fixtures (manifest order = upload order) through ingestFile(),
- * exactly like an upload. Only items and labor_hours (no source file yet) are
- * inserted directly. Close tables are untouched. See scripts/seed/run.ts.
+ * Wipes the facts, upserts config + KPI targets, then pulls every mock export
+ * in data/fixtures through the mock connectors (pullAndIngest, mock mode) into
+ * ingestFile(), exactly like a real pull. Nothing but config and KPI targets
+ * is inserted directly. Close tables are untouched. See scripts/seed/run.ts.
  *
- * Mode: a local file DB ingests directly ("direct"); a remote Turso DB is
- * staged in a scratch SQLite file and copied in one transaction ("staged").
+ * Mode: by default the ingest runs in a scratch SQLite file and is copied to
+ * the target in one transaction ("staged"); --direct ingests into the target.
  * Uses TURSO_DATABASE_URL (default file:local.db). Run `npm run db:push` and
  * `npm run mock:generate` (or use the committed fixtures) first.
+ *
+ * Ends by saving the golden snapshot (src/lib/demo/golden.ts) that
+ * `npm run demo:reset` and POST /api/demo/reset restore from in one batch.
+ * --no-golden skips it (an existing snapshot is left as it was).
  */
 import { config } from "dotenv";
 
@@ -22,10 +26,12 @@ async function main() {
   const { resolveDbConfig, redactSecrets } = await import("../src/db/env");
   const { runSeed } = await import("./seed/run");
   const { fixturesFromDisk } = await import("./seed/fixtures");
+  const { saveGolden } = await import("../src/lib/demo/golden");
 
   const { isLocalFile } = resolveDbConfig();
   const argv = process.argv.slice(2);
-  const mode = argv.includes("--staged") ? "staged" : argv.includes("--direct") ? "direct" : isLocalFile ? "direct" : "staged";
+  // Staged is faster even for a local file (scratch DB without journal); --direct writes straight to the target.
+  const mode = argv.includes("--direct") ? "direct" : "staged";
   const fixtures = await fixturesFromDisk();
   console.log(`Database: ${isLocalFile ? "local file" : "remote Turso"} · mode ${mode} · ${fixtures.length} fixture files`);
 
@@ -39,6 +45,10 @@ async function main() {
 
   console.log(`\nFiles ingested: ${r.files.total} (${Object.entries(r.files.byStatus).map(([k, v]) => `${k} ${v}`).join(", ")})`);
   for (const [name, n] of Object.entries(r.counts)) console.log(`  ${name.padEnd(14)} ${n}`);
+  const v = r.viaIngest;
+  console.log(
+    `Loaded via ingest runs: orders ${v.orders}, money_lines ${v.moneyLines}, items ${v.items} (merged by id), labor_hours ${v.laborHours}, marketplace_metrics ${v.marketplaceMetrics}`,
+  );
   console.log(`Duplicate orders: ${r.duplicateOrders} dropped, ${r.ordersReplaced} replaced by Upright`);
   console.log(`Exceptions: ${Object.entries(r.exceptionsByKind).map(([k, v]) => `${k} ${v}`).join(", ") || "none"}`);
   if (r.copyRoundTrips !== undefined) console.log(`Copy to target: ${r.copyRoundTrips} round trips`);
@@ -47,6 +57,16 @@ async function main() {
     console.error(`\n${r.problems.length} problem(s):`);
     for (const p of r.problems) console.error(`  ${p}`);
     process.exit(1);
+  }
+  if (argv.includes("--no-golden")) {
+    console.log("Golden snapshot: skipped (--no-golden).");
+  } else {
+    const t = Date.now();
+    const g = await saveGolden(getDb().$client);
+    const rows = Object.values(g.counts).reduce((a, b) => a + b, 0);
+    console.log(
+      `Golden snapshot saved in ${Date.now() - t} ms (${rows} rows, ${Object.keys(g.counts).length} tables). Reset with \`npm run demo:reset\`.`,
+    );
   }
 }
 

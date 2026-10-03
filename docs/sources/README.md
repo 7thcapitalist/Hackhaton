@@ -16,6 +16,14 @@ orders Upright doesn't list), and **every transaction counts as a different cust
 | `jewelry` | see [docs/sources/jewelry.md](jewelry.md) | | | | |
 | `shipping_osm_pb_easypost` | see [docs/sources/shipping_osm_pb_easypost.md](shipping_osm_pb_easypost.md) | | | | |
 | `fedex` | see [docs/sources/fedex.md](fedex.md) | | | | |
+| [`production_tracking`](production_tracking.md) | Not on slide 38: production-tracking export (donated / identified / sent to e-com per item tag) | monthly file (any range) | Unknown | Mock only (email drop folder) | **Low** (internal system, layout guessed) |
+| [`upright_inventory`](upright_inventory.md) | Not on slide 38: Upright Lister inventory/products export (listed / sold / lister / relists) | monthly snapshot | Products endpoint not public | Mock only (email drop folder) | **Low** (columns guessed) |
+| [`timekeeping`](timekeeping.md) | Not on slide 38: payroll timecard export (REG/OT hours per employee id + day) | monthly | Paylocity / ADP APIs exist, not wired | Mock only (drop folder) | **Low** (vendor unknown) |
+| [`marketplace_ratings`](marketplace_ratings.md) | Not on slide 38: monthly CSAT / NPS / conversion / seller rating from seller dashboards | monthly | eBay Analytics / SP-API partly, not wired | Mock only (drop folder) | **Low** (our own template) |
+| [`bank_1st_source`](bank_1st_source.md) | Slide 38 "1st Source acct 0101 · GL 10009": bank activity CSV, informational | monthly | No | Mock only (manual upload) | **Low** (layout guessed) |
+
+The five ops sources carry no revenue (`revenue_authority` 0). Items and labor come from mock files,
+so KPIs that use them stay **simulated**; CSAT / NPS / conversion compute from `marketplace_ratings`.
 
 ## Top parser gaps found (details in each doc, §4)
 

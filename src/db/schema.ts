@@ -36,7 +36,8 @@ const createdAt = () =>
 export const sources = sqliteTable("sources", {
   id: text("id").primaryKey(), // shopgoodwill, amazon, ebay, cashmonkey, upright, jewelry, shipping_osm_pb_easypost, fedex, goodwill_books
   name: text("name").notNull(),
-  kind: text("kind", { enum: ["marketplace", "shipping", "statement"] }).notNull(),
+  /** internal = Goodwill's own systems (production tracking, Upright inventory, timekeeping, marketplace ratings). */
+  kind: text("kind", { enum: ["marketplace", "shipping", "statement", "internal"] }).notNull(),
   /** Legacy pulse row label. Prefer orders.channel -> channels.pulse_group (research §6.1). */
   channelGroup: text("channel_group"),
   acquisition: text("acquisition"),

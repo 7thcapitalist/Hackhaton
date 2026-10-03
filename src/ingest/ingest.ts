@@ -28,7 +28,7 @@
  *   (source_id = the requested source, or null) and the IngestError is rethrown.
  */
 import { createHash, randomUUID } from "node:crypto";
-import { and, eq, inArray, ne } from "drizzle-orm";
+import { and, eq, inArray, ne, sql } from "drizzle-orm";
 import type { BatchItem } from "drizzle-orm/batch";
 import { getDb, type Db } from "@/db/client";
 import { redactSecrets } from "@/db/env";
@@ -36,12 +36,16 @@ import {
   exceptions,
   ingestRuns,
   items,
+  laborHours,
+  marketplaceMetrics,
   moneyLines,
   orders,
   sources,
   type NewDataException,
   type NewIngestRun,
   type NewItem,
+  type NewLaborHour,
+  type NewMarketplaceMetric,
   type NewMoneyLine,
   type NewOrder,
 } from "@/db/schema";
@@ -63,6 +67,8 @@ export interface IngestInput {
   uploadedAt?: string;
   /** Defaults to the app's DB client. */
   db?: Db;
+  /** Mark the run as synthetic (mock pull / demo data); the UI shows "simulated". */
+  isSynthetic?: boolean;
 }
 
 export type IngestStatus = "parsed" | "parsed_with_warnings" | "failed" | "duplicate";
@@ -77,7 +83,12 @@ export interface IngestSummary {
   /** Lower-authority rows (e.g. eBay, ShopGoodwill) replaced by this file's rows. */
   ordersReplaced: number;
   moneyLinesInserted: number;
+  /** Item rows written (new or merged into an existing item with the same id). */
   itemsInserted: number;
+  /** Labor rows written (one per employee + day; a re-upload replaces, never adds). */
+  laborHoursInserted: number;
+  /** Marketplace metric rows written (one per channel + period + metric; replaces). */
+  marketplaceMetricsInserted: number;
   /** Order rows dropped as duplicates (in-file or already in DB). */
   duplicates: number;
   warnings: number;
@@ -188,6 +199,8 @@ export async function ingestFile(input: IngestInput): Promise<IngestSummary> {
       ordersReplaced: 0,
       moneyLinesInserted: 0,
       itemsInserted: 0,
+      laborHoursInserted: 0,
+      marketplaceMetricsInserted: 0,
       duplicates: 0,
       warnings: 0,
       period: prior.period,
@@ -228,6 +241,7 @@ export async function ingestFile(input: IngestInput): Promise<IngestSummary> {
     parserVersion: parser.version,
     uploadedAt,
     period: input.period ?? null,
+    isSynthetic: input.isSynthetic ? 1 : 0,
   };
 
   // 3. Parse (pure) and clean.
@@ -245,6 +259,48 @@ export async function ingestFile(input: IngestInput): Promise<IngestSummary> {
     return writeFailedRun(db, base, `Write failed: ${rootMessage(err)}`);
   }
 }
+
+/**
+ * Two sources fill different timestamps of the same item (production tracking:
+ * donated/identified/sent; Upright inventory: listed/sold/price/relists), and
+ * monthly snapshots repeat an item. Merge by item id: a non-null new value
+ * wins, a null never erases a known one; relist_count only grows.
+ */
+const keep = (col: string) => sql.raw(`coalesce(excluded.${col}, items.${col})`);
+const ITEM_UPSERT = {
+  target: items.id,
+  set: {
+    ingestRunId: sql.raw("excluded.ingest_run_id"),
+    category: keep("category"),
+    donatedAt: keep("donated_at"),
+    identifiedAt: keep("identified_at"),
+    sentToEcomAt: keep("sent_to_ecom_at"),
+    listedAt: keep("listed_at"),
+    soldAt: keep("sold_at"),
+    listedBy: keep("listed_by"),
+    channelSourceId: keep("channel_source_id"),
+    listPriceCents: keep("list_price_cents"),
+    salePriceCents: keep("sale_price_cents"),
+    relistCount: sql.raw("max(excluded.relist_count, items.relist_count)"),
+  },
+};
+/** Same employee + day from the same source: the newer file's hours replace the old ones. */
+const LABOR_UPSERT = {
+  target: laborHours.id,
+  set: {
+    ingestRunId: sql.raw("excluded.ingest_run_id"),
+    team: sql.raw("excluded.team"),
+    hours: sql.raw("excluded.hours"),
+  },
+};
+const METRIC_UPSERT = {
+  target: marketplaceMetrics.id,
+  set: {
+    ingestRunId: sql.raw("excluded.ingest_run_id"),
+    value: sql.raw("excluded.value"),
+    sampleSize: sql.raw("excluded.sample_size"),
+  },
+};
 
 const FAILED_FILE_CODES = new Set<string>(["unsupported_file", "unreadable_file", "unrecognized_file"]);
 
@@ -288,6 +344,8 @@ async function writeFailedRun(
     ordersReplaced: 0,
     moneyLinesInserted: 0,
     itemsInserted: 0,
+    laborHoursInserted: 0,
+    marketplaceMetricsInserted: 0,
     duplicates: 0,
     warnings: 0,
     period: base.period ?? null,
@@ -480,7 +538,43 @@ async function writeParsed(
       amountCents: toInt(m.amountCents, "amount_cents", row, warn),
     });
   }
-  const itemRows: NewItem[] = (result.items ?? []).map((it) => ({ ...it, id: randomUUID(), ingestRunId: runId }));
+  // Items with their own id are merged (see itemUpsert); without one, new rows.
+  const itemRows: NewItem[] = [];
+  for (const it of result.items ?? []) {
+    const id = it.id?.trim();
+    itemRows.push({ ...it, id: id || randomUUID(), ingestRunId: runId });
+  }
+
+  // Labor hours: one row per source + employee + day. The id is deterministic,
+  // so re-uploading a (corrected) timecard file replaces hours, never adds them.
+  const laborById = new Map<string, NewLaborHour>();
+  for (const l of result.laborHours ?? []) {
+    if (!l.employee || !l.workDate || !DATE_RE.test(l.workDate) || !Number.isFinite(l.hours)) {
+      warn({ message: `labor row without valid employee/work_date/hours (${l.employee ?? "?"} ${l.workDate ?? "?"}); skipped` });
+      continue;
+    }
+    const id = `lh:${sourceId}:${l.employee}:${l.workDate}`;
+    const prev = laborById.get(id);
+    laborById.set(id, { ...l, id, ingestRunId: runId, hours: (prev?.hours ?? 0) + l.hours });
+  }
+  const laborRows = [...laborById.values()];
+
+  // Marketplace metrics: one row per source + channel + period + metric (replaces on re-upload).
+  const metricById = new Map<string, NewMarketplaceMetric>();
+  for (const m of result.marketplaceMetrics ?? []) {
+    if (!m.period || !PERIOD_RE.test(m.period) || !Number.isFinite(m.value)) {
+      warn({ message: `marketplace metric without valid period/value (${m.channel} ${m.metric}); skipped` });
+      continue;
+    }
+    let channel = m.channel;
+    if (!channelSet.has(channel)) {
+      warn({ message: `unknown channel "${channel}" on marketplace metric; mapped to "other"` });
+      channel = "other";
+    }
+    const id = `mm:${sourceId}:${channel}:${m.period}:${m.metric}`;
+    metricById.set(id, { ...m, channel, id, ingestRunId: runId });
+  }
+  const metricRows = [...metricById.values()];
 
   // --- Run metadata -----------------------------------------------------------
   const nameDate = /(\d{4}-\d{2}-\d{2})/.exec(base.fileName)?.[1];
@@ -488,7 +582,12 @@ async function writeParsed(
   const businessDate = result.businessDate ?? (input.period ? undefined : nameDate);
   let period = input.period ?? result.period ?? (businessDate ? undefined : nameMonth);
   if (!period && !businessDate) {
-    const months = new Set([...toInsert.map((o) => o.businessDate.slice(0, 7)), ...lines.map((l) => l.period)]);
+    const months = new Set([
+      ...toInsert.map((o) => o.businessDate.slice(0, 7)),
+      ...lines.map((l) => l.period),
+      ...laborRows.map((l) => l.workDate.slice(0, 7)),
+      ...metricRows.map((m) => m.period),
+    ]);
     if (months.size === 1) period = [...months][0];
   }
   const status = warnings.length > 0 ? "parsed_with_warnings" : "parsed";
@@ -510,7 +609,7 @@ async function writeParsed(
     period: period ?? null,
     businessDate: businessDate ?? null,
     periodLabel: result.periodLabel ?? null,
-    rowCount: toInsert.length + lines.length + itemRows.length,
+    rowCount: toInsert.length + lines.length + itemRows.length + laborRows.length + metricRows.length,
     headerRowIndex: result.headerRowIndex,
     headerSignature: result.header?.length ? headerSignature(result.header) : null,
     warningsJson: warnings.length ? JSON.stringify(warnings.slice(0, MAX_STORED_WARNINGS)) : null,
@@ -519,7 +618,9 @@ async function writeParsed(
   // --- One atomic write ---------------------------------------------------------
   const stmts: Stmt[] = [db.insert(ingestRuns).values(run)];
   for (const ids of chunks(replaceIds, 500)) stmts.push(db.delete(orders).where(inArray(orders.id, ids)));
-  for (const c of chunks(itemRows)) stmts.push(db.insert(items).values(c));
+  for (const c of chunks(itemRows)) stmts.push(db.insert(items).values(c).onConflictDoUpdate(ITEM_UPSERT));
+  for (const c of chunks(laborRows)) stmts.push(db.insert(laborHours).values(c).onConflictDoUpdate(LABOR_UPSERT));
+  for (const c of chunks(metricRows)) stmts.push(db.insert(marketplaceMetrics).values(c).onConflictDoUpdate(METRIC_UPSERT));
   for (const c of chunks(toInsert)) stmts.push(db.insert(orders).values(c));
   for (const c of chunks(lines)) stmts.push(db.insert(moneyLines).values(c));
   for (const c of chunks(exc)) stmts.push(db.insert(exceptions).values(c));
@@ -534,6 +635,8 @@ async function writeParsed(
     ordersReplaced: replaceIds.length,
     moneyLinesInserted: lines.length,
     itemsInserted: itemRows.length,
+    laborHoursInserted: laborRows.length,
+    marketplaceMetricsInserted: metricRows.length,
     duplicates,
     warnings: warnings.length,
     period: run.period ?? null,

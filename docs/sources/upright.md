@@ -163,6 +163,16 @@ object per CSV row with snake_case keys mirroring the columns. Confirm with one 
 
 ## 4. Parser gap (src/sources/upright.ts)
 
+**Status (2026-10-03, parser v2.0.0): fixed** — real 34-column header (old aliases kept);
+gross = `Order Item Subtotal`; order-level money (shipping + handling, FVF + processing fee +
+channel fee/credit, refund, derived tax) booked once per order on its first item row;
+`Order Cancelled At` → cancelled; `Channel Buyer ID` → buyer; `Product Category` → category;
+report zone default America/Los_Angeles, overridable by file-name hint (`_et`, `_ct`, `_pt`,
+`_tz-America-Indiana-Indianapolis`); known "other" channels map silently. Fixtures and sample
+use the real layout. **Open:** exact header spelling and value formats (need one real file);
+the report filter must be **All** statuses; Supplier is not stored (no schema field); tax is
+a derived upper bound (donations are in Order Total).
+
 Header matching is **exact** after normalization (`columnIndex` uses `indexOf`), so every
 renamed column below is simply not found.
 

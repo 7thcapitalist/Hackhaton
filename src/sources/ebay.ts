@@ -15,9 +15,16 @@
  *    Item Number, Item Title, Quantity, Sold For, Shipping And Handling,
  *    eBay Collected Tax, Total Price, eBay Collected Tax and Fees Included in
  *    Total, Sale Date, Paid On Date.
- *  - [guess] A blank line follows the header, and the file ends with footer
- *    lines like "12 record(s) downloaded,from Sep-01-26 to Sep-30-26" and
- *    "Seller ID : …". Both are skipped.
+ *  - [fact] Line 1 is bare commas, line 2 the header (80 columns, US), line 3
+ *    a padding row; the file ends with "45,record(s) downloaded,from … to …"
+ *    (count in column 1) and "Seller ID : …". All skipped.
+ *  - [fact] The real report has NO order status, refund or fee columns: those
+ *    stay 0 / "paid" (no invented values). The optional aliases below only
+ *    serve older/hand-made files. Refunds and fees come from Upright or the
+ *    eBay Transaction report / Finances API.
+ *  - Seller Collected Tax is added to tax; buyer-paid recycling fees,
+ *    Additional Fee and eBay Collected Charges are pass-through (only used in
+ *    the Total Price check), never revenue.
  *  - [guess] Dates look like "Sep-30-26" (no time → Indianapolis midnight);
  *    "Sep-30-26 23:45:00" and zone-suffixed variants also parse.
  *  - [fact] "Sold For" is the unit price; gross = Sold For × Quantity.
@@ -55,6 +62,7 @@ const ALIASES = {
   soldFor: ["sold for", "item price", "sale price"],
   shipping: ["shipping and handling", "shipping & handling", "shipping"],
   tax: ["ebay collected tax", "ebay collected sales tax"],
+  sellerTax: ["seller collected tax"],
   total: ["total price", "total"],
   taxIncluded: ["ebay collected tax and fees included in total", "ebay collected tax included in total"],
   saleDate: ["sale date", "order date", "order creation date"],
@@ -67,10 +75,16 @@ type Key = keyof typeof ALIASES;
 const REQUIRED: Key[] = ["salesRecord", "orderId", "itemNumber", "soldFor"];
 
 const FOOTER = /record\(s\) downloaded|^seller id\b/i;
+const BUYER_CHARGES = new Set([
+  "electronic waste recycling fee", "mattress recycling fee", "battery recycling fee", "white goods disposal tax",
+  "tire recycling fee", "additional fee", "ebay collected charges",
+]);
+/** Footer lines: "45,record(s) downloaded,from …" (count in col 1) and "Seller ID : …". */
+const isFooter = (row: string[]) => FOOTER.test(row.slice(0, 3).join(" ").trim());
 
 export const ebayParser: SourceParser = {
   sourceId: "ebay",
-  version: "1.0.0",
+  version: "1.1.0",
 
   accepts(table: RawTable): boolean {
     return findHeaderRowByAliases(table, ALIASES, REQUIRED) >= 0;
@@ -90,12 +104,15 @@ export const ebayParser: SourceParser = {
       header: header.map(normalizeHeader),
     };
     warnMissingColumns(result, col, ["buyer", "tax", "saleDate"]);
+    // Buyer-paid pass-through charges (recycling fees, Additional Fee, eBay
+    // Collected Charges): part of Total Price, never revenue.
+    const chargeCols = result.header.map((x, i) => (BUYER_CHARGES.has(x) ? i : -1)).filter((i) => i >= 0);
 
     // Pass 1: summary rows of multi-item orders (order number, no item number).
     const summaries = new Map<string, { shipping: number; tax: number; used: boolean }>();
     for (let i = h + 1; i < table.length; i++) {
       const row = table[i];
-      if (isBlankRow(row) || FOOTER.test(row[0] ?? "")) continue;
+      if (isBlankRow(row) || isFooter(row)) continue;
       const orderId = cell(row, col.orderId);
       if (orderId && !cell(row, col.itemNumber)) {
         summaries.set(orderId, { shipping: cents(row, col.shipping), tax: cents(row, col.tax), used: false });
@@ -105,7 +122,7 @@ export const ebayParser: SourceParser = {
     for (let i = h + 1; i < table.length; i++) {
       const row = table[i];
       const sourceRow = i + 1;
-      if (isBlankRow(row) || FOOTER.test(row[0] ?? "")) continue;
+      if (isBlankRow(row) || isFooter(row)) continue;
 
       const orderId = cell(row, col.orderId);
       const itemNumber = cell(row, col.itemNumber);
@@ -130,7 +147,7 @@ export const ebayParser: SourceParser = {
       }
       const gross = unit * quantity;
       let shipping = cents(row, col.shipping);
-      let tax = cents(row, col.tax);
+      let tax = cents(row, col.tax) + cents(row, col.sellerTax);
       const summary = summaries.get(orderId);
       if (summary && !summary.used) {
         shipping += summary.shipping;
@@ -151,7 +168,8 @@ export const ebayParser: SourceParser = {
       const totalRaw = toCents(cell(row, col.total));
       if (totalRaw != null && !summary) {
         const included = /^y/i.test(cell(row, col.taxIncluded));
-        const expected = gross + shipping + (included ? tax : 0);
+        const charges = chargeCols.reduce((s, i) => s + cents(row, i), 0);
+        const expected = gross + shipping + (included ? tax + charges : 0);
         if (Math.abs(totalRaw - expected) > 1) {
           result.warnings.push({
             row: sourceRow,

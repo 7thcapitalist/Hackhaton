@@ -14,6 +14,11 @@ import { writeJewelry } from "./writers/jewelry";
 import { writeShipping } from "./writers/shipping_osm_pb_easypost";
 import { writeShopgoodwill } from "./writers/shopgoodwill";
 import { writeUpright } from "./writers/upright";
+import { writeBank1stSource } from "./writers/bank_1st_source";
+import { writeMarketplaceRatings } from "./writers/marketplace_ratings";
+import { writeProductionTracking } from "./writers/production_tracking";
+import { writeTimekeeping } from "./writers/timekeeping";
+import { writeUprightInventory } from "./writers/upright_inventory";
 
 export type { FixtureFile } from "./types";
 
@@ -29,6 +34,12 @@ export function buildFixtures(model: MockModel = buildModel()): FixtureFile[] {
     ...writeShipping(model),
     ...writeFedex(model),
     ...writeGoodwillBooks(model),
+    // Ops sources (item lifecycle, labor, ratings, bank): scripts/mock/ops.ts.
+    ...writeProductionTracking(model),
+    ...writeUprightInventory(model),
+    ...writeTimekeeping(model),
+    ...writeMarketplaceRatings(model),
+    ...writeBank1stSource(model),
   ];
   return files.sort((a, b) => a.uploadedAt.localeCompare(b.uploadedAt) || a.path.localeCompare(b.path));
 }

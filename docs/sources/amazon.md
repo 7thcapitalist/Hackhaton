@@ -193,6 +193,14 @@ names **[guess]** (the model only says "the type of charge").
 
 ## 4. Parser gap (src/sources/amazon.ts vs the real formats)
 
+**Status (2026-10-03, parser v1.1.0):** 1 **open** (PDF summary not parseable) · 2 **fixed**
+(Transaction Status / Release Date read; deferred money lines say so in the memo; fixtures
+emit both columns) · 3 open (UI note) · 4 ok · 5 **fixed** (Shipping Services →
+shipping_label, Chargeback Refund / A-to-z → refund, Deal Fee / Fee Adjustment → fee,
+Order_Retrocharge → adjustment, Debt → payout; any unknown type → adjustment + warning, money
+never dropped) · 6 **fixed** (Regulatory Fee is a fee) · 7 ok · 8 **open** (Settlement V2
+flat file) · 9–11 ok.
+
 1. **Report choice.** Slide 38 says "Payments summary"; if Amanda sends the **Summary PDF**,
    nothing parses (reader accepts .csv/.tsv/.txt/.xlsx only). Ask for the **Transaction CSV**
    for the same range. (Highest risk.)
