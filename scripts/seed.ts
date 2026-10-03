@@ -6,8 +6,8 @@
  * ingestFile(), exactly like a real pull. Nothing but config and KPI targets
  * is inserted directly. Close tables are untouched. See scripts/seed/run.ts.
  *
- * Mode: a local file DB ingests directly ("direct"); a remote Turso DB is
- * staged in a scratch SQLite file and copied in one transaction ("staged").
+ * Mode: by default the ingest runs in a scratch SQLite file and is copied to
+ * the target in one transaction ("staged"); --direct ingests into the target.
  * Uses TURSO_DATABASE_URL (default file:local.db). Run `npm run db:push` and
  * `npm run mock:generate` (or use the committed fixtures) first.
  */
@@ -25,7 +25,8 @@ async function main() {
 
   const { isLocalFile } = resolveDbConfig();
   const argv = process.argv.slice(2);
-  const mode = argv.includes("--staged") ? "staged" : argv.includes("--direct") ? "direct" : isLocalFile ? "direct" : "staged";
+  // Staged is faster even for a local file (scratch DB without journal); --direct writes straight to the target.
+  const mode = argv.includes("--direct") ? "direct" : "staged";
   const fixtures = await fixturesFromDisk();
   console.log(`Database: ${isLocalFile ? "local file" : "remote Turso"} · mode ${mode} · ${fixtures.length} fixture files`);
 

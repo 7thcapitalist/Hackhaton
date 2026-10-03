@@ -67,6 +67,8 @@ export interface IngestInput {
   uploadedAt?: string;
   /** Defaults to the app's DB client. */
   db?: Db;
+  /** Mark the run as synthetic (mock pull / demo data); the UI shows "simulated". */
+  isSynthetic?: boolean;
 }
 
 export type IngestStatus = "parsed" | "parsed_with_warnings" | "failed" | "duplicate";
@@ -239,6 +241,7 @@ export async function ingestFile(input: IngestInput): Promise<IngestSummary> {
     parserVersion: parser.version,
     uploadedAt,
     period: input.period ?? null,
+    isSynthetic: input.isSynthetic ? 1 : 0,
   };
 
   // 3. Parse (pure) and clean.
