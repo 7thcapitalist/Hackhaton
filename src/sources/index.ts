@@ -8,6 +8,7 @@
  * XLSX detection is exactly as before.
  */
 import { amazonParser } from "./amazon";
+import { amazonApiParser } from "./amazon_api";
 import { cashmonkeyParser } from "./cashmonkey";
 import { easypostApiParser } from "./easypost_api";
 import { ebayParser } from "./ebay";
@@ -19,6 +20,7 @@ import { shippingOsmPbEasypostParser } from "./shipping_osm_pb_easypost";
 import { shopgoodwillParser } from "./shopgoodwill";
 import type { RawTable, SourceParser } from "./types";
 import { uprightParser } from "./upright";
+import { uprightApiParser } from "./upright_api";
 import { isJsonTable } from "./_shared/json";
 
 // Order matters for auto-detect: the first parser that accepts a file wins.
@@ -36,7 +38,7 @@ export const parsers: SourceParser[] = [
 ];
 
 /** Parsers for JSON API responses (one response document per file). */
-export const jsonParsers: SourceParser[] = [ebayApiParser, easypostApiParser];
+export const jsonParsers: SourceParser[] = [ebayApiParser, easypostApiParser, uprightApiParser, amazonApiParser];
 
 /**
  * A source's file parser. For a source that also has a JSON API parser, the
