@@ -29,7 +29,7 @@ npx vercel env pull .env.local
 cp .env.example .env.local   # TURSO_DATABASE_URL=file:local.db
 
 npm run db:push   # create/update tables (drizzle-kit push; run from a laptop, never in the Vercel build)
-npm run seed      # wipe facts, ingest every mock export in data/fixtures through the parsers
+npm run seed      # wipe facts, pull every mock export through the mock connectors into ingest
 npm run dev       # http://localhost:3000
 ```
 
@@ -42,13 +42,13 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
-| `npm run seed [-- --direct\|--staged]` | Wipe facts, upsert config + KPI targets, then ingest every file in `data/fixtures/` (manifest order = upload order) through `ingestFile()`, like real uploads. Only items and labor hours (no source file yet) are inserted directly. Local DB: ingests directly (~13 s); remote Turso: stages in a scratch SQLite file and copies in one transaction |
+| `npm run seed [-- --direct\|--staged]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~18 s; remote Turso: stages in a scratch SQLite file and copies in one transaction |
 | `npm run mock:generate [-- --check]` | Render the deterministic mock truth (`scripts/mock/model.ts`: 2026-08-01..2026-10-03 nightly + 2025-08..10 monthly) into each platform's real export layout under `data/fixtures/<source_id>/` (~308 files, ~6.5 MB). `--check` fails if the committed files differ |
 | `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
 | `npm run ingest -- --check <YYYY-MM or YYYY-MM-DD>` | List sources with no file for that period/day and record `missing_source` exceptions |
 | `npm run close -- YYYY-MM [--approve <name> [--force]] [--export file.xlsx]` | Month-end close: generate + reconcile the Business Central journal and AR invoice, approve, export. Same as `GET/POST /api/close/YYYY-MM` and `GET /api/close/YYYY-MM/export?format=xlsx (or csv)` |
 | `npm run pull -- --from YYYY-MM-DD [--to YYYY-MM-DD] [--mock] [--source id]` | Pull from the connectors (`src/connectors`) and ingest: Amazon SP-API Reports, eBay REST JSON, EasyPost JSON + Reports, drop folders `data/inbox/<source_id>/` for email/manual sources. `--mock` = deterministic responses in the real API shapes, no credentials. Same as `POST /api/connectors/pull` (Bearer `CRON_SECRET`). Status: `npm run pull -- --status` or `GET /api/connectors` |
-| `npm run check:parsers` / `check:parsers-other` / `check:parsers-api` | Parser smoke checks on `src/sources/__samples__` (`-api`: JSON API parsers, JSON vs CSV twins, connector mocks) |
+| `npm run check:parsers` / `check:parsers-other` / `check:parsers-api` / `check:parsers-ops` | Parser smoke checks on `src/sources/__samples__` (`-api`: JSON API parsers, JSON vs CSV twins, connector mocks; `-ops`: production tracking, Upright inventory, timekeeping, marketplace ratings, 1st Source bank) |
 
 ### Env vars
 
@@ -69,6 +69,8 @@ See `.env.example`.
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
 | `UPRIGHT_API_TOKEN` (optional `UPRIGHT_API_BASE`, `UPRIGHT_API_TIME_FORMAT=date`) | Real Upright Lister API pulls (without it: the email drop folder) |
 | `EASYPOST_API_KEY` | Real EasyPost pulls (a free test key works) |
+| `PAYROLL_API_CLIENT_ID`, `PAYROLL_API_CLIENT_SECRET` | Future timekeeping API (not wired; leave empty: the drop folder is used) |
+| `MARKETPLACE_RATINGS_API_KEY` | Future marketplace ratings API (not wired; leave empty) |
 | `CONNECTOR_DATA_DIR` | Optional folder holding `inbox/` and `fixtures/` (default `./data`) |
 
 Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_URL`)
