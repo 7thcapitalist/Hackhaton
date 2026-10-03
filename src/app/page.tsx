@@ -4,28 +4,30 @@ import { CheckIcon, ClockIcon, WarnIcon } from "@/components/icons";
 import { Sparkline } from "@/components/Sparkline";
 import { SourceStrip } from "@/components/SourceStrip";
 import {
-  CHANNELS, LAST_IMPORT_AT, LATEST_DATE, SCORECARD_PERIOD, SOURCES, SOURCES_DUE,
-  getPulse, getPulseSeries, getPulseTotalsFor, getScorecard, getSourceSummary,
-} from "./_lib/demo-data";
+  CHANNELS, LATEST_DATE, SCORECARD_PERIOD_ID, SOURCES_DUE,
+  getPulse, getPulseSeries, getPulseTotalsFor, getScorecard, getSources, getSourceSummary,
+} from "./_lib/live-data";
 import { formatDay, formatInt, formatKpiShort, formatMoneyCompact, formatStampFull, pctChange, shiftDay, TRACK, trackStatus } from "./_lib/format";
 
-export default function OverviewPage() {
-  const pulse = getPulse(LATEST_DATE);
+export default async function OverviewPage() {
+  const pulse = await getPulse(LATEST_DATE);
   const reporting = pulse.rows.filter(r => r.status === "ok").map(r => r.channelId);
   const cmpDate = shiftDay(LATEST_DATE, -7);
-  const cmp = getPulseTotalsFor(cmpDate, reporting);
+  const [cmp, series, { kpis, period: scorecardPeriod }, sources, src] = await Promise.all([
+    getPulseTotalsFor(cmpDate, reporting),
+    getPulseSeries(LATEST_DATE),
+    getScorecard(SCORECARD_PERIOD_ID),
+    getSources(SCORECARD_PERIOD_ID),
+    getSourceSummary(SCORECARD_PERIOD_ID),
+  ]);
   const change = cmp ? pctChange(pulse.totals.revenueCents, cmp.revenueCents) : null;
-  const series = getPulseSeries();
   const dailyTotals = series.dates.map((_, i) => series.series.reduce((a, s) => a + (s.revenueCents[i] ?? 0), 0));
   const missingLabels = pulse.rows.filter(r => r.status === "missing").map(r => r.label);
 
-  const { kpis } = getScorecard();
   const tracks = kpis.map(k => trackStatus(k));
   const count = (t: string) => tracks.filter(x => x === t).length;
   const anchors = kpis.filter(k => k.anchor2027);
   const awaitingKpis = kpis.filter(k => k.value == null);
-
-  const src = getSourceSummary();
 
   return (
     <div className="flex flex-col gap-7 px-4 pt-8 pb-12 sm:px-8 sm:pt-10">
@@ -36,10 +38,10 @@ export default function OverviewPage() {
           <p className="mt-1 text-[15px] text-pretty text-ink-2">Nine marketplace reports, imported every night. One place to see the day, the month, and where each number came from.</p>
         </div>
         <div className="flex flex-col items-start gap-2 sm:items-end">
-          <p className="flex items-center gap-[7px] text-[13px] text-ink-2"><CheckIcon className="size-3.5 text-ok" />Last updated <strong className="font-semibold text-ink">{formatStampFull(LAST_IMPORT_AT)}</strong></p>
+          <p className="flex items-center gap-[7px] text-[13px] text-ink-2"><CheckIcon className="size-3.5 text-ok" />Last updated <strong className="font-semibold text-ink">{pulse.lastImportAt ? formatStampFull(pulse.lastImportAt) : "—"}</strong></p>
           <div className="flex items-center gap-2.5 text-[12.5px] text-ink-3">
-            <SourceStrip sources={SOURCES} size="sm" />
-            <span>{src.arrived} of {src.total} sources received for {SCORECARD_PERIOD.label.split(" ")[0]}</span>
+            <SourceStrip sources={sources} size="sm" />
+            <span>{src.arrived} of {src.total} sources received for {scorecardPeriod.label.split(" ")[0]}</span>
           </div>
         </div>
       </div>
@@ -59,7 +61,7 @@ export default function OverviewPage() {
           <Sparkline values={dailyTotals} height={56} />
         </OverviewCard>
 
-        <OverviewCard href="/scorecard" title="COO Scorecard" meta={SCORECARD_PERIOD.label}
+        <OverviewCard href="/scorecard" title="COO Scorecard" meta={scorecardPeriod.label}
           value={`${count("on")} of ${kpis.length}`} caption="KPIs on track"
           footerLeft={<span className="text-ink-3">2027 plan anchors</span>}>
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[12.5px] text-ink-3">
@@ -79,10 +81,10 @@ export default function OverviewPage() {
           </ul>
         </OverviewCard>
 
-        <OverviewCard href="/sources" title="Data Sources" meta={SCORECARD_PERIOD.label}
+        <OverviewCard href="/sources" title="Data Sources" meta={scorecardPeriod.label}
           value={`${src.arrived} of ${src.total}`} caption="sources received"
           footerLeft={<span className="text-ink-3">{src.openIssues} open issues</span>}>
-          <SourceStrip sources={SOURCES} size="lg" />
+          <SourceStrip sources={sources} size="lg" />
           <dl className="flex flex-col gap-[7px] text-[13px]">
             <div className="flex justify-between gap-3"><dt className="text-ink-2">Missing</dt><dd className="text-right font-medium">{src.missing.map(s => s.name).join(", ") || "None"}{src.missing.length > 0 && ` · due ${SOURCES_DUE}`}</dd></div>
             <div className="flex justify-between gap-3"><dt className="text-ink-2">With warnings</dt><dd className="text-right font-medium">{src.warnings.map(s => s.name).join(", ") || "None"}</dd></div>

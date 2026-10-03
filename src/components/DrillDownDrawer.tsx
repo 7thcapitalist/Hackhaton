@@ -122,7 +122,7 @@ function RowsBody({ content: c, showAll, onShowAll }: { content: Extract<DrawerC
             <div key={`${o.sourceFile}-${o.sourceRow}`} className={`${grid} h-[46px] border-b border-line-2 text-[13px] hover:bg-surface-2`}>
               <div className="flex min-w-0 flex-col">
                 <span className="truncate font-mono text-[12.5px]">{o.orderId}</span>
-                <span className="text-[11.5px] text-ink-3">{formatClock(o.minute)} ET · {o.channelLabel}</span>
+                <span className="text-[11.5px] text-ink-3">{o.minute != null ? `${formatClock(o.minute)} ET · ` : ""}{o.channelLabel}</span>
               </div>
               <span className="text-ink-2">{o.category}</span>
               <span className="text-right text-ink-3">{formatMoney(o.grossCents)}</span>

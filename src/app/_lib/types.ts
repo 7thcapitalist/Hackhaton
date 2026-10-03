@@ -24,6 +24,8 @@ export type PulseView = {
   totals: PulseTotals; // ok rows only
   missingChannels: ChannelId[];
   isSynthetic: boolean;
+  /** Most recent file upload timestamp (ISO) behind this pulse, when known. */
+  lastImportAt?: string | null;
 };
 
 export type PulseSeries = {
@@ -73,7 +75,9 @@ export type SourceIssue = { text: string; source: string; file: string };
 
 export type SourceOrder = {
   orderId: string;
-  minute: number; // minutes after midnight ET
+  /** Minutes after midnight ET, when known. The real order data has no timestamp
+   * (src/lib/views/types.ts OrdersView), so this is omitted rather than invented. */
+  minute?: number;
   channelLabel: string;
   category: string;
   grossCents: number;
