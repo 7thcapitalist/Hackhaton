@@ -33,7 +33,7 @@ CLOSE        closes · journal_lines · ar_invoices · ar_invoice_lines · workb
 - **ids** are text (UUIDs).
 - **Privacy:** no buyer names, emails or addresses are stored anywhere. A buyer is a
   `buyer_key`, a salted SHA-256 hash of the marketplace buyer id. It's enough to count
-  unique and repeat buyers, and nothing more.
+  unique and repeat buyers if Goodwill ever wants that; today customers are counted per transaction.
 
 ## Config tables
 
@@ -136,7 +136,7 @@ amounts.
 | View | Formula |
 |---|---|
 | Pulse revenue per channel per day | Σ `orders.net_cents` where `business_date` = day, grouped by channel |
-| Pulse customers | count distinct `buyer_key` (total = sum of the channels; still to be confirmed with Goodwill) |
+| Pulse customers | count distinct transactions (`channel` + `external_order_id`): every transaction is a different customer. Total = sum of the channels |
 | Missing | no `ingest_run` for that channel and day → `null`, shown as "missing" |
 | Scorecard KPIs | functions in `src/kpis/`, one per KPI, each with its formula in a comment |
 

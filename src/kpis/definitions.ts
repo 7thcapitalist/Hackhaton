@@ -53,7 +53,7 @@ export const KPI_DEFINITIONS: KpiDefinition[] = [
     id: "top10_categories_margin", label: "Top 10 Categories by Margin", pillar: "category_customer", unit: "cents", anchor2027: false, dataBasis: "orders", compute: (f) => F.top10CategoriesMargin(f),
     note: "Margin = net after fees and refunds, excluding shipping charged; see topCategoriesByMargin.",
   },
-  { id: "repeat_buyer_rate", label: "Repeat Buyer Rate", pillar: "category_customer", unit: "percent", anchor2027: false, dataBasis: "orders", compute: (f) => F.repeatBuyerRate(f) },
+  { id: "repeat_buyer_rate", label: "Repeat Buyer Rate", pillar: "category_customer", unit: "percent", anchor2027: false, dataBasis: "orders", note: "Every transaction counts as a different customer, so repeat buyers can't be identified.", compute: (f) => F.repeatBuyerRate(f) },
 ];
 
 /** The three 2027 plan anchors (slide 36). */

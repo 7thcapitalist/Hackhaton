@@ -127,10 +127,10 @@ export function top10CategoriesMargin(f: PeriodFacts): number | null {
 }
 
 /**
- * repeat_buyer_rate = buyers with 2+ orders in the period / distinct buyers × 100.
- * Buyer keys are salted per source, so the same person on two marketplaces counts twice.
+ * repeat_buyer_rate: not computed. Every transaction counts as a different
+ * customer (Joao, 2026-10-03), so repeat buyers can't be identified and the
+ * KPI shows "awaiting data" rather than a misleading 0%.
  */
-export function repeatBuyerRate(f: PeriodFacts): number | null {
-  if (!f.orders) return null;
-  return pct(f.orders.repeatBuyers, f.orders.buyers);
+export function repeatBuyerRate(_f: PeriodFacts): number | null {
+  return null;
 }

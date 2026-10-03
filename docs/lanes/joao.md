@@ -33,7 +33,7 @@ chart is wrong and Goodwill's finance person will notice in the first minute.
 | Marketplace-collected tax never counts as revenue (`tax_cents`) | It isn't Goodwill's money |
 | A channel with no file for a day shows **missing**, not $0 | $0 and "we don't know" are different decisions |
 | Days are counted in Indiana time, not UTC | An order at 11:45 PM belongs to that day |
-| Buyers are stored only as a salted hash (`buyer_key`) | Privacy; we still count repeat buyers |
+| Buyers are stored only as a salted hash (`buyer_key`) | Privacy; we could still count repeat buyers later (today every transaction is a customer) |
 | A renamed column or extra header lines don't break the parser | Real exports are messy |
 | Problems become rows in `exceptions` with an owner, never silent | The demo shows that we catch them |
 
@@ -105,7 +105,7 @@ For each source Ryan documents in `docs/sources/<id>.md` with files in `data/fix
 | From | What | Until it arrives |
 |---|---|---|
 | Ryan | Real column layouts + fixtures per source | Parsers use public docs and their own samples |
-| Amanda (Goodwill) | What counts as a customer, gross vs net, the day cutoff, whether Upright covers every channel | Documented defaults: net revenue, distinct buyers, Indiana midnight, Upright is the source of truth for orders |
+| Amanda (Goodwill) | What counts as a customer, gross vs net, the day cutoff, whether Upright covers every channel | Documented defaults: net revenue, one customer per transaction, Indiana midnight, Upright is the source of truth for orders |
 | Gabriel, Denis | Nothing. They depend on me | — |
 
 ## 6. Open questions to bring to Amanda (via Ryan)

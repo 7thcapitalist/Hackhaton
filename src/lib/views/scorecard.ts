@@ -43,14 +43,12 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
            max(business_date) as last_date
     from orders where business_date between ${start} and ${end}`);
 
+  // Every transaction counts as a different customer (Joao, 2026-10-03), so
+  // buyers = distinct transactions and nobody is a repeat buyer.
   const [b] = await db.all<{ buyers: number; repeat_buyers: number }>(sql`
-    select count(*) as buyers, coalesce(sum(case when n >= 2 then 1 else 0 end), 0) as repeat_buyers
-    from (
-      select buyer_key, count(*) as n from orders
-      where business_date between ${start} and ${end}
-        and status != 'cancelled' and buyer_key is not null
-      group by buyer_key
-    )`);
+    select count(distinct channel || ':' || external_order_id) as buyers, 0 as repeat_buyers
+    from orders
+    where business_date between ${start} and ${end} and status != 'cancelled'`);
 
   const [s] = await db.all<{ lines: number; net: number }>(sql`
     select count(*) as lines, coalesce(sum(amount_cents), 0) as net

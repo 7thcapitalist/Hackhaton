@@ -12,9 +12,9 @@ export interface OrderFacts {
   paidGrossCents: number;
   /** Σ quantity over status = 'paid'. */
   paidQuantity: number;
-  /** Distinct buyer_key with a non-cancelled order. */
+  /** Customers = distinct non-cancelled transactions (every transaction is a different customer). */
   buyers: number;
-  /** Of those, buyers with 2+ non-cancelled order lines in the period. */
+  /** Always 0 while every transaction counts as a different customer. */
   repeatBuyers: number;
   /** Latest business_date with orders in the period (to flag partial months). */
   lastBusinessDate: string | null;

@@ -75,7 +75,7 @@ export interface PulseRow {
   label: string;                 // ShopGoodwill | Amazon | eBay | Other e-commerce
   status: "ok" | "missing";      // missing = no file ingested for that day
   revenueCents: number | null;   // Σ net_cents
-  customers: number | null;      // distinct buyer_key
+  customers: number | null;      // distinct transactions (each one is a customer)
   orders: number | null;
 }
 export interface PulseView {

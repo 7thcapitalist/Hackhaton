@@ -2,7 +2,10 @@
  * Nightly pulse (slide 31): revenue and customers per pulse row, then totals.
  *
  * Rules:
- * - revenue = Σ orders.net_cents; customers = distinct buyer_key (non-cancelled);
+ * - revenue = Σ orders.net_cents; customers = distinct transactions
+ *   (channel + external_order_id, non-cancelled): every transaction counts as a
+ *   different customer (Joao, 2026-10-03), so no buyer matching is needed and
+ *   Amazon, whose report has no buyer id, counts the same way as the others;
  *   orders = count of non-cancelled order lines.
  * - Rows are pulse groups from `channels.pulse_group`; the row's channelId is
  *   the group's first channel by sort_order (e.g. "other" for "Other e-commerce",
@@ -10,9 +13,7 @@
  * - A row is "missing" (nulls, not 0) when none of its channels has an ingest
  *   run for that business date from a source mapped to the channel
  *   (sources.config_json.channels) and no orders landed for it that day.
- * - Totals sum only "ok" rows. Total customers = sum of row counts (TBC with
- *   Goodwill vs de-duplicated across channels; buyer keys are salted per source
- *   so cross-channel de-dup is not possible anyway).
+ * - Totals sum only "ok" rows. Total customers = sum of row counts.
  * Server-only (uses the DB client).
  */
 import { sql } from "drizzle-orm";
@@ -91,7 +92,7 @@ async function computePulseDays(from: string, to: string): Promise<PulseDays> {
     select o.business_date, c.pulse_group,
            coalesce(sum(o.net_cents), 0) as revenue,
            count(case when o.status != 'cancelled' then 1 end) as orders,
-           count(distinct case when o.status != 'cancelled' then o.buyer_key end) as customers
+           count(distinct case when o.status != 'cancelled' then o.channel || ':' || o.external_order_id end) as customers
     from orders o join channels c on c.id = o.channel
     where o.business_date between ${from} and ${to}
     group by o.business_date, c.pulse_group`);

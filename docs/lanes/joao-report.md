@@ -130,16 +130,16 @@ Use `npm run db:studio` to browse the tables.
    Marketplace files still load: they fill orders Upright doesn't list, plus fees,
    payouts and refunds.
 2. **Revenue = net** = gross + shipping charged − refunds − fees. Tax is never included.
-3. **Customers = distinct hashed buyers per channel.** The total is the sum of the channels.
-   **Amazon's transaction report has no buyer id**, so Amazon customer counts can't come
-   from that file.
+3. **Every transaction is a different customer** (Joao's decision). Customers = distinct
+   orders (channel + order id), so every channel counts the same way, including Amazon,
+   whose report has no buyer id. The total is the sum of the channels. Consequence:
+   **Repeat Buyer Rate shows "awaiting data"**, because repeat buyers can't be identified.
 4. **The pulse has 4 rows** (ShopGoodwill, Amazon, eBay, Other e-commerce). Goodwill
    Books, Cash Monkey and Jewelry roll up into "Other".
 5. **KPI choices:**
    - net margin = (revenue − shipping cost) / revenue, with no labor or overhead yet;
    - growth is month over month (there's no prior-year data);
    - unsold = open listings older than 60 days;
-   - repeat buyer = 2 or more orders in the month.
 6. **Ops KPIs are "simulated":** items and labor hours are synthetic until Goodwill says
    where that data lives.
 7. **Upright is treated as daily** in the seed so "Other" has nightly data. Slide 38 says
