@@ -21,6 +21,18 @@ yet. Read this first, then [joao-database.md](joao-database.md) for the tables a
 | 11 | Messy demo cases, honest limits for the pitch | tonight |
 | 12 | Month-end close, an optional live API | Sunday, if there's time |
 
+### Follow-up round (running while Joao is at lunch)
+
+| Task | Branch | Merges into |
+|---|---|---|
+| **A. Month-end close v1:** GL rules (slide 38 facts + marked placeholders) → balanced journal documents → reconcile checks → approve → Business Central Excel/CSV export with a Trace sheet; `getCloseView` for a close page; `/api/close/[period]`; `npm run close` | `joao/claude-close` | `joao/data-layer` |
+| **B. Data health + demo:** `getExceptions` and `getIngestRuns` views + routes, `PATCH /api/exceptions/[id]` to resolve, `parse_failed` kind, EasyPost double-count rule, statement total kept out of revenue, `POST /api/demo/reset` | `joao/claude-data-health` | `joao/data-layer` |
+| **C. CI for parsers:** GitHub Actions runs typecheck, both parser checks and build on every PR | issue #17 (Dot) | `main` |
+
+After A and B merge, the data lane covers all three of Goodwill's asks on the back end:
+the nightly pulse, the monthly scorecard and the month-end close. What's left is
+Gabriel's and Denis's screens and outputs on top, plus swapping in Ryan's real layouts.
+
 Checks on the merged branch: `typecheck` ✅ · `build` ✅ (7 API routes) ·
 `check:parsers` ✅ (7 samples) · `check:parsers-other` ✅ (8 samples).
 
