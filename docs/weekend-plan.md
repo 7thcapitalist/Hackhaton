@@ -10,7 +10,7 @@ all three asks (nightly pulse, COO scorecard, month-end close to BC) on one data
 |---|---|---|
 | D1 | Accept the data-contract changes in research.md §6 | Yes, apply in the scaffold PR (T1) |
 | D2 | BC: file export only, no live BC | Yes; optional BC trial with an @nd.edu email Sat night, Joao only |
-| D3 | Revenue definition for the pulse until Amanda answers | gross + shipping − refunds, excl. marketplace tax; config flag |
+| D3 | Revenue definition for the pulse | Interim: gross + shipping − refunds, excl. marketplace tax; config flag. **Customers = number of transactions (confirmed by Amanda)**; she ranks daily sales + customer count as most important, so the pulse is the demo headline |
 | D4 | Email provider | Resend free tier, send to Joao's inbox; in-app view is the fallback |
 | D5 | AI note model/provider | Claude API, server-side, narrates only computed numbers; cut first |
 | D6 | Owner split (§4) and Gabriel's lane | Confirm with Gabriel at 1:00 PM |

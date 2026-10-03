@@ -25,6 +25,13 @@ Business Central integration".
    workflows feed an allocation workbook that produces a BC general journal and an
    AR invoice. Automate source by source, validate against the workbook, then cut over.
 
+## What Amanda told us (Sat Oct 3, office hours)
+
+- **Most important to her: total sales and customer count, daily.** The nightly
+  pulse is the headline of the demo and the deepest, most robust part of the build.
+- **Customer count = total transactions.** A returning customer counts again on
+  every transaction. No buyer de-duplication across visits or channels.
+
 ## Demo story: "A month at Goodwill, without the spreadsheets"
 
 1. **Every night:** the pulse lands (revenue and customers by marketplace, totals).
@@ -43,7 +50,7 @@ feed the nightly pulse, and the nightly numbers roll up into the monthly scoreca
 | Layer | Target depth | Cut if behind on Sunday 11:00 |
 |---|---|---|
 | Data layer: source parsers + synthetic data | Solid. Everything depends on it. Lands first. | Nothing; this is the critical path |
-| Nightly pulse | Full, end to end, delivered (email) | Show in app instead of email |
+| Nightly pulse (**Amanda's #1**) | Deepest and most robust: end to end, delivered (email), works on a judge's own file | Never cut; email can fall back to in-app view |
 | Month-end close to BC | Deep: journal + AR invoice + reconciliation + exceptions | 4 to 5 key sources of the 9, disclosed |
 | COO scorecard | 15 KPIs with trends and targets | KPIs we have data for; rest shown "awaiting data" |
 | AI "what is driving it" note | Polish | Cut first |

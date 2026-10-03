@@ -209,10 +209,14 @@ Parsers are pure (no DB access); an ingest service writes the results and the
 
 ## Derived views (computed in code, not stored)
 
-- **Nightly pulse(business_date):** per `channel_group`: revenue = Σ `net_cents`
-  *(gross vs net TBC)*, customers = count distinct `buyer_key`; then totals.
-  Total customers = sum of channel counts *(TBC: vs de-duplicated)*. A channel with
-  no ingest for the day shows **missing**, not $0.
+- **Nightly pulse(business_date):** per `channel_group`: total sales = Σ revenue
+  *(interim definition: gross + shipping − refunds, excl. marketplace-collected tax;
+  confirm "total sales" wording with Amanda)*; **customers = number of transactions**,
+  i.e. count distinct `external_order_id` (confirmed by Amanda, Sat Oct 3: a returning
+  customer counts again on every transaction). Totals = sums across channels; no
+  cross-channel buyer de-duplication. An order appearing in two sources (e.g. Upright
+  and eBay) still counts once (`dedupe_key`). A channel with no ingest for the day
+  shows **missing**, not $0.
 - **Scorecard(period):** the 15 KPIs of slide 35 plus the 3 anchor KPIs of slide 36,
   each with month-over-month trend and target from `kpi_targets`. KPIs without data
   render "awaiting data", never a fake number.
