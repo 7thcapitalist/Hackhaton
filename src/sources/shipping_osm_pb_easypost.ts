@@ -13,7 +13,8 @@
  *      Cost date = postage_label_created_at (label bought), else created_at.
  *      Cost = postage_fee + label_fee + insurance_fee ("shipping_label", −);
  *      `rate` only when the fee columns are absent.
- *      Carrier-billed labels (carrier OSM / FedEx / UPS / DHL…: EasyPost does
+ *      Carrier-billed labels (carrier OSM / FedEx / UPS / DHL… with no
+ *      postage_fee: EasyPost does
  *      not collect the postage, the carrier invoices it): postage is NOT
  *      counted here (it comes from the OSM / FedEx invoice), never `rate`;
  *      only EasyPost's own label/insurance fees count. One warning per file
@@ -226,7 +227,10 @@ export const shippingOsmPbEasypostParser: SourceParser = {
         const labelFee = toCents(cell(row, c.labelFee)) ?? 0;
         const insurance = toCents(cell(row, c.insuranceFee)) ?? 0;
         const rate = toCents(cell(row, c.rate));
-        const billedByCarrier = CARRIER_BILLED.test(carrier.replace(/[^a-z]/gi, "")) || CARRIER_BILLED.test(carrier);
+        // Carrier-billed: an OSM / FedEx / UPS… label for which EasyPost charged no
+        // postage (postage_fee 0 or absent). A postage_fee > 0 means EasyPost did
+        // collect the postage, so it counts like any label.
+        const billedByCarrier = CARRIER_BILLED.test(carrier.replace(/[^a-z]/gi, "")) && !(postage && postage > 0);
         let cost: number | null;
         let refundable: number;
         if (billedByCarrier) {
