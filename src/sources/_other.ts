@@ -131,7 +131,10 @@ export function dominantPeriod(dates: string[]): string | undefined {
 
 /** Footer/total rows ("Total", "Grand Total", "Totals:", "Net Payment" …). */
 export function isTotalRow(row: string[]): boolean {
-  return row.some((c) => /^(grand\s+)?totals?\b|^sub-?total\b/i.test(c.trim()));
+  // Only the FIRST non-empty cell decides, so an item titled "Total Recall"
+  // is kept. Pivot subtotals ("Store 12 Total") count as total rows.
+  const first = row.find((c) => c.trim() !== "")?.trim() ?? "";
+  return /^(grand\s+)?totals?\b|^sub-?totals?\b|\btotals?:?$/i.test(first);
 }
 
 /** Integer from "3", "3.0", "" → fallback. */

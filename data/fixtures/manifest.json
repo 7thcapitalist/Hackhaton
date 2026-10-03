@@ -3,7 +3,7 @@
     "path": "cashmonkey/cashmonkey_2025-08.csv",
     "sourceId": "cashmonkey",
     "uploadedAt": "2025-09-03T14:00:00.000Z",
-    "bytes": 1097
+    "bytes": 118708
   },
   {
     "path": "shopgoodwill/shopgoodwill_2025-08.csv",
@@ -27,7 +27,7 @@
     "path": "jewelry/jewelry_2025-08.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2025-09-03T14:05:00.000Z",
-    "bytes": 1703
+    "bytes": 4477
   },
   {
     "path": "goodwill_books/goodwill_books_2025-08.csv",
@@ -87,7 +87,7 @@
     "path": "cashmonkey/cashmonkey_2025-09.csv",
     "sourceId": "cashmonkey",
     "uploadedAt": "2025-10-03T14:00:00.000Z",
-    "bytes": 1304
+    "bytes": 157613
   },
   {
     "path": "shopgoodwill/shopgoodwill_2025-09.csv",
@@ -111,7 +111,7 @@
     "path": "jewelry/jewelry_2025-09.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2025-10-03T14:05:00.000Z",
-    "bytes": 1232
+    "bytes": 3349
   },
   {
     "path": "goodwill_books/goodwill_books_2025-09.csv",
@@ -171,7 +171,7 @@
     "path": "cashmonkey/cashmonkey_2025-10.csv",
     "sourceId": "cashmonkey",
     "uploadedAt": "2025-11-03T14:00:00.000Z",
-    "bytes": 1360
+    "bytes": 157029
   },
   {
     "path": "shopgoodwill/shopgoodwill_2025-10.csv",
@@ -195,7 +195,7 @@
     "path": "jewelry/jewelry_2025-10.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2025-11-03T14:05:00.000Z",
-    "bytes": 1249
+    "bytes": 5067
   },
   {
     "path": "goodwill_books/goodwill_books_2025-10.csv",
@@ -1047,13 +1047,13 @@
     "path": "cashmonkey/cashmonkey_2026-08.csv",
     "sourceId": "cashmonkey",
     "uploadedAt": "2026-09-03T14:00:00.000Z",
-    "bytes": 1323
+    "bytes": 134007
   },
   {
     "path": "jewelry/jewelry_2026-08.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-03T14:05:00.000Z",
-    "bytes": 1233
+    "bytes": 4997
   },
   {
     "path": "goodwill_books/goodwill_books_2026-08.csv",
@@ -1834,14 +1834,15 @@
     "path": "cashmonkey/cashmonkey_2026-09.csv",
     "sourceId": "cashmonkey",
     "uploadedAt": "2026-10-03T14:00:00.000Z",
-    "bytes": 1215
+    "bytes": 127201,
+    "note": "per-item rows; a book titled \"Total Recall\" must not be read as the footer"
   },
   {
     "path": "jewelry/jewelry_2026-09.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-10-03T14:05:00.000Z",
-    "bytes": 1700,
-    "note": "one row without Supplier; one return"
+    "bytes": 6561,
+    "note": "43 ShopGoodwill items already in the ShopGoodwill files (dedupe, no new revenue); one row without Supplier; one return"
   },
   {
     "path": "goodwill_books/goodwill_books_2026-09.csv",
