@@ -15,7 +15,8 @@
  *   file's source has revenue_authority = 1 (Upright, the source of truth for
  *   orders): then the new row replaces the old one, in the same transaction. So
  *   Upright wins no matter which file arrives first. Every
- *   dropped or replaced row gets a `duplicate_order` exception naming both sources.
+ *   dropped or replaced row gets a `duplicate_order` exception naming both sources,
+ *   written as already resolved (see autoResolved) because the rule decided it.
  * - net_cents is recomputed as gross + shipping − refund − fee when the parser
  *   left it 0 with nonzero gross, and corrected if it visibly includes tax.
  *   Tax is never part of net.
@@ -188,7 +189,8 @@ export async function ingestFile(input: IngestInput): Promise<IngestSummary> {
       sourceId: prior.sourceId,
       ingestRunId: prior.id,
       kind: "duplicate_file",
-      message: `"${fileName}" was already ingested at ${prior.uploadedAt} as "${prior.fileName}" (run ${prior.id}). Nothing was inserted.`,
+      ...autoResolved(),
+      message: `Auto-resolved: "${fileName}" was already ingested at ${prior.uploadedAt} as "${prior.fileName}" (run ${prior.id}). Nothing was inserted.`,
     });
     return {
       ingestRunId: prior.id,
@@ -448,7 +450,7 @@ async function writeParsed(
   const pushDup = (message: string) => {
     duplicates++;
     if (duplicates <= MAX_DUPLICATE_EXCEPTIONS) {
-      exc.push({ id: randomUUID(), sourceId, ingestRunId: runId, kind: "duplicate_order", message });
+      exc.push({ id: randomUUID(), sourceId, ingestRunId: runId, kind: "duplicate_order", ...autoResolved(), message: `Auto-resolved: ${message}` });
     }
   };
   const firstByKey = new Map<string, NewOrder>();
@@ -498,7 +500,8 @@ async function writeParsed(
         sourceId,
         ingestRunId: runId,
         kind: "duplicate_order",
-        message: `Order ${o.dedupeKey} reported by both ${nameOf(old.sourceId)} (run ${old.ingestRunId}, row ${old.sourceRow}) and ${me.name} (row ${o.sourceRow}); kept ${me.name} (revenue authority), replaced the ${nameOf(old.sourceId)} row.`,
+        ...autoResolved(),
+        message: `Auto-resolved: Order ${o.dedupeKey} reported by both ${nameOf(old.sourceId)} (run ${old.ingestRunId}, row ${old.sourceRow}) and ${me.name} (row ${o.sourceRow}); kept ${me.name} (revenue authority), replaced the ${nameOf(old.sourceId)} row.`,
       });
     } else {
       pushDup(
@@ -512,7 +515,8 @@ async function writeParsed(
       sourceId,
       ingestRunId: runId,
       kind: "duplicate_order",
-      message: `${duplicates - MAX_DUPLICATE_EXCEPTIONS} more duplicate orders in "${base.fileName}" not listed individually.`,
+      ...autoResolved(),
+      message: `Auto-resolved: ${duplicates - MAX_DUPLICATE_EXCEPTIONS} more duplicate orders in "${base.fileName}" not listed individually.`,
     });
   }
 
@@ -642,4 +646,14 @@ async function writeParsed(
     period: run.period ?? null,
     businessDate: run.businessDate ?? null,
   };
+}
+
+/**
+ * Duplicates the pipeline decided by rule (an identical file re-uploaded, the
+ * same order twice in a file, or two sources reporting one order where the
+ * revenue authority decides) are recorded for traceability but need no human:
+ * they are written as resolved, so only real issues stay open on the dashboard.
+ */
+function autoResolved(): { status: "resolved"; resolvedAt: string } {
+  return { status: "resolved", resolvedAt: new Date().toISOString() };
 }
