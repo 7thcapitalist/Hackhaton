@@ -1,10 +1,21 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { getOrders, ORDERS_MAX_LIMIT } from "@/lib/views";
 import { CheckIcon, ClockIcon, WarnIcon } from "@/components/icons";
 import { Sparkline } from "@/components/Sparkline";
 import { SourceStrip } from "@/components/SourceStrip";
+import { CHANNELS, GROUP_MEMBERS } from "./_lib/channels";
 import { getDataRange, getPulseScreen, getScorecardScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
 import { formatDay, formatInt, formatKpiShort, formatMoneyCompact, formatStampFull, TRACK, trackStatus } from "./_lib/format";
+import { OverviewHero, type OrderLike } from "./OverviewHero";
+import type { ChannelId } from "./_lib/types";
+
+/** The pulse-row label for a raw order channel (e.g. "goodwill_books" -> "Other e-comm"),
+ * mirroring _lib/data.ts's own grouping (not exported from there, so kept local — this file
+ * only reads CHANNELS/GROUP_MEMBERS, shared read-only metadata, not Gabriel's data.ts). */
+function groupLabel(raw: ChannelId): string {
+  return CHANNELS.find(c => (GROUP_MEMBERS[c.id] ?? [c.id]).includes(raw))?.label ?? raw;
+}
 
 export default async function OverviewPage() {
   const range = (await getDataRange())!; // the layout shows NoData when null
@@ -19,6 +30,15 @@ export default async function OverviewPage() {
   const series = pulseData.series;
   const dailyTotals = series.dates.map((_, i) => series.series.reduce((a, s) => a + (s.revenueCents[i] ?? 0), 0));
   const missingLabels = pulse.rows.filter(r => r.status === "missing").map(r => r.label);
+
+  // For the hero's marketplace/category filter (Overview-only; see OverviewHero.tsx). Reuses
+  // pulseData.orders already fetched above; the one extra fetch is cmpDate's orders, needed
+  // only so a filtered view can still show a "vs last week" comparison.
+  const channelOptions = pulse.rows.filter(r => r.status === "ok").map(r => ({ id: r.channelId, label: r.label }));
+  const cmpOrdersRaw = cmpDate ? await getOrders({ date: cmpDate, limit: ORDERS_MAX_LIMIT }) : null;
+  const cmpOrders: OrderLike[] | null = cmpOrdersRaw
+    ? cmpOrdersRaw.rows.map(o => ({ channelLabel: groupLabel(o.channel), category: o.category ?? "Uncategorized", netCents: o.netCents, status: o.status, orderId: o.externalOrderId }))
+    : null;
 
   // Missing marketplace files in the last 7 days (before the latest day, which is covered above).
   const recentGaps = series.dates.flatMap((d, i) => (d < latest && i >= series.dates.length - 8)
@@ -51,6 +71,18 @@ export default async function OverviewPage() {
           </div>
         </div>
       </div>
+
+      <OverviewHero
+        date={latest}
+        cmpDate={cmpDate}
+        channelOptions={channelOptions}
+        totals={pulse.totals}
+        compareChanges={pulseData.compare?.changes ?? null}
+        orders={pulseData.orders}
+        cmpOrders={cmpOrders}
+        allDailyTotals={dailyTotals}
+        channelSeries={series.series}
+      />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <OverviewCard href="/pulse" title="Daily Pulse" meta={formatDay(latest)}
