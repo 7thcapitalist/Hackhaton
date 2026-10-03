@@ -16,7 +16,8 @@
  *    connectors reading only the given fixture set. Every fact (orders, money
  *    lines, items, labor hours, marketplace metrics) comes from an ingest run;
  *    mock runs are flagged is_synthetic = 1 by the pull runner.
- * 3. Run the nightly missing-source check for the Amazon gap day.
+ * 3. Check completeness for every finished day and month (read-only): the
+ *    baseline must have every due file and zero open exceptions.
  * Nothing else is inserted directly: only config and KPI targets.
  *
  * Two modes, same rows:
@@ -34,7 +35,8 @@ import * as schema from "../../src/db/schema";
 import { pullAndIngest, type PulledFileResult } from "../../src/connectors";
 import { useMockFixtures } from "../../src/connectors/fixtures";
 import { checkCompleteness } from "../../src/ingest";
-import { END_DATE, MISSING_AMAZON_DATE, PY_END, PY_START, SEED_NOW, START_DATE } from "../mock/model";
+import { dateRange } from "../../src/lib/views/dates";
+import { END_DATE, PY_END, PY_START, SEED_NOW, START_DATE } from "../mock/model";
 import { dailyUpload, monthlyUpload } from "../mock/schedule";
 import { CHANNELS, KPI_TARGETS, SOURCES } from "./config";
 import { withCachedDateTimeFormat } from "./intl-cache";
@@ -234,21 +236,19 @@ async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => vo
     restore();
   }
 
-  // The nightly missing-source check for the deliberate Amazon gap.
-  const check = await checkCompleteness({ businessDate: MISSING_AMAZON_DATE }, { writeExceptions: true, db });
-  if (!check.missingSources.some((s) => s.id === "amazon")) {
-    // checkCompleteness counts a daily run as covering its whole month (the
-    // parser also sets `period` on daily files), so it misses a one-day gap.
-    // Record the exception the nightly check should have raised.
-    await db.insert(schema.exceptions).values({
-      id: `exc-missing-amazon-${MISSING_AMAZON_DATE}`,
-      sourceId: "amazon",
-      kind: "missing_source",
-      message: `No Amazon file ingested for business date ${MISSING_AMAZON_DATE}.`,
-      owner: "E-commerce manager",
-      createdAt: "2026-10-03T11:05:00.000Z",
-    });
+  // The baseline is clean: every file that is due must be there. Run the
+  // completeness check (read-only; no deliberate missing_source exception)
+  // for every finished day and every month, and report any gap as a problem.
+  for (const day of dateRange(START_DATE, END_DATE).filter((d) => d < END_DATE)) {
+    const c = await checkCompleteness({ businessDate: day }, { db });
+    for (const s of c.missingSources) problems.push(`completeness: no ${s.id} file for ${day}`);
   }
+  for (const period of [...new Set([...dateRange(PY_START, PY_END), ...dateRange(START_DATE, END_DATE)].map((d) => d.slice(0, 7)))]) {
+    const c = await checkCompleteness({ period }, { db });
+    for (const s of c.missingSources) problems.push(`completeness: ${s.id} missing for ${period}${s.missingDates ? ` (${s.missingDates.join(", ")})` : ""}`);
+  }
+  const open = await db.$client.execute("select kind, count(*) as n from exceptions where status = 'open' group by kind");
+  for (const r of open.rows) problems.push(`baseline has ${Number(r.n)} open ${String(r.kind)} exception(s)`);
 
   return { results, problems };
 }

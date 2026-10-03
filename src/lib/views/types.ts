@@ -94,14 +94,26 @@ export interface ScorecardView {
 export interface SourceStatus {
   sourceId: string;
   name: string;
-  status: "received" | "warnings" | "missing";
+  /** How often the source delivers (sources.config_json.cadence). */
+  cadence: "daily" | "weekly" | "monthly";
+  /**
+   * "not_due": no file yet, and none is expected yet (a weekly/monthly file
+   * for the running period, or a daily source with no finished day in the
+   * period). "missing": a due file is absent (daily: a finished day without
+   * a file, see missingDates).
+   */
+  status: "received" | "warnings" | "missing" | "not_due";
   lastIngestAt: string | null;
   rowCount: number;
   openExceptions: number;
+  /** Daily sources: finished days of the period with no file. */
+  missingDates?: string[];
 }
 
 export interface SourceStatusView {
   period: string;
+  /** The data's clock: latest business day with an ingested file. Days before it are due. */
+  asOf: string;
   sources: SourceStatus[];
 }
 

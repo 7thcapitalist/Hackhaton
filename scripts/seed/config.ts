@@ -5,16 +5,23 @@
  * sources.config_json carries:
  *   channels: the sales channels this source reports orders for (used by the
  *             pulse to decide "missing" vs "ok" for a channel on a day)
- *   cadence:  "daily" (nightly feed, ingest_runs.business_date set) or
- *             "monthly" (month-end file, ingest_runs.period set)
+ *   cadence:  "daily" (a file per business day, ingest_runs.business_date set),
+ *             "weekly" (a file per invoice week) or "monthly" (month-end file,
+ *             ingest_runs.period set). Must match src/ingest/config.ts
+ *             SOURCE_CADENCE: every source at the highest frequency its real
+ *             system supports.
+ *   feeds:    sub-feeds with their own cadence (OSM invoices are weekly inside
+ *             the shipping source)
  * Owners are roles, not people (no real staff names in the repo).
  */
 import type { NewChannel, NewKpiTarget, NewSource } from "../../src/db/schema";
+import type { SourceCadence } from "../../src/ingest/config";
 
-export type SourceCadence = "daily" | "monthly";
+export type { SourceCadence };
 export interface SourceConfig {
   channels: string[];
   cadence: SourceCadence;
+  feeds?: Record<string, SourceCadence>;
 }
 
 const cfg = (c: SourceConfig) => JSON.stringify(c);
@@ -58,7 +65,7 @@ export const SOURCES: NewSource[] = [
     acquisition: "Orders, full month: submit/download CSV; save as Excel",
     owner: "Finance (accounting clerk)",
     revenueAuthority: 0,
-    configJson: cfg({ channels: ["other"], cadence: "monthly" }),
+    configJson: cfg({ channels: ["other"], cadence: "daily" }),
   },
   {
     id: "upright",
@@ -78,7 +85,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "Jewelry Report: request report; Co-Pivot populates Supplier",
     owner: "Finance (accounting clerk)",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily" }),
   },
   {
     id: "shipping_osm_pb_easypost",
@@ -87,7 +94,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "Shipping amounts: 1st Source acct 0101, GL 10009",
     owner: "Finance (AP)",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily", feeds: { easypost: "daily", pitney_bowes: "daily", osm: "weekly" } }),
   },
   {
     id: "fedex",
@@ -96,7 +103,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "Shipping charges + refunds: BC GL 40356, Dept 180, V00122, net BNKDEPOSIT refunds",
     owner: "Finance (AP)",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily" }),
   },
   {
     id: "goodwill_books",
@@ -116,7 +123,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "Production-tracking export: donated / identified / sent-to-e-com timestamps per item tag",
     owner: "E-commerce manager",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily" }),
   },
   {
     id: "upright_inventory",
@@ -125,7 +132,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "Upright Lister inventory/products export: listed / sold timestamps, lister, price, relists",
     owner: "E-commerce manager",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily" }),
   },
   {
     id: "timekeeping",
@@ -134,7 +141,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "Payroll timecard export (REG/OT hours per employee id and day); e-commerce departments only",
     owner: "HR / payroll",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily" }),
   },
   {
     id: "marketplace_ratings",
@@ -143,7 +150,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "Monthly CSAT / NPS / conversion / seller rating from each marketplace's seller dashboard",
     owner: "E-commerce manager",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily" }),
   },
   {
     id: "bank_1st_source",
@@ -152,7 +159,7 @@ export const SOURCES: NewSource[] = [
     channelGroup: null,
     acquisition: "1st Source online banking CSV export, acct 0101; informational until bank reconciliation",
     owner: "Finance (AP)",
-    configJson: cfg({ channels: [], cadence: "monthly" }),
+    configJson: cfg({ channels: [], cadence: "daily" }),
   },
 ];
 

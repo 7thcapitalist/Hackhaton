@@ -1,11 +1,11 @@
 import type { Source } from "@/app/_lib/types";
 
-const order = { received: 0, warnings: 1, missing: 2 } as const;
+const order = { received: 0, warnings: 1, not_due: 2, missing: 3 } as const;
 
 /** One segment per source: received (solid), warnings (amber), missing (dashed outline). */
 export function SourceStrip({ sources, size }: { sources: Source[]; size: "sm" | "lg" }) {
   const sorted = [...sources].sort((a, b) => order[a.status] - order[b.status]);
-  const arrived = sources.filter(s => s.status !== "missing").length;
+  const arrived = sources.filter(s => s.status === "received" || s.status === "warnings").length;
   return (
     <div role="img" aria-label={`${arrived} of ${sources.length} sources received`}
       className={`grid ${size === "sm" ? "gap-[3px]" : "gap-1"}`}

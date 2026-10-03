@@ -15,10 +15,11 @@
  * source is written; re-running does not duplicate it (same message, still open).
  */
 import { randomUUID } from "node:crypto";
-import { and, eq, inArray, isNull, like, ne, or } from "drizzle-orm";
+import { and, eq, inArray, isNull, like, ne, or, sql } from "drizzle-orm";
 import { getDb, type Db } from "@/db/client";
 import { channels, exceptions, ingestRuns, orders, sources } from "@/db/schema";
-import { CHANNEL_SOURCES, DAILY_SOURCES, ensureConfig, type ChannelId } from "./config";
+import { addDays } from "@/lib/views/dates";
+import { CHANNEL_SOURCES, cadenceOf, ensureConfig, type ChannelId } from "./config";
 import { IngestError } from "./errors";
 
 export type CompletenessScope = { businessDate: string } | { period: string };
@@ -28,7 +29,10 @@ export interface CompletenessResult {
   period: string | null;
   expectedSources: string[];
   presentSources: string[];
-  missingSources: { id: string; name: string }[];
+  /** Due but absent. A daily source with gaps lists the finished days without a file. */
+  missingSources: { id: string; name: string; missingDates?: string[] }[];
+  /** No file yet and none expected yet (weekly/monthly file of the running month). */
+  notDueSources: string[];
   missingChannels: { id: ChannelId; name: string }[];
   exceptionsWritten: number;
 }
@@ -49,7 +53,18 @@ export async function checkCompleteness(
   }
 
   const activeSources = await db.select().from(sources).where(eq(sources.active, 1));
-  const expected = activeSources.filter((s) => !businessDate || DAILY_SOURCES.includes(s.id));
+  const cadence = new Map(activeSources.map((s) => [s.id, cadenceOf(s.id, s.configJson)]));
+  // A source is expected from its first delivery on (the ops feeds start in 2026-08, no prior-year history).
+  const firstRows = await db
+    .select({ sourceId: ingestRuns.sourceId, first: sql<string>`min(coalesce(${ingestRuns.businessDate}, ${ingestRuns.period} || '-01'))` })
+    .from(ingestRuns)
+    .where(ne(ingestRuns.status, "failed"))
+    .groupBy(ingestRuns.sourceId);
+  const first = new Map(firstRows.map((r) => [r.sourceId, r.first]));
+  // A day expects every daily-cadence source delivering by then; a period expects all sources.
+  const expected = activeSources.filter(
+    (s) => !businessDate || (cadence.get(s.id) === "daily" && (first.get(s.id) ?? "") <= businessDate),
+  );
 
   // A daily run (business_date set) covers only its own day; only a monthly
   // run (no business_date) covers every day of its period.
@@ -57,10 +72,48 @@ export async function checkCompleteness(
     ? or(eq(ingestRuns.businessDate, businessDate), and(isNull(ingestRuns.businessDate), eq(ingestRuns.period, period)))
     : or(eq(ingestRuns.period, period), like(ingestRuns.businessDate, `${period}-%`));
   const runs = await db
-    .select({ id: ingestRuns.id, sourceId: ingestRuns.sourceId })
+    .select({ id: ingestRuns.id, sourceId: ingestRuns.sourceId, businessDate: ingestRuns.businessDate })
     .from(ingestRuns)
     .where(and(ne(ingestRuns.status, "failed"), runMatch));
   const present = new Set(runs.map((r) => r.sourceId));
+
+  // Period scope, by cadence (same rule as getSourceStatus): "as of" is the
+  // latest business day with a file; days before it are due. A daily source
+  // must have a file for every due day (a monthly run covers the whole
+  // period); a weekly/monthly file for the running month is not due yet.
+  const notDue = new Set<string>();
+  const missingDays = new Map<string, string[]>();
+  if (!businessDate) {
+    const [clock] = await db
+      .select({ asOf: sql<string | null>`max(${ingestRuns.businessDate})` })
+      .from(ingestRuns)
+      .where(ne(ingestRuns.status, "failed"));
+    const asOf = clock?.asOf ?? new Date().toISOString().slice(0, 10);
+    const [y, m] = period.split("-").map(Number) as [number, number];
+    const last = new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10);
+    const dueDays: string[] = [];
+    for (let d = `${period}-01`; d <= last && d < asOf; d = addDays(d, 1)) dueDays.push(d);
+    const days = new Map<string, Set<string>>();
+    const monthly = new Set<string>();
+    for (const r of runs) {
+      if (r.businessDate) days.set(r.sourceId, (days.get(r.sourceId) ?? new Set()).add(r.businessDate));
+      else monthly.add(r.sourceId);
+    }
+    for (const s of expected) {
+      const c = cadence.get(s.id);
+      const since = first.get(s.id) ?? "";
+      const due = dueDays.filter((d) => d >= since);
+      if (c === "daily") {
+        if (!present.has(s.id) && due.length === 0) notDue.add(s.id);
+        else if (!monthly.has(s.id)) {
+          const gaps = due.filter((d) => !days.get(s.id)?.has(d));
+          if (gaps.length) missingDays.set(s.id, gaps);
+        }
+      } else if (!present.has(s.id) && (period >= asOf.slice(0, 7) || since > last)) {
+        notDue.add(s.id);
+      }
+    }
+  }
 
   // Channels seen in orders of those runs (for the day, or the whole period).
   const seenChannels = new Set<string>();
@@ -87,7 +140,9 @@ export async function checkCompleteness(
     })
     .map((c) => ({ id: c.id as ChannelId, name: c.name }));
 
-  const missingSources = expected.filter((s) => !present.has(s.id)).map((s) => ({ id: s.id, name: s.name }));
+  const missingSources = expected
+    .filter((s) => !notDue.has(s.id) && (!present.has(s.id) || missingDays.has(s.id)))
+    .map((s) => ({ id: s.id, name: s.name, ...(missingDays.has(s.id) ? { missingDates: missingDays.get(s.id)! } : {}) }));
 
   let exceptionsWritten = 0;
   if (opts.writeExceptions && missingSources.length > 0) {
@@ -116,6 +171,7 @@ export async function checkCompleteness(
     expectedSources: expected.map((s) => s.id),
     presentSources: [...present],
     missingSources,
+    notDueSources: expected.filter((s) => notDue.has(s.id)).map((s) => s.id),
     missingChannels,
     exceptionsWritten,
   };

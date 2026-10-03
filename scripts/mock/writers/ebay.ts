@@ -14,8 +14,9 @@
  * fees are not in these files (they come through Upright, or eBay's
  * Transaction report / Finances API). Cancelled orders are not listed.
  *
- * Messy cases: 2026-09-15 uses renamed headers (Order ID / Buyer User ID /
- * Item Price / Order Date); 2026-09-14 is uploaded twice (exact duplicate).
+ * Clean baseline: one file per day, standard headers. The renamed-header
+ * variant (Order ID / Buyer User ID / Item Price / Order Date) and the exact
+ * re-upload are live demo files in data/demo-uploads/ (ebayRenamedFile).
  */
 import { csvRow, ebayDateTime, ebayDay, lines, usd } from "../format";
 import { ordersOn, type MockModel, type MockOrder } from "../model";
@@ -46,8 +47,6 @@ const RENAMED: Record<string, string> = {
   "Sold For": "Item Price",
   "Sale Date": "Order Date",
 };
-export const EBAY_RENAMED_DATE = "2026-09-15";
-export const EBAY_DUPLICATE_DATE = "2026-09-14";
 const SELLER_ID = "goodwill_michiana_test";
 const IDX = new Map(EBAY_ORDERS_HEADER.map((h, i) => [h, i]));
 
@@ -113,25 +112,19 @@ export function writeEbay(model: MockModel): FixtureFile[] {
     });
   }
   for (const date of ALL_DATES) {
-    const orders = listed(ordersOn(model, "ebay", date));
-    const header = date === EBAY_RENAMED_DATE ? EBAY_ORDERS_HEADER.map((h) => RENAMED[h] ?? h) : EBAY_ORDERS_HEADER;
-    const content = render(orders, header, date, date);
     files.push({
       sourceId: "ebay",
       path: `ebay/ebay_${date}.csv`,
-      content,
+      content: render(listed(ordersOn(model, "ebay", date)), EBAY_ORDERS_HEADER, date, date),
       uploadedAt: dailyUpload(date, 4),
-      ...(date === EBAY_RENAMED_DATE ? { note: "renamed columns (Order ID, Buyer User ID, Item Price, Order Date)" } : {}),
     });
-    if (date === EBAY_DUPLICATE_DATE) {
-      files.push({
-        sourceId: "ebay",
-        path: `ebay/ebay_${date}_reupload.csv`,
-        content, // byte-identical: the same export uploaded again
-        uploadedAt: new Date(Date.parse(dailyUpload(date, 4)) + 2.5 * 3_600_000).toISOString(),
-        note: "exact duplicate upload of ebay_2026-09-14.csv",
-      });
-    }
   }
   return files;
+}
+
+/** One day's Orders report with the renamed headers (demo upload 04; not in the baseline). */
+export function ebayRenamedFile(model: MockModel, date: string): string {
+  const orders = model.orders.filter((o) => o.stream === "ebay" && o.businessDate === date && o.status !== "cancelled")
+    .sort((a, b) => a.ts.getTime() - b.ts.getTime() || a.seq - b.seq);
+  return renderEbayOrders(orders.map(row), EBAY_ORDERS_HEADER.map((h) => RENAMED[h] ?? h), date, date, orders.length);
 }

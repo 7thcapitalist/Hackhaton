@@ -235,12 +235,17 @@ const SOURCE_META: Record<string, SourceMeta> = {
   shopgoodwill: { sublabel: "Marketplace · daily", cadence: "daily" },
   amazon: { sublabel: "Marketplace · daily", cadence: "daily" },
   ebay: { sublabel: "Marketplace · daily", cadence: "daily" },
-  cashmonkey: { sublabel: "Marketplace · monthly", cadence: "monthly" },
+  cashmonkey: { sublabel: "Marketplace · daily", cadence: "daily" },
   upright: { sublabel: "Marketplace · daily", cadence: "daily" },
-  jewelry: { sublabel: "Specialty sales · monthly", cadence: "monthly" },
-  shipping_osm_pb_easypost: { sublabel: "OSM · Pitney Bowes · EasyPost", cadence: "monthly", impact: "Net margin may move once resolved." },
-  fedex: { sublabel: "Carrier invoices · monthly", cadence: "monthly" },
+  jewelry: { sublabel: "Specialty sales · daily", cadence: "daily" },
+  shipping_osm_pb_easypost: { sublabel: "EasyPost · Pitney Bowes daily · OSM weekly", cadence: "daily", impact: "Net margin may move once resolved." },
+  fedex: { sublabel: "Carrier invoices · daily", cadence: "daily" },
   goodwill_books: { sublabel: "Marketplace · monthly", cadence: "monthly", impact: "Category totals may shift slightly." },
+  production_tracking: { sublabel: "Item pipeline · daily", cadence: "daily" },
+  upright_inventory: { sublabel: "Inventory · daily", cadence: "daily" },
+  timekeeping: { sublabel: "Timecards · daily", cadence: "daily" },
+  marketplace_ratings: { sublabel: "Seller ratings · daily", cadence: "daily" },
+  bank_1st_source: { sublabel: "Bank statement · daily", cadence: "daily" },
 };
 
 function daysInPeriod(period: string): number {
@@ -250,7 +255,8 @@ function daysInPeriod(period: string): number {
 
 /** One "received"/"warning"/"missing" per calendar day of the period, for daily sources. */
 async function dailyStrip(sourceId: string, period: string): Promise<("received" | "warning" | "missing")[]> {
-  const { rows } = await getIngestRuns({ sourceId, period, limit: 60 });
+  // Daily sources can deliver several files a day (shipping: EasyPost + Pitney Bowes), so read them all.
+  const { rows } = await getIngestRuns({ sourceId, period, limit: 500 });
   // Newest-first; a reupload (e.g. ebay_2026-09-14_reupload.csv) should win over
   // the run it replaced, so keep only the first (newest) status seen per date.
   const byDate = new Map<string, (typeof rows)[number]["status"]>();

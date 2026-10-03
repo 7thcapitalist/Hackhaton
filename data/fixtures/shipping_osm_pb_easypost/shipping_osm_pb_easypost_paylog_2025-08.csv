@@ -12,8 +12,8 @@ created_at,id,status,source_type,target_type,charge_type,amount,balance,descript
 2025-08-01T16:13:30Z,paylog_000011,complete,user,easypost_bank,service_fee,$3.51000,$331.86000,,9400100000000000000047
 2025-08-01T16:29:58Z,paylog_000012,complete,user,easypost_bank,service_fee,$3.29000,$328.57000,,9400100000000000000039
 2025-08-01T16:44:52Z,paylog_000013,complete,user,easypost_bank,service_fee,$8.12000,$320.45000,,9400100000000000000004
-2025-08-01T16:46:15Z,paylog_000014,complete,user,easypost_bank,service_fee,$15.06000,$305.39000,,9400100000000000000007
 2025-08-01T16:46:08Z,paylog_000015,creditable,bank_account,user,recharge,$1000.00000,$1305.39000,,
+2025-08-01T16:46:15Z,paylog_000014,complete,user,easypost_bank,service_fee,$15.06000,$305.39000,,9400100000000000000007
 2025-08-01T16:47:08Z,paylog_000016,complete,user,easypost_bank,service_fee,$7.88000,$1297.51000,,9400100000000000000021
 2025-08-01T16:58:22Z,paylog_000017,complete,user,easypost_bank,service_fee,$15.62000,$1281.89000,,9400100000000000000057
 2025-08-01T17:04:53Z,paylog_000018,complete,user,easypost_bank,service_fee,$5.44000,$1276.45000,,9400100000000000000053

@@ -1,44 +1,50 @@
 /**
- * Upright Lister "Inventory / Products" export, one file per month (the
- * current month is partial): data/fixtures/upright_inventory/upright_inventory_YYYY-MM.csv
+ * Upright Lister "Inventory / Products" export, one file per business day:
+ * data/fixtures/upright_inventory/upright_inventory_YYYY-MM-DD.csv
  *
- * Layout [guess, see docs/sources/upright_inventory.md]: header on line 1,
- * one row per product on hand during the month (listed before month end and
- * not sold before month start), state as of month end. Dates
- * "9/30/2026 11:45:00 PM" (local). Money "24.99". CRLF like Upright's report.
+ * Cadence: daily (scheduled email export). The first day of the range is a
+ * full export (every product on hand that day); after that each file lists
+ * the products that changed that day: listed, sold, or relisted. Rows carry
+ * the product's state at the end of that day; ingest merges by SKU (a null
+ * never erases a known value, relist_count only grows), so the result is the
+ * same as the old monthly snapshots.
+ *
+ * Layout [guess, see docs/sources/upright_inventory.md]: header on line 1.
+ * Dates "9/30/2026 11:45:00 PM" (local). Money "24.99". CRLF like Upright's report.
  */
-import { localToUtc } from "../../../src/lib/views/dates";
 import { csvRow, dec, lines, uprightDate } from "../format";
-import { END_DATE, type MockModel } from "../model";
+import { START_DATE, type MockModel } from "../model";
 import type { OpsItem } from "../ops";
-import { dailyUpload, monthlyUpload } from "../schedule";
+import { ALL_DATES, dailyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
+import { dayWindow } from "./production_tracking";
 
 const HEADER = [
   "Product ID", "SKU", "Title", "Category", "Status", "Marketplace", "Listed By", "List Price",
   "Quantity", "Created At", "Listed At", "Sold At", "Sold Price", "Relist Count",
 ];
 
-/** UTC window [start, end) of a business month. */
-export function monthWindow(period: string): { start: Date; end: Date } {
-  const [y, m] = period.split("-").map(Number) as [number, number];
-  const next = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10);
-  return { start: localToUtc(`${period}-01`, 0), end: localToUtc(next, 0) };
-}
+/** Relists shown by an export taken at `at` (one relist per 30 days listed, capped). */
+const relistsAt = (it: OpsItem, at: Date) =>
+  it.listedAt && it.listedAt < at ? Math.min(it.relistCount, Math.floor((at.getTime() - it.listedAt.getTime()) / 86_400_000 / 30)) : 0;
 
 export function writeUprightInventory(model: MockModel): FixtureFile[] {
-  const { items, itemPeriods } = model.ops;
+  const { items } = model.ops;
   const productNo = new Map<OpsItem, number>(items.map((it, i) => [it, 7_000_000 + i]));
-  return itemPeriods.map((period) => {
-    const { start, end } = monthWindow(period);
-    const rows = items.filter((it) => it.listedAt && it.listedAt < end && (!it.soldAt || it.soldAt >= start));
+  return ALL_DATES.map((date) => {
+    const { start, end } = dayWindow(date);
+    const first = date === START_DATE;
+    const inDay = (d: Date | null) => !!d && d >= start && d < end;
+    const rows = items.filter((it) => {
+      if (!it.listedAt || it.listedAt >= end) return false;
+      if (first) return !it.soldAt || it.soldAt >= start;
+      return inDay(it.listedAt) || inDay(it.soldAt) || relistsAt(it, end) !== relistsAt(it, start);
+    });
     const body = [
       csvRow(HEADER),
       ...rows.map((it) => {
         const listedAt = it.listedAt!;
         const sold = it.soldAt && it.soldAt < end ? it.soldAt : null;
-        const ageDays = (end.getTime() - listedAt.getTime()) / 86_400_000;
-        const relists = Math.min(it.relistCount, Math.floor(ageDays / 30));
         return csvRow([
           String(productNo.get(it)),
           it.id,
@@ -53,16 +59,15 @@ export function writeUprightInventory(model: MockModel): FixtureFile[] {
           uprightDate(listedAt),
           sold ? uprightDate(sold) : "",
           sold && it.salePriceCents != null ? dec(it.salePriceCents) : "",
-          String(relists),
+          String(relistsAt(it, end)),
         ]);
       }),
     ];
-    const current = period === END_DATE.slice(0, 7);
     return {
       sourceId: "upright_inventory",
-      path: `upright_inventory/upright_inventory_${period}.csv`,
+      path: `upright_inventory/upright_inventory_${date}.csv`,
       content: lines(body, "\r\n"),
-      uploadedAt: current ? dailyUpload(END_DATE, 35) : monthlyUpload(period, 30),
+      uploadedAt: dailyUpload(date, 35),
     };
   });
 }

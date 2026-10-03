@@ -56,7 +56,7 @@ export type Kpi = {
   displaySuffix?: string; // overrides the unit suffix, e.g. "78% of total"
 };
 
-export type SourceStatus = "received" | "warnings" | "missing";
+export type SourceStatus = "received" | "warnings" | "missing" | "not_due";
 export type Source = {
   id: string;
   name: string;
