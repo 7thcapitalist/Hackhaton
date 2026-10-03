@@ -258,6 +258,33 @@ export const laborHours = sqliteTable(
   (t) => [index("labor_hours_work_date_idx").on(t.workDate)],
 );
 
+/**
+ * Monthly marketplace health metrics per channel (CSAT, NPS, conversion,
+ * seller rating), for the customer & marketplace KPIs of slide 34.
+ * Units: csat on the marketplace's own scale (e.g. 4.8 of 5), nps -100..100,
+ * conversion_rate in percent (2.4 = 2.4%), seller_rating as reported.
+ * Empty for a period -> those KPIs show "awaiting data".
+ */
+export const marketplaceMetrics = sqliteTable(
+  "marketplace_metrics",
+  {
+    id: text("id").primaryKey(),
+    ingestRunId: text("ingest_run_id").references(() => ingestRuns.id, {
+      onDelete: "cascade",
+    }),
+    channel: text("channel")
+      .notNull()
+      .references(() => channels.id),
+    period: text("period").notNull(), // YYYY-MM
+    metric: text("metric", {
+      enum: ["csat", "nps", "conversion_rate", "seller_rating"],
+    }).notNull(),
+    value: real("value").notNull(),
+    sampleSize: integer("sample_size"),
+  },
+  (t) => [index("marketplace_metrics_period_channel_idx").on(t.period, t.channel)],
+);
+
 // ---------------------------------------------------------------------------
 // Month-end close
 // ---------------------------------------------------------------------------
@@ -435,5 +462,7 @@ export type ArInvoiceLine = typeof arInvoiceLines.$inferSelect;
 export type NewArInvoiceLine = typeof arInvoiceLines.$inferInsert;
 export type WorkbookBaseline = typeof workbookBaseline.$inferSelect;
 export type NewWorkbookBaseline = typeof workbookBaseline.$inferInsert;
+export type MarketplaceMetric = typeof marketplaceMetrics.$inferSelect;
+export type NewMarketplaceMetric = typeof marketplaceMetrics.$inferInsert;
 export type DataException = typeof exceptions.$inferSelect;
 export type NewDataException = typeof exceptions.$inferInsert;
