@@ -69,6 +69,8 @@ See `.env.example`.
 | `BUYER_KEY_SALT` | Salt for hashed buyer keys (privacy) |
 | `DEMO_RESET_SECRET` | Guards the "Reset demo data" route |
 | `ANTHROPIC_API_KEY` | Optional AI note on the scorecard |
+| `OPENAI_API_KEY` (optional `OPENAI_MODEL`, default `gpt-6-astra`) | Data chat, `POST /api/chat` (503 without the key) |
+| `CHAT_DATABASE_URL`, `CHAT_DATABASE_AUTH_TOKEN` | Optional read-only Turso credentials for the chat's `run_sql` tool (falls back to the main DB client) |
 | `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
 | `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_FEED` = `finances` (default) or `reports`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
@@ -193,6 +195,30 @@ no October statement yet (status `not_due`); 2025-08..10 exist (monthly files) f
 year-over-year. The messy cases (duplicate upload, unknown Amazon type, Upright overlap,
 renamed columns, missing Supplier) are live-demo files in
 [data/demo-uploads/](data/demo-uploads/README.md).
+
+## Data chat ("ask anything about the data")
+
+`POST /api/chat` answers questions with the OpenAI Responses API (model `OPENAI_MODEL`,
+default `gpt-6-astra`) and a function-calling loop over the same view functions the
+dashboard uses (`get_pulse`, `get_pulse_series`, `get_scorecard`, `get_source_status`,
+`get_exceptions`, `get_orders`) plus `run_sql`, a guarded read-only SQL tool. Code:
+`src/ai/chat/` (agent loop, tools, system prompt, SQL guard).
+
+- Body: `{ messages: { role: "user" | "assistant", content: string }[] }` (plain-text
+  history, last one is the user's question, max 20).
+- Response: `text/event-stream`, one `data: <json>\n\n` per event: `{type:"text",delta}`,
+  `{type:"tool",name,label}`, `{type:"trace",items:[{tool,input,sql?,rowCount?}]}` (once,
+  before done), `{type:"error",message}`, `{type:"done"}`.
+- 503 without `OPENAI_API_KEY`; 429 above 20 requests/min per IP (in memory); max 8 tool rounds.
+- `run_sql` safety: read-only client from `CHAT_DATABASE_URL`/`CHAT_DATABASE_AUTH_TOKEN`
+  when set (create a read-only Turso token), one statement, SELECT/WITH only, no
+  write/PRAGMA/ATTACH keywords, no `golden_*` tables, wrapped in `LIMIT 500`, 10 s timeout.
+
+```bash
+npm run chat -- "Which day of the week do we sell most?"   # streamed answer + trace + cost
+npm run chat -- --tools                                     # run every tool directly, no API key
+npm run check:chat-sql                                      # SQL guard unit check
+```
 
 ## Where to read next
 
