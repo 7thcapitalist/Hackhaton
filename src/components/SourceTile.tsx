@@ -1,7 +1,6 @@
 import type { Source } from "@/app/_lib/types";
 import { formatInt, formatStamp } from "@/app/_lib/format";
 import { StatusBadge } from "./StatusBadge";
-import { UploadIcon } from "./icons";
 
 type SourceTileProps = {
   source: Source;
@@ -9,10 +8,9 @@ type SourceTileProps = {
   firstDayLabel: string; // "Sep 1"
   lastDayLabel: string;  // "Sep 30"
   dueLabel: string;      // "Oct 5"
-  onUpload?: (source: Source) => void;
 };
 
-export function SourceTile({ source: s, periodLabel, firstDayLabel, lastDayLabel, dueLabel, onUpload }: SourceTileProps) {
+export function SourceTile({ source: s, periodLabel, firstDayLabel, lastDayLabel, dueLabel }: SourceTileProps) {
   const missing = s.status === "missing";
   const got = s.days?.filter(d => d !== "missing").length ?? 0; // days with warnings still arrived
   const last = s.lastImportAt
@@ -56,12 +54,6 @@ export function SourceTile({ source: s, periodLabel, firstDayLabel, lastDayLabel
         <a href="#issues" className="flex items-center justify-between gap-2 rounded-[7px] bg-warn-soft px-2.5 py-2 text-xs text-warn hover:brightness-95">
           <strong className="font-semibold">{s.openIssues} open issue{s.openIssues > 1 ? "s" : ""}</strong><span>Review →</span>
         </a>
-      )}
-      {missing && (
-        <button type="button" onClick={() => onUpload?.(s)}
-          className="flex h-8 items-center justify-center gap-[7px] rounded-lg border border-line bg-surface text-[12.5px] font-medium hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-accent">
-          <UploadIcon className="size-[13px]" />Upload {s.name} file
-        </button>
       )}
     </article>
   );

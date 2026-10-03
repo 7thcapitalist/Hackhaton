@@ -1,9 +1,8 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { SourceOrder } from "@/app/_lib/types";
 import { formatInt, formatMoney } from "@/app/_lib/format";
-import { CheckIcon, CloseIcon, FileIcon, UploadIcon, WarnIcon } from "./icons";
+import { CheckIcon, CloseIcon, FileIcon, WarnIcon } from "./icons";
 
 export type DrawerContent =
   | {
@@ -75,7 +74,7 @@ export function DrillDownDrawer({ content, dateLong, dateShort, onClose }: Drill
               <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-warn-soft text-warn-icon"><WarnIcon className="size-4.5" /></span>
               <div className="flex flex-col gap-1">
                 <p className="text-[15px] font-semibold">Awaiting data</p>
-                <p className="text-[13.5px] text-pretty text-ink-2">No file has arrived for {dateShort}. These numbers are left out of today&apos;s totals rather than shown as $0. They&apos;ll fill in automatically once the export is imported.</p>
+                <p className="text-[13.5px] text-pretty text-ink-2">No file has arrived for {dateShort}. These numbers are left out of today&apos;s totals rather than shown as $0. They fill in automatically after the next nightly import that includes this file.</p>
               </div>
             </div>
             <dl className="grid grid-cols-[140px_1fr] gap-y-2.5 text-[13px]">
@@ -83,11 +82,6 @@ export function DrillDownDrawer({ content, dateLong, dateShort, onClose }: Drill
               <dt className="text-ink-3">Last day with data</dt><dd>{content.lastReceived}</dd>
               <dt className="text-ink-3">Feeds</dt><dd>{content.feeds}</dd>
             </dl>
-            <div className="flex flex-col items-center gap-2 rounded-xl border-[1.5px] border-dashed border-line px-5 py-7.5 text-center">
-              <UploadIcon className="size-5.5 text-ink-3" />
-              <span className="text-sm font-medium">Drop the export here (CSV or XLSX)</span>
-              <span className="text-[12.5px] text-ink-3">or <Link href="/sources" className="text-accent hover:text-ink">open Data Sources</Link></span>
-            </div>
           </div>
         ) : (
           <RowsBody content={content} showAll={showAll} onShowAll={() => setShowAll(true)} />

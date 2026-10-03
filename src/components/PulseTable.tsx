@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import type { ReactNode } from "react";
 import type { ChannelId, PulseRow, PulseTotals } from "@/app/_lib/types";
 import { formatInt, formatMoney, formatStamp } from "@/app/_lib/format";
@@ -69,7 +68,7 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
               </button>
               <div className="flex min-w-0 flex-col">
                 <span className="truncate font-mono text-xs text-ink-3">{r.expectedFile ?? "No file yet"}</span>
-                <span className="text-xs text-ink-3">Not received yet · <Link href="/sources" className="font-medium text-accent hover:text-ink">Upload file</Link></span>
+                <span className="text-xs text-ink-3">Not received yet</span>
               </div>
             </div>
           ))}
