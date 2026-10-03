@@ -14,6 +14,7 @@ and a month-end close export for Business Central.
 | Database | Turso (libSQL / SQLite) via Drizzle ORM |
 | Email | Resend (nightly pulse) |
 | File parsing | papaparse (CSV) and exceljs (XLSX) |
+| Report workbooks | ExcelJS (typed cells and separate KPI/category sheets) |
 | Scheduling | Vercel Cron, once a day (`0 11 * * *` UTC ≈ 7 AM Eastern) |
 
 ## Run it locally
@@ -41,6 +42,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 |--------|--------------|
 | `npm run dev` / `build` / `start` | Next.js dev server, production build, production server |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm run test:exports` | Tests for report exports, without a database or email delivery |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
 | `npm run seed [-- --direct\|--staged]` | Wipe facts, upsert config + KPI targets, then ingest every file in `data/fixtures/` (manifest order = upload order) through `ingestFile()`, like real uploads. Only items and labor hours (no source file yet) are inserted directly. Local DB: ingests directly (~13 s); remote Turso: stages in a scratch SQLite file and copies in one transaction |
@@ -85,7 +87,7 @@ business dates in America/Indiana/Indianapolis. KPI formulas live in `src/kpis/`
 |----------|-----------|-------|
 | `getPulse(date)` | `/api/views/pulse?date=YYYY-MM-DD` (default yesterday) | Rows per pulse group; a channel with no file that day is `"missing"` with nulls, excluded from totals |
 | `getPulseSeries(from, to)` | `/api/views/pulse-series?from=…&to=…` (≤ 366 days) | Same rules, one value per day |
-| `getScorecard(period)` | `/api/views/scorecard?period=YYYY-MM` (default last full month) | 15 KPIs; `status` is `ok`, `simulated` (synthetic items/labor) or `awaiting_data` (value null) |
+| `getScorecard(period)` | `/api/views/scorecard?period=YYYY-MM` (default last full month) | 34 KPIs: 15 core and 19 extended; `status` is `ok`, `simulated` (synthetic items/labor) or `awaiting_data` (value null) |
 | `getSourceStatus(period)` | `/api/views/sources?period=YYYY-MM` (default this month) | `received` / `warnings` / `missing` per source, open exceptions |
 | `getOrders({channel,date,period,limit,offset})` | `/api/views/orders?…` | Drill-down rows with `ingestRunId` + `sourceRow` |
 | `getExceptions({status,sourceId,kind,period,limit,offset})` | `/api/views/exceptions?…` | Exceptions inbox + `countsByKind`; resolve with `PATCH /api/exceptions/:id` `{ status, note? }` |
@@ -110,6 +112,8 @@ Claude Code) and are pinned in `skills-lock.json`: `frontend-design` (Anthropic)
 `web-design-guidelines` (Vercel) and `shadcn`. Add more with `npx skills add <repo>`.
 
 ## Where to read next
+
+- [src/export/README.md](src/export/README.md): CSV/XLSX and monthly report downloads using the shared views
 
 - [AGENTS.md](AGENTS.md): team rules, branches, PRs, who owns what
 - [CONTEXT.md](CONTEXT.md): event, schedule, judging criteria
