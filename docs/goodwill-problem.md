@@ -1,8 +1,9 @@
 # Goodwill Michiana: the problem we are solving
 
 Our track at SprintHack@ND 2026: **Pod B · Goodwill Michiana · room 154**.
-Source: Goodwill's reverse pitch, Saturday Oct 3, 11:30 (slides photographed by Joao).
-Slide numbers refer to the 95-slide pitch deck. Slides 37, 40, 41 were not captured.
+Source: Goodwill's reverse pitch, Saturday Oct 3, 11:30, and the official event deck
+at https://innovationsprintlab.com/sprinthack-deck/sprinthack.html (Goodwill slides
+18 to 42). Slide numbers refer to that deck.
 
 ## In one paragraph
 
@@ -64,6 +65,24 @@ feed the nightly pulse, and the nightly numbers roll up into the monthly scoreca
 > combines portal downloads, emailed reports, bank activity, spreadsheet rules and
 > manual Business Central entri[es]…" (rest hidden by the speaker)
 
+Debie Coble (President and CEO, Goodwill Industries of Michiana) presented. Amanda
+Baumer is Goodwill's partner judge on Sunday.
+
+### Slides 21 to 30: how reports are pulled by hand today
+Screenshots of the current daily routine (we don't have the images, only the captions).
+
+**Upright, 6 steps (slides 21 to 26):** 1. Open Reports · 2. Click Paid orders ·
+3. Set date range · 4. Generate report · 5. Download · 6. Customer count = rows minus
+the title row. "Then these numbers are entered on the **Daily Summary Spreadsheet**."
+
+**Cash Monkey / Books, 4 steps (slides 27 to 30):** 1. Books: open Cash Monkey
+reports · 2. Orders Report · 3. Select dates from the drop-down · 4. Click the link;
+the report downloads.
+
+So today's "customers" figure is a row count of the Upright Paid Orders export (one row
+per paid order), not de-duplicated buyers. The nightly pulse replaces the Daily
+Summary Spreadsheet.
+
 ### Slide 31: nightly channel breakdown, "A nightly report creates a daily pulse"
 Each nightly report should show both revenue and customer count by marketplace,
 followed by enterprise totals.
@@ -77,6 +96,10 @@ followed by enterprise totals.
 | **Total e-commerce** | **Total revenue for the day** | **Total customers for the day** |
 
 > Other marketplaces can be added as separate rows as the channel mix evolves.
+
+### Slide 32: monthly dashboard, "From manual reporting to management visibility"
+A monthly e-commerce dashboard should balance five areas: **Growth · Profitability ·
+Productivity · Inventory · Engagement**.
 
 ### Slide 33: KPI framework, "Profitability + productivity lead"
 The operating model begins with economic performance and the throughput required to
@@ -127,6 +150,12 @@ leverage and inventory velocity.
 > These three measures connect profitability, workforce productivity and the speed at
 > which inventory converts to cash.
 
+### Slide 37: month-end close, "From manual month-end close to Business Central integration"
+> The current close combines portal downloads, emailed reports, bank activity,
+> spreadsheet rules and manual Business Central entries.
+
+**Source reports → Allocation + rules → Business Central**
+
 ### Slide 38: source workflows, "Nine source workflows feed one month-end close"
 The close depends on different portals, report timings, emails and finance lookups
 before the allocation workbook can be completed.
@@ -166,7 +195,40 @@ becomes the bridge into Business Central.
    invoice entry.
 
 > The dependency is broader than a single upload: month-end rules, source-specific
-> t[…], […] invoice creation all sit inside the manu[al workbook…] (partly hidden)
+> timing, shipping lookups, journal creation and invoice creation all sit inside the
+> manual process.
+
+### Slide 40: target close, "The target close automates the rules, not just the downloads"
+A controlled integration should acquire every input, preserve source rules and create
+Business Central-ready entries with reconciliation evidence.
+
+| # | Step | What it covers |
+|---|---|---|
+| 01 | Acquire | Portal reports · email attachments · bank and BC lookups |
+| 02 | Archive | Consistent year / month · source file naming · run history |
+| 03 | Enrich | Supplier assignment · source labels · period metadata |
+| 04 | Apply rules | Monthly date range · shipping and refunds · period-specific reports |
+| 05 | Create BC output | General Journal lines · AR invoice entry · control totals |
+| 06 | Post + reconcile | Import/API status · source-to-BC totals · owned exceptions |
+
+> **Control principle:** Business Central receives balanced, traceable journal and
+> invoice payloads; missing reports, failed rules and posting errors remain visible
+> for review.
+
+### Slide 41: workstreams, "Five workstreams define the build"
+The attachment clarifies the required scope: source intake, embedded workbook logic and
+both Business Central entry types must be addressed.
+
+| Workstream | Work to complete | Deliverable |
+|---|---|---|
+| 1 Source intake | Confirm access and automate downloads/email pickup for Cash Monkey, Upright, ShopGoodwill, Books, eBay and Amazon | Reliable monthly source package |
+| 2 Shipping + enrichment | Ingest bank activity; reproduce FedEx filters/refund netting; automate Jewelry Supplier enrichment | Complete expense and enrichment dataset |
+| 3 Rules + mapping | Document orange-field inputs, workbook formulas, control totals and source-to-account/dimension mapping | Approved transformation and BC mapping |
+| 4 Business Central outputs | Build General Journal and AR invoice payloads; capture import/API validation and posting response | Tested journal and invoice interfaces |
+| 5 Close controls + support | Reconcile source, workbook-equivalent and posted totals; define exceptions, approvals, archive and ownership | Auditable month-end operating model |
+
+> Discovery must confirm credentials, report availability, Business Central
+> destinations and existing workbook formulas.
 
 ### Slide 42: implementation, "Implement in waves that protect the month-end close"
 Automation should be introduced source by source, then proven against the existing
@@ -209,14 +271,26 @@ allocation workbook before manual posting is retired.
 - One winner per partner, picked by the partner; $750. Ties break on Partner Problem
   Fit, then Working Evidence.
 
+- Judges' deck (slide 92) spells out the Goodwill constraint for "Fits Their
+  Constraints": **"tools they already pay for"** (Excel, Business Central, their
+  existing portals). Lean on BC import and the workbook, not new paid platforms.
+- Level 2 is the "competent team" default; judges are told not to score ambition,
+  market size or founder potential, only what they saw.
+
 Pod B judges: Amanda Baumer (Goodwill, in person), Reece Atkinson and Dustin Goodman
 (ClickUp, remote), Tim Connors (PivotNorth, remote), Horacio Lopez (Replit, remote),
 Shreya Kumar and Michael Wicks (Notre Dame, in person).
 
+Sunday logistics: Pod B demos **4:30 to 6:00 PM in room 154**; the usher gives our
+slot number. Judges score at innovationsprintlab.com/go/pod-b. Pod B facilitator is
+Hector (hand him a paper freeze sheet if the internet is down at 4:00). Amanda names
+the winner at the 7:45 PM awards; the winner gives an unscored two-minute showcase.
+
 ## Partner access
 
-- **Amanda Baumer (Goodwill's judge): office hours Saturday 3:00 to 4:45 PM, in
-  person, Huddle Room.** Book a 15-minute slot on the organizer sheet (OFFICE HOURS tab).
+- **Amanda Baumer (Goodwill's judge): office hours Saturday 3:00 to 5:00 PM, in
+  person, room 109B** (per the deck's mentor slide; an earlier note said 3:00 to 4:45,
+  Huddle Room, so check the sheet). Book a 15-minute slot on the organizer sheet (OFFICE HOURS tab).
 - Other Saturday mentors useful to us: Horacio Lopez (Replit), Michael Wicks (Notre
   Dame, 109A), Reece Atkinson / Dustin Goodman (ClickUp, remote).
 
@@ -227,7 +301,8 @@ Shreya Kumar and Michael Wicks (Notre Dame, in person).
    workbook's Journal Entry and Invoices tabs?
 3. Rules: what are ShopGoodwill "Period 1" and "Period 3"? What is "Co-Pivot"? How do
    FedEx refunds net against BNKDEPOSIT?
-4. Nightly pulse: is "customers" unique buyers or orders? Is total customers a sum
+4. Nightly pulse: today "customers" = rows in the Upright Paid Orders export (slide
+   26), so effectively orders. Keep that definition, or switch to unique buyers? Is total customers a sum
    across channels or de-duplicated people? Revenue gross or net of refunds and fees?
    Which time zone / cutoff defines "the day"? Delivery by email or Teams?
 5. Scorecard: where do labor hours and the item pipeline (donation, identified, sent,
