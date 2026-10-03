@@ -1,0 +1,21 @@
+Item ID,Title,Category,End Date,Winning Bid,Shipping,Handling,Seller Fee,Net,Buyer ID,Status,Period
+SG-88100,Home Goods item #0,Sporting Goods,2026-09-01,27.44,10.80,1.50,-2.47,37.27,BYR-1000,Sold,Period 1
+SG-88101,Home Goods item #1,Books & Media,2026-09-02,5.14,4.00,1.50,-0.46,10.18,BYR-1001,Sold,Period 1
+SG-88102,Sporting Goods item #2,Apparel,2026-09-03,9.76,11.76,1.50,-0.88,22.14,BYR-1002,Sold,Period 1
+SG-88103,Home Goods item #3,Sporting Goods,2026-09-04,40.56,10.29,1.50,-3.65,48.70,BYR-1003,Sold,Period 1
+SG-88104,Sporting Goods item #4,Books & Media,2026-09-05,36.23,5.49,1.50,-3.26,39.96,BYR-1004,Sold,Period 1
+SG-88105,Sporting Goods item #5,Toys,2026-09-06,20.58,11.71,1.50,-1.85,31.94,BYR-1005,Sold,Period 1
+SG-88106,Jewelry item #6,Home Goods,2026-09-07,41.49,5.75,1.50,-3.73,45.01,BYR-1006,Sold,Period 1
+SG-88107,Jewelry item #7,Books & Media,2026-09-08,28.84,7.37,1.50,-2.60,35.11,BYR-1007,Sold,Period 1
+SG-88108,Furniture item #8,Furniture,2026-09-09,21.29,5.04,1.50,-1.92,25.91,BYR-1008,Sold,Period 1
+SG-88109,Books & Media item #9,Home Goods,2026-09-10,24.03,9.66,1.50,-2.16,33.03,BYR-1009,Sold,Period 1
+SG-88110,Toys item #10,Apparel,2026-09-11,6.05,5.78,1.50,-0.54,12.79,BYR-1010,Sold,Period 1
+SG-88111,Toys item #11,Apparel,2026-09-12,29.62,4.50,1.50,-2.67,32.95,BYR-1011,Sold,Period 1
+SG-88112,Home Goods item #12,Sporting Goods,2026-09-13,37.71,4.74,1.50,-3.39,40.56,BYR-1012,Sold,Period 1
+SG-88113,Sporting Goods item #13,Electronics,2026-09-14,14.63,4.40,1.50,-1.32,19.21,BYR-1013,Sold,Period 1
+SG-88114,Electronics item #14,Toys,2026-09-15,31.76,4.03,1.50,-2.86,34.43,BYR-1014,Sold,Period 1
+SG-88115,Furniture item #15,Electronics,2026-09-16,23.44,6.15,1.50,-2.11,28.98,BYR-1015,Sold,Period 3
+SG-88116,Sporting Goods item #16,Jewelry,2026-09-17,14.84,10.07,1.50,-1.34,25.07,BYR-1016,Sold,Period 3
+SG-88117,Home Goods item #17,Apparel,2026-09-18,18.09,9.44,1.50,-1.63,27.40,BYR-1017,Sold,Period 3
+SG-88118,Apparel item #18,Furniture,2026-09-19,32.79,4.73,1.50,-2.95,36.07,BYR-1018,Sold,Period 3
+SG-88119,Apparel item #19,Toys,2026-09-20,12.50,11.59,1.50,-1.12,24.47,BYR-1019,Sold,Period 3

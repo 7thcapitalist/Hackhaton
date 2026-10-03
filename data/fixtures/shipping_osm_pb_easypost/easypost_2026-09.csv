@@ -1,0 +1,17 @@
+created_at,id,tracking_code,status,carrier,service,rate,refund_status,batch_id
+2026-09-01T08:00:00Z,shp_9000,EZ1009900,delivered,OSM,Ground,-10.25,,batch_200
+2026-09-02T09:00:00Z,shp_9001,EZ1009901,delivered,USPS,Priority,-3.95,,batch_201
+2026-09-03T10:00:00Z,shp_9002,EZ1009902,delivered,OSM,Priority,-3.91,refunded,batch_202
+2026-09-04T11:00:00Z,shp_9003,EZ1009903,delivered,OSM,Ground,-6.01,,batch_203
+2026-09-05T12:00:00Z,shp_9004,EZ1009904,delivered,USPS,Priority,-6.88,,batch_204
+2026-09-06T13:00:00Z,shp_9005,EZ1009905,delivered,USPS,Ground,-9.14,,batch_200
+2026-09-07T14:00:00Z,shp_9006,EZ1009906,delivered,USPS,Ground,-8.77,,batch_201
+2026-09-08T15:00:00Z,shp_9007,EZ1009907,delivered,OSM,Ground,-9.96,,batch_202
+2026-09-09T16:00:00Z,shp_9008,EZ1009908,delivered,OSM,Ground,-8.96,,batch_203
+2026-09-10T08:00:00Z,shp_9009,EZ1009909,delivered,USPS,Priority,-8.55,,batch_204
+2026-09-11T09:00:00Z,shp_9010,EZ1009910,delivered,OSM,Priority,-5.69,,batch_200
+2026-09-12T10:00:00Z,shp_9011,EZ1009911,delivered,USPS,Ground,-7.33,,batch_201
+2026-09-13T11:00:00Z,shp_9012,EZ1009912,delivered,OSM,Ground,-5.76,,batch_202
+2026-09-14T12:00:00Z,shp_9013,EZ1009913,delivered,USPS,Ground,-5.91,submitted,batch_203
+2026-09-15T13:00:00Z,shp_9014,EZ1009914,delivered,USPS,Priority,-9.97,,batch_204
+2026-09-16T14:00:00Z,shp_9015,EZ1009915,delivered,OSM,Ground,-4.83,,batch_200

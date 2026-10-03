@@ -1,0 +1,9 @@
+Invoice #,Ship Date,Tracking,Service,Weight,Charge
+OSM-55000,2026-09-01,OSM330000,Parcel Select,1.5 lb,-5.54
+OSM-55001,2026-09-02,OSM330001,Parcel Select,1.8 lb,-3.37
+OSM-55002,2026-09-03,OSM330002,Parcel Select,6.2 lb,-5.53
+OSM-55003,2026-09-04,OSM330003,Parcel Select,6.5 lb,-3.92
+OSM-55004,2026-09-05,OSM330004,Parcel Select,1.7 lb,-4.44
+OSM-55005,2026-09-06,OSM330005,Parcel Select,1.8 lb,-5.20
+OSM-55006,2026-09-07,OSM330006,Parcel Select,5.9 lb,-4.88
+OSM-55007,2026-09-08,OSM330007,Parcel Select,5.4 lb,-4.99

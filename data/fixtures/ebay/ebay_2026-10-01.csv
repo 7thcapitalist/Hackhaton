@@ -1,0 +1,7 @@
+Sales Record Number,Order Number,Buyer Username,Item Number,Item Title,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,Sale Date,Paid On Date
+4500,03-8800100,buyer_casey100,330000100,Home Goods lot #100,1,64.82,3.76,3.89,72.47,2026-09-01,2026-09-01
+4501,03-8800101,buyer_parker101,330000101,Home Goods lot #101,1,50.58,5.49,3.03,59.10,2026-09-01,2026-09-01
+4502,03-8800102,buyer_drew102,330000102,Sporting Goods lot #102,1,44.26,7.43,2.66,54.35,2026-09-01,2026-09-01
+4503,03-8800103,buyer_morgan103,330000103,Jewelry lot #103,1,24.15,7.15,1.45,32.75,2026-09-01,2026-09-01
+4504,03-8800104,buyer_morgan104,330000104,Electronics lot #104,1,6.38,1.56,0.38,8.32,2026-09-01,2026-09-01
+4505,03-8800105,buyer_parker105,330000105,Furniture lot #105,1,33.03,1.70,1.98,36.71,2026-09-01,2026-09-01
