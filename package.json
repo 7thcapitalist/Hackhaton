@@ -20,16 +20,20 @@
     "close": "tsx scripts/close.ts",
     "check:parsers-api": "tsx scripts/check-parsers-api.ts",
     "check:parsers-ops": "tsx scripts/check-parsers-ops.ts",
-    "pull": "tsx scripts/pull.ts"
+    "pull": "tsx scripts/pull.ts",
+    "chat": "tsx scripts/chat.ts",
+    "check:chat-sql": "tsx scripts/check-chat-sql.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
     "drizzle-orm": "^0.45.3",
     "exceljs": "^4.4.0",
     "next": "^15.5.27",
+    "openai": "^7.27.0",
     "papaparse": "^5.7.0",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
