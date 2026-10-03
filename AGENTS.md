@@ -87,18 +87,19 @@ and judging criteria.
 
 ## Ownership
 
-Track: **Goodwill Michiana**. Folder split from [docs/weekend-plan.md](docs/weekend-plan.md) §3,
-so tasks stay file-disjoint.
+Track: **Goodwill Michiana**. Split agreed by the team on Saturday afternoon; tasks stay
+file-disjoint. Handoffs between lanes (fixture format, data shapes, view functions) are
+in [docs/interfaces.md](docs/interfaces.md).
 
 | Teammate | Handle | Area / owns | Branch prefix |
 |----------|--------|-------------|---------------|
-| Joao Vitor | joao | Data layer, parsers, ingest, month-end close (with Claude): `src/db/**`, `src/sources/**`, `src/ingest/**`, `src/close/**`, `scripts/**`, `data/**` | `joao/` |
-| Gabriel | gabriel | UI: `src/app/**` pages, `src/components/**` | `gabriel/` |
-| Ryan | ryan | KPI engine, scorecard, AI note: `src/kpis/**`, `src/ai/**` | `ryan/` |
-| Denis | denis | Pitch, ethics, demo script: `docs/pitch/**`, `docs/ethics.md`, `docs/demo-script.md` | `denis/` |
+| Joao Vitor | joao | Database, parsers, cleaning, KPI formulas and view functions (with Claude): `src/db/**`, `src/sources/**`, `src/ingest/**`, `src/kpis/**`, `src/lib/views/**`, `src/app/api/views/**`, `src/app/api/ingest/**`, `src/close/**`, `scripts/**` | `joao/` |
+| Ryan | ryan | Data sources: how each of the 9 sources delivers data (API or file, how often), how to bring it in daily, and mock data for each: `docs/sources/**`, `data/fixtures/**`, `src/connectors/**` (live API connectors, if any) | `ryan/` |
+| Gabriel | gabriel | In-app experience: pulse page, dashboard, charts, monthly report on screen: `src/app/**` pages and layouts (not `src/app/api/**`), `src/components/**` | `gabriel/` |
+| Denis | denis | Outputs that leave the app: export buttons (CSV/XLSX), daily and monthly report files, email with the day's export and dashboard link: `src/export/**`, `src/report/**`, `src/emails/**`, `src/app/api/export/**`, `src/app/api/cron/**` | `denis/` |
 
-`src/lib/views/**` (pure functions that return view data) is owned per task. Dot (Codex QA)
-owns `tests/**` and `.github/**`.
+Pitch, ethics notes and demo script are shared: `docs/pitch/**`, `docs/ethics.md`,
+`docs/demo-script.md`. Dot (Codex QA) owns `tests/**` and `.github/**`.
 
 ## Stack
 
