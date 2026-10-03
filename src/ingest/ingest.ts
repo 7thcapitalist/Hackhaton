@@ -22,6 +22,10 @@
  * - Raw buyer ids are hashed (buyer_key) and never stored.
  * - Parser warnings (+ ingest's own) → ingest_runs.warnings_json and ONE
  *   `parse_warning` exception per file.
+ * - A file that cannot be ingested → ONE `parse_failed` exception. If a parser
+ *   was chosen, a `failed` ingest run is recorded too; if the file could not be
+ *   read or recognized (no source known), only the exception is recorded
+ *   (source_id = the requested source, or null) and the IngestError is rethrown.
  */
 import { createHash, randomUUID } from "node:crypto";
 import { and, eq, inArray, ne } from "drizzle-orm";
@@ -192,19 +196,27 @@ export async function ingestFile(input: IngestInput): Promise<IngestSummary> {
   }
 
   // 2. Read and pick a parser.
-  const table = await readTable(buffer, fileName);
-  if (!parser) {
-    parser = detectParser(table, fileName);
+  let table: RawTable;
+  try {
+    table = await readTable(buffer, fileName);
     if (!parser) {
-      const header = guessHeader(table);
-      throw new IngestError(
-        "unrecognized_file",
-        `Unrecognized file "${fileName}": no parser accepts it. Header seen: ${
-          header.length ? header.join(", ") : "(none)"
-        }`,
-        { headerSeen: header },
-      );
+      parser = detectParser(table, fileName);
+      if (!parser) {
+        const header = guessHeader(table);
+        throw new IngestError(
+          "unrecognized_file",
+          `Unrecognized file "${fileName}": no parser accepts it. Header seen: ${
+            header.length ? header.join(", ") : "(none)"
+          }`,
+          { headerSeen: header },
+        );
+      }
     }
+  } catch (err) {
+    if (err instanceof IngestError && FAILED_FILE_CODES.has(err.code)) {
+      await recordUnreadable(db, fileName, input.sourceId ?? null, err.message);
+    }
+    throw err;
   }
 
   const runId = randomUUID();
@@ -234,6 +246,24 @@ export async function ingestFile(input: IngestInput): Promise<IngestSummary> {
   }
 }
 
+const FAILED_FILE_CODES = new Set<string>(["unsupported_file", "unreadable_file", "unrecognized_file"]);
+
+/** A file we could not read or recognize: no run (no source), one parse_failed exception. */
+async function recordUnreadable(db: Db, fileName: string, sourceId: string | null, error: string): Promise<void> {
+  try {
+    await db.insert(exceptions).values({
+      id: randomUUID(),
+      sourceId,
+      ingestRunId: null,
+      kind: "parse_failed",
+      message: `Ingest of "${fileName}" failed: ${error}`,
+    });
+  } catch (err) {
+    // Never hide the user's real error behind a logging failure.
+    console.error("[ingest] could not record parse_failed exception:", rootMessage(err));
+  }
+}
+
 async function writeFailedRun(
   db: Db,
   base: Omit<NewIngestRun, "status">,
@@ -245,7 +275,7 @@ async function writeFailedRun(
       id: randomUUID(),
       sourceId: base.sourceId,
       ingestRunId: base.id,
-      kind: "parse_warning",
+      kind: "parse_failed",
       message: `Ingest of "${base.fileName}" failed: ${error}`,
     }),
   ]);

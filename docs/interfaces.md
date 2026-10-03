@@ -132,6 +132,55 @@ export interface OrdersView {
 }
 ```
 
+### Data health: exceptions, upload history, demo reset
+
+| Function | Route | Returns |
+|---|---|---|
+| `getExceptions({ status?, sourceId?, kind?, period?, limit?, offset? })` | `GET /api/views/exceptions?status=&sourceId=&kind=&period=YYYY-MM&limit=1..1000&offset=` | `ExceptionsView` |
+| `setExceptionStatus(id, { status, note? })` | `PATCH /api/exceptions/:id` body `{ status: "resolved"\|"waived"\|"open", note? }` | `ExceptionRow` (404 unknown id, 400 bad status) |
+| `getIngestRuns({ sourceId?, period?, limit?, offset? })` | `GET /api/views/ingest-runs?sourceId=&period=YYYY-MM&limit=1..500&offset=` | `IngestRunsView` |
+| `runSeed(db)` (`scripts/seed/run.ts`) | `POST /api/demo/reset` header `x-demo-secret: $DEMO_RESET_SECRET` | `{ ok, counts, ms }` (401 wrong/missing secret, 503 env unset) |
+
+- Newest first. Default limits: exceptions 100, ingest runs 50.
+- Period rule (same as `getSourceStatus`): via the ingest run (`period` or `business_date`
+  in the month), the close, or for a bare exception its `created_at` month.
+- `countsByKind` applies every filter except `kind`, so tabs can show counts per kind.
+- Resolving sets `resolvedAt` = now (`open` clears it). A `note` is appended to `message`
+  as `[YYYY-MM-DD resolved] note` (there is no notes column).
+- `parse_failed`: a file that could not be read, recognized or parsed. If a parser was
+  picked there is also a `failed` ingest run; if not (corrupt file, unknown layout) the
+  exception has `ingestRunId: null` and `sourceId` = the requested source or `null`.
+- Demo reset wipes facts (ingest runs, orders, money lines, items, labor hours, exceptions
+  without a close) and reloads the synthetic seed. Close tables are untouched.
+
+```ts
+export type ExceptionKind = "missing_source" | "parse_warning" | "parse_failed"
+  | "reconcile_mismatch" | "unmapped_amount" | "duplicate_file" | "duplicate_order"
+  | "unbalanced_document";
+export type ExceptionStatus = "open" | "resolved" | "waived";
+export interface ExceptionRow {
+  id: string; kind: ExceptionKind; sourceId: string | null; sourceName: string | null;
+  message: string; owner: string | null; status: ExceptionStatus;
+  expectedCents: number | null; actualCents: number | null;
+  ingestRunId: string | null; createdAt: string; resolvedAt: string | null;
+}
+export interface ExceptionsView { rows: ExceptionRow[]; total: number;
+                                  countsByKind: Record<string, number> }
+
+export interface IngestRunRow {
+  id: string; sourceId: string; sourceName: string; fileName: string;
+  period: string | null; businessDate: string | null; periodLabel: string | null;
+  status: "parsed" | "parsed_with_warnings" | "failed"; rowCount: number;
+  warnings: string[];            // first 20, "row N: message"; failed run → the error
+  isSynthetic: boolean; uploadedAt: string;
+}
+export interface IngestRunsView { rows: IngestRunRow[]; total: number }
+```
+
+Money-line amount types that never count as revenue or cost: `statement_payment`
+(Goodwill Books control total) and `wallet_refund` (EasyPost payment-log refund; the
+shipment report carries the same refund, see `src/sources/shipping_osm_pb_easypost.ts`).
+
 ## 3. Denis: outputs that leave the app
 
 Denis builds on the same view functions. Nothing reads the database directly outside

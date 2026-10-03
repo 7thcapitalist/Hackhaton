@@ -24,9 +24,23 @@
  *      balance, description
  *      https://support.easypost.com/hc/en-us/articles/4405420574861-Payment-Log-CSV-Report
  *      charge_type recharge → "postage_topup" (-, bank 0101); refund /
- *      partial_refund → "shipping_refund" (+); manual_credit / manual_debit /
- *      service_fee / insurance / subscription → "adjustment" (sign by
- *      direction); anything else → warning. Non-complete status → skipped.
+ *      partial_refund → "wallet_refund" (+, INFORMATIONAL, see rule below);
+ *      manual_credit / manual_debit / service_fee / insurance / subscription →
+ *      "adjustment" (sign by direction); anything else → warning.
+ *      Non-complete status → skipped.
+ *
+ *   RULE (no double count of EasyPost refunds) [decision, 2026-10-03]
+ *      A label refund shows up in BOTH EasyPost reports: as refund_status
+ *      "refunded" on the shipment report and as a refund row in the payment
+ *      log. The SHIPMENT report is the authority for label cost and refunds;
+ *      the PAYMENT LOG is the authority for cash (recharges) and account
+ *      adjustments. So payment-log refunds are emitted as "wallet_refund",
+ *      an amount type no KPI sums and no default GL rule maps: they stay
+ *      visible for traceability but never count. The rule is per row and
+ *      order-independent (no matter which file is uploaded first, nothing is
+ *      deleted). Cost: if Goodwill only ever uploads the payment log, refunds
+ *      do not reduce shipping cost; map "wallet_refund" in gl_rules if
+ *      finance confirms the payment log is their source of truth.
  *   3. Pitney Bowes SendPro 360 / PitneyAnalytics "Shipment details" report
  *      [partial fact: columns configurable]
  *      Shipment Create Date, Carrier Name, Service, Tracking Number,
@@ -48,7 +62,8 @@
  *   3. Does EasyPost bill per label (post-pay) or from a prepaid wallet?
  *   4. OSM: invoice format and how it is paid (ACH from 0101?).
  *   5. If both the EasyPost shipment report and payment log are uploaded,
- *      refunds appear in both → we need to pick one (double-count risk).
+ *      refunds appear in both. Handled by the RULE above (shipment report
+ *      wins); confirm with finance.
  */
 import type { ParseContext, ParseResult, ParsedMoneyLine, RawTable, SourceParser } from "./types";
 import { columnIndex, isBlankRow, normalizeHeader, toCents } from "./_shared/table";
@@ -134,7 +149,7 @@ function line(
 
 export const shippingOsmPbEasypostParser: SourceParser = {
   sourceId: "shipping_osm_pb_easypost",
-  version: "0.1.0",
+  version: "0.2.0",
 
   accepts(table: RawTable, fileName: string): boolean {
     return detect(table, fileName) !== null;
@@ -193,7 +208,8 @@ export const shippingOsmPbEasypostParser: SourceParser = {
         const memo = `EasyPost ${type}${cell(row, c.description) ? `: ${cell(row, c.description)}` : ""}`;
         const abs = Math.abs(amt);
         if (type === "recharge") out.push(line(rowNo, d.businessDate, "postage_topup", -abs, ref, memo, BANK_ACCOUNT));
-        else if (type === "refund" || type === "partial_refund") out.push(line(rowNo, d.businessDate, "shipping_refund", abs, ref, memo));
+        // Informational only: the shipment report carries the same refund (see RULE in the header).
+        else if (type === "refund" || type === "partial_refund") out.push(line(rowNo, d.businessDate, "wallet_refund", abs, ref, `${memo} (informational; counted from the shipment report)`));
         else if (type === "manual_credit") out.push(line(rowNo, d.businessDate, "adjustment", abs, ref, memo));
         else if (["manual_debit", "service_fee", "insurance", "subscription", "payment_failure_deduction"].includes(type)) {
           out.push(line(rowNo, d.businessDate, "adjustment", -abs, ref, memo));
