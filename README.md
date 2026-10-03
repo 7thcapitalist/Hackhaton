@@ -77,6 +77,72 @@ Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_U
 are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts`
 (`getDb()`), `drizzle.config.ts`.
 
+## Daily pulse email
+
+`GET /api/cron/pulse` fetches `GET /api/export/pulse?date=YYYY-MM-DD&format=csv`,
+attaches that CSV unchanged, and links to `/pulse?date=YYYY-MM-DD`. No database reads,
+KPI formulas, mock data or recalculation are added here. **The shared view functions
+and their JSON APIs already exist on main as of `08ada603`.** The daily CSV endpoint
+is provided separately by [PR #19](https://github.com/7thcapitalist/Hackhaton/pull/19).
+Deploy that export endpoint on the configured trusted origin before enabling emails;
+this route returns `503` while the daily CSV is unavailable instead of reporting a
+successful send.
+
+The dashboard link follows `/pulse`, added to main in `3b1a62d`. That page currently
+reads `src/app/_lib/demo-data`, while the attached CSV comes from the shared backend
+views. Before enabling emails, confirm that the UI uses the same business date and
+data as the export, so recipients see matching figures when they open the dashboard.
+
+Sending is **disabled by default**. Joao must set these names in Vercel (see `.env.example`):
+
+| Name | Purpose |
+|------|---------|
+| `CRON_SECRET` | Required `Authorization: Bearer <CRON_SECRET>`; missing config fails closed |
+| `PULSE_EMAIL_ENABLED` | Only the literal `true` enables sending |
+| `PULSE_FROM_EMAIL` | Sender supported by the Resend account/domain (plain address or `Name <address>`) |
+| `PULSE_TO_EMAIL` | One configured recipient; request parameters cannot override it |
+| `RESEND_API_KEY` | Server-only Resend API key |
+| `REPORTS_VIEW_ORIGIN` | Trusted HTTPS app origin used for exports and dashboard links; never derived from request headers |
+
+The origin falls back to `https://<VERCEL_URL>` on Vercel. Local development can use
+`http://localhost:3000`; production requires HTTPS. Protected preview deployments may
+block the export request and return an error; configure an accessible trusted origin
+before enabling emails. Credentials are not forwarded to the export endpoint.
+
+`vercel.json` schedules `0 11 * * *` UTC: 7 AM during Eastern daylight time and 6 AM
+during standard time. The default date is the **previous calendar day** in
+`America/Indiana/Indianapolis`, with calendar subtraction across DST changes. Goodwill's
+business-day cutoff remains TBC. An authenticated `?date=YYYY-MM-DD` overrides it.
+
+An authenticated `?date=YYYY-MM-DD&dryRun=true` downloads and validates the CSV but
+**never contacts Resend**. It works while sending is disabled and does not require
+provider credentials. It returns attachment size, dashboard link, date and metadata,
+without recipient addresses, credentials or attachment content. This is a dry run of
+the email dependency, not a sample-data fallback.
+
+Email labels use `X-Report-Synthetic: true|false` and `X-Report-Status: partial|complete`
+from the export response. Missing/invalid metadata stays **unknown**; a partial report
+does not present missing channels as zero. The CSV attachment is limited to 1 MiB,
+requires a CSV content type and UTF-8, and neither fetch follows redirects. Each network
+request has a 10-second timeout. HTML error pages, empty exports, oversized attachments
+and provider errors fail explicitly without exposing provider responses or secrets.
+
+This module uses the [Resend REST send API](https://resend.com/docs/api-reference/emails/send-email)
+without a new dependency. Success returns HTTP `202`, `status: "accepted"` and the provider
+message ID; this **does not guarantee inbox delivery**. An
+[idempotency key](https://resend.com/docs/dashboard/emails/idempotency-keys) hashes the complete
+payload, keeping retries of the same report/configuration stable for Resend's 24-hour
+window. A changed CSV/configuration produces a new key and can send a revised report;
+deduplication after 24 hours is not guaranteed.
+
+Run `npm run test:emails` for isolated tests with injected fetch mocks (no real emails),
+then `npm run typecheck` and `npm run build`. Sending a real email is an explicit manual
+operation after configuring and enabling the provider, not part of these tests.
+
+Monthly email after a close remains a future integration with Joao's close workflow;
+this route only sends the daily pulse. Shared-file changes in this lane are limited to
+the email test script, README, env-name placeholders and the Vercel cron configuration.
+
 ## View functions
 
 Pages, exports and the pulse email read data only through these server-only functions
