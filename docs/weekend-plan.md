@@ -13,7 +13,7 @@ all three asks (nightly pulse, COO scorecard, month-end close to BC) on one data
 | D3 | Revenue definition for the pulse until Amanda answers | gross + shipping − refunds, excl. marketplace tax; config flag |
 | D4 | Email provider | Resend free tier, send to Joao's inbox; in-app view is the fallback |
 | D5 | AI note model/provider | Claude API, server-side, narrates only computed numbers; cut first |
-| D6 | Owner split (§4) and Arthur's lane | Confirm with Arthur at 1:00 PM |
+| D6 | Owner split (§4) and Gabriel's lane | Confirm with Gabriel at 1:00 PM |
 | D7 | Who goes to Amanda's office hours | Joao + Denis (Denis takes notes), book slot now |
 
 ## 1. Timeline
@@ -24,12 +24,12 @@ all three asks (nightly pulse, COO scorecard, month-end close to BC) on one data
 | 1:00–2:15 | **T1 scaffold** (Next.js + Drizzle + Turso + schema) → PR → merge. Vercel+Turso integration connected | Claude / Joao |
 | 1:00–3:00 | T2 fixture generator (in parallel, pure TS, no DB) | Claude |
 | 1:00–3:00 | Office-hours prep sheet, demo script v0, ethics page draft | Denis |
-| 1:00–3:00 | UI shell + mock-data pages (against types only) | Arthur |
+| 1:00–3:00 | UI shell + mock-data pages (against types only) | Gabriel |
 | 1:00–3:00 | KPI definitions + KPI engine on in-memory fixtures | Ryan |
 | **3:00–4:45** | **Amanda office hours** (15-min slot). Bring: laptop with deployed preview of the pulse + a sample BC journal xlsx; question list (goodwill-problem.md "Open questions"). Ask for one real header row per source. | Joao + Denis |
 | 3:00–6:00 | Parsers (Amazon, eBay, ShopGoodwill, Upright first), ingest service, pulse view | Claude, Ryan |
 | ~5:00 | Fold Amanda's answers into data-contract.md (small PR) | Joao |
-| 6:00–8:30 | Close engine + BC export; scorecard wired to DB; pulse email + cron | Claude, Ryan, Arthur |
+| 6:00–8:30 | Close engine + BC export; scorecard wired to DB; pulse email + cron | Claude, Ryan, Gabriel |
 | **Sat 9:00 PM checkpoint** | M1–M3 on `main`, deployed. Cut decisions (§6) | Joao |
 | Sat night (optional) | BC trial attempt; fixture tuning | Joao |
 | **Sun 11:00** | Checkpoint + standup. Remaining parsers, reconciliation, exceptions UI | all |
@@ -38,7 +38,7 @@ all three asks (nightly pulse, COO scorecard, month-end close to BC) on one data
 | **Sun 2:00 checkpoint** | Cut anything not demo-ready | Joao |
 | **Sun 2:30–3:15** | **Record demo video** (one take, prod URL). Second take by 3:15 | Joao records, Denis scripts |
 | **Sun 3:00** | Soft freeze: bug fixes and polish only | |
-| 3:15–3:45 | Slides final, video embedded, "built vs used", sources | Denis + Arthur |
+| 3:15–3:45 | Slides final, video embedded, "built vs used", sources | Denis + Gabriel |
 | **Sun 3:45** | **Submit** at innovationsprintlab.com/go/submit (slides link "anyone with link", repo, built vs used, sources). Don't wait for 4:00 | Joao |
 | Sun 4:00 | Code freeze. 4:30 demos | |
 
@@ -64,7 +64,7 @@ Labels: `agent:claude` (Claude subagent, branch `joao/claude-<topic>`), `agent:d
 Folder ownership (keeps tasks file-disjoint):
 `src/db/**`, `src/sources/**`, `src/ingest/**`, `src/close/**`, `scripts/**`, `data/**`
 → Claude/Joao. `src/kpis/**`, `src/ai/**` → Ryan. `src/app/**` pages and
-`src/components/**` → Arthur. `src/lib/views/**` (pure functions returning view data) →
+`src/components/**` → Gabriel. `src/lib/views/**` (pure functions returning view data) →
 owner named per task. `docs/pitch/**`, `docs/ethics.md`, `docs/demo-script.md` → Denis.
 `tests/**`, `.github/**` → Dot.
 
@@ -76,16 +76,16 @@ owner named per task. `docs/pitch/**`, `docs/ethics.md`, `docs/demo-script.md` �
 | T4a | Parsers: Amazon transaction + eBay orders/transactions | Claude · agent:claude area:data p0 | `src/sources/amazon.ts`, `src/sources/ebay.ts` | T2,T3 | Parse fixtures with 0 errors; preamble/footer handled; tax excluded from revenue; tests |
 | T4b | Parsers: ShopGoodwill periodic + Upright paid order items | Claude · agent:claude area:data p0 | `src/sources/shopgoodwill.ts`, `src/sources/upright.ts` | T2,T3 | Period label captured; Upright rows mapped to `channel`; overlap with eBay flagged `duplicate_order` |
 | T4c | Parsers: FedEx, EasyPost/PB/OSM, Goodwill Books statement, Cash Monkey, Jewelry | Claude · agent:claude area:data p1 | `src/sources/{fedex,shipping,goodwill_books,cashmonkey,jewelry}.ts` | T2,T3 | Produce `money_lines` with correct `amount_type`; FedEx refunds as negative/shipping_refund |
-| T5 | Pulse view function + pulse page | view: Ryan; page: Arthur · area:pulse p0 | `src/lib/views/pulse.ts` (Ryan), `src/app/pulse/**` (Arthur) | T1 (+T4a/b for real data) | Per channel revenue + distinct customers + totals for a business_date in America/Indiana/Indianapolis; "missing" for absent channel; date picker; each number links to source rows |
+| T5 | Pulse view function + pulse page | view: Ryan; page: Gabriel · area:pulse p0 | `src/lib/views/pulse.ts` (Ryan), `src/app/pulse/**` (Gabriel) | T1 (+T4a/b for real data) | Per channel revenue + distinct customers + totals for a business_date in America/Indiana/Indianapolis; "missing" for absent channel; date picker; each number links to source rows |
 | T6 | Pulse email + Vercel cron + "Send now" | Claude · agent:claude area:pulse p1 | `src/app/api/cron/pulse/route.ts`, `src/emails/**`, `vercel.json` | T5 view | `CRON_SECRET` checked; Resend send; HTML matches page; schedule `0 11 * * *` |
 | T7 | KPI engine (15 + 3 anchors) | Ryan · human area:scorecard p0 | `src/kpis/**`, `src/lib/views/scorecard.ts`, `docs/kpi-definitions.md` | T1 types | Each KPI: key, formula, data needed, unit; returns value, prior month, MoM %, target, status (`ok`/`awaiting_data`/`simulated`); unit tests on fixtures |
-| T8 | Scorecard page (one page, print-friendly) | Arthur · human area:ui p0 | `src/app/scorecard/**`, `src/components/kpi/**` | T7 | 5 pillars × 3 KPIs + 3 anchors on top; trend arrows/sparkline; badges; prints on one page |
+| T8 | Scorecard page (one page, print-friendly) | Gabriel · human area:ui p0 | `src/app/scorecard/**`, `src/components/kpi/**` | T7 | 5 pillars × 3 KPIs + 3 anchors on top; trend arrows/sparkline; badges; prints on one page |
 | T9 | AI "what's driving it" note | Ryan · human area:scorecard p2 | `src/ai/**` | T7 | Input = computed KPI JSON only; output cites KPI keys; numbers validated against input (reject note if a number isn't in input); off switch |
 | T10 | Close engine: gl_rules × facts → journal lines + AR invoice | Claude · agent:claude area:close p0 | `src/close/**`, seed `gl_rules` | T4a/b (T4c for shipping) | Real codes from slide 38 seeded (GL 40356, Dept 180, V00122, GL 10009, bank 0101) + placeholders flagged; per-document balance check; trace_json per line |
 | T11 | BC export (xlsx + csv) | Claude · agent:claude area:close p0 | `src/close/export/**`, `src/app/api/close/[period]/export/route.ts` | T10 | Columns per research.md §1; sheets General Journal / Sales Invoice / Trace; Description ≤50, Doc No ≤20; export blocked unless close `approved` |
 | T12 | Reconcile vs workbook baseline + exceptions | Claude · agent:claude area:close p1 | `src/close/reconcile.ts` | T10, T2 baseline | Per source/account diff; mismatches → `exceptions` with owner; tolerance config |
-| T13 | Close page: sources checklist, upload, lines, exceptions, Approve, Download | Arthur · human area:ui p0 | `src/app/close/**`, `src/components/close/**` | T3 API, T10–T12 | 9-source checklist with status; drag-drop upload; exceptions table with owner; Approve (name) → Download enabled |
-| T14 | App shell, nav, landing "story" page, Reset demo data button | Arthur · human area:ui p1 | `src/app/layout.tsx`, `src/app/page.tsx`, `src/components/shell/**` | T1 | Nav Pulse/Scorecard/Close; Goodwill-neutral styling (no Goodwill logo/branding impersonation); "Synthetic data" banner |
+| T13 | Close page: sources checklist, upload, lines, exceptions, Approve, Download | Gabriel · human area:ui p0 | `src/app/close/**`, `src/components/close/**` | T3 API, T10–T12 | 9-source checklist with status; drag-drop upload; exceptions table with owner; Approve (name) → Download enabled |
+| T14 | App shell, nav, landing "story" page, Reset demo data button | Gabriel · human area:ui p1 | `src/app/layout.tsx`, `src/app/page.tsx`, `src/components/shell/**` | T1 | Nav Pulse/Scorecard/Close; Goodwill-neutral styling (no Goodwill logo/branding impersonation); "Synthetic data" banner |
 | T15 | Demo reset + seed route | Claude · agent:claude area:data p1 | `src/app/api/demo/reset/route.ts`, `scripts/seed.ts` | T1,T2 | Guarded by `DEMO_RESET_SECRET`; restores a known state in <10 s |
 | T16 | CI: typecheck, lint, unit tests on PRs | Dot · agent:dot area:qa p0 | `.github/workflows/**`, `tests/**` config | T1 | Runs on every PR; red blocks merge (advisory during crunch) |
 | T17 | Prod health watch + preview checks | Dot · agent:dot area:qa p0 | issues/comments only | T1 | After each merge: prod deploy green, `/api/health` ok, smoke pages load; files issue on failure |
@@ -93,19 +93,23 @@ owner named per task. `docs/pitch/**`, `docs/ethics.md`, `docs/demo-script.md` �
 | T19 | Synthetic data review checklist | Denis · human area:pitch p0 | `docs/fixture-review.md` | T2 | Opens each fixture in Excel; checks: no real names/addresses; headers match research.md; messy cases present; totals plausible for a mid-size Goodwill; files issues for problems |
 | T20 | Ethics page | Denis · human area:pitch p1 | `docs/ethics.md` | none | Covers approval-before-posting, traceability, buyer hashing, team-level employee metrics, AI-note guardrails, synthetic data; 1 slide's worth |
 | T21 | Demo script + storyboard | Denis · human area:pitch p0 | `docs/demo-script.md` | none | Follows §5; timed to 6:30; lists exact clicks and files |
-| T22 | Slides (Google Slides) | Denis (+Arthur) · human area:pitch p0 | Google Slides (link in `docs/pitch/README.md`) | T21 | Outline §5; video embedded; built-vs-used slide; sources slide |
-| T23 | Business case slide + pricing | Arthur (or Ryan) · human area:pitch p1 | `docs/pitch/business-case.md` | research.md §4 | Competitor table, hours saved estimate, pricing, rollout to other Goodwills |
+| T22 | Slides (Google Slides) | Denis (+Gabriel) · human area:pitch p0 | Google Slides (link in `docs/pitch/README.md`) | T21 | Outline §5; video embedded; built-vs-used slide; sources slide |
+| T23 | Business case slide + pricing | Gabriel (or Ryan) · human area:pitch p1 | `docs/pitch/business-case.md` | research.md §4 | Competitor table, hours saved estimate, pricing, rollout to other Goodwills |
 
 Sequencing: T1 ∥ T2 ∥ T7(types-only) ∥ T14 ∥ T19-prep ∥ T20 ∥ T21 → T3 → T4a ∥ T4b ∥ T5 →
 T10 → T11 ∥ T12 ∥ T13 → T6 ∥ T4c ∥ T9 → T18 → video.
 
-## 4. Division of work and Ownership table
+## 4. Division of work and Ownership table (PROPOSAL: team still deciding)
+
+This split is a starting point only. The team decides the final lanes; once agreed,
+update this table and the Ownership table in AGENTS.md. Tasks below that name a
+person are reassigned accordingly.
 
 | Teammate | Handle | Area / owns | Branch prefix |
 |---|---|---|---|
 | Joao Vitor | joao | Lead, merges, data contract, Amanda liaison, demo recording. Orchestrates Claude: data layer, parsers, close engine, BC export, email/cron | `joao/`, `joao/claude-<topic>` |
 | Ryan | ryan | KPIs + scorecard logic, pulse view function, AI note (`src/kpis`, `src/ai`, `src/lib/views/{pulse,scorecard}.ts`) | `ryan/` |
-| Arthur | arthur | Frontend: app shell, Pulse/Scorecard/Close pages, components. **Confirm at 1:00**; if not frontend, swap to pitch/business case and Claude takes UI | `arthur/` |
+| Gabriel | gabriel | Frontend: app shell, Pulse/Scorecard/Close pages, components. **Confirm at 1:00**; if not frontend, swap to pitch/business case and Claude takes UI | `gabriel/` |
 | Denis | denis | Pitch and demo: fixture review, ethics page, demo script, slides, office-hours notes, UI copy polish | `denis/` |
 | Dot (Codex) | — | QA: CI, tests, prod/preview health, e2e demo check, demo readiness; works from `agent:dot` issues | `dot/` (via Joao) |
 
@@ -155,7 +159,7 @@ Submission checklist (by 3:45 PM):
 
 | Checkpoint | If behind on… | Cut |
 |---|---|---|
-| **Sat 9 PM** | M3 not done | Drop T4c to Sun; pulse in app only (no email); Arthur pauses scorecard UI to help pulse page |
+| **Sat 9 PM** | M3 not done | Drop T4c to Sun; pulse in app only (no email); Gabriel pauses scorecard UI to help pulse page |
 | | M4 not started | Close limited to Amazon + eBay + ShopGoodwill + FedEx (4 sources, disclosed) |
 | **Sun 11 AM** | Close not exporting | Stop scorecard work beyond KPIs with data; everyone on close |
 | | Scorecard engine incomplete | Show KPIs we have; rest "awaiting data"; drop AI note (T9) |
@@ -175,7 +179,7 @@ Never cut: header detection / messy-file handling, traceability, approval gate, 
 | Double counting (Upright overlaps eBay/ShopGoodwill) | Wrong pulse numbers in front of Goodwill's judge | `dedupe_key` + revenue authority flag; ask Amanda |
 | Vercel/Turso env setup | Prod broken at demo | Joao connects Turso integration in first hour (no prefix); `/api/health`; Dot watches prod after each merge |
 | Merge conflicts across 4 people + agents | Lost time | Folder ownership above; schema changes only by Claude/Joao PRs |
-| Team skill gaps (Denis beginner, Arthur unknown) | Idle or risky work | Denis on checklisted pitch/QA tasks; Arthur lane confirmed at 1:00 with swap option |
+| Team skill gaps (Denis beginner, Gabriel unknown) | Idle or risky work | Denis on checklisted pitch/QA tasks; Gabriel lane confirmed at 1:00 with swap option |
 | Overclaiming (zeroes Working Evidence) | Score hit | Disclosure slide + on-screen banner; "built vs used" exact |
 | Video not recorded in time | No demo | Record by 2:30 Sun; backup take by 3:15; submit 3:45 |
 | AI note invents numbers | Ethics + trust | Number validation against computed JSON; cut first if shaky |
