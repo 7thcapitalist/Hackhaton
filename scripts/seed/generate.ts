@@ -38,6 +38,9 @@ export const END_DATE = "2026-10-03";
 export const CLOSED_PERIODS = ["2026-08", "2026-09"];
 /** The deliberate gap: no Amazon file for this business date. */
 export const MISSING_AMAZON_DATE = "2026-10-02";
+/** "Now" for the seed: no upload timestamp is later than this. */
+export const SEED_NOW = "2026-10-03T16:00:00.000Z";
+const minIso = (a: string, b: string) => (a < b ? a : b);
 
 /**
  * Fixed salt for synthetic buyer keys so the seed is deterministic. Real
@@ -250,7 +253,8 @@ export function generate(): SeedData {
         parserVersion: "seed-1",
         status: "parsed",
         isSynthetic: 1,
-        uploadedAt: `${addDays(date, 1)}T10:30:00.000Z`, // ~6:30 AM Eastern next day
+        // ~6:30 AM Eastern next day, never later than the seed "now".
+        uploadedAt: minIso(`${addDays(date, 1)}T10:30:00.000Z`, SEED_NOW),
       };
       runs.set(id, run);
     }
@@ -574,8 +578,9 @@ export function generate(): SeedData {
 
   // ---- Unsold listed inventory and unlisted backlog (synthetic) -------------
   const unsoldSources: [string, number][] = [["shopgoodwill", 40], ["amazon", 30], ["ebay", 20], ["upright", 10]];
-  for (const d of dateRange("2026-06-15", END_DATE)) {
-    const n = rng.count(55);
+  // Listings still open today: recent ones dominate (older ones mostly sold).
+  for (const d of dateRange("2026-05-01", END_DATE)) {
+    const n = rng.count(70 * Math.exp(-daysBetween(d, END_DATE) / 50));
     for (let i = 0; i < n; i++) {
       itemSeq++;
       const listedAt = localToUtc(d, rng.int(8 * 3600, 18 * 3600));
