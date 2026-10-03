@@ -89,3 +89,58 @@ export interface OrdersView {
   }[];
   total: number;
 }
+
+export type ExceptionKind =
+  | "missing_source"
+  | "parse_warning"
+  | "parse_failed"
+  | "reconcile_mismatch"
+  | "unmapped_amount"
+  | "duplicate_file"
+  | "duplicate_order"
+  | "unbalanced_document";
+
+export type ExceptionStatus = "open" | "resolved" | "waived";
+
+export interface ExceptionRow {
+  id: string;
+  kind: ExceptionKind;
+  sourceId: string | null;
+  sourceName: string | null;
+  message: string;
+  owner: string | null;
+  status: ExceptionStatus;
+  expectedCents: number | null;
+  actualCents: number | null;
+  ingestRunId: string | null;
+  createdAt: string;
+  resolvedAt: string | null;
+}
+
+export interface ExceptionsView {
+  rows: ExceptionRow[];
+  total: number;
+  /** Counts with every filter applied except `kind`. */
+  countsByKind: Record<string, number>;
+}
+
+export interface IngestRunRow {
+  id: string;
+  sourceId: string;
+  sourceName: string;
+  fileName: string;
+  period: string | null;
+  businessDate: string | null;
+  periodLabel: string | null;
+  status: "parsed" | "parsed_with_warnings" | "failed";
+  rowCount: number;
+  /** First 20 warnings, "row N: message"; for a failed run, the error. */
+  warnings: string[];
+  isSynthetic: boolean;
+  uploadedAt: string;
+}
+
+export interface IngestRunsView {
+  rows: IngestRunRow[];
+  total: number;
+}

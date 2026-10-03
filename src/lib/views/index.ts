@@ -9,3 +9,19 @@ export { getScorecard, loadPeriodFacts } from "./scorecard";
 export { getSourceStatus } from "./sources";
 export { getOrders, ORDERS_DEFAULT_LIMIT, ORDERS_MAX_LIMIT, type OrdersQuery } from "./orders";
 export { BUSINESS_TZ, isValidDate, isValidPeriod } from "./dates";
+export {
+  getExceptions,
+  setExceptionStatus,
+  EXCEPTION_KINDS,
+  EXCEPTION_STATUSES,
+  EXCEPTIONS_DEFAULT_LIMIT,
+  EXCEPTIONS_MAX_LIMIT,
+  type ExceptionsQuery,
+  type SetExceptionStatusInput,
+} from "./exceptions";
+export {
+  getIngestRuns,
+  INGEST_RUNS_DEFAULT_LIMIT,
+  INGEST_RUNS_MAX_LIMIT,
+  type IngestRunsQuery,
+} from "./ingest-runs";
