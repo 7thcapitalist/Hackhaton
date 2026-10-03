@@ -87,18 +87,15 @@ and judging criteria.
 
 ## Ownership
 
-Track: **Goodwill Michiana**. Folder split from [docs/weekend-plan.md](docs/weekend-plan.md) §3,
-so tasks stay file-disjoint.
+Track: **Goodwill Michiana**. Teammate ownership is still undecided. The folder split
+in [docs/weekend-plan.md](docs/weekend-plan.md) §3 is a proposal, not an assignment.
 
 | Teammate | Handle | Area / owns | Branch prefix |
 |----------|--------|-------------|---------------|
-| Joao Vitor | joao | Data layer, parsers, ingest, month-end close (with Claude): `src/db/**`, `src/sources/**`, `src/ingest/**`, `src/close/**`, `scripts/**`, `data/**` | `joao/` |
-| Gabriel | gabriel | UI: `src/app/**` pages, `src/components/**` | `gabriel/` |
-| Ryan | ryan | KPI engine, scorecard, AI note: `src/kpis/**`, `src/ai/**` | `ryan/` |
-| Denis | denis | Pitch, ethics, demo script: `docs/pitch/**`, `docs/ethics.md`, `docs/demo-script.md` | `denis/` |
-
-`src/lib/views/**` (pure functions that return view data) is owned per task. Dot (Codex QA)
-owns `tests/**` and `.github/**`.
+| Joao Vitor | joao | TBD | `joao/` |
+| Gabriel | gabriel | TBD | `gabriel/` |
+| Ryan | ryan | TBD | `ryan/` |
+| Denis | denis | TBD | `denis/` |
 
 ## Stack
 
@@ -114,11 +111,11 @@ owns `tests/**` and `.github/**`.
 - **Database: Turso** (libSQL, SQLite dialect) through **Drizzle ORM**.
   - On Vercel use `@libsql/client/web` (HTTP). Never use a `file:` DB in production.
   - Locally, `TURSO_DATABASE_URL=file:local.db` works.
-  - Joao owns the schema and migrations (`src/db/**`; run `drizzle-kit push` from a
-    laptop, not in the Vercel build).
+  - Schema and migration ownership is TBD. Run `drizzle-kit push` from a laptop,
+    not in the Vercel build.
 - **Other libraries:** Resend (pulse email), SheetJS/exceljs (XLSX parsing),
   Vercel Cron (once a day, `0 11 * * *` UTC).
-- **Env vars:** `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `CRON_SECRET`, plus whatever
-  `.env.example` lists.
+- **Planned env vars (names only):** `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`,
+  `CRON_SECRET`. The scaffold PR will add `.env.example`.
 - Details and reasoning: [docs/data-contract.md](docs/data-contract.md) and
   [docs/research.md](docs/research.md) §5.

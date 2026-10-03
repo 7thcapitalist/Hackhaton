@@ -29,7 +29,8 @@ npm run dev                  # http://localhost:3000
 ```
 
 Env vars (names only, values live in Vercel and `.env.local`, never in git):
-`TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `CRON_SECRET`. See `.env.example`.
+`TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `CRON_SECRET`. The scaffold PR will add
+`.env.example` with placeholder variable names.
 
 ## Where to read next
 
