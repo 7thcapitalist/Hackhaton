@@ -86,9 +86,10 @@ Deploy that export endpoint on the configured trusted origin before enabling ema
 this route returns `503` while the daily CSV is unavailable instead of reporting a
 successful send.
 
-The dashboard link follows the agreed `/pulse` route. Gabriel's pulse/dashboard UI
-is separate pending work; confirm that page is deployed before enabling emails so
-recipients can open the linked dashboard.
+The dashboard link follows `/pulse`, added to main in `3b1a62d`. That page currently
+reads `src/app/_lib/demo-data`, while the attached CSV comes from the shared backend
+views. Before enabling emails, confirm that the UI uses the same business date and
+data as the export, so recipients see matching figures when they open the dashboard.
 
 Sending is **disabled by default**. Joao must set these names in Vercel (see `.env.example`):
 
