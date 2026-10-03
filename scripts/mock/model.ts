@@ -38,6 +38,7 @@
  */
 import { addDays, dateRange, daysBetween, localToUtc } from "../../src/lib/views/dates";
 import { Rng } from "../seed/prng";
+import { ebayLineFeeCents } from "../../src/connectors/mock/ebay";
 import { buildOps, type OpsModel } from "./ops";
 
 export const MOCK_SEED = 20261003;
@@ -238,7 +239,8 @@ const STREAMS: StreamDef[] = [
     ],
     uprightChannels: [["ShopGoodwill", 1]],
     shipping: (rng) => 200 + Math.round(rng.logNormal(850, 0.35)), // shipping + $2 handling
-    fee: (gross) => Math.round(gross * 0.08),
+    // ShopGoodwill keeps ~10% of the hammer price + ~3% card processing on what the buyer paid.
+    fee: (gross, shipping) => Math.round(gross * 0.1) + Math.round((gross + shipping) * 0.03),
     taxRate: 0,
   },
   {
@@ -263,7 +265,8 @@ const STREAMS: StreamDef[] = [
     ],
     uprightChannels: [["eBay", 1]],
     shipping: (rng) => (rng.chance(0.4) ? 0 : Math.round(rng.logNormal(800, 0.3))),
-    fee: (gross, shipping) => Math.round((gross + shipping) * 0.1325) + 30,
+    // Final value fee 13.6% of the item price + $0.40 per order (same formula as the eBay API mock).
+    fee: (gross) => ebayLineFeeCents(gross, true),
     taxRate: 0.07,
   },
   {

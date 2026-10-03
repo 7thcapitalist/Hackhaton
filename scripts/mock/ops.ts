@@ -100,6 +100,21 @@ const ALL_CATEGORIES: [string, number][] = [
 const MARKETPLACE_OF_STREAM: Record<string, string> = {
   shopgoodwill: "ShopGoodwill", amazon: "Amazon", ebay: "eBay", goodwill_books: "GoodwillBooks", upright_other: "",
 };
+/**
+ * Mean days from listing to sale, per channel (public benchmarks): ShopGoodwill
+ * auctions close in about a week, eBay fixed price ~25 days, Amazon books sit
+ * ~45 days (other Amazon items ~15), Goodwill Books and other channels ~15.
+ */
+function meanDaysToSell(stream: string, category: string): number {
+  switch (stream) {
+    case "shopgoodwill": return 8;
+    case "ebay": return 25;
+    case "amazon": return category === "Books" ? 45 : 15;
+    default: return 15;
+  }
+}
+/** logNormal(median, 0.6) has mean = median x e^(0.6^2/2). */
+const LOGNORMAL_MEAN_FACTOR = Math.exp(0.18);
 const SITES = ["Store 04", "Store 07", "Store 12", "Outlet DC", "Donation Center 02"];
 const priceEnding99 = (cents: number) => Math.max(199, Math.round(cents / 100) * 100 - 1);
 
@@ -133,7 +148,7 @@ export function buildOps(model: Omit<MockModel, "ops">, ratingPeriods: readonly 
   // Sold (or cancelled) items: one per 2026 order line; id = the order's SKU.
   for (const o of model.orders) {
     if (o.businessDate < OPS_START) continue;
-    const daysToSell = Math.min(120, Math.round(rng.logNormal(9, 0.8)));
+    const daysToSell = Math.min(180, Math.round(rng.logNormal(meanDaysToSell(o.stream, o.category) / LOGNORMAL_MEAN_FACTOR, 0.6)));
     const listedAt = new Date(o.ts.getTime() - daysToSell * day - rng.int(0, 36_000) * 1000);
     const sentAt = new Date(listedAt.getTime() - rng.logNormal(4, 0.7) * day);
     const sold = o.status !== "cancelled";
