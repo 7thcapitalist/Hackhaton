@@ -38,6 +38,7 @@
  */
 import { addDays, dateRange, daysBetween, localToUtc } from "../../src/lib/views/dates";
 import { Rng } from "../seed/prng";
+import { buildOps, type OpsModel } from "./ops";
 
 export const MOCK_SEED = 20261003;
 export const START_DATE = "2026-08-01";
@@ -173,6 +174,8 @@ export interface MockModel {
   gbAdjustments: Record<string, number>;
   /** Every label bought (orders, Cash Monkey lots, jewelry). */
   shipments: Shipment[];
+  /** Item lifecycle, labor, ratings, bank statement (./ops.ts; own random stream). */
+  ops: OpsModel;
 }
 
 // ---------------------------------------------------------------------------
@@ -711,7 +714,8 @@ export function buildModel(): MockModel {
   const gbAdjustments: Record<string, number> = {};
   for (const period of MONTHLY_FILE_PERIODS) gbAdjustments[period] = -rng.int(150, 900);
 
-  return { orders, cashMonkey, jewelry, amazonEvents, gbAdjustments, shipments };
+  const base = { orders, cashMonkey, jewelry, amazonEvents, gbAdjustments, shipments };
+  return { ...base, ops: buildOps(base, [...MONTHLY_FILE_PERIODS, "2026-10"]) };
 }
 
 /** Orders of one business date for a stream, by time. */

@@ -92,6 +92,47 @@ export const SOURCE_CONFIG: NewSource[] = [
     acquisition: "Prior-month payment statement: monthly email attachment",
     revenueAuthority: 0,
   },
+  // Ops sources: no revenue. They feed the item-pipeline, labor and customer KPIs.
+  {
+    id: "production_tracking",
+    name: "Production tracking",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Production-tracking export: donated / identified / sent-to-e-com timestamps per item tag",
+    revenueAuthority: 0,
+  },
+  {
+    id: "upright_inventory",
+    name: "Upright Lister inventory",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Upright Lister inventory/products export: listed / sold timestamps, lister, price, relists",
+    revenueAuthority: 0,
+  },
+  {
+    id: "timekeeping",
+    name: "Timekeeping",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Payroll timecard export (REG/OT hours per employee id and day); e-commerce departments only",
+    revenueAuthority: 0,
+  },
+  {
+    id: "marketplace_ratings",
+    name: "Marketplace ratings",
+    kind: "internal",
+    channelGroup: null,
+    acquisition: "Monthly CSAT / NPS / conversion / seller rating from each marketplace's seller dashboard",
+    revenueAuthority: 0,
+  },
+  {
+    id: "bank_1st_source",
+    name: "1st Source bank (acct 0101)",
+    kind: "statement",
+    channelGroup: null,
+    acquisition: "1st Source online banking CSV export, acct 0101; informational (shipping debits, deposits) until bank reconciliation",
+    revenueAuthority: 0,
+  },
 ];
 
 export const CHANNEL_CONFIG: (NewChannel & { id: ChannelId })[] = [

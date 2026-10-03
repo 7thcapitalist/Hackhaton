@@ -72,6 +72,18 @@
     "bytes": 152996
   },
   {
+    "path": "marketplace_ratings/marketplace_ratings_2025-08.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2025-09-03T14:32:00.000Z",
+    "bytes": 292
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2025-08.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2025-09-03T14:40:00.000Z",
+    "bytes": 1525
+  },
+  {
     "path": "cashmonkey/cashmonkey_2025-09.csv",
     "sourceId": "cashmonkey",
     "uploadedAt": "2025-10-03T14:00:00.000Z",
@@ -144,6 +156,18 @@
     "bytes": 170133
   },
   {
+    "path": "marketplace_ratings/marketplace_ratings_2025-09.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2025-10-03T14:32:00.000Z",
+    "bytes": 292
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2025-09.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2025-10-03T14:40:00.000Z",
+    "bytes": 1883
+  },
+  {
     "path": "cashmonkey/cashmonkey_2025-10.csv",
     "sourceId": "cashmonkey",
     "uploadedAt": "2025-11-03T14:00:00.000Z",
@@ -214,6 +238,18 @@
     "sourceId": "upright",
     "uploadedAt": "2025-11-03T14:30:00.000Z",
     "bytes": 188185
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2025-10.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2025-11-03T14:32:00.000Z",
+    "bytes": 292
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2025-10.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2025-11-03T14:40:00.000Z",
+    "bytes": 1738
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-01.csv",
@@ -1056,6 +1092,36 @@
     "bytes": 57821
   },
   {
+    "path": "production_tracking/production_tracking_2026-08.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-03T14:29:00.000Z",
+    "bytes": 892180
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-03T14:30:00.000Z",
+    "bytes": 1182040
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-03T14:31:00.000Z",
+    "bytes": 32323
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-03T14:32:00.000Z",
+    "bytes": 295
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-03T14:40:00.000Z",
+    "bytes": 1667
+  },
+  {
     "path": "shopgoodwill/shopgoodwill_2026-09-03.csv",
     "sourceId": "shopgoodwill",
     "uploadedAt": "2026-09-04T10:30:00.000Z",
@@ -1831,6 +1897,36 @@
     "bytes": 57116
   },
   {
+    "path": "production_tracking/production_tracking_2026-09.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-10-03T14:29:00.000Z",
+    "bytes": 900313
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-10-03T14:30:00.000Z",
+    "bytes": 1188136
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-10-03T14:31:00.000Z",
+    "bytes": 33367
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-10-03T14:32:00.000Z",
+    "bytes": 292
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-10-03T14:40:00.000Z",
+    "bytes": 1670
+  },
+  {
     "path": "shopgoodwill/shopgoodwill_2026-10-03.csv",
     "sourceId": "shopgoodwill",
     "uploadedAt": "2026-10-03T15:20:00.000Z",
@@ -1853,5 +1949,29 @@
     "sourceId": "upright",
     "uploadedAt": "2026-10-03T15:50:00.000Z",
     "bytes": 3362
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-10.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-10-03T15:53:00.000Z",
+    "bytes": 3633
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-10.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-10-03T15:54:00.000Z",
+    "bytes": 456383
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-10.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-10-03T15:55:00.000Z",
+    "bytes": 498531
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-10.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-10-03T15:56:00.000Z",
+    "bytes": 294
   }
 ]
