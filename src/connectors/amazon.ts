@@ -45,7 +45,7 @@
  * returned as they are.
  */
 import { gunzipSync } from "node:zlib";
-import { fixtureFiles } from "./fixtures";
+import { fixtureFiles, fixturesOnly } from "./fixtures";
 import { dateRangeCsv } from "./mock/amazon";
 import { transactionsFromCsv } from "./mock/amazon_finances";
 import { ConnectorError, type Connector, type PulledFile, type PullRequest } from "./types";
@@ -185,7 +185,7 @@ async function pullReal(req: PullRequest): Promise<PulledFile[]> {
 
 function mockCsvs(req: PullRequest): PulledFile[] {
   const fixtures = fixtureFiles("amazon", req);
-  if (fixtures.length) return fixtures.map((f) => readLocal(f, "pull_"));
+  if (fixtures.length || fixturesOnly()) return fixtures.map((f) => readLocal(f, "pull_"));
   return daysIn(req).map((day) => ({
     fileName: `pull_amazon_daterange_${day}.csv`,
     bytes: Buffer.from(dateRangeCsv(day), "utf8"),

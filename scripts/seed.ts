@@ -1,10 +1,10 @@
 /**
  * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged]
  *
- * Wipes the facts, upserts config + KPI targets, then ingests every mock
- * export in data/fixtures (manifest order = upload order) through ingestFile(),
- * exactly like an upload. Only items and labor_hours (no source file yet) are
- * inserted directly. Close tables are untouched. See scripts/seed/run.ts.
+ * Wipes the facts, upserts config + KPI targets, then pulls every mock export
+ * in data/fixtures through the mock connectors (pullAndIngest, mock mode) into
+ * ingestFile(), exactly like a real pull. Nothing but config and KPI targets
+ * is inserted directly. Close tables are untouched. See scripts/seed/run.ts.
  *
  * Mode: a local file DB ingests directly ("direct"); a remote Turso DB is
  * staged in a scratch SQLite file and copied in one transaction ("staged").
@@ -39,6 +39,10 @@ async function main() {
 
   console.log(`\nFiles ingested: ${r.files.total} (${Object.entries(r.files.byStatus).map(([k, v]) => `${k} ${v}`).join(", ")})`);
   for (const [name, n] of Object.entries(r.counts)) console.log(`  ${name.padEnd(14)} ${n}`);
+  const v = r.viaIngest;
+  console.log(
+    `Loaded via ingest runs: orders ${v.orders}, money_lines ${v.moneyLines}, items ${v.items} (merged by id), labor_hours ${v.laborHours}, marketplace_metrics ${v.marketplaceMetrics}`,
+  );
   console.log(`Duplicate orders: ${r.duplicateOrders} dropped, ${r.ordersReplaced} replaced by Upright`);
   console.log(`Exceptions: ${Object.entries(r.exceptionsByKind).map(([k, v]) => `${k} ${v}`).join(", ") || "none"}`);
   if (r.copyRoundTrips !== undefined) console.log(`Copy to target: ${r.copyRoundTrips} round trips`);

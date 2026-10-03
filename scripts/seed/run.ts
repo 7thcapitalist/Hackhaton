@@ -1,20 +1,23 @@
 /**
  * Seed core, used by `npm run seed` (scripts/seed.ts) and `POST /api/demo/reset`.
  *
- * The demo data travels the same path real data does:
+ * The demo data travels the same path real data does, through the fake APIs:
  *
- *   mock export file (data/fixtures/**, real platform layout)
- *     → ingestFile() (auto-detect parser → parse → clean → write)  [src/ingest]
+ *   mock export files (data/fixtures/**, or rendered in memory)
+ *     → mock connectors (src/connectors, mock mode: API JSON / report files /
+ *       email and portal drop files, exactly as the real pull would return)
+ *     → ingestFile() (parse → clean → write)  [src/ingest]
  *
  * Steps:
  * 1. Wipe facts (ingest_runs, orders, money_lines, items, labor_hours,
- *    exceptions without a close), upsert config (sources, channels) and
- *    kpi_targets. Close tables are untouched.
- * 2. Ingest every fixture in upload order through ingestFile(), letting the
- *    parser be auto-detected; a file read by any other parser than its folder's
- *    is an error. Runs are then flagged is_synthetic = 1.
+ *    marketplace_metrics, exceptions without a close), upsert config (sources,
+ *    channels) and kpi_targets. Close tables are untouched.
+ * 2. pullAndIngest({ mock: true }) month by month over the mock range, with the
+ *    connectors reading only the given fixture set. Every fact (orders, money
+ *    lines, items, labor hours, marketplace metrics) comes from an ingest run;
+ *    mock runs are flagged is_synthetic = 1 by the pull runner.
  * 3. Run the nightly missing-source check for the Amazon gap day.
- * 4. Insert the data that has no source file yet: items, labor_hours.
+ * Nothing else is inserted directly: only config and KPI targets.
  *
  * Two modes, same rows:
  * - "direct": ingest straight into the target DB (one ingestFile per file:
@@ -23,16 +26,18 @@
  *   resulting rows to the target in ONE write transaction (a few large round
  *   trips). Used for remote Turso (demo reset over HTTP).
  */
-import { inArray, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/libsql";
 import type { Client, InArgs, InStatement } from "@libsql/client";
 import type { Db } from "../../src/db/client";
 import * as schema from "../../src/db/schema";
-import { checkCompleteness, ingestFile, IngestError, type IngestSummary } from "../../src/ingest";
-import { buildModel, MISSING_AMAZON_DATE } from "../mock/model";
+import { pullAndIngest, type PulledFileResult } from "../../src/connectors";
+import { useMockFixtures } from "../../src/connectors/fixtures";
+import { checkCompleteness } from "../../src/ingest";
+import { END_DATE, MISSING_AMAZON_DATE, PY_END, PY_START, SEED_NOW, START_DATE } from "../mock/model";
+import { dailyUpload, monthlyUpload } from "../mock/schedule";
 import { CHANNELS, KPI_TARGETS, SOURCES } from "./config";
 import { withCachedDateTimeFormat } from "./intl-cache";
-import { syntheticOps } from "./synthetic";
 
 /** Rows per INSERT statement. */
 const ROWS_PER_INSERT = 400;
@@ -60,6 +65,8 @@ export interface SeedResult {
   mode: SeedMode;
   counts: Record<string, number>;
   files: { total: number; byStatus: Record<string, number> };
+  /** Rows written by ingest runs (summed over the pulled files). */
+  viaIngest: { orders: number; moneyLines: number; items: number; laborHours: number; marketplaceMetrics: number };
   ordersReplaced: number;
   duplicateOrders: number;
   exceptionsByKind: Record<string, number>;
@@ -170,30 +177,61 @@ function resetStatements(db: Db, b: StatementBatch) {
 
 const fileNameOf = (path: string) => path.slice(path.lastIndexOf("/") + 1);
 
-/** Steps 2-4 on `db` (the target in direct mode, the scratch copy in staged mode). */
-async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => void) {
-  const summaries: IngestSummary[] = [];
-  const problems: string[] = [];
-  let n = 0;
-  for (const f of fixtures) {
-    n++;
-    const fileName = fileNameOf(f.path);
-    try {
-      const s = await ingestFile({ buffer: f.bytes, fileName, uploadedAt: f.uploadedAt, db });
-      summaries.push(s);
-      if (s.sourceId !== f.sourceId) problems.push(`${f.path}: read by the ${s.sourceId} parser, expected ${f.sourceId}`);
-      if (s.status === "failed") problems.push(`${f.path}: failed: ${s.error}`);
-    } catch (err) {
-      const msg = err instanceof IngestError ? `[${err.code}] ${err.message}` : err instanceof Error ? err.message : String(err);
-      problems.push(`${f.path}: ${msg}`);
+/**
+ * Pull windows: one per calendar month of the mock data (connectors take at
+ * most 62 days), clipped to the data range. Month-aligned, so a monthly file
+ * is pulled exactly once.
+ */
+function pullWindows(): { from: string; to: string }[] {
+  const out: { from: string; to: string }[] = [];
+  for (const [start, end] of [[PY_START, PY_END], [START_DATE, END_DATE]] as const) {
+    for (let from: string = start; from <= end; ) {
+      const [y, m] = from.split("-").map(Number) as [number, number];
+      const monthEnd = new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10);
+      const to = monthEnd < end ? monthEnd : end;
+      out.push({ from, to });
+      from = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10);
     }
-    if (n % 50 === 0) log(`  ingested ${n}/${fixtures.length} files`);
   }
+  return out;
+}
 
-  // Fixture runs are demo data: the UI shows a "simulated" badge.
-  const runIds = [...new Set(summaries.filter((s) => s.status !== "duplicate" && s.status !== "failed").map((s) => s.ingestRunId))];
-  for (let i = 0; i < runIds.length; i += 500) {
-    await db.update(schema.ingestRuns).set({ isSynthetic: 1 }).where(inArray(schema.ingestRuns.id, runIds.slice(i, i + 500)));
+/** Upload time of a pulled file: the mock upload time of its fixture, else from the date in its name. */
+function uploadTimes(fixtures: SeedFixture[]) {
+  const byName = new Map(fixtures.map((f) => [fileNameOf(f.path), f.uploadedAt]));
+  return (_sourceId: string, fileName: string): string => {
+    const known = byName.get(fileName.replace(/^pull_/, ""));
+    if (known) return known;
+    const day = /(\d{4}-\d{2}-\d{2})/.exec(fileName)?.[1];
+    if (day) return dailyUpload(day, 3);
+    const month = /(\d{4}-\d{2})(?!-?\d)/.exec(fileName)?.[1];
+    return month ? monthlyUpload(month, 3) : SEED_NOW;
+  };
+}
+
+/** Steps 2-3 on `db` (the target in direct mode, the scratch copy in staged mode). */
+async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => void) {
+  const results: PulledFileResult[] = [];
+  const problems: string[] = [];
+  const uploadedAt = uploadTimes(fixtures);
+  // Mock connectors read exactly this fixture set (no inbox, samples or generated data).
+  const restore = useMockFixtures(fixtures);
+  try {
+    for (const w of pullWindows()) {
+      const summary = await pullAndIngest({ from: w.from, to: w.to, mock: true, db, uploadedAt });
+      for (const c of summary.connectors) {
+        if (c.error) problems.push(`${c.sourceId} ${w.from}..${w.to}: ${c.error}`);
+        for (const f of c.files) {
+          results.push(f);
+          if (f.status === "error" || f.status === "failed" || f.error) {
+            problems.push(`${c.sourceId}/${f.fileName}: ${f.status}${f.code ? ` [${f.code}]` : ""}${f.error ? `: ${f.error}` : ""}`);
+          }
+        }
+      }
+      log(`  pulled ${w.from}..${w.to}: ${summary.totals.files} files`);
+    }
+  } finally {
+    restore();
   }
 
   // The nightly missing-source check for the deliberate Amazon gap.
@@ -212,13 +250,7 @@ async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => vo
     });
   }
 
-  const ops = syntheticOps(buildModel());
-  const b = new StatementBatch(db);
-  b.insertAll(schema.items, ops.items);
-  b.insertAll(schema.laborHours, ops.laborHours);
-  await b.commit(db.$client);
-
-  return { summaries, problems };
+  return { results, problems };
 }
 
 /**
@@ -310,15 +342,22 @@ export async function runSeed(db: Db, opts: SeedOptions): Promise<SeedResult> {
   const exc = await db.$client.execute("select kind, count(*) as n from exceptions where close_id is null group by kind order by kind");
   const exceptionsByKind = Object.fromEntries(exc.rows.map((r) => [String(r.kind), Number(r.n)]));
   const byStatus: Record<string, number> = {};
-  for (const s of res.summaries) byStatus[s.status] = (byStatus[s.status] ?? 0) + 1;
+  for (const s of res.results) byStatus[s.status] = (byStatus[s.status] ?? 0) + 1;
   if (res.problems.length) byStatus.error = res.problems.length;
 
   return {
     mode,
     counts,
-    files: { total: fixtures.length, byStatus },
-    ordersReplaced: res.summaries.reduce((t, s) => t + s.ordersReplaced, 0),
-    duplicateOrders: res.summaries.reduce((t, s) => t + s.duplicates, 0),
+    files: { total: res.results.length, byStatus },
+    viaIngest: {
+      orders: res.results.reduce((t, s) => t + s.ordersInserted, 0),
+      moneyLines: res.results.reduce((t, s) => t + s.moneyLinesInserted, 0),
+      items: res.results.reduce((t, s) => t + s.itemsInserted, 0),
+      laborHours: res.results.reduce((t, s) => t + s.laborHoursInserted, 0),
+      marketplaceMetrics: res.results.reduce((t, s) => t + s.marketplaceMetricsInserted, 0),
+    },
+    ordersReplaced: res.results.reduce((t, s) => t + s.ordersReplaced, 0),
+    duplicateOrders: res.results.reduce((t, s) => t + s.duplicates, 0),
     exceptionsByKind,
     problems: res.problems,
     ...(copyRoundTrips !== undefined ? { copyRoundTrips } : {}),
