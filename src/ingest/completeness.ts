@@ -5,7 +5,8 @@
  * - Period (YYYY-MM): a source is present if it has a non-failed run with
  *   period = P or a business_date inside P. All active sources are expected.
  * - Day (YYYY-MM-DD): only nightly-capable sources (DAILY_SOURCES) are expected;
- *   a run counts if business_date = day, or period = the day's month (a monthly
+ *   a run counts if business_date = day, or it is a monthly run (no business_date)
+ *   with period = the day's month (a monthly
  *   file covers every day). A channel is present if one of its own sources is
  *   present, or any ingested order of a counted run carries that channel for that
  *   day (e.g. Upright covering eBay).
@@ -14,7 +15,7 @@
  * source is written; re-running does not duplicate it (same message, still open).
  */
 import { randomUUID } from "node:crypto";
-import { and, eq, inArray, like, ne, or } from "drizzle-orm";
+import { and, eq, inArray, isNull, like, ne, or } from "drizzle-orm";
 import { getDb, type Db } from "@/db/client";
 import { channels, exceptions, ingestRuns, orders, sources } from "@/db/schema";
 import { CHANNEL_SOURCES, DAILY_SOURCES, ensureConfig, type ChannelId } from "./config";
@@ -50,8 +51,10 @@ export async function checkCompleteness(
   const activeSources = await db.select().from(sources).where(eq(sources.active, 1));
   const expected = activeSources.filter((s) => !businessDate || DAILY_SOURCES.includes(s.id));
 
+  // A daily run (business_date set) covers only its own day; only a monthly
+  // run (no business_date) covers every day of its period.
   const runMatch = businessDate
-    ? or(eq(ingestRuns.businessDate, businessDate), eq(ingestRuns.period, period))
+    ? or(eq(ingestRuns.businessDate, businessDate), and(isNull(ingestRuns.businessDate), eq(ingestRuns.period, period)))
     : or(eq(ingestRuns.period, period), like(ingestRuns.businessDate, `${period}-%`));
   const runs = await db
     .select({ id: ingestRuns.id, sourceId: ingestRuns.sourceId })

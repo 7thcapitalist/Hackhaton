@@ -7,7 +7,8 @@ import {
   isValidDate, isValidPeriod,
   type ExceptionRow, type IngestRunRow, type OrdersView, type PulseView as ViewPulse,
 } from "@/lib/views";
-import { addDays, businessDateOf, dateRange, periodBounds, previousPeriod } from "@/lib/views/dates";
+import { addDays, businessDateOf, dateRange, daysBetween, periodBounds, previousPeriod } from "@/lib/views/dates";
+import { GROUP_MEMBERS } from "./channels";
 import { formatDay, formatKpiShort, formatMoneyCompact, formatStamp, trackStatus } from "./format";
 import type { ChannelId, Kpi, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
 
@@ -35,11 +36,16 @@ export type DataRange = {
 /** null when the database has no nightly files yet. */
 export const getDataRange = cache(async (): Promise<DataRange | null> => {
   const runs = (await getAllRuns()).filter(r => r.status !== "failed");
-  const dates = runs.map(r => r.businessDate).filter((d): d is string => !!d).sort();
-  if (dates.length === 0) return null;
+  const all = [...new Set(runs.map(r => r.businessDate).filter((d): d is string => !!d))].sort();
+  if (all.length === 0) return null;
+  // Only the latest unbroken run of nightly files: older blocks (e.g. last year's files,
+  // kept for year-over-year) would make the day arrows walk through empty months.
+  let first = all.length - 1;
+  while (first > 0 && daysBetween(all[first - 1], all[first]) <= 7) first--;
+  const dates = all.slice(first);
   const earliestDate = dates[0], latestDate = dates[dates.length - 1];
   // A day is complete once a file for it was uploaded after the day ended (Eastern Time).
-  const complete = runs.filter(r => r.businessDate && businessDateOf(r.uploadedAt) > r.businessDate).map(r => r.businessDate!).sort();
+  const complete = runs.filter(r => r.businessDate && r.businessDate >= earliestDate && businessDateOf(r.uploadedAt) > r.businessDate).map(r => r.businessDate!).sort();
   const completeDate = complete[complete.length - 1] ?? latestDate;
   const periods: string[] = [];
   for (let p = earliestDate.slice(0, 7); p <= latestDate.slice(0, 7); p = nextPeriod(p)) periods.push(p);
@@ -74,9 +80,9 @@ const SUBLABEL: Record<string, string> = {
   other: "Goodwill Books and smaller channels",
 };
 
-/** Pulse rows are channel groups keyed by their first channel; channels without their own row roll up into "other". */
+/** The pulse row (channel group) an order's channel belongs to, from the seed config (channels.ts). */
 function rowFor(channel: string, rows: { channelId: ChannelId }[]): ChannelId {
-  return rows.some(r => r.channelId === channel) ? (channel as ChannelId) : "other";
+  return rows.find(r => (GROUP_MEMBERS[r.channelId] ?? [r.channelId]).includes(channel as ChannelId))?.channelId ?? "other";
 }
 
 function totalsOf(rows: { status: string; revenueCents: number | null; customers: number | null; orders: number | null }[]): PulseTotals {
@@ -233,6 +239,8 @@ const SOURCE_KIND: Record<string, string> = {
   shopgoodwill: "Marketplace", amazon: "Marketplace", ebay: "Marketplace", cashmonkey: "Marketplace",
   upright: "Order hub", jewelry: "Specialty", shipping_osm_pb_easypost: "Shipping",
   fedex: "Carrier", goodwill_books: "Marketplace",
+  production_tracking: "Production", upright_inventory: "Inventory", timekeeping: "Labor hours",
+  marketplace_ratings: "Ratings", bank_1st_source: "Bank",
 };
 
 export const getSourcesScreen = cache(async (range: DataRange, period: string) => {
@@ -295,14 +303,17 @@ const WARNING_RULES: { test: RegExp; verdict: Verdict }[] = [
   { test: /^Channels mapped to "other"/, verdict: "handled" }, // Facebook Marketplace and Mercari sales counted under Other e-commerce
   { test: /refund submitted, not yet granted; not counted/, verdict: "handled" }, // Shipping refunds still pending; each counts once it is granted
   { test: /Refund for order .* not found in this file; recorded as a refund money line/, verdict: "handled" }, // Refunds for orders from earlier files, still counted
+  { test: /billed by the carrier .*postage not counted here, it comes from the carrier's invoice/, verdict: "handled" }, // Counted once, from the carrier invoice
   { test: /layout is a guess/, verdict: "format" },
 ];
 
 type Triage = { verdict: Verdict; format: boolean; detail: string };
 
 function triage(e: ExceptionRow, runsById: Map<string, IngestRunRow>): Triage {
-  if (e.kind === "duplicate_order" && /kept Upright \(revenue authority\)/.test(e.message))
-    return { verdict: "handled", format: false, detail: e.message }; // counted once, from Upright
+  // Every duplicate the import settled says which copy it kept (Upright over the marketplaces,
+  // ShopGoodwill over Jewelry, the first of two identical rows in one file): counted once.
+  if (e.kind === "duplicate_order" && /; kept /.test(e.message))
+    return { verdict: "handled", format: false, detail: e.message };
   if (e.kind === "duplicate_file")
     return { verdict: "handled", format: false, detail: e.message }; // second copy ignored
   if (e.kind !== "parse_warning") return { verdict: "action", format: false, detail: e.message };
@@ -337,7 +348,8 @@ function groupIssues(rows: (Triage & { e: ExceptionRow })[]): SourceIssue[] {
     .map(list => {
       const { e, detail } = list[0];
       const text = e.kind === "parse_warning" ? detail.replace(/ \([^)]*\)$/, "") : ISSUE_TEXT[e.kind]?.(list.length) ?? e.message;
-      return { text, source: e.sourceName ?? "Unknown source", detail: e.kind === "parse_warning" ? detail.match(/\(([^)]*)\)$/)?.[1] ?? "" : e.message };
+      const source = e.sourceName ?? "Unknown source";
+      return { text: text.startsWith(`${source}: `) ? text.slice(source.length + 2) : text, source, detail: e.kind === "parse_warning" ? detail.match(/\(([^)]*)\)$/)?.[1] ?? "" : e.message };
     });
 }
 

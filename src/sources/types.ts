@@ -8,7 +8,7 @@
  * Money is integer cents, + = money in. Dates: order_ts is ISO-8601 UTC,
  * business_date is YYYY-MM-DD in America/Indiana/Indianapolis.
  */
-import type { NewItem, NewMoneyLine, NewOrder } from "@/db/schema";
+import type { NewItem, NewLaborHour, NewMarketplaceMetric, NewMoneyLine, NewOrder } from "@/db/schema";
 
 /** An order line as a parser emits it. */
 export type ParsedOrder = Omit<
@@ -21,7 +21,20 @@ export type ParsedOrder = Omit<
 
 export type ParsedMoneyLine = Omit<NewMoneyLine, "id" | "sourceId" | "ingestRunId">;
 
-export type ParsedItem = Omit<NewItem, "id" | "ingestRunId">;
+/**
+ * An item lifecycle row. `id` is the item's own id (SKU / production tag) when
+ * the source has one: ingest then MERGES rows with the same id, because two
+ * sources fill different timestamps of the same item (production tracking:
+ * donated/identified/sent; Upright inventory: listed/sold/price/relists).
+ * Without an id, ingest inserts a new row.
+ */
+export type ParsedItem = Omit<NewItem, "id" | "ingestRunId"> & { id?: string };
+
+/** Hours one pseudonymous employee worked on one day (e-commerce departments only). */
+export type ParsedLaborHour = Omit<NewLaborHour, "id" | "ingestRunId">;
+
+/** One monthly marketplace health metric for one channel (CSAT, NPS, conversion, seller rating). */
+export type ParsedMarketplaceMetric = Omit<NewMarketplaceMetric, "id" | "ingestRunId">;
 
 export interface ParseWarning {
   /** 1-based row number in the original file, if the warning is about a row. */
@@ -33,6 +46,8 @@ export interface ParseResult {
   orders: ParsedOrder[];
   moneyLines: ParsedMoneyLine[];
   items?: ParsedItem[];
+  laborHours?: ParsedLaborHour[];
+  marketplaceMetrics?: ParsedMarketplaceMetric[];
   warnings: ParseWarning[];
   /** 0-based index of the header row found in the file. */
   headerRowIndex: number;

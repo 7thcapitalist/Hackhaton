@@ -81,6 +81,14 @@ fields, order unknown [guess]:
   logic) [fact for Upright; assumed same for Cash Monkey].
 
 ## Parser gap (real format vs `src/sources/cashmonkey.ts`)
+
+**Status (2026-10-03, parser v0.2.0):** 1 **fixed** (`channel`/`isbn` no longer foreign) ·
+2 **fixed** (per-item rows: one order row per item keyed by SKU/ISBN, rows sharing an Order ID
+are one order; the lot layout still parses) · 3 **fixed** (Marketplace column → amazon / ebay /
+shopgoodwill / other) · 4 **fixed** (Shipping and Tax columns read; tax never revenue) ·
+5 **fixed** (`isTotalRow` checks only the first non-empty cell) · 6 **fixed** (a `Buyer ID`
+column is passed on to be hashed; names never read) · 7 **open** (whole layout is still a
+guess: need one real Orders Report).
 1. **Rejects likely real headers**: `FOREIGN` contains `channel` and `isbn`. A PeriScope order
    export very likely has a Marketplace/**Channel** column and an **ISBN** column → `accepts()`
    returns false and the file goes unrecognized (or to another parser).

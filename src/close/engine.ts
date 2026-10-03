@@ -193,6 +193,9 @@ export async function generateClose(period: string, opts: GenerateOptions = {}):
     // EasyPost payment-log refunds are informational: the shipment report is
     // the authority for label refunds (see shipping_osm_pb_easypost.ts).
     if (m.amountType === "wallet_refund") continue;
+    // 1st Source bank statement lines are informational until bank reconciliation
+    // (they mirror payouts and shipping already counted from the source reports).
+    if (m.sourceId === "bank_1st_source") continue;
     add("money_lines", m.sourceId, m.amountType, m.channel, m.amountCents, m.id, m.ingestRunId, m.sourceRow);
   }
 

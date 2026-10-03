@@ -5,30 +5,32 @@
  * Layout = src/sources/__samples__/shopgoodwill_2026-09.csv: a preamble
  * (portal, report name, seller, year/month, "Report,Period 1"), a blank line,
  * the header, one row per item, a "Totals" row. CRLF line endings. End Date
- * "09/30/2026 11:45 PM" (local). Net = bid + shipping + handling − refund − fee
+ * "09/30/2026 08:45 PM" in Pacific time (the portal shows PT). Fees are split
+ * into Seller Fee and Card Processing Fee. Net = bid + shipping + handling − refund − fees
  * (the buyer premium belongs to ShopGoodwill and is not in Net).
  *
  * Messy case: the 11:45 PM Eastern auction on 2026-09-30.
  */
-import { csvRow, dec, lines, monthName, sgwDate } from "../format";
+import { csvRow, dec, lines, monthName, PACIFIC, sgwDate } from "../format";
 import { ordersOn, type MockModel, type MockOrder } from "../model";
 import { ALL_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
 
 const HEADER = [
   "Order ID", "Item ID", "Title", "Category", "End Date", "Winning Bid", "Shipping", "Handling",
-  "Buyer Premium", "Seller Fee", "Refund", "Net", "Buyer ID", "Status",
+  "Buyer Premium", "Seller Fee", "Card Processing Fee", "Refund", "Net", "Buyer ID", "Status",
 ];
 const HANDLING = 200;
 
 function row(o: MockOrder): string[] {
   const handling = Math.min(HANDLING, o.shippingCents);
+  const card = Math.min(o.feeCents, Math.round((o.grossCents + o.shippingCents) * 0.03));
   const net = o.grossCents + o.shippingCents - o.refundCents - o.feeCents;
   const status =
     o.status === "cancelled" ? "Cancelled" : o.status === "refunded" ? "Refunded" : o.seq % 4 === 0 ? "Shipped" : "Paid";
   return [
-    o.orderId, o.itemId, o.title, o.category, sgwDate(o.ts), dec(o.grossCents), dec(o.shippingCents - handling),
-    dec(handling), dec(Math.round(o.grossCents * 0.05)), dec(o.feeCents), dec(o.refundCents), dec(net),
+    o.orderId, o.itemId, o.title, o.category, sgwDate(o.ts, PACIFIC), dec(o.grossCents), dec(o.shippingCents - handling),
+    dec(handling), dec(Math.round(o.grossCents * 0.05)), dec(o.feeCents - card), dec(card), dec(o.refundCents), dec(net),
     o.buyerId ?? "", status,
   ];
 }
@@ -44,7 +46,7 @@ function render(orders: MockOrder[], period: string, title: string, label: strin
     "",
     csvRow(HEADER),
     ...orders.map((o) => csvRow(row(o))),
-    csvRow(["Totals", "", "", "", "", dec(bids), "", "", "", "", "", "", "", ""]),
+    csvRow(["Totals", "", "", "", "", dec(bids), "", "", "", "", "", "", "", "", ""]),
   ];
   return lines(body, "\r\n");
 }

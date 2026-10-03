@@ -203,6 +203,13 @@ Field names **[fact, eBay OpenAPI contracts [E10][E12]]**; values **[guess]**.
 
 ## 4. Parser gap (src/sources/ebay.ts)
 
+**Status (2026-10-03, parser v1.1.0):** 1 **open** (listings sales report vs Orders report:
+ask Amanda) · 2 **fixed** (no status/refund columns in the real file → none invented; fixtures
+no longer carry them) · 3 **open by design** (fees come from Upright or the Transaction
+report / Finances API) · 4 ok · 5 **fixed** (footer detected on the joined row) · 6 ok ·
+7 **fixed** (Seller Collected Tax → tax; buyer-paid fees only in the Total Price check) ·
+8–11 ok. Fixtures and sample use the real 80-column framing.
+
 1. **Wrong report (likely).** The parser targets the **Orders report**; slide 38's "listing
    sales report" is most likely the **Listings sales report** (per listing, no order number,
    no buyer). `REQUIRED = salesRecord, orderId, itemNumber, soldFor` would fail →

@@ -1,20 +1,20 @@
-Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
-,,,,,,,,,,,,,,,,,
-5001,05-14001-10001,test_buyer_amber,,316000000001,Pyrex Mixing Bowl,,1,$18.00,$9.50,$1.93,$29.43,Yes,eBay Managed Payments,Sep-01-26,Sep-01-26,Paid,
-5002,05-14002-10002,test_buyer_birch,,316000000002,Leather Satchel,,1,$42.00,$11.00,$3.71,$56.71,Yes,eBay Managed Payments,Sep-03-26,Sep-03-26,Paid,
-5003,05-14003-10003,test_buyer_cedar,,316000000003,Vinyl Record Lot,,1,$30.00,$7.25,$2.61,$39.86,Yes,eBay Managed Payments,Sep-05-26,Sep-05-26,Paid,
-5004,05-14004-10004,test_buyer_dune,,316000000004,Wool Peacoat,,1,$55.00,$12.00,$4.69,$71.69,Yes,eBay Managed Payments,Sep-08-26,Sep-08-26,Paid,
-5005,05-12345-67890,test_buyer_elm,,316000000005,Brass Candlesticks Pair,,1,$26.00,$8.00,$2.38,$36.38,Yes,eBay Managed Payments,Sep-10-26,Sep-10-26,Paid,
-5006,05-14006-10006,test_buyer_fern,,316000000006,Stoneware Mugs (4),,1,$22.00,$10.00,$2.24,$34.24,Yes,eBay Managed Payments,Sep-12-26,Sep-12-26,Refunded,$32.00
-5007,05-14007-10007,test_buyer_grove,,316000000007,Kids Bike Helmet,,1,$12.00,$6.00,$1.26,$19.26,Yes,eBay Managed Payments,Sep-14-26,Sep-14-26,Cancelled,
-5008,05-14008-10008,test_buyer_hazel,,,,,2,,$8.00,$3.08,$47.08,Yes,eBay Managed Payments,Sep-16-26,Sep-16-26,Paid,
-5008,05-14008-10008,test_buyer_hazel,,316000000081,Teacup Set Part 1,,1,$20.00,,,,,eBay Managed Payments,Sep-16-26,Sep-16-26,Paid,
-5008,05-14008-10008,test_buyer_hazel,,316000000082,Teacup Set Part 2,,1,$16.00,,,,,eBay Managed Payments,Sep-16-26,Sep-16-26,Paid,
-5009,05-14009-10009,test_buyer_iris,,316000000009,Typewriter Ribbon,,1,$9.00,$4.50,$0.95,$14.45,Yes,eBay Managed Payments,Sep-18-26,Sep-18-26,Paid,
-5010,05-14010-10010,test_buyer_juniper,,316000000010,Hiking Boots Size 9,,1,$38.00,$13.00,$3.57,$54.57,Yes,eBay Managed Payments,Sep-21-26,Sep-21-26,Paid,
-5011,05-14011-10011,test_buyer_kale,,316000000011,Watercolor Set,,1,$15.00,$5.00,$1.40,$21.40,Yes,eBay Managed Payments,Sep-23-26,Sep-23-26,Paid,
-5012,05-14012-10012,test_buyer_larch,,316000000012,"Quilt, handmade",,1,$64.00,$15.00,$5.53,$84.53,Yes,eBay Managed Payments,Sep-26-26,Sep-26-26,Paid,
-5013,05-14013-10013,test_buyer_maple,,316000000013,Silver Plated Tray,,1,$27.00,$9.00,$2.52,$38.52,Yes,eBay Managed Payments,Sep-30-26,Sep-30-26,Paid,
-
-"13 record(s) downloaded,from Sep-01-26 to Sep-30-26"
-Seller ID : goodwill_test_seller
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Buyer Email,Buyer Note,Buyer Address 1,Buyer Address 2,Buyer City,Buyer State,Buyer Zip,Buyer Country,Buyer Tax Identifier Name,Buyer Tax Identifier Value,Ship To Name,Ship To Phone,Ship To Address 1,Ship To Address 2,Ship To City,Ship To State,Ship To Zip,Ship To Country,Item Number,Item Title,Custom Label,Sold Via Promoted Listings,Quantity,Sold For,Shipping And Handling,Item Location,Item Zip Code,Item Country,eBay Collect And Remit Tax Rate,eBay Collect And Remit Tax Type,eBay Reference Name,eBay Reference Value,Tax Status,Seller Collected Tax,eBay Collected Tax,Electronic Waste Recycling Fee,Mattress Recycling Fee,Battery Recycling Fee,White Goods Disposal Tax,Tire Recycling Fee,Additional Fee,eBay Collected Charges,Total Price,eBay Collected Tax Included in Total,Payment Method,Commitment Date,Sale Date,Paid On Date,Ship By Date,Minimum Estimated Delivery Date,Maximum Estimated Delivery Date,Shipped On Date,Feedback Left,Feedback Received,My Item Note,PayPal Transaction ID,Shipping Service,Tracking Number,Transaction ID,Variation Details,Global Shipping Program,Global Shipping Reference ID,Click And Collect,Click And Collect Reference Number,eBay Plus,Authenticity Verification Program,Authenticity Verification Status,Authenticity Verification Outcome Reason,eBay Vault Program,Vault Fulfillment Type,eBay Fulfillment Program,Tax City,Tax State,Tax Zip,Tax Country,eBay International Shipping
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5001,05-14001-10001,test_buyer_amber,,,,,,,,,,,,,,,,,,,,316000000001,Pyrex Mixing Bowl,,,1,$18.00,$9.50,,,,,,,,,,$1.93,,,,,,,,$29.43,Yes,eBay Managed Payments,,Sep-01-26,Sep-01-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5002,05-14002-10002,test_buyer_birch,,,,,,,,,,,,,,,,,,,,316000000002,Leather Satchel,,,1,$42.00,$11.00,,,,,,,,,,$3.71,,,,,,,,$56.71,Yes,eBay Managed Payments,,Sep-03-26,Sep-03-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5003,05-14003-10003,test_buyer_cedar,,,,,,,,,,,,,,,,,,,,316000000003,Vinyl Record Lot,,,1,$30.00,$7.25,,,,,,,,,,$2.61,,,,,,,,$39.86,Yes,eBay Managed Payments,,Sep-05-26,Sep-05-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5004,05-14004-10004,test_buyer_dune,,,,,,,,,,,,,,,,,,,,316000000004,Wool Peacoat,,,1,$55.00,$12.00,,,,,,,,,,$4.69,,,,,,,,$71.69,Yes,eBay Managed Payments,,Sep-08-26,Sep-08-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5005,05-12345-67890,test_buyer_elm,,,,,,,,,,,,,,,,,,,,316000000005,Brass Candlesticks Pair,,,1,$26.00,$8.00,,,,,,,,,,$2.38,,,,,,,,$36.38,Yes,eBay Managed Payments,,Sep-10-26,Sep-10-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5006,05-14006-10006,test_buyer_fern,,,,,,,,,,,,,,,,,,,,316000000006,Stoneware Mugs (4),,,1,$22.00,$10.00,,,,,,,,,,$2.24,,,,,,,,$34.24,Yes,eBay Managed Payments,,Sep-12-26,Sep-12-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5008,05-14008-10008,test_buyer_hazel,,,,,,,,,,,,,,,,,,,,,,,,2,,$8.00,,,,,,,,,,$3.08,,,,,,,,$47.08,Yes,eBay Managed Payments,,Sep-16-26,Sep-16-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5008,05-14008-10008,test_buyer_hazel,,,,,,,,,,,,,,,,,,,,316000000081,Teacup Set Part 1,,,1,$20.00,,,,,,,,,,,,,,,,,,,,,eBay Managed Payments,,Sep-16-26,Sep-16-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5008,05-14008-10008,test_buyer_hazel,,,,,,,,,,,,,,,,,,,,316000000082,Teacup Set Part 2,,,1,$16.00,,,,,,,,,,,,,,,,,,,,,eBay Managed Payments,,Sep-16-26,Sep-16-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5009,05-14009-10009,test_buyer_iris,,,,,,,,,,,,,,,,,,,,316000000009,Typewriter Ribbon,,,1,$9.00,$4.50,,,,,,,,,,$0.95,,,,,,,,$14.45,Yes,eBay Managed Payments,,Sep-18-26,Sep-18-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5010,05-14010-10010,test_buyer_juniper,,,,,,,,,,,,,,,,,,,,316000000010,Hiking Boots Size 9,,,1,$38.00,$13.00,,,,,,,,,,$3.57,,,,,,,,$54.57,Yes,eBay Managed Payments,,Sep-21-26,Sep-21-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5011,05-14011-10011,test_buyer_kale,,,,,,,,,,,,,,,,,,,,316000000011,Watercolor Set,,,1,$15.00,$5.00,,,,,,,,,,$1.40,,,,,,,,$21.40,Yes,eBay Managed Payments,,Sep-23-26,Sep-23-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5012,05-14012-10012,test_buyer_larch,,,,,,,,,,,,,,,,,,,,316000000012,"Quilt, handmade",,,1,$64.00,$15.00,,,,,,,,,,$5.53,,,,,,,,$84.53,Yes,eBay Managed Payments,,Sep-26-26,Sep-26-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5013,05-14013-10013,test_buyer_maple,,,,,,,,,,,,,,,,,,,,316000000013,Silver Plated Tray,,,1,$27.00,$9.00,,,,,,,,,,$2.52,,,,,,,,$38.52,Yes,eBay Managed Payments,,Sep-30-26,Sep-30-26,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5014,05-14014-10014,test_buyer_nutmeg,,,,,,,,,,,,,,,,,,,,316000000014,Cordless Drill,,,1,$35.00,$12.00,,,,,,,,,,$3.29,,,$1.00,,,,,$51.29,Yes,eBay Managed Payments,,Sep-30-26 23:10:00,Sep-30-26 23:10:00,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+13,record(s) downloaded,from Sep-01-26 to Sep-30-26
+Seller ID : goodwill_michiana_test

@@ -3,19 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test:emails": "tsx --test src/emails/*.test.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test:exports": "tsx --test src/export/*.test.ts",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "seed": "tsx scripts/seed.ts",
+    "demo:reset": "tsx scripts/demo-reset.ts",
     "mock:generate": "tsx scripts/mock/generate.ts",
     "ingest": "tsx scripts/ingest-file.ts",
     "check:parsers-other": "tsx scripts/check-parsers-other.ts",
     "check:parsers": "tsx scripts/check-parsers.ts",
     "close": "tsx scripts/close.ts",
     "check:parsers-api": "tsx scripts/check-parsers-api.ts",
+    "check:parsers-ops": "tsx scripts/check-parsers-ops.ts",
     "pull": "tsx scripts/pull.ts"
   },
   "dependencies": {

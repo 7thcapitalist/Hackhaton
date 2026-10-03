@@ -1,0 +1,1525 @@
+{
+  "payload": {
+    "transactions": [
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000001-0000001"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-1a0d0d76",
+        "transactionStatus": "RELEASED",
+        "description": "Poetry Anthology",
+        "postedDate": "2026-10-01T13:02:11.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 11.64
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 12.99
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 9
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 3.99
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.63
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.28
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -0.91
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -1.35
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.35
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Poetry Anthology",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 11.64
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-1a0d0d76"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B010244733",
+                "sku": "BK-0101",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000002-0000002"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-1b0d0f09",
+        "transactionStatus": "RELEASED",
+        "description": "Glass Pitcher",
+        "postedDate": "2026-10-01T14:15:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 20.6
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 23
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 16
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 7
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 1.12
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.49
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.61
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -2.4
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -2.4
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Glass Pitcher",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 20.6
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-1b0d0f09"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B011931000",
+                "sku": "HM-0102",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000003-0000003"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-180d0a50",
+        "transactionStatus": "RELEASED",
+        "description": "Puzzle 1000pc",
+        "postedDate": "2026-10-01T15:44:44.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 14.35
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 16
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 11
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 5
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.77
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.35
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.12
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -1.65
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.65
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Puzzle 1000pc",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 14.35
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-180d0a50"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B019737771",
+                "sku": "TY-0103",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000004-0000004"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-190d0be3",
+        "transactionStatus": "RELEASED",
+        "description": "Portable Radio",
+        "postedDate": "2026-10-01T17:05:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 27.75
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 31.5
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 25
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 6.5
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 1.75
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.46
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -2.21
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -3.75
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -3.75
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Portable Radio",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 27.75
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-190d0be3"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B027038012",
+                "sku": "EL-0104",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000005-0000005"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-1e0d13c2",
+        "transactionStatus": "RELEASED",
+        "description": "Cook's Atlas",
+        "postedDate": "2026-10-01T18:59:59.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 15.04
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 16.99
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 13
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 3.99
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.91
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.28
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.19
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -1.95
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.95
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Cook's Atlas",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 15.04
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-1e0d13c2"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B043134257",
+                "sku": "BK-0105",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000002-0000002"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Refund",
+        "transactionId": "TX-1f0d1555",
+        "transactionStatus": "RELEASED",
+        "description": "Glass Pitcher",
+        "postedDate": "2026-10-01T20:30:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": -14.08
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -16
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -16
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.12
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 1.12
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 1.92
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 1.92
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Glass Pitcher",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -14.08
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-1f0d1555"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B011931000",
+                "sku": "HM-0102",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000006-0000006"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-1c0d109c",
+        "transactionStatus": "RELEASED",
+        "description": "Silver Tone Bracelet",
+        "postedDate": "2026-10-01T21:00:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 21.35
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 24.5
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 21
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 3.5
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 1.47
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.25
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.72
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -3.15
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -3.15
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Silver Tone Bracelet",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 21.35
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-1c0d109c"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B088353556",
+                "sku": "JW-0106",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "ServiceFee",
+        "transactionId": "TX-1d0d122f",
+        "transactionStatus": "RELEASED",
+        "description": "Cost of Advertising",
+        "postedDate": "2026-10-01T22:15:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": -4.25
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Expenses",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -4.25
+            },
+            "breakdowns": []
+          }
+        ],
+        "items": []
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000007-0000007"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-220d1a0e",
+        "transactionStatus": "RELEASED",
+        "description": "Sci-Fi Paperback Lot",
+        "postedDate": "2026-10-01T23:40:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 15.19
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 16.99
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 12
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 4.99
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.84
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.35
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.19
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -1.8
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.8
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Sci-Fi Paperback Lot",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 15.19
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-220d1a0e"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B009579019",
+                "sku": "BK-0107",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000008-0000008"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-230d1ba1",
+        "transactionStatus": "RELEASED",
+        "description": "Wool Blanket",
+        "postedDate": "2026-10-02T00:55:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 32.8
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 37
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 28
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 9
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 1.96
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.63
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -2.59
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -4.2
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -4.2
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Wool Blanket",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 32.8
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-230d1ba1"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B011265286",
+                "sku": "HM-0108",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000009-0000009"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-ce8ef6bb",
+        "transactionStatus": "RELEASED",
+        "description": "Plush Bear",
+        "postedDate": "2026-10-02T02:10:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 10.8
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 12
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 8
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 4
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.56
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.28
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -0.84
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -1.2
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.2
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Plush Bear",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 10.8
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-ce8ef6bb"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B019072057",
+                "sku": "TY-0109",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "ORDER_ID",
+            "relatedIdentifierValue": "112-2000010-0000010"
+          },
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          }
+        ],
+        "transactionType": "Shipment",
+        "transactionId": "TX-cd8ef528",
+        "transactionStatus": "RELEASED",
+        "description": "Late Night Order: Dictionary",
+        "postedDate": "2026-10-02T03:45:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": 12.49
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Sales",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 13.99
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 10
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingCharges",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 3.99
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "Tax",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 0
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ProductTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.7
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "ShippingTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": 0.28
+                },
+                "breakdowns": []
+              },
+              {
+                "breakdownType": "MarketplaceFacilitatorTax",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -0.98
+                },
+                "breakdowns": []
+              }
+            ]
+          },
+          {
+            "breakdownType": "AmazonFees",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -1.5
+            },
+            "breakdowns": [
+              {
+                "breakdownType": "ReferralFee",
+                "breakdownAmount": {
+                  "currencyCode": "USD",
+                  "currencyAmount": -1.5
+                },
+                "breakdowns": []
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "description": "Late Night Order: Dictionary",
+            "totalAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": 12.49
+            },
+            "relatedIdentifiers": [
+              {
+                "itemRelatedIdentifierName": "TRANSACTION_ID",
+                "itemRelatedIdentifierValue": "TX-cd8ef528"
+              }
+            ],
+            "contexts": [
+              {
+                "contextType": "ProductContext",
+                "asin": "B057396115",
+                "sku": "BK-0110",
+                "quantityShipped": 1,
+                "fulfillmentNetwork": "MFN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sellingPartnerMetadata": {
+          "sellingPartnerId": "AMOCKSELLER00",
+          "accountType": "PAYABLE",
+          "marketplaceId": "ATVPDKIKX0DER"
+        },
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifierName": "SETTLEMENT_ID",
+            "relatedIdentifierValue": "18800000001"
+          },
+          {
+            "relatedIdentifierName": "DISBURSEMENT_ID",
+            "relatedIdentifierValue": "DSB-18800000001"
+          }
+        ],
+        "transactionType": "Transfer",
+        "transactionId": "TX-d08ef9e1",
+        "transactionStatus": "RELEASED",
+        "description": "To account ending in: 0101",
+        "postedDate": "2026-10-02T03:50:00.000Z",
+        "totalAmount": {
+          "currencyCode": "USD",
+          "currencyAmount": -120
+        },
+        "marketplaceDetails": {
+          "marketplaceId": "ATVPDKIKX0DER",
+          "marketplaceName": "Amazon.com"
+        },
+        "breakdowns": [
+          {
+            "breakdownType": "Transfer",
+            "breakdownAmount": {
+              "currencyCode": "USD",
+              "currencyAmount": -120
+            },
+            "breakdowns": []
+          }
+        ],
+        "items": []
+      }
+    ]
+  }
+}

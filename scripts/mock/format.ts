@@ -119,17 +119,16 @@ export function ebayDay(date: string): string {
   const [y, m, d] = date.split("-").map(Number) as [number, number, number];
   return `${MON[m - 1]}-${p2(d)}-${p2(y % 100)}`;
 }
-
-/** ShopGoodwill: "09/30/2026 11:45 PM" (local). */
-export function sgwDate(utc: Date): string {
-  const w = wall(utc, INDY);
+/** ShopGoodwill: "09/30/2026 08:45 PM" (wall clock in `tz`; the portal uses Pacific). */
+export function sgwDate(utc: Date, tz: string = INDY): string {
+  const w = wall(utc, tz);
   const { h, ap } = h12(w.h);
   return `${p2(w.mo)}/${p2(w.d)}/${w.y} ${p2(h)}:${p2(w.mi)} ${ap}`;
 }
 
-/** Upright: "9/30/2026 11:45:00 PM" (local). */
-export function uprightDate(utc: Date): string {
-  const w = wall(utc, INDY);
+/** Upright: "9/30/2026 11:45:00 PM" (wall clock in the zone picked when generating). */
+export function uprightDate(utc: Date, tz: string = INDY): string {
+  const w = wall(utc, tz);
   const { h, ap } = h12(w.h);
   return `${w.mo}/${w.d}/${w.y} ${h}:${p2(w.mi)}:${p2(w.s)} ${ap}`;
 }

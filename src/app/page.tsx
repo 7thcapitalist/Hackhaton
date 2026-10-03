@@ -41,7 +41,7 @@ export default async function OverviewPage() {
         <div className="flex max-w-[640px] flex-col gap-1.5">
           <p className="text-[12.5px] font-medium text-ink-3">Goodwill Michiana · e-commerce</p>
           <h1 className="text-[28px] leading-[1.12] font-semibold tracking-[-0.025em] text-balance sm:text-[34px]">A month at Goodwill, without the spreadsheets.</h1>
-          <p className="mt-1 text-[15px] text-pretty text-ink-2">{src.total} marketplace and shipping reports, imported every night. One place to see the day, the month, and where each number came from.</p>
+          <p className="mt-1 text-[15px] text-pretty text-ink-2">{src.total} data sources (marketplaces, shipping, labor and bank), imported every night. One place to see the day, the month, and where each number came from.</p>
         </div>
         <div className="flex flex-col items-start gap-2 sm:items-end">
           <p className="flex items-center gap-[7px] text-[13px] text-ink-2"><CheckIcon className="size-3.5 text-ok" />Last updated <strong className="font-semibold text-ink">{formatStampFull(range.lastImportAt)}</strong></p>

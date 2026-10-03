@@ -9,10 +9,17 @@ import {
   goodwillBooksConnector,
   jewelryConnector,
   shopgoodwillConnector,
-  uprightConnector,
 } from "./dropfolder";
 import { easypostConnector } from "./easypost";
 import { ebayConnector } from "./ebay";
+import { uprightConnector } from "./upright";
+import {
+  bank1stSourceConnector,
+  marketplaceRatingsConnector,
+  productionTrackingConnector,
+  timekeepingConnector,
+  uprightInventoryConnector,
+} from "./ops";
 import type { Connector } from "./types";
 
 export const connectors: Connector[] = [
@@ -25,6 +32,12 @@ export const connectors: Connector[] = [
   fedexConnector,
   cashmonkeyConnector,
   jewelryConnector,
+  // Ops sources (no revenue).
+  productionTrackingConnector,
+  uprightInventoryConnector,
+  timekeepingConnector,
+  marketplaceRatingsConnector,
+  bank1stSourceConnector,
 ];
 
 export function getConnector(sourceId: string): Connector | undefined {

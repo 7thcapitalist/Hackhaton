@@ -25,7 +25,7 @@
  * the parser samples in src/sources/__samples__/ (newest), so a demo always
  * has something to show.
  */
-import { fixtureFiles, inboxDir, sampleFiles } from "./fixtures";
+import { fixtureFiles, fixturesOnly, inboxDir, sampleFiles } from "./fixtures";
 import type { Connector, ConnectorMode, PulledFile, PullRange } from "./types";
 import { assertRange, filesInRange, listFiles, nameInRange, newest, readLocal, type LocalFile } from "./util";
 
@@ -51,6 +51,8 @@ export function dropFolderConnector(opts: {
     hasCredentials: () => listFiles(inboxDir(opts.sourceId)).length > 0,
     async pull(req): Promise<PulledFile[]> {
       assertRange(req);
+      // Seed / demo reset: exactly the given fixture set (no inbox, no samples).
+      if (req.mock && fixturesOnly()) return fixtureFiles(opts.sourceId, req).map((f) => readLocal(f, "pull_"));
       const inbox = pick(listFiles(inboxDir(opts.sourceId)), req);
       if (inbox.length || !req.mock) return inbox.map((f) => readLocal(f, "pull_"));
       const fixtures = fixtureFiles(opts.sourceId, req);

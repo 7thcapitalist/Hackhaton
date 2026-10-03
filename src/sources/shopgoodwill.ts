@@ -19,9 +19,13 @@
  *    Shipping, Handling, Buyer Premium, Seller Fee, Refund, Net, Buyer ID, Status.
  *    Buyer Premium is paid by the buyer to ShopGoodwill and is ignored.
  *  - [guess] A trailing "Total"/"Totals" row; skipped.
- *  - [guess] End Date has no zone → read as Indianapolis local. Open question:
- *    the ShopGoodwill site shows auction times in Pacific time; confirm the zone
- *    the report uses.
+ *  - [fact-ish] ShopGoodwill shows auction times in Pacific time (Upright's tip
+ *    "select America/Los Angeles for a closer match to Shopgoodwill's
+ *    reports"), so End Date without a zone is read as America/Los_Angeles.
+ *    A file-name hint (_et, _ct, _pt, _tz-America-…) overrides it.
+ *  - Fees = Seller Fee + Card Processing Fee (ShopGoodwill's card fee, [fact]).
+ *  - Handling is paid by the BUYER to Goodwill on top of shipping: it is not
+ *    item revenue (never in gross); it is booked with shipping.
  *  - [guess] Status: Paid/Shipped/Completed/Picked Up → paid; Refunded → refunded;
  *    Cancelled/Unpaid → cancelled; anything else → warning, treated as paid.
  *  - [guess] No Order ID column → Item ID is used as the order id.
@@ -40,6 +44,7 @@ import {
   parseDateTime,
   stamp,
   warnMissingColumns,
+  zoneFromFileName,
 } from "./_shared/marketplace";
 
 const ALIASES = {
@@ -52,6 +57,7 @@ const ALIASES = {
   shipping: ["shipping", "shipping charged", "shipping fee"],
   handling: ["handling", "handling fee"],
   sellerFee: ["seller fee", "commission", "marketplace fee"],
+  cardFee: ["card processing fee", "credit card fee", "credit card processing fee", "cc fee", "processing fee", "payment processing fee"],
   refund: ["refund", "refund amount", "refunded"],
   net: ["net", "net amount", "net proceeds"],
   buyer: ["buyer id", "buyer", "bidder id"],
@@ -61,6 +67,9 @@ type Key = keyof typeof ALIASES;
 const REQUIRED: Key[] = ["itemId", "endDate", "winningBid"];
 
 const TOTAL_ROW = /^totals?\b/i;
+
+/** ShopGoodwill shows auction times in Pacific time (docs/sources/shopgoodwill.md). */
+export const DEFAULT_SHOPGOODWILL_TIMEZONE = "America/Los_Angeles";
 
 function statusOf(raw: string): ParsedOrder["status"] | null {
   const s = raw.trim().toLowerCase();
@@ -84,7 +93,7 @@ function periodLabelOf(table: RawTable, headerRow: number, fileName: string): st
 
 export const shopgoodwillParser: SourceParser = {
   sourceId: "shopgoodwill",
-  version: "1.0.0",
+  version: "1.1.0",
 
   accepts(table: RawTable): boolean {
     return findHeaderRowByAliases(table, ALIASES, REQUIRED) >= 0;
@@ -105,7 +114,9 @@ export const shopgoodwillParser: SourceParser = {
       periodLabel: periodLabelOf(table, h, ctx.fileName),
     };
     if (!result.periodLabel) result.warnings.push({ message: 'No "Period N" label found in the preamble or file name.' });
-    warnMissingColumns(result, col, ["orderId", "sellerFee", "buyer", "status"]);
+    warnMissingColumns(result, col, ["orderId", "buyer", "status"]);
+    if (col.sellerFee < 0 && col.cardFee < 0) warnMissingColumns(result, col, ["sellerFee", "cardFee"]);
+    const tz = zoneFromFileName(ctx.fileName, DEFAULT_SHOPGOODWILL_TIMEZONE);
 
     for (let i = h + 1; i < table.length; i++) {
       const row = table[i];
@@ -117,7 +128,7 @@ export const shopgoodwillParser: SourceParser = {
         result.warnings.push({ row: sourceRow, message: "Row without an Item ID; skipped." });
         continue;
       }
-      const when = parseDateTime(cell(row, col.endDate));
+      const when = parseDateTime(cell(row, col.endDate), tz);
       if (!when) {
         result.warnings.push({ row: sourceRow, message: `Unreadable End Date "${cell(row, col.endDate)}"; row skipped.` });
         continue;
@@ -133,7 +144,7 @@ export const shopgoodwillParser: SourceParser = {
         grossCents: cents(row, col.winningBid),
         shippingCents: cents(row, col.shipping) + cents(row, col.handling),
         refundCents: Math.abs(cents(row, col.refund)),
-        feeCents: Math.abs(cents(row, col.sellerFee)),
+        feeCents: Math.abs(cents(row, col.sellerFee)) + Math.abs(cents(row, col.cardFee)),
         taxCents: 0,
       };
       if (amounts.refundCents > 0 && status === "paid") status = "refunded";
