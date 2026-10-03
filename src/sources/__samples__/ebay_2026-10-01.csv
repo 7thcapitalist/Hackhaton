@@ -1,0 +1,15 @@
+Sales Record Number,Order ID,Buyer User ID,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Item Price,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Order Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+6001,06-20001-30001,test_buyer_nova,,317000000001,Desk Lamp,,1,$19.00,$9.00,$1.96,$29.96,Yes,eBay Managed Payments,Oct-01-26 07:12:00,Oct-01-26 07:12:00,Paid,
+6002,06-20002-30002,test_buyer_onyx,,317000000002,Denim Jacket,,1,$34.00,$8.00,$2.94,$44.94,Yes,eBay Managed Payments,Oct-01-26 09:30:00,Oct-01-26 09:30:00,Paid,
+6003,06-20003-30003,test_buyer_pine,,317000000003,Board Book Lot,,1,$11.00,$6.00,$1.19,$18.19,Yes,eBay Managed Payments,Oct-01-26 10:45:00,Oct-01-26 10:45:00,Paid,
+6004,06-20004-30004,test_buyer_quill,,317000000004,Camera Strap,,1,$8.00,$4.00,$0.84,$12.84,Yes,eBay Managed Payments,Oct-01-26 12:05:00,Oct-01-26 12:05:00,Paid,
+6005,06-20005-30005,test_buyer_reed,,317000000005,Fondue Set,,1,$24.00,$10.00,$2.38,$36.38,Yes,eBay Managed Payments,Oct-01-26 13:20:00,Oct-01-26 13:20:00,Refunded,$10.00
+6006,06-20006-30006,test_buyer_sage,,317000000006,Golf Balls (24),,1,$14.00,$7.00,$1.47,$22.47,Yes,eBay Managed Payments,Oct-01-26 15:00:00,Oct-01-26 15:00:00,Paid,
+6007,06-20007-30007,test_buyer_teak,,317000000007,Picture Frame Set,,1,$17.00,$9.00,$1.82,$27.82,Yes,eBay Managed Payments,Oct-01-26 16:40:00,Oct-01-26 16:40:00,Paid,
+6008,06-20008-30008,test_buyer_umber,,317000000008,Cookie Jar,,1,$21.00,$9.50,$2.14,$32.64,Yes,eBay Managed Payments,Oct-01-26 18:15:00,Oct-01-26 18:15:00,Paid,
+6009,06-20009-30009,test_buyer_vale,,317000000009,Sewing Pattern Lot,,1,$13.00,$4.50,$1.23,$18.73,Yes,eBay Managed Payments,Oct-01-26 20:00:00,Oct-01-26 20:00:00,Paid,
+6010,06-20010-30010,test_buyer_willow,,317000000010,Late Night Order: Lantern,,1,$29.00,$11.00,$2.80,$42.80,Yes,eBay Managed Payments,Oct-01-26 23:45:00,Oct-01-26 23:45:00,Paid,
+
+"10 record(s) downloaded,from Oct-01-26 to Oct-01-26"
+Seller ID : goodwill_test_seller
