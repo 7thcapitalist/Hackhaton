@@ -9,6 +9,7 @@ and a month-end close export for Business Central.
 | Layer | Choice |
 |-------|--------|
 | App | Next.js 15 (App Router, TypeScript) |
+| Styling | Tailwind CSS v4 (`src/app/globals.css`) |
 | Hosting | Vercel. `main` = production (the demo URL), every PR gets a preview |
 | Database | Turso (libSQL / SQLite) via Drizzle ORM |
 | Email | Resend (nightly pulse) |
