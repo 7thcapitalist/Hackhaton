@@ -58,6 +58,15 @@ Buyer id: none expected; if a buyer name/username exists, hash it.
 - A pivot export may have subtotal rows per supplier and a grand total row.
 
 ## Parser gap (real format vs `src/sources/jewelry.ts`)
+
+**Status (2026-10-03, parser v0.2.0):** 1 **fixed** (rows carry the marketplace channel, from
+a Marketplace column or the order-id pattern, plus the marketplace order/item ids, so items
+already in the ShopGoodwill/eBay/Upright files are dropped by dedupe: no new revenue) ·
+2 **open** (Supplier not stored: needs `orders.supplier` or an enrichment table) · 3 **fixed**
+(raw report without Supplier accepted: Supplier column, jewelry name/title, or mostly jewelry
+descriptions) · 4 open (a ShopGoodwill-shaped export would still go to the ShopGoodwill
+parser) · 5 **fixed** (pivot subtotals "X Total" skipped; items described "Total …" kept) ·
+6 ok.
 1. **Treated as revenue**: parser emits orders (channel `other`, category Jewelry). If the items
    are already in ShopGoodwill/eBay files, this double counts. It should probably *enrich*
    existing orders (set supplier/category by item id) instead of adding orders.
