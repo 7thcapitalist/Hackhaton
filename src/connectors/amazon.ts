@@ -1,5 +1,16 @@
 /**
- * Amazon connector (mode api_report): Selling Partner API Reports API 2021-06-30.
+ * Amazon connector. Two real feeds, picked by AMAZON_SP_FEED:
+ *  - "finances" (default, mode api_json): Finances API v2024-06-19
+ *    listTransactions, one JSON file per response page, read by
+ *    src/sources/amazon_api.ts. The programmatic twin of the Seller Central
+ *    Date Range Transaction CSV (docs/sources/amazon.md §2-3).
+ *      GET /finances/2024-06-19/transactions?postedAfter=&postedBefore=&marketplaceId=[&nextToken=]
+ *      https://developer-docs.amazon.com/sp-api/docs/finances-api-v2024-06-19-reference
+ *      One call chain per Indianapolis business day; postedBefore is clamped
+ *      to now − 3 min (the API rejects later than now − 2 min). 0.5 rps.
+ *  - "reports" (mode api_report): Reports API 2021-06-30, described below.
+ *
+ * Reports feed: Selling Partner API Reports API 2021-06-30.
  * https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference
  *
  * Real path (runs only when AMAZON_SP_CLIENT_ID, AMAZON_SP_CLIENT_SECRET and
@@ -26,14 +37,19 @@
  * listTransactions (2024-06-19) JSON + a JSON parser like ebay_api.ts.
  * Until then real pulls produce files the current parser will not recognize.
  *
- * Mock path: the Date Range Transaction CSV the parser reads, from
- * data/fixtures/amazon/ when files cover the range, else generated per day.
+ * Mock path: the Date Range Transaction CSVs from data/fixtures/amazon/ when
+ * files cover the range, else generated per day. With the finances feed
+ * (default) each CSV is re-emitted as a listTransactions JSON response, one
+ * transaction per CSV row (./mock/amazon_finances.ts), so JSON and CSV carry
+ * the same dedupe keys and amounts. With AMAZON_SP_FEED=reports the CSVs are
+ * returned as they are.
  */
 import { gunzipSync } from "node:zlib";
 import { fixtureFiles } from "./fixtures";
 import { dateRangeCsv } from "./mock/amazon";
+import { transactionsFromCsv } from "./mock/amazon_finances";
 import { ConnectorError, type Connector, type PulledFile, type PullRequest } from "./types";
-import { assertRange, dayWindow, daysIn, env, hasEnv, http, httpJson, localTime, nextDay, readLocal, sleep } from "./util";
+import { assertRange, dayWindow, daysIn, env, hasEnv, http, httpJson, jsonFile, localTime, nextDay, readLocal, sleep } from "./util";
 
 const ENV_VARS = ["AMAZON_SP_CLIENT_ID", "AMAZON_SP_CLIENT_SECRET", "AMAZON_SP_REFRESH_TOKEN"];
 const PATH = "/reports/2021-06-30";
@@ -42,6 +58,10 @@ const POLL_TIMEOUT_MS = 50_000;
 
 const endpoint = () => env("AMAZON_SP_ENDPOINT") ?? "https://sellingpartnerapi-na.amazon.com";
 const marketplace = () => env("AMAZON_SP_MARKETPLACE_ID") ?? "ATVPDKIKX0DER"; // amazon.com (US)
+const feed = (): "finances" | "reports" => (env("AMAZON_SP_FEED")?.toLowerCase() === "reports" ? "reports" : "finances");
+const FINANCES_PATH = "/finances/2024-06-19/transactions";
+const FINANCES_GAP_MS = 2_100; // 0.5 requests per second
+const MAX_PAGES = 100;
 const reportType = () => env("AMAZON_SP_REPORT_TYPE") ?? "GET_V2_SETTLEMENT_REPORT_DATA_FLAT_FILE_V2";
 
 async function accessToken(): Promise<string> {
@@ -127,15 +147,43 @@ async function listSettlements(token: string, req: PullRequest): Promise<PulledF
   return out;
 }
 
+/** Finances listTransactions per business day, following nextToken; each page saved verbatim. */
+async function pullFinances(token: string, req: PullRequest): Promise<PulledFile[]> {
+  const out: PulledFile[] = [];
+  const latest = Date.now() - 3 * 60_000;
+  for (const day of daysIn(req)) {
+    const { start, end } = dayWindow(day);
+    if (start.getTime() >= latest) continue; // nothing posted yet
+    const base = {
+      postedAfter: start.toISOString(),
+      postedBefore: new Date(Math.min(end.getTime(), latest)).toISOString(),
+      marketplaceId: marketplace(),
+    };
+    let nextToken: string | undefined;
+    for (let page = 1; page <= MAX_PAGES; page++) {
+      const qs = new URLSearchParams(nextToken ? { ...base, nextToken } : base);
+      const body: { payload?: { nextToken?: string } } = await httpJson("amazon", `${endpoint()}${FINANCES_PATH}?${qs}`, {
+        headers: { "x-amz-access-token": token, Accept: "application/json" },
+      });
+      out.push(jsonFile(`pull_amazon_api_transactions_${day}_p${page}.json`, body));
+      nextToken = body.payload?.nextToken || undefined;
+      if (!nextToken) break;
+      await sleep(FINANCES_GAP_MS);
+    }
+  }
+  return out;
+}
+
 async function pullReal(req: PullRequest): Promise<PulledFile[]> {
   const token = await accessToken();
+  if (feed() === "finances") return pullFinances(token, req);
   if (reportType().startsWith("GET_V2_SETTLEMENT_REPORT")) return listSettlements(token, req);
   const out: PulledFile[] = [];
   for (const day of daysIn(req)) out.push(...(await requestReport(token, day)));
   return out;
 }
 
-function pullMock(req: PullRequest): PulledFile[] {
+function mockCsvs(req: PullRequest): PulledFile[] {
   const fixtures = fixtureFiles("amazon", req);
   if (fixtures.length) return fixtures.map((f) => readLocal(f, "pull_"));
   return daysIn(req).map((day) => ({
@@ -144,13 +192,31 @@ function pullMock(req: PullRequest): PulledFile[] {
   }));
 }
 
+async function pullMock(req: PullRequest): Promise<PulledFile[]> {
+  const csvs = mockCsvs(req);
+  if (feed() === "reports") return csvs;
+  const out: PulledFile[] = [];
+  for (const f of csvs) {
+    // pull_amazon_2026-10-01.csv → pull_amazon_api_transactions_2026-10-01_p1.json
+    const tag = /(\d{4}-\d{2}(?:-\d{2})?)/.exec(f.fileName)?.[1] ?? f.fileName.replace(/\.\w+$/, "");
+    out.push(jsonFile(`pull_amazon_api_transactions_${tag}_p1.json`, await transactionsFromCsv(f.bytes, f.fileName)));
+  }
+  return out;
+}
+
 export const amazonConnector: Connector = {
   sourceId: "amazon",
-  label: "Amazon (SP-API Reports)",
-  mode: "api_report",
-  describe: "SP-API Reports: createReport → getReport → getReportDocument (or listed settlement reports).",
+  label: "Amazon (SP-API Finances / Reports)",
+  get mode() {
+    return feed() === "finances" ? "api_json" : "api_report";
+  },
+  get describe() {
+    return feed() === "finances"
+      ? "SP-API Finances listTransactions (2024-06-19) JSON per business day, following nextToken."
+      : "SP-API Reports: createReport → getReport → getReportDocument (or listed settlement reports).";
+  },
   requiredEnvVars: ENV_VARS,
-  envVars: [...ENV_VARS, "AMAZON_SP_MARKETPLACE_ID", "AMAZON_SP_ENDPOINT", "AMAZON_SP_REPORT_TYPE"],
+  envVars: [...ENV_VARS, "AMAZON_SP_MARKETPLACE_ID", "AMAZON_SP_ENDPOINT", "AMAZON_SP_FEED", "AMAZON_SP_REPORT_TYPE"],
   hasCredentials: () => hasEnv(ENV_VARS),
   async pull(req) {
     assertRange(req);

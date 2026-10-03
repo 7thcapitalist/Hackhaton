@@ -65,8 +65,9 @@ See `.env.example`.
 | `DEMO_RESET_SECRET` | Guards the "Reset demo data" route |
 | `ANTHROPIC_API_KEY` | Optional AI note on the scorecard |
 | `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
-| `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
+| `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_FEED` = `finances` (default) or `reports`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
+| `UPRIGHT_API_TOKEN` (optional `UPRIGHT_API_BASE`, `UPRIGHT_API_TIME_FORMAT=date`) | Real Upright Lister API pulls (without it: the email drop folder) |
 | `EASYPOST_API_KEY` | Real EasyPost pulls (a free test key works) |
 | `CONNECTOR_DATA_DIR` | Optional folder holding `inbox/` and `fixtures/` (default `./data`) |
 

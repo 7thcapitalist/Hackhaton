@@ -9,10 +9,10 @@ import {
   goodwillBooksConnector,
   jewelryConnector,
   shopgoodwillConnector,
-  uprightConnector,
 } from "./dropfolder";
 import { easypostConnector } from "./easypost";
 import { ebayConnector } from "./ebay";
+import { uprightConnector } from "./upright";
 import type { Connector } from "./types";
 
 export const connectors: Connector[] = [
