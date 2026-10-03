@@ -9,18 +9,18 @@ import { ClockIcon, DownloadIcon, MailIcon, WarnIcon } from "@/components/icons"
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PulseChart } from "@/components/PulseChart";
 import { PulseTable, type PulseField } from "@/components/PulseTable";
-import type { PulseScreenData } from "../_lib/data";
+import type { PulseAverage, PulseScreenData } from "../_lib/data";
 import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyCompact, formatStamp } from "../_lib/format";
 import type { ChannelId, PulseSeries, PulseView, SourceOrder } from "../_lib/types";
 
-type PulseScreenProps = PulseScreenData & { latestDate: string }; // last complete day
+type PulseScreenProps = PulseScreenData & { average: PulseAverage | null; latestDate: string }; // latestDate = last complete day
 
 type DrawerState = { channel: ChannelId | "total"; field: PulseField } | { channel: ChannelId; missing: true } | null;
 
 const FIELD_NAME: Record<PulseField, string> = { revenue: "Revenue", customers: "Customers", orders: "Orders" };
 const href = (date: string) => `/pulse?date=${date}`;
 
-export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDate, nextDate, isPartial, latestDate }: PulseScreenProps) {
+export function PulseScreen({ view, orders, ordersTotal, average, series, prevDate, nextDate, isPartial, latestDate }: PulseScreenProps) {
   const router = useRouter();
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const close = useCallback(() => setDrawer(null), []);
@@ -30,7 +30,9 @@ export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDa
   const reporting = view.rows.filter(r => r.status === "ok");
   const missing = view.rows.filter(r => r.status === "missing");
   const T = view.totals;
-  const cmpLabel = compare ? formatDay(compare.date) : "prior week";
+  // Compared with the average day over the previous 30 days (fewer near the start of the data).
+  const avgLabel = (value: string) =>
+    average ? `vs ${average.days}-day avg (${value})` : isPartial ? "partial day, not compared" : "no earlier days to compare";
   const files = new Set(reporting.flatMap(r => r.sourceFiles)).size;
 
   const drawerContent = useMemo(() => drawer && buildDrawer(drawer, view, orders, ordersTotal, series), [drawer, view, orders, ordersTotal, series]);
@@ -68,11 +70,11 @@ export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDa
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <HeroStat label="E-commerce revenue" value={formatMoneyCompact(T.revenueCents)} traceLabel={`${files} file${files === 1 ? "" : "s"}`}
-          changePct={compare?.changes.revenue ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "revenue")} />
+          changePct={average?.changes.revenue ?? null} comparedTo={avgLabel(average?.revenueCents != null ? formatMoneyCompact(Math.round(average.revenueCents)) : "")} onOpen={() => openCell("total", "revenue")} />
         <HeroStat label="Customers" value={formatInt(T.customers)} traceLabel="1 per transaction"
-          changePct={compare?.changes.customers ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "customers")} />
+          changePct={average?.changes.customers ?? null} comparedTo={avgLabel(average?.customers != null ? formatInt(average.customers) : "")} onOpen={() => openCell("total", "customers")} />
         <HeroStat label="Orders" value={formatInt(T.orders)} traceLabel={`${formatInt(ordersTotal)} rows`}
-          changePct={compare?.changes.orders ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "orders")} />
+          changePct={average?.changes.orders ?? null} comparedTo={avgLabel(average?.orders != null ? formatInt(average.orders) : "")} onOpen={() => openCell("total", "orders")} />
       </div>
 
       {isPartial && (

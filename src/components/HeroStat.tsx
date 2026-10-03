@@ -4,7 +4,7 @@ type HeroStatProps = {
   label: string;
   value: string;              // pre-formatted, e.g. formatMoneyCompact(cents)
   changePct: number | null;   // vs same weekday last week, same channel set
-  comparedTo: string;         // "Fri, Sep 25"
+  comparedTo: string;         // shown after the change, e.g. "vs 30-day avg ($4.0k)"
   traceLabel?: string;        // "3 files"
   onOpen?: () => void;        // opens DrillDownDrawer
 };
@@ -25,7 +25,7 @@ export function HeroStat({ label, value, changePct, comparedTo, traceLabel, onOp
             {up ? "↑" : "↓"} {Math.abs(changePct).toFixed(1)}%
           </span>
         )}
-        <span>vs {comparedTo}</span>
+        <span>{comparedTo}</span>
       </span>
     </button>
   );
