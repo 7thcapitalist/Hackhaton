@@ -127,7 +127,8 @@ export const CHANNELS: NewChannel[] = [
 const TARGETS: Record<string, number> = {
   total_revenue: 14_500_000, // cents = $145k/month
   revenue_growth_pct: 3,
-  net_margin_pct: 78,
+  net_margin_pct: 55, // net of processing labor (labor hours × $18/h) since the KPI update
+  gross_margin_pct: 75,
   listings_created: 5_000,
   revenue_per_labor_hour: 7_000, // cents per hour = $70/h
   listings_per_employee: 400,

@@ -9,6 +9,7 @@ and a month-end close export for Business Central.
 | Layer | Choice |
 |-------|--------|
 | App | Next.js 15 (App Router, TypeScript) |
+| Styling | Tailwind CSS v4 (`src/app/globals.css`) |
 | Hosting | Vercel. `main` = production (the demo URL), every PR gets a preview |
 | Database | Turso (libSQL / SQLite) via Drizzle ORM |
 | Email | Resend (nightly pulse) |
@@ -29,7 +30,7 @@ npx vercel env pull .env.local
 cp .env.example .env.local   # TURSO_DATABASE_URL=file:local.db
 
 npm run db:push   # create/update tables (drizzle-kit push; run from a laptop, never in the Vercel build)
-npm run seed      # deterministic synthetic data, 2026-08-01..2026-10-03 (wipes + reloads facts)
+npm run seed      # wipe facts, ingest every mock export in data/fixtures through the parsers
 npm run dev       # http://localhost:3000
 ```
 
@@ -42,7 +43,8 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
-| `npm run seed` | Wipe and reload deterministic synthetic data (sources, channels, KPI targets, orders, money lines, items, labor hours, exceptions) for 2026-08-01..2026-10-03 |
+| `npm run seed [-- --direct\|--staged]` | Wipe facts, upsert config + KPI targets, then ingest every file in `data/fixtures/` (manifest order = upload order) through `ingestFile()`, like real uploads. Only items and labor hours (no source file yet) are inserted directly. Local DB: ingests directly (~13 s); remote Turso: stages in a scratch SQLite file and copies in one transaction |
+| `npm run mock:generate [-- --check]` | Render the deterministic mock truth (`scripts/mock/model.ts`: 2026-08-01..2026-10-03 nightly + 2025-08..10 monthly) into each platform's real export layout under `data/fixtures/<source_id>/` (~308 files, ~6.5 MB). `--check` fails if the committed files differ |
 | `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
 | `npm run ingest -- --check <YYYY-MM or YYYY-MM-DD>` | List sources with no file for that period/day and record `missing_source` exceptions |
 | `npm run close -- YYYY-MM [--approve <name> [--force]] [--export file.xlsx]` | Month-end close: generate + reconcile the Business Central journal and AR invoice, approve, export. Same as `GET/POST /api/close/YYYY-MM` and `GET /api/close/YYYY-MM/export?format=xlsx (or csv)` |
@@ -155,12 +157,22 @@ business dates in America/Indiana/Indianapolis. KPI formulas live in `src/kpis/`
 | `getIngestRuns({sourceId,period,limit,offset})` | `/api/views/ingest-runs?…` | Upload history with the first 20 warnings per file |
 
 **Reset demo data:** `curl -X POST -H "x-demo-secret: $DEMO_RESET_SECRET" <url>/api/demo/reset`
-wipes uploads and reloads the seed (same code as `npm run seed`, about 1–2 s locally).
+wipes uploads and reloads the demo data through the parsers (same code as `npm run seed`,
+staged mode, files rendered in memory; ~8 s locally, not yet timed on Turso).
 Returns 503 until `DEMO_RESET_SECRET` is set in Vercel.
 
-Bad dates or periods return 400. Seeded demo cases: Amazon is `"missing"` on
-2026-10-02; Upright has an open duplicate-order exception in 2026-09; month-end sources
-(Cash Monkey, Jewelry, shipping, FedEx, Goodwill Books) have no October files yet.
+Bad dates or periods return 400. Demo cases in the fixtures: no Amazon file for
+2026-10-02 (pulse `"missing"`); Upright re-reports some eBay/ShopGoodwill orders every day
+(`duplicate_order`, Upright kept); `ebay_2026-09-14_reupload.csv` is an exact duplicate
+upload; `ebay_2026-09-15.csv` has renamed columns; an unknown Amazon "Liquidations" row
+(2026-09-24); an Amazon refund for an earlier file's order (2026-09-29); 11:45 PM Eastern
+orders; month-end sources have no October files yet; 2025-08..10 exist for year-over-year.
+
+## Agent skills
+
+Shared agent skills live in `.agents/skills/` (symlinked into `.claude/skills/` for
+Claude Code) and are pinned in `skills-lock.json`: `frontend-design` (Anthropic),
+`web-design-guidelines` (Vercel) and `shadcn`. Add more with `npx skills add <repo>`.
 
 ## Where to read next
 

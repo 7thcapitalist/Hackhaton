@@ -1,0 +1,35 @@
+Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
+,,,,,,,,,,,,,,,,,
+10256,26-20745-08315,ebuyer_002812,,310000020745,Vintage Silk Blouse,CL-020745,1,$36.99,$0.00,$2.59,$39.58,Yes,eBay Managed Payments,Sep-19-26 00:04:37,Sep-19-26 00:04:37,Paid,
+10271,08-20760-57601,ebuyer_002625,,310000020760,Retro Tote Bag,HB-020760,1,$25.99,$0.00,$1.82,$27.81,Yes,eBay Managed Payments,Sep-19-26 00:59:18,Sep-19-26 00:59:18,Paid,
+10269,25-20758-04323,ebuyer_003236,,310000020758,Handmade Fondue Set,KT-020758,1,$41.99,$7.44,$3.46,$52.89,Yes,eBay Managed Payments,Sep-19-26 02:22:06,Sep-19-26 02:22:06,Paid,
+10261,21-20750-90371,ebuyer_002516,,310000020750,Antique Leather Boots,SH-020750,1,$9.99,$0.00,$0.70,$10.69,Yes,eBay Managed Payments,Sep-19-26 04:48:45,Sep-19-26 04:48:45,Paid,
+10258,19-20747-08913,ebuyer_002948,,310000020747,Antique Rain Jacket,CL-020747,1,$40.99,$18.66,$4.18,$63.83,Yes,eBay Managed Payments,Sep-19-26 07:01:18,Sep-19-26 07:01:18,Paid,
+10245,03-20734-98180,ebuyer_003634,,310000020734,Mid-Century Cast Iron Skillet,KT-020734,1,$15.99,$7.07,$1.61,$24.67,Yes,eBay Managed Payments,Sep-19-26 08:11:17,Sep-19-26 08:11:17,Paid,
+10267,24-20756-16044,ebuyer_002535,,310000020756,Antique Yoga Mat,SG-020756,1,$15.99,$5.21,$1.48,$22.68,Yes,eBay Managed Payments,Sep-19-26 08:36:39,Sep-19-26 08:36:39,Paid,
+10248,15-20737-05384,ebuyer_003026,,310000020737,Handmade Turntable,EL-020737,1,$19.99,$4.84,$1.74,$26.57,Yes,eBay Managed Payments,Sep-19-26 09:08:58,Sep-19-26 09:08:58,Paid,
+10250,24-20739-74654,ebuyer_003088,,310000020739,Classic Stoneware Mugs,KT-020739,1,$53.99,$0.00,$3.78,$57.77,Yes,eBay Managed Payments,Sep-19-26 09:25:41,Sep-19-26 09:25:41,Cancelled,$53.99
+10262,15-20751-35699,ebuyer_002546,,310000020751,Like New Pewter Mug,CO-020751,1,$28.99,$0.00,$2.03,$31.02,Yes,eBay Managed Payments,Sep-19-26 10:12:10,Sep-19-26 10:12:10,Paid,
+10268,08-20757-37640,ebuyer_003467,,310000020757,Pre-owned Clutch,HB-020757,1,$17.99,$0.00,$1.26,$19.25,Yes,eBay Managed Payments,Sep-19-26 10:54:28,Sep-19-26 10:54:28,Paid,
+10260,19-20749-77019,ebuyer_002782,,310000020749,Used Loafers,SH-020749,1,$19.99,$7.50,$1.93,$29.42,Yes,eBay Managed Payments,Sep-19-26 12:03:25,Sep-19-26 12:03:25,Refunded,$27.49
+10243,17-20732-56303,ebuyer_003452,,310000020732,Like New Leather Satchel,HB-020732,1,$52.99,$0.00,$3.71,$56.70,Yes,eBay Managed Payments,Sep-19-26 12:22:12,Sep-19-26 12:22:12,Paid,
+10264,11-20753-39204,ebuyer_002512,,310000020753,Antique Running Shoes,SH-020753,1,$25.99,$4.73,$2.15,$32.87,Yes,eBay Managed Payments,Sep-19-26 12:34:41,Sep-19-26 12:34:41,Paid,
+10254,15-20743-25910,ebuyer_002501,,310000020743,Like New Tennis Racket,SG-020743,1,$42.99,$0.00,$3.01,$46.00,Yes,eBay Managed Payments,Sep-19-26 12:43:26,Sep-19-26 12:43:26,Paid,
+10257,05-20746-86203,ebuyer_002736,,310000020746,Used Camera Lens,EL-020746,1,$42.99,$6.66,$3.48,$53.13,Yes,eBay Managed Payments,Sep-19-26 13:03:49,Sep-19-26 13:03:49,Paid,
+10253,25-20742-87586,ebuyer_002511,,310000020742,Antique Snow Globe,CO-020742,1,$18.99,$11.31,$2.12,$32.42,Yes,eBay Managed Payments,Sep-19-26 13:13:20,Sep-19-26 13:13:20,Paid,
+10247,25-20736-67445,ebuyer_002642,,310000020736,Retro Camera Lens,EL-020736,1,$33.99,$9.35,$3.03,$46.37,Yes,eBay Managed Payments,Sep-19-26 13:53:38,Sep-19-26 13:53:38,Paid,
+10263,27-20752-41646,ebuyer_002956,,310000020752,Pre-owned Coin Lot,CO-020752,2,$36.99,$0.00,$5.18,$79.16,Yes,eBay Managed Payments,Sep-19-26 14:14:41,Sep-19-26 14:14:41,Paid,
+10252,23-20741-96953,ebuyer_003216,,310000020741,Classic Headphones,EL-020741,1,$30.99,$0.00,$2.17,$33.16,Yes,eBay Managed Payments,Sep-19-26 14:48:32,Sep-19-26 14:48:32,Paid,
+10255,09-20744-63931,ebuyer_002738,,310000020744,Classic Clutch,HB-020744,1,$21.99,$5.22,$1.91,$29.12,Yes,eBay Managed Payments,Sep-19-26 15:50:38,Sep-19-26 15:50:38,Paid,
+10249,17-20738-06840,ebuyer_002507,,310000020738,Classic Game Console,EL-020738,1,$128.99,$0.00,$9.03,$138.02,Yes,eBay Managed Payments,Sep-19-26 16:05:36,Sep-19-26 16:05:36,Paid,
+10266,14-20755-80151,ebuyer_002565,,310000020755,Retro Silk Blouse,CL-020755,1,$12.99,$6.61,$1.37,$20.97,Yes,eBay Managed Payments,Sep-19-26 17:04:05,Sep-19-26 17:04:05,Paid,
+10265,24-20754-16413,ebuyer_003331,,310000020754,Mid-Century Pewter Mug,CO-020754,1,$25.99,$6.39,$2.27,$34.65,Yes,eBay Managed Payments,Sep-19-26 17:50:38,Sep-19-26 17:50:38,Paid,
+10246,05-20735-40019,ebuyer_003544,,310000020735,Lot of 2 Fondue Set,KT-020735,1,$48.99,$6.91,$3.91,$59.81,Yes,eBay Managed Payments,Sep-19-26 18:29:43,Sep-19-26 18:29:43,Paid,
+10272,22-20761-73838,ebuyer_002981,,310000020761,Used Snow Globe,CO-020761,1,$39.99,$9.09,$3.44,$52.52,Yes,eBay Managed Payments,Sep-19-26 19:28:22,Sep-19-26 19:28:22,Paid,
+10270,20-20759-51280,ebuyer_002690,,310000020759,Pre-owned Camera Lens,EL-020759,1,$52.99,$0.00,$3.71,$56.70,Yes,eBay Managed Payments,Sep-19-26 21:18:59,Sep-19-26 21:18:59,Paid,
+10251,11-20740-83733,ebuyer_002724,,310000020740,Retro Yoga Mat,SG-020740,1,$26.99,$9.72,$2.57,$39.28,Yes,eBay Managed Payments,Sep-19-26 22:25:44,Sep-19-26 22:25:44,Paid,
+10244,03-20733-35961,ebuyer_002633,,310000020733,Antique Turntable,EL-020733,1,$138.99,$9.01,$10.36,$158.36,Yes,eBay Managed Payments,Sep-19-26 22:45:52,Sep-19-26 22:45:52,Paid,
+10259,21-20748-75281,ebuyer_003031,,310000020748,Lot of 2 Stoneware Mugs,KT-020748,1,$47.99,$6.09,$3.79,$57.87,Yes,eBay Managed Payments,Sep-19-26 23:33:05,Sep-19-26 23:33:05,Paid,
+
+"30 record(s) downloaded,from Sep-19-26 to Sep-19-26"
+Seller ID : goodwill_michiana_test

@@ -1,0 +1,3 @@
+# Fixtures are byte-exact platform exports (some CRLF, some LF). Never convert
+# line endings, so the committed bytes match `npm run mock:generate`.
+* -text
