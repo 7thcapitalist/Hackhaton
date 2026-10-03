@@ -378,6 +378,8 @@ export const exceptions = sqliteTable(
       enum: [
         "missing_source",
         "parse_warning",
+        /** The file could not be read, recognized or parsed; nothing was inserted. */
+        "parse_failed",
         "reconcile_mismatch",
         "unmapped_amount",
         "duplicate_file",
