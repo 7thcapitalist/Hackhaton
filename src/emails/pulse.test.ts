@@ -122,6 +122,17 @@ test("production origin must be configured and use HTTPS; origin credentials or 
   assert.equal(mock.calls.length, 0);
 });
 
+test("the Vercel production domain is preferred over the protected per-deployment URL", async () => {
+  const destinations: string[] = [];
+  const fetcher = async (url: string | URL) => { destinations.push(url.toString()); return exportResponse(); };
+  const result = await handlePulseCronRequest(request("?date=2026-10-03&dryRun=true"), {
+    env: { CRON_SECRET: env.CRON_SECRET, VERCEL: "1", VERCEL_URL: "app-abc123.example.test",
+      VERCEL_PROJECT_PRODUCTION_URL: "app.example.test" }, fetch: fetcher,
+  });
+  assert.equal(result.status, 200);
+  assert.match(destinations[0], /^https:\/\/app\.example\.test\/api\/export\/pulse\?/);
+});
+
 test("VERCEL_URL is the fallback origin and localhost is only a development fallback", async () => {
   const destinations: string[] = [];
   const fetcher = async (url: string | URL) => { destinations.push(url.toString()); return exportResponse(); };
