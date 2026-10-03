@@ -9,6 +9,7 @@ and a month-end close export for Business Central.
 | Layer | Choice |
 |-------|--------|
 | App | Next.js 15 (App Router, TypeScript) |
+| Styling | Tailwind CSS v4 (`src/app/globals.css`) |
 | Hosting | Vercel. `main` = production (the demo URL), every PR gets a preview |
 | Database | Turso (libSQL / SQLite) via Drizzle ORM |
 | Email | Resend (nightly pulse) |
@@ -101,6 +102,12 @@ Bad dates or periods return 400. Demo cases in the fixtures: no Amazon file for
 upload; `ebay_2026-09-15.csv` has renamed columns; an unknown Amazon "Liquidations" row
 (2026-09-24); an Amazon refund for an earlier file's order (2026-09-29); 11:45 PM Eastern
 orders; month-end sources have no October files yet; 2025-08..10 exist for year-over-year.
+
+## Agent skills
+
+Shared agent skills live in `.agents/skills/` (symlinked into `.claude/skills/` for
+Claude Code) and are pinned in `skills-lock.json`: `frontend-design` (Anthropic),
+`web-design-guidelines` (Vercel) and `shadcn`. Add more with `npx skills add <repo>`.
 
 ## Where to read next
 
