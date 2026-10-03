@@ -13,6 +13,13 @@ self-fetch, direct DB read, totals aggregation or KPI formula exists in exports.
 
 Gabriel can link to these URLs using the selected day/month. His pages are unchanged.
 The HTML file layout is proposed for his review; browser/print QA remains pending.
+The pulse download buttons on main 3b1a62d already use the compatible URLs. Its UI
+still reads src/app/_lib/demo-data.ts, so displayed figures can differ from exports:
+October 2 has Other missing on screen versus Amazon missing in the backend. Gabriel
+must connect the same shared views and calendar rules before demoing matching data.
+The UI email button is mailto, separate from the secured CSV-attachment cron.
+The scorecard page is fixed to September/15 demo KPIs; monthly download links and
+the shared 34-KPI data integration remain a UI handoff.
 400 means invalid input; 503 means the shared data is unavailable (check DB setup).
 No fake production fallback exists. Use the database setup in the main README.
 
@@ -54,9 +61,10 @@ This management report is separate from Joao's Business Central close exports.
 Run npm run test:exports, npm run typecheck and npm run build.
 Tests are colocated here, preserving Dot's ownership of tests/**.
 
-Integration checked against Joao's deterministic seed in a fresh, isolated local
-database: all five download formats returned 200. Reopened XLSX files preserved
-34 KPIs (15 core, 19 extended), 14 categories, raw values and nulls. The October 2
+Integration checked on main 3b1a62d against Joao's 308 synthetic files ingested
+through the real parsers in a fresh, isolated local database: all five download
+formats returned 200. Reopened XLSX files preserved
+34 KPIs (15 core, 19 extended), 15 categories, raw values and nulls. The October 2
 pulse retained Amazon as missing and reported synthetic/partial metadata.
-The email handler prepared that same 856-byte CSV in authenticated dry-run mode;
+The email handler prepared that same 860-byte CSV in authenticated dry-run mode;
 no provider request or real email was sent. Browser and print QA remain pending.
