@@ -2,9 +2,14 @@
  * Missing-source check: which active sources / channels have no successful
  * ingest run for a business day or a period?
  *
+ * Cadence-aware (src/ingest/config.ts SOURCE_CADENCE / sources.config_json),
+ * and a source is only expected from its first delivery on.
  * - Period (YYYY-MM): a source is present if it has a non-failed run with
- *   period = P or a business_date inside P. All active sources are expected.
- * - Day (YYYY-MM-DD): only nightly-capable sources (DAILY_SOURCES) are expected;
+ *   period = P or a business_date inside P. A daily source must also have a
+ *   file for every finished day of P (days before the latest business day
+ *   with any file), unless a monthly run covers P. A weekly/monthly source
+ *   with no file for the running month is not due (notDueSources), not missing.
+ * - Day (YYYY-MM-DD): only daily-cadence sources are expected;
  *   a run counts if business_date = day, or it is a monthly run (no business_date)
  *   with period = the day's month (a monthly
  *   file covers every day). A channel is present if one of its own sources is
