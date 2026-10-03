@@ -7,9 +7,15 @@
  */
 import Papa from "papaparse";
 import type { RawTable } from "@/sources/types";
+import { jsonTable } from "@/sources/_shared/json";
 import { IngestError } from "./errors";
 
-export const SUPPORTED_EXTENSIONS = [".csv", ".tsv", ".txt", ".xlsx"] as const;
+/**
+ * .json = one API response document (eBay REST, EasyPost). It comes back as
+ * the one-row JSON table described in src/sources/types.ts, which only the
+ * JSON API parsers accept.
+ */
+export const SUPPORTED_EXTENSIONS = [".csv", ".tsv", ".txt", ".xlsx", ".json"] as const;
 
 export function extensionOf(fileName: string): string {
   const m = /\.[^./\\]+$/.exec(fileName.trim());
@@ -18,6 +24,7 @@ export function extensionOf(fileName: string): string {
 
 export async function readTable(buffer: Uint8Array, fileName: string): Promise<RawTable> {
   const ext = extensionOf(fileName);
+  if (ext === ".json") return readJson(buffer, fileName);
   let rows: string[][];
   if (ext === ".csv" || ext === ".tsv" || ext === ".txt") {
     rows = readDelimited(buffer, ext);
@@ -31,6 +38,19 @@ export async function readTable(buffer: Uint8Array, fileName: string): Promise<R
     );
   }
   return tidy(rows);
+}
+
+function readJson(buffer: Uint8Array, fileName: string): RawTable {
+  const text = decodeText(buffer).trim();
+  try {
+    JSON.parse(text);
+  } catch (err) {
+    throw new IngestError(
+      "unreadable_file",
+      `Could not read JSON ${fileName}: ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
+  return jsonTable(text);
 }
 
 function decodeText(buffer: Uint8Array): string {

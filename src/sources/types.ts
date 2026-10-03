@@ -68,3 +68,34 @@ export interface SourceParser {
   accepts(table: RawTable, fileName: string): boolean;
   parse(table: RawTable, ctx: ParseContext): ParseResult;
 }
+
+// ---------------------------------------------------------------------------
+// JSON inputs (API connectors). ADDITIVE: every CSV/XLSX parser above and the
+// ingest service keep working unchanged.
+//
+// Some platform APIs return JSON instead of a report file (eBay Sell
+// Fulfillment getOrders, eBay Finances, EasyPost Shipments). To keep ONE ingest
+// path, src/ingest/read.ts turns a .json file into a one-row RawTable:
+//   [[JSON_TABLE_MARKER, "<the raw JSON text>"]]
+// No CSV parser accepts that row (no known header), and the JSON parsers
+// (src/sources/ebay_api.ts, easypost_api.ts) accept only it. Helpers live in
+// src/sources/_shared/json.ts.
+// ---------------------------------------------------------------------------
+
+/** First cell of the single row that carries a JSON document as a RawTable. */
+export const JSON_TABLE_MARKER = "__json_document__";
+
+/** What a parser can receive: a table (CSV/XLSX) or a JSON document (API). */
+export type RawInput = { kind: "table"; table: RawTable } | { kind: "json"; json: unknown };
+
+/**
+ * A parser for JSON API responses. Wrap it with `jsonSourceParser()` from
+ * src/sources/_shared/json.ts to get a plain SourceParser for the registry.
+ */
+export interface JsonSourceParser {
+  /** Same source id as the file parser for that platform, so dedupe and views treat both as one source. */
+  sourceId: string;
+  version: string;
+  acceptsJson(json: unknown, fileName: string): boolean;
+  parseJson(json: unknown, ctx: ParseContext): ParseResult;
+}

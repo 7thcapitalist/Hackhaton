@@ -46,6 +46,8 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
 | `npm run ingest -- --check <YYYY-MM or YYYY-MM-DD>` | List sources with no file for that period/day and record `missing_source` exceptions |
 | `npm run close -- YYYY-MM [--approve <name> [--force]] [--export file.xlsx]` | Month-end close: generate + reconcile the Business Central journal and AR invoice, approve, export. Same as `GET/POST /api/close/YYYY-MM` and `GET /api/close/YYYY-MM/export?format=xlsx (or csv)` |
+| `npm run pull -- --from YYYY-MM-DD [--to YYYY-MM-DD] [--mock] [--source id]` | Pull from the connectors (`src/connectors`) and ingest: Amazon SP-API Reports, eBay REST JSON, EasyPost JSON + Reports, drop folders `data/inbox/<source_id>/` for email/manual sources. `--mock` = deterministic responses in the real API shapes, no credentials. Same as `POST /api/connectors/pull` (Bearer `CRON_SECRET`). Status: `npm run pull -- --status` or `GET /api/connectors` |
+| `npm run check:parsers` / `check:parsers-other` / `check:parsers-api` | Parser smoke checks on `src/sources/__samples__` (`-api`: JSON API parsers, JSON vs CSV twins, connector mocks) |
 
 ### Env vars
 
@@ -61,6 +63,11 @@ See `.env.example`.
 | `BUYER_KEY_SALT` | Salt for hashed buyer keys (privacy) |
 | `DEMO_RESET_SECRET` | Guards the "Reset demo data" route |
 | `ANTHROPIC_API_KEY` | Optional AI note on the scorecard |
+| `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
+| `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
+| `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
+| `EASYPOST_API_KEY` | Real EasyPost pulls (a free test key works) |
+| `CONNECTOR_DATA_DIR` | Optional folder holding `inbox/` and `fixtures/` (default `./data`) |
 
 Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_URL`)
 are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts`
