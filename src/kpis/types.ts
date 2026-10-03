@@ -21,7 +21,7 @@ export interface OrderFacts {
 }
 
 export interface ShippingFacts {
-  /** Σ money_lines.amount_cents for shipping_label / shipping_refund / postage_topup (negative = cost). */
+  /** Σ money_lines.amount_cents for shipping_label / shipping_refund (negative = cost). postage_topup is excluded: it is cash moved into the postage wallet, and the labels bought with it are already counted. */
   netShippingCents: number;
   lines: number;
 }

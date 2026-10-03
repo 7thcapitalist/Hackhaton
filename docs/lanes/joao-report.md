@@ -26,7 +26,7 @@ yet. Read this first, then [joao-database.md](joao-database.md) for the tables a
 | Task | Branch | Merges into |
 |---|---|---|
 | **A. Month-end close v1:** GL rules (slide 38 facts + marked placeholders) → balanced journal documents → reconcile checks → approve → Business Central Excel/CSV export with a Trace sheet; `getCloseView` for a close page; `/api/close/[period]`; `npm run close` | `joao/claude-close` | `joao/data-layer` |
-| **B. Data health + demo:** `getExceptions` and `getIngestRuns` views + routes, `PATCH /api/exceptions/[id]` to resolve, `parse_failed` kind, EasyPost double-count rule, statement total kept out of revenue, `POST /api/demo/reset` | `joao/claude-data-health` | `joao/data-layer` |
+| **B. Data health + demo:** `getExceptions` and `getIngestRuns` views + routes, `PATCH /api/exceptions/[id]` to resolve, `parse_failed` kind, EasyPost double-count rule, statement total kept out of revenue, `POST /api/demo/reset` | ✅ merged into `joao/data-layer` | — |
 | **C. CI for parsers:** GitHub Actions runs typecheck, both parser checks and build on every PR | issue #17 (Dot) | `main` |
 
 After A and B merge, the data lane covers all three of Goodwill's asks on the back end:
@@ -142,16 +142,23 @@ Use `npm run db:studio` to browse the tables.
    where that data lives.
 7. **Upright is treated as daily** in the seed so "Other" has nightly data. Slide 38 says
    it's a monthly file.
-8. **A Goodwill Books `statement_payment` line is a control total:** never add it to revenue.
-9. **EasyPost shipments vs payment log:** uploading both would count refunds twice. We
-   need to pick one.
+8. **A Goodwill Books `statement_payment` line is a control total:** never add it to
+   revenue. Checked: no view or KPI does.
+9. **EasyPost shipments vs payment log:** the shipment report is the authority for label
+   cost and refunds. Payment-log refunds are stored as `wallet_refund`, which is visible
+   for tracing but never summed. **Postage top-ups are not a cost**: they're cash moved
+   into the postage wallet, and the labels bought with that cash are already counted.
 
 ## Known gaps / risks
 
 - **Layouts are guesses for ShopGoodwill, Cash Monkey, Jewelry, OSM and Goodwill Books.**
   Amazon, eBay, EasyPost and FedEx are partly confirmed from public docs. Expect fixes
   when Ryan's real samples arrive. Parsers use column aliases, so most fixes are one line.
-- A failed ingest is recorded as `parse_warning` (there's no separate `parse_failed` kind).
+- **Goodwill Books revenue only exists in the seed.** The real statement parser emits
+  `money_lines` (sale, fee, payment), not `orders`, so a real Goodwill Books upload won't
+  show on the pulse or scorecard yet. The fix is for the parser to also emit one order per
+  statement line (channel `goodwill_books`), with the close using those orders and not the
+  `sale` money lines. Do it after the close is merged, so the two don't double count.
 - `orders` has no Supplier column (Jewelry's "Co-Pivot" step). Add one only if the close
   needs it.
 - The seed and the synthetic buyer keys use a fixed salt; real ingest uses `BUYER_KEY_SALT`.

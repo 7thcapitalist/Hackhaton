@@ -55,7 +55,7 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
   const [s] = await db.all<{ lines: number; net: number }>(sql`
     select count(*) as lines, coalesce(sum(amount_cents), 0) as net
     from money_lines
-    where period = ${period} and amount_type in ('shipping_label', 'shipping_refund', 'postage_topup')`);
+    where period = ${period} and amount_type in ('shipping_label', 'shipping_refund')`);
 
   const [l] = await db.all<{ hours: number; employees: number }>(sql`
     select coalesce(sum(hours), 0) as hours, count(distinct employee) as employees
