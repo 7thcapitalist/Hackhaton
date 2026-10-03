@@ -4,6 +4,11 @@ Draft for Joao's approval. Built on [goodwill-problem.md](goodwill-problem.md),
 [data-contract.md](data-contract.md) and [research.md](research.md). Scope is fixed:
 all three asks (nightly pulse, COO scorecard, month-end close to BC) on one data layer.
 
+> **Update (Sat afternoon):** the team agreed a new split. The owners named in the tables
+> below are out of date: the current lanes are in the [AGENTS.md](../AGENTS.md) Ownership
+> table, and the handoffs between lanes are in [interfaces.md](interfaces.md). The
+> month-end close is deferred until the pulse, dashboard and reports work.
+
 ## 0. Decisions Joao needs to make now (by 1:15 PM)
 
 | # | Decision | Recommendation |
