@@ -9,6 +9,7 @@ and a month-end close export for Business Central.
 | Layer | Choice |
 |-------|--------|
 | App | Next.js 15 (App Router, TypeScript) |
+| Styling | Tailwind CSS v4 (`src/app/globals.css`) |
 | Hosting | Vercel. `main` = production (the demo URL), every PR gets a preview |
 | Database | Turso (libSQL / SQLite) via Drizzle ORM |
 | Email | Resend (nightly pulse) |
@@ -62,6 +63,12 @@ See `.env.example`.
 Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_URL`)
 are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts`
 (`getDb()`), `drizzle.config.ts`.
+
+## Agent skills
+
+Shared agent skills live in `.agents/skills/` (symlinked into `.claude/skills/` for
+Claude Code) and are pinned in `skills-lock.json`: `frontend-design` (Anthropic),
+`web-design-guidelines` (Vercel) and `shadcn`. Add more with `npx skills add <repo>`.
 
 ## Where to read next
 
