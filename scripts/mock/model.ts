@@ -33,7 +33,7 @@
  * - 2026-10-03 is today: data through 11:30 AM local only.
  * - Late-night orders at 11:45 PM local (Eastern) on 2026-09-30 (ShopGoodwill)
  *   and 2026-10-01 (eBay, Amazon).
- * - An Amazon order from 2026-09-28 refunded on 2026-10-01 (refund row lands
+ * - An Amazon order from 2026-09-25 refunded on LATE_REFUND_DATE (refund row lands
  *   in a later file than its order).
  */
 import { addDays, dateRange, daysBetween, localToUtc } from "../../src/lib/views/dates";
@@ -46,6 +46,8 @@ export const END_DATE = "2026-10-03";
 export const CLOSED_PERIODS = ["2026-08", "2026-09"] as const;
 /** The deliberate gap: no Amazon file for this business date. */
 export const MISSING_AMAZON_DATE = "2026-10-02";
+/** An Amazon refund whose order is in an earlier daily file. */
+export const LATE_REFUND_DATE = "2026-09-29";
 /**
  * Prior year, for year-over-year growth: 2025-08-01..2025-10-31, delivered as
  * monthly files only (no nightly files back then), ~10% lower volume.
@@ -541,13 +543,13 @@ export function buildModel(): MockModel {
   lateNight("ebay", "2026-10-01", "Order");
   lateNight("amazon", "2026-10-01", "Order");
 
-  // An Amazon order of 2026-09-28 refunded on 2026-10-01: the Refund row is in a later file.
+  // An Amazon order of 2026-09-25 refunded on LATE_REFUND_DATE: the Refund row is in a later file.
   {
-    const o = orders.find((x) => x.stream === "amazon" && x.businessDate === "2026-09-28" && x.status === "paid")!;
+    const o = orders.find((x) => x.stream === "amazon" && x.businessDate === "2026-09-25" && x.status === "paid")!;
     o.status = "refunded";
     o.refundCents = o.grossCents + o.shippingCents;
     o.feeCents = Math.round(o.origFeeCents * 0.2);
-    o.refundTs = localToUtc("2026-10-01", 14 * 3600 + 5 * 60);
+    o.refundTs = localToUtc(LATE_REFUND_DATE, 14 * 3600 + 5 * 60);
     o.lateRefund = true;
   }
   // Make sure the Upright/eBay overlap is visible on 2026-09-20.

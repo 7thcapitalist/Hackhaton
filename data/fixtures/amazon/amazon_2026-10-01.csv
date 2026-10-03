@@ -33,7 +33,6 @@ date/time,settlement id,type,order id,sku,description,quantity,marketplace,fulfi
 "Oct 1, 2026 10:29:03 AM PDT",18800000004,Order,111-9622665-2070362,BK-022665,Retro Atlas,1,amazon.com,Seller,,,,MarketplaceFacilitator,25.99,1.82,3.99,0.28,0,0,0,0.00,0,-2.10,-5.70,0.00,0.00,0.00,24.28
 "Oct 1, 2026 10:47:35 AM PDT",18800000004,Order,113-2922630-0932408,MD-022630,Vintage Audiobook,1,amazon.com,Seller,,,,MarketplaceFacilitator,18.99,1.33,3.99,0.28,0,0,0,0.00,0,-1.61,-4.65,0.00,0.00,0.00,18.33
 "Oct 1, 2026 11:01:50 AM PDT",18800000004,Order,112-9922624-9410558,TY-022624,Pre-owned Model Train,1,amazon.com,Seller,,,,MarketplaceFacilitator,25.99,1.82,5.99,0.42,0,0,0,0.00,0,-2.24,-3.90,0.00,0.00,0.00,28.08
-"Oct 1, 2026 11:05:00 AM PDT",18800000004,Refund,113-0922140-5511031,MD-022140,Mid-Century Vinyl Record,1,amazon.com,Seller,,,,MarketplaceFacilitator,-10.99,-0.77,-3.99,-0.28,0,0,0,0.00,0,1.05,2.76,0.00,0.00,0.00,-12.22
 "Oct 1, 2026 11:23:22 AM PDT",18800000004,Order,113-3422639-0740520,BK-022639,Pre-owned Atlas,1,amazon.com,Seller,,,,MarketplaceFacilitator,7.99,0.56,3.99,0.28,0,0,0,0.00,0,-0.84,-3.00,0.00,0.00,0.00,8.98
 "Oct 1, 2026 11:56:30 AM PDT",18800000004,Order,112-4922622-5651959,MD-022622,Classic Blu-ray Set,1,amazon.com,Seller,,,,MarketplaceFacilitator,6.99,0.49,3.99,0.28,0,0,0,0.00,0,-0.77,-2.85,0.00,0.00,0.00,8.13
 "Oct 1, 2026 12:21:56 PM PDT",18800000004,Order,113-2922634-6527858,BK-022634,Classic Biography,1,amazon.com,Seller,,,,MarketplaceFacilitator,11.99,0.84,3.99,0.28,0,0,0,0.00,0,-1.12,-3.60,0.00,0.00,0.00,12.38

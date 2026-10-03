@@ -1699,7 +1699,8 @@
     "path": "amazon/amazon_2026-09-29.csv",
     "sourceId": "amazon",
     "uploadedAt": "2026-09-30T10:32:00.000Z",
-    "bytes": 12973
+    "bytes": 13190,
+    "note": "refund row for an order in an earlier file"
   },
   {
     "path": "ebay/ebay_2026-09-29.csv",
@@ -1748,8 +1749,7 @@
     "path": "amazon/amazon_2026-10-01.csv",
     "sourceId": "amazon",
     "uploadedAt": "2026-10-02T10:32:00.000Z",
-    "bytes": 12990,
-    "note": "refund row for an order in an earlier file"
+    "bytes": 12769
   },
   {
     "path": "ebay/ebay_2026-10-01.csv",

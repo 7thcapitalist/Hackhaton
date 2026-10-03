@@ -8,11 +8,11 @@
  * marketplace-facilitator tax is collected and withheld in the same row.
  *
  * Messy cases: no file for MISSING_AMAZON_DATE; a Refund row for an order of
- * an earlier file (2026-10-01); an unknown "Liquidations" row (2026-09-24).
+ * an earlier file (LATE_REFUND_DATE); an unknown "Liquidations" row (2026-09-24).
  */
 import { daysBetween } from "../../../src/lib/views/dates";
 import { amazonDate, csvRow, dec, lines } from "../format";
-import { MISSING_AMAZON_DATE, type AmazonEvent, type MockModel, type MockOrder } from "../model";
+import { LATE_REFUND_DATE, MISSING_AMAZON_DATE, type AmazonEvent, type MockModel, type MockOrder } from "../model";
 import { ALL_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
 
@@ -86,7 +86,7 @@ export function writeAmazon(model: MockModel): FixtureFile[] {
     for (const o of amazon) {
       if (match(o.businessDate)) rows.push({ t: o.ts.getTime(), seq: o.seq, cells: orderRow(o) });
       if (o.status === "refunded" && o.refundTs) {
-        const refundDate = o.lateRefund ? "2026-10-01" : o.businessDate;
+        const refundDate = o.lateRefund ? LATE_REFUND_DATE : o.businessDate;
         if (match(refundDate)) {
           rows.push({ t: o.refundTs.getTime(), seq: o.seq, cells: refundRow(o, refundDate) });
           late ||= o.lateRefund;

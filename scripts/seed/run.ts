@@ -19,7 +19,7 @@
  * Two modes, same rows:
  * - "direct": ingest straight into the target DB (one ingestFile per file:
  *   ~4 round trips each). Fine for a local file DB.
- * - "staged": ingest into an in-memory SQLite copy of the schema, then copy the
+ * - "staged": ingest into a scratch SQLite file with the same schema, then copy the
  *   resulting rows to the target in ONE write transaction (a few large round
  *   trips). Used for remote Turso (demo reset over HTTP).
  */
@@ -31,6 +31,7 @@ import * as schema from "../../src/db/schema";
 import { checkCompleteness, ingestFile, IngestError, type IngestSummary } from "../../src/ingest";
 import { buildModel, MISSING_AMAZON_DATE } from "../mock/model";
 import { CHANNELS, KPI_TARGETS, SOURCES } from "./config";
+import { withCachedDateTimeFormat } from "./intl-cache";
 import { syntheticOps } from "./synthetic";
 
 /** Rows per INSERT statement. */
@@ -122,6 +123,7 @@ class StatementBatch {
 function resetStatements(db: Db, b: StatementBatch) {
   b.add(db.delete(schema.exceptions).where(sql`close_id is null`));
   b.add(db.delete(schema.moneyLines));
+  b.add(db.delete(schema.marketplaceMetrics));
   b.add(db.delete(schema.orders));
   b.add(db.delete(schema.items));
   b.add(db.delete(schema.laborHours));
@@ -157,7 +159,7 @@ function resetStatements(db: Db, b: StatementBatch) {
 
 const fileNameOf = (path: string) => path.slice(path.lastIndexOf("/") + 1);
 
-/** Steps 2-4 on `db` (the target in direct mode, the in-memory copy in staged mode). */
+/** Steps 2-4 on `db` (the target in direct mode, the scratch copy in staged mode). */
 async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => void) {
   const summaries: IngestSummary[] = [];
   const problems: string[] = [];
@@ -246,6 +248,7 @@ const FACT_TABLES = [
   ["orders", schema.orders],
   ["money_lines", schema.moneyLines],
   ["exceptions", schema.exceptions],
+  ["marketplace_metrics", schema.marketplaceMetrics],
 ] as const;
 
 export async function runSeed(db: Db, opts: SeedOptions): Promise<SeedResult> {
@@ -262,7 +265,7 @@ export async function runSeed(db: Db, opts: SeedOptions): Promise<SeedResult> {
     resetStatements(db, b);
     await b.commit(db.$client);
     const t1 = Date.now();
-    res = await ingestAll(db, fixtures, log);
+    res = await withCachedDateTimeFormat(() => ingestAll(db, fixtures, log));
     ingestMs = Date.now() - t1;
   } else {
     const staging = await stagingDb(db);
@@ -272,7 +275,7 @@ export async function runSeed(db: Db, opts: SeedOptions): Promise<SeedResult> {
       resetStatements(mem, seedConfig);
       await seedConfig.commit(mem.$client);
       const t1 = Date.now();
-      res = await ingestAll(mem, fixtures, log);
+      res = await withCachedDateTimeFormat(() => ingestAll(mem, fixtures, log));
       ingestMs = Date.now() - t1;
       // Copy the pipeline's output to the target in one transaction.
       const b = new StatementBatch(db);

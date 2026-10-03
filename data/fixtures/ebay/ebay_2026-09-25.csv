@@ -1,24 +1,24 @@
 Sales Record Number,Order Number,Buyer Username,Buyer Name,Item Number,Item Title,Custom Label,Quantity,Sold For,Shipping And Handling,eBay Collected Tax,Total Price,eBay Collected Tax and Fees Included in Total,Payment Method,Sale Date,Paid On Date,Order Status,Refund Amount
 ,,,,,,,,,,,,,,,,,
-10421,27-21672-02677,ebuyer_009290,,310000021672,Mid-Century Cashmere Sweater,CL-021672,1,$66.99,$0.00,$4.69,$71.68,Yes,eBay Managed Payments,Sep-25-26 01:55:20,Sep-25-26 01:55:20,Paid,
-10420,02-21671-76191,ebuyer_006123,,310000021671,Antique Snow Globe,CO-021671,1,$80.99,$6.78,$6.14,$93.91,Yes,eBay Managed Payments,Sep-25-26 03:54:22,Sep-25-26 03:54:22,Paid,
-10415,13-21666-00598,ebuyer_006118,,310000021666,Antique Rain Jacket,CL-021666,1,$22.99,$9.51,$2.28,$34.78,Yes,eBay Managed Payments,Sep-25-26 04:33:50,Sep-25-26 04:33:50,Paid,
-10422,15-21673-16604,ebuyer_006014,,310000021673,Pre-owned Running Shoes,SH-021673,1,$50.99,$0.00,$3.57,$54.56,Yes,eBay Managed Payments,Sep-25-26 07:20:06,Sep-25-26 07:20:06,Refunded,$50.99
-10405,21-21656-49179,ebuyer_006072,,310000021656,Handmade Wool Coat,CL-021656,1,$8.99,$6.23,$1.07,$16.29,Yes,eBay Managed Payments,Sep-25-26 07:57:39,Sep-25-26 07:57:39,Paid,
-10410,03-21661-08645,ebuyer_009482,,310000021661,Lot of 2 Golf Balls,SG-021661,1,$36.99,$11.14,$3.37,$51.50,Yes,eBay Managed Payments,Sep-25-26 10:05:57,Sep-25-26 10:05:57,Paid,
-10409,17-21660-83751,ebuyer_008093,,310000021660,Pre-owned Denim Jacket,CL-021660,1,$24.99,$4.87,$2.09,$31.95,Yes,eBay Managed Payments,Sep-25-26 12:31:41,Sep-25-26 12:31:41,Paid,
-10418,18-21669-30616,ebuyer_007114,,310000021669,Handmade Leather Boots,SH-021669,1,$34.99,$10.94,$3.22,$49.15,Yes,eBay Managed Payments,Sep-25-26 12:39:56,Sep-25-26 12:39:56,Paid,
-10412,20-21663-07754,ebuyer_008108,,310000021663,Vintage Flannel Shirt,CL-021663,1,$45.99,$0.00,$3.22,$49.21,Yes,eBay Managed Payments,Sep-25-26 13:01:35,Sep-25-26 13:01:35,Paid,
-10423,25-21674-37837,ebuyer_006523,,310000021674,Used Rain Jacket,CL-021674,1,$23.99,$8.93,$2.31,$35.23,Yes,eBay Managed Payments,Sep-25-26 13:57:29,Sep-25-26 13:57:29,Paid,
-10414,19-21665-31850,ebuyer_008950,,310000021665,Retro Clutch,HB-021665,1,$23.99,$7.28,$2.19,$33.46,Yes,eBay Managed Payments,Sep-25-26 16:24:20,Sep-25-26 16:24:20,Paid,
-10411,17-21662-54402,ebuyer_007638,,310000021662,Mid-Century Loafers,SH-021662,1,$46.99,$8.37,$3.88,$59.24,Yes,eBay Managed Payments,Sep-25-26 17:31:47,Sep-25-26 17:31:47,Paid,
-10413,07-21664-88336,ebuyer_006630,,310000021664,Mid-Century Pyrex Bowl,KT-021664,1,$32.99,$0.00,$2.31,$35.30,Yes,eBay Managed Payments,Sep-25-26 18:02:57,Sep-25-26 18:02:57,Refunded,$32.99
-10417,05-21668-02391,ebuyer_007551,,310000021668,Used Pewter Mug,CO-021668,1,$14.99,$0.00,$1.05,$16.04,Yes,eBay Managed Payments,Sep-25-26 20:09:49,Sep-25-26 20:09:49,Paid,
-10406,21-21657-61494,ebuyer_007248,,310000021657,Used Pewter Mug,CO-021657,1,$12.99,$4.85,$1.25,$19.09,Yes,eBay Managed Payments,Sep-25-26 20:12:22,Sep-25-26 20:12:22,Paid,
-10416,16-21667-24003,ebuyer_006466,,310000021667,Handmade Flannel Shirt,CL-021667,1,$26.99,$5.24,$2.26,$34.49,Yes,eBay Managed Payments,Sep-25-26 20:32:07,Sep-25-26 20:32:07,Paid,
-10408,04-21659-39259,ebuyer_008689,,310000021659,Lot of 2 Film Camera,EL-021659,1,$24.99,$0.00,$1.75,$26.74,Yes,eBay Managed Payments,Sep-25-26 21:31:15,Sep-25-26 21:31:15,Paid,
-10407,26-21658-62503,ebuyer_008504,,310000021658,Retro Wool Coat,CL-021658,1,$22.99,$0.00,$1.61,$24.60,Yes,eBay Managed Payments,Sep-25-26 22:55:11,Sep-25-26 22:55:11,Paid,
-10419,15-21670-53825,ebuyer_008753,,310000021670,Used Pewter Mug,CO-021670,1,$37.99,$11.99,$3.50,$53.48,Yes,eBay Managed Payments,Sep-25-26 23:55:45,Sep-25-26 23:55:45,Paid,
+10421,27-21672-02677,ebuyer_003572,,310000021672,Mid-Century Cashmere Sweater,CL-021672,1,$66.99,$0.00,$4.69,$71.68,Yes,eBay Managed Payments,Sep-25-26 01:55:20,Sep-25-26 01:55:20,Paid,
+10420,02-21671-76191,ebuyer_002517,,310000021671,Antique Snow Globe,CO-021671,1,$80.99,$6.78,$6.14,$93.91,Yes,eBay Managed Payments,Sep-25-26 03:54:22,Sep-25-26 03:54:22,Paid,
+10415,13-21666-00598,ebuyer_002516,,310000021666,Antique Rain Jacket,CL-021666,1,$22.99,$9.51,$2.28,$34.78,Yes,eBay Managed Payments,Sep-25-26 04:33:50,Sep-25-26 04:33:50,Paid,
+10422,15-21673-16604,ebuyer_002501,,310000021673,Pre-owned Running Shoes,SH-021673,1,$50.99,$0.00,$3.57,$54.56,Yes,eBay Managed Payments,Sep-25-26 07:20:06,Sep-25-26 07:20:06,Refunded,$50.99
+10405,21-21656-49179,ebuyer_002509,,310000021656,Handmade Wool Coat,CL-021656,1,$8.99,$6.23,$1.07,$16.29,Yes,eBay Managed Payments,Sep-25-26 07:57:39,Sep-25-26 07:57:39,Paid,
+10410,03-21661-08645,ebuyer_003651,,310000021661,Lot of 2 Golf Balls,SG-021661,1,$36.99,$11.14,$3.37,$51.50,Yes,eBay Managed Payments,Sep-25-26 10:05:57,Sep-25-26 10:05:57,Paid,
+10409,17-21660-83751,ebuyer_003109,,310000021660,Pre-owned Denim Jacket,CL-021660,1,$24.99,$4.87,$2.09,$31.95,Yes,eBay Managed Payments,Sep-25-26 12:31:41,Sep-25-26 12:31:41,Paid,
+10418,18-21669-30616,ebuyer_002777,,310000021669,Handmade Leather Boots,SH-021669,1,$34.99,$10.94,$3.22,$49.15,Yes,eBay Managed Payments,Sep-25-26 12:39:56,Sep-25-26 12:39:56,Paid,
+10412,20-21663-07754,ebuyer_003114,,310000021663,Vintage Flannel Shirt,CL-021663,1,$45.99,$0.00,$3.22,$49.21,Yes,eBay Managed Payments,Sep-25-26 13:01:35,Sep-25-26 13:01:35,Paid,
+10423,25-21674-37837,ebuyer_002607,,310000021674,Used Rain Jacket,CL-021674,1,$23.99,$8.93,$2.31,$35.23,Yes,eBay Managed Payments,Sep-25-26 13:57:29,Sep-25-26 13:57:29,Paid,
+10414,19-21665-31850,ebuyer_003435,,310000021665,Retro Clutch,HB-021665,1,$23.99,$7.28,$2.19,$33.46,Yes,eBay Managed Payments,Sep-25-26 16:24:20,Sep-25-26 16:24:20,Paid,
+10411,17-21662-54402,ebuyer_002948,,310000021662,Mid-Century Loafers,SH-021662,1,$46.99,$8.37,$3.88,$59.24,Yes,eBay Managed Payments,Sep-25-26 17:31:47,Sep-25-26 17:31:47,Paid,
+10413,07-21664-88336,ebuyer_002636,,310000021664,Mid-Century Pyrex Bowl,KT-021664,1,$32.99,$0.00,$2.31,$35.30,Yes,eBay Managed Payments,Sep-25-26 18:02:57,Sep-25-26 18:02:57,Refunded,$32.99
+10417,05-21668-02391,ebuyer_002919,,310000021668,Used Pewter Mug,CO-021668,1,$14.99,$0.00,$1.05,$16.04,Yes,eBay Managed Payments,Sep-25-26 20:09:49,Sep-25-26 20:09:49,Paid,
+10406,21-21657-61494,ebuyer_002819,,310000021657,Used Pewter Mug,CO-021657,1,$12.99,$4.85,$1.25,$19.09,Yes,eBay Managed Payments,Sep-25-26 20:12:22,Sep-25-26 20:12:22,Paid,
+10416,16-21667-24003,ebuyer_002593,,310000021667,Handmade Flannel Shirt,CL-021667,1,$26.99,$5.24,$2.26,$34.49,Yes,eBay Managed Payments,Sep-25-26 20:32:07,Sep-25-26 20:32:07,Paid,
+10408,04-21659-39259,ebuyer_003333,,310000021659,Lot of 2 Film Camera,EL-021659,1,$24.99,$0.00,$1.75,$26.74,Yes,eBay Managed Payments,Sep-25-26 21:31:15,Sep-25-26 21:31:15,Paid,
+10407,26-21658-62503,ebuyer_003262,,310000021658,Retro Wool Coat,CL-021658,1,$22.99,$0.00,$1.61,$24.60,Yes,eBay Managed Payments,Sep-25-26 22:55:11,Sep-25-26 22:55:11,Paid,
+10419,15-21670-53825,ebuyer_003358,,310000021670,Used Pewter Mug,CO-021670,1,$37.99,$11.99,$3.50,$53.48,Yes,eBay Managed Payments,Sep-25-26 23:55:45,Sep-25-26 23:55:45,Paid,
 
 "19 record(s) downloaded,from Sep-25-26 to Sep-25-26"
 Seller ID : goodwill_michiana_test
