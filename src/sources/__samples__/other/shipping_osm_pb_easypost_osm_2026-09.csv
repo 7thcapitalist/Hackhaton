@@ -1,0 +1,8 @@
+OSM Worldwide invoice (synthetic sample),,,,,
+Invoice #,Ship Date,Tracking,Service,Weight,Charge
+OSM-INV-0001,09/03/2026,OSM00000000101,BPM,1.2,$3.95
+OSM-INV-0001,09/04/2026,OSM00000000102,Parcel Select Lightweight,0.6,$3.40
+OSM-INV-0001,09/09/2026,OSM00000000103,BPM,2.4,$4.75
+OSM-INV-0002,09/16/2026,OSM00000000104,Parcel Select Lightweight,0.8,$3.55
+OSM-INV-0002,09/18/2026,OSM00000000102,Credit - undeliverable,0.6,-$3.40
+,,,,Total,$12.25
