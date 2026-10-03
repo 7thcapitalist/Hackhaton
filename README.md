@@ -78,6 +78,12 @@ business dates in America/Indiana/Indianapolis. KPI formulas live in `src/kpis/`
 | `getScorecard(period)` | `/api/views/scorecard?period=YYYY-MM` (default last full month) | 15 KPIs; `status` is `ok`, `simulated` (synthetic items/labor) or `awaiting_data` (value null) |
 | `getSourceStatus(period)` | `/api/views/sources?period=YYYY-MM` (default this month) | `received` / `warnings` / `missing` per source, open exceptions |
 | `getOrders({channel,date,period,limit,offset})` | `/api/views/orders?…` | Drill-down rows with `ingestRunId` + `sourceRow` |
+| `getExceptions({status,sourceId,kind,period,limit,offset})` | `/api/views/exceptions?…` | Exceptions inbox + `countsByKind`; resolve with `PATCH /api/exceptions/:id` `{ status, note? }` |
+| `getIngestRuns({sourceId,period,limit,offset})` | `/api/views/ingest-runs?…` | Upload history with the first 20 warnings per file |
+
+**Reset demo data:** `curl -X POST -H "x-demo-secret: $DEMO_RESET_SECRET" <url>/api/demo/reset`
+wipes uploads and reloads the seed (same code as `npm run seed`, about 1–2 s locally).
+Returns 503 until `DEMO_RESET_SECRET` is set in Vercel.
 
 Bad dates or periods return 400. Seeded demo cases: Amazon is `"missing"` on
 2026-10-02; Upright has an open duplicate-order exception in 2026-09; month-end sources
