@@ -1,10 +1,11 @@
 "use client";
 // The CEO's three numbers (Mission Control kickoff, 2026-10-03; orders promoted to its
-// own number 2026-10-03 evening): daily sales, daily customers, daily orders — switchable
-// by marketplace and category. Default (no filter) renders the exact figures the Overview
-// page already fetched — zero extra work. Any filter switches to order-level math over
-// `orders`/`cmpOrders`, fetched ungrouped (page.tsx) so every real marketplace — including
-// Goodwill Books, previously folded into "Other e-comm" — is its own option.
+// own number 2026-10-03 evening): daily sales, daily unique customers, daily orders —
+// switchable by marketplace and category. Default (no filter) renders the exact figures
+// the Overview page already fetched — zero extra work. Any filter switches to
+// order-level math over `orders`/`cmpOrders`, fetched ungrouped (page.tsx) so every real
+// marketplace — including Goodwill Books, previously folded into "Other e-comm" — is its
+// own option.
 //
 // 2026-10-03, three passes: (1) native <select>s replaced by an editable-word sentence;
 // (2) sparkline cut, orders promoted to a full number, filter wrapped in a pill;
@@ -12,6 +13,12 @@
 // per category) after Ryan picked that style over a segmented control and reference-checked
 // it against Stripe/Linear/GitHub's own filter-chip patterns — see OverviewGlance.tsx for
 // how the same identity (marketplace color, category icon) carries into the data below.
+//
+// 2026-10-04: merged in #33's unique-customer fix from main (customerKey, carried on
+// OrderLike via page.tsx) — a filtered slice now counts real unique buyers, the same rule
+// Daily Pulse uses, instead of this file's own transaction-count dedup. Label follows
+// Pulse's rename to "Unique customers"; the old "1 per transaction" trace is dropped since
+// that was never universally true once a real buyer id is available.
 import { useEffect, useRef, useState } from "react";
 import { OverviewGlance } from "./OverviewGlance";
 import { matches, type OrderLike } from "./_lib/overview-filters";
@@ -37,7 +44,7 @@ function aggregateTotals(rows: OrderLike[], channelLabel: string | "all", catego
   const live = filtered.filter(o => o.status !== "cancelled"); // revenue sums every row (net already reflects refunds); orders/customers exclude cancellations, same as the pulse view
   return {
     revenueCents: filtered.reduce((a, o) => a + o.netCents, 0),
-    customers: new Set(live.map(o => `${o.channelLabel}:${o.orderId}`)).size,
+    customers: new Set(live.map(o => o.customerKey)).size,
     orders: live.length,
   };
 }
@@ -113,8 +120,8 @@ export function OverviewHero({ date, cmpDate, channelOptions, totals, compareCha
         <div className="grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           <HeroNumber label={suffix ? `Daily sales — ${suffix}` : "Daily sales"} value={formatMoneyCompact(current.revenueCents)}
             changePct={changes?.revenue ?? null} comparedTo={comparedTo} side="first" />
-          <HeroNumber label={suffix ? `Daily customers — ${suffix}` : "Daily customers"} value={formatInt(current.customers)}
-            changePct={changes?.customers ?? null} comparedTo={comparedTo} side="middle" trace="1 per transaction" />
+          <HeroNumber label={suffix ? `Daily unique customers — ${suffix}` : "Daily unique customers"} value={formatInt(current.customers)}
+            changePct={changes?.customers ?? null} comparedTo={comparedTo} side="middle" />
           <HeroNumber label={suffix ? `Daily orders — ${suffix}` : "Daily orders"} value={formatInt(current.orders)}
             changePct={changes?.orders ?? null} comparedTo={comparedTo} side="last" />
         </div>
@@ -127,8 +134,8 @@ export function OverviewHero({ date, cmpDate, channelOptions, totals, compareCha
   );
 }
 
-function HeroNumber({ label, value, changePct, comparedTo, side, trace }: {
-  label: string; value: string; changePct: number | null; comparedTo: string; side: "first" | "middle" | "last"; trace?: string;
+function HeroNumber({ label, value, changePct, comparedTo, side }: {
+  label: string; value: string; changePct: number | null; comparedTo: string; side: "first" | "middle" | "last";
 }) {
   const up = (changePct ?? 0) >= 0;
   const padding = side === "first" ? "pb-4 sm:pb-0 sm:pr-7" : side === "last" ? "pt-4 sm:pt-0 sm:pl-7" : "py-4 sm:py-0 sm:px-7";
@@ -143,7 +150,6 @@ function HeroNumber({ label, value, changePct, comparedTo, side, trace }: {
           </span>
         )}
         <span>vs {comparedTo}</span>
-        {trace && <span className="text-ink-4">· {trace}</span>}
       </span>
     </div>
   );

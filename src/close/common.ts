@@ -103,3 +103,71 @@ export function parseTrace(json: string | null): LineTrace | null {
 export const centsToDecimal = (c: number) => Math.round(c) / 100;
 export const fmtUsd = (c: number) =>
   (c < 0 ? "-$" : "$") + (Math.abs(c) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+// ---- Audit trail (closes.events_json) ---------------------------------------
+
+export type CloseEventAction =
+  | "generated"
+  | "reconciled"
+  | "workbook_imported"
+  | "exception_resolved"
+  | "exception_waived"
+  | "approved"
+  | "exported"
+  | "evidence_exported"
+  | "imported"
+  | "import_failed"
+  | "posted";
+
+export interface CloseEvent {
+  at: string;
+  action: CloseEventAction;
+  actor: string;
+  detail?: string;
+}
+
+export function parseEvents(json: string | null | undefined): CloseEvent[] {
+  if (!json) return [];
+  try {
+    const v = JSON.parse(json);
+    return Array.isArray(v) ? (v as CloseEvent[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Append one event to a close's audit trail (read-modify-write; closes are low traffic). */
+export async function appendEvent(db: Db, closeId: string, e: Omit<CloseEvent, "at"> & { at?: string }): Promise<CloseEvent> {
+  const event: CloseEvent = { at: e.at ?? new Date().toISOString(), action: e.action, actor: e.actor || "system", detail: e.detail };
+  const [row] = await db.select({ eventsJson: closes.eventsJson }).from(closes).where(eq(closes.id, closeId)).limit(1);
+  const events = parseEvents(row?.eventsJson);
+  events.push(event);
+  await db.update(closes).set({ eventsJson: JSON.stringify(events) }).where(eq(closes.id, closeId));
+  return event;
+}
+
+/** Most recent event of an action, or null. */
+export function lastEvent(events: CloseEvent[], action: CloseEventAction): CloseEvent | null {
+  for (let i = events.length - 1; i >= 0; i--) if (events[i].action === action) return events[i];
+  return null;
+}
+
+/** Parse "1,234.56", "-43.18", "(43.18)", "$1,000" → integer cents. NaN on garbage. */
+export function parseMoneyToCents(raw: unknown): number {
+  if (typeof raw === "number") return Math.round(raw * 100);
+  let s = String(raw ?? "").trim();
+  if (!s) return NaN;
+  let neg = false;
+  if (/^\(.*\)$/.test(s)) {
+    neg = true;
+    s = s.slice(1, -1);
+  }
+  s = s.replace(/[$,\s]/g, "");
+  if (s.startsWith("-")) {
+    neg = !neg;
+    s = s.slice(1);
+  }
+  if (!/^\d+(\.\d+)?$/.test(s)) return NaN;
+  const c = Math.round(Number(s) * 100);
+  return neg ? -c : c;
+}

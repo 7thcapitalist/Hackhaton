@@ -5,7 +5,7 @@
 // "live" rows exclude cancellations — the same convention as src/lib/views/pulse.ts.
 import { pctChange } from "./format";
 
-export type OrderLike = { channelLabel: string; category: string; netCents: number; status: string; orderId: string };
+export type OrderLike = { channelLabel: string; category: string; netCents: number; status: string; orderId: string; customerKey: string };
 
 export function matches(o: OrderLike, channelLabel: string | "all", category: string | "all") {
   return (channelLabel === "all" || o.channelLabel === channelLabel) && (category === "all" || o.category === category);

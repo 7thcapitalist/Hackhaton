@@ -42,6 +42,17 @@ export interface ShippingFacts {
   lines: number;
 }
 
+/**
+ * Other charges: money_lines marketplace_fee / fulfillment_fee / adjustment NOT
+ * tied to an order (ads, subscriptions, service fees, carrier adjustments).
+ * Per-order fees are already in orders.fee_cents and are not counted here.
+ */
+export interface OtherChargesFacts {
+  /** Σ amount_cents (negative = cost, positive = credit). */
+  netCents: number;
+  lines: number;
+}
+
 export interface LaborFacts {
   hours: number;
   employees: number;
@@ -111,6 +122,8 @@ export interface PeriodFacts {
   orders: OrderFacts | null;
   buyers: BuyerFacts | null;
   shipping: ShippingFacts | null;
+  /** Optional for callers that predate it; treated as 0 when absent. */
+  otherCharges?: OtherChargesFacts | null;
   labor: LaborFacts | null;
   items: ItemFacts | null;
   categories: CategoryFacts[];

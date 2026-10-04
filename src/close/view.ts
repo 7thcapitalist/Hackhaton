@@ -8,7 +8,11 @@ import { eq, inArray, like, or } from "drizzle-orm";
 import { getDb, type Db } from "@/db/client";
 import { arInvoiceLines, arInvoices, exceptions, glRules, ingestRuns, journalLines, orders, sources } from "@/db/schema";
 import { INVOICE_SOURCE, SOURCE_CODES } from "./gl-rules";
-import { assertPeriod, findClose, parseTrace } from "./common";
+import { assertPeriod, findClose, fmtUsd, parseEvents, parseTrace, type CloseEvent } from "./common";
+import type { Close, IngestRun } from "@/db/schema";
+import type { PostingStatus } from "./posting";
+import { computeTieOut, differs, parsePostingResponse, UNMAPPED_ACCOUNT } from "./tieout";
+import { loadWorkbookBaseline } from "./workbook";
 
 export type CloseStatus = "collecting" | "generated" | "reconciled" | "approved" | "exported";
 
@@ -134,8 +138,76 @@ export interface CloseView {
     sourcesReceived: number;
     sourcesExpected: number;
   };
+  /** Slide 40's six target-close steps, in order. */
+  steps: CloseStep[];
+  /** Prior allocation workbook baseline and where our journal differs from it. */
+  workbook: CloseWorkbookView;
+  /** Business Central import / posting status (simulated today). */
+  posting: ClosePostingView;
+  /** GET this for the reconciliation evidence XLSX. */
+  evidenceUrl: string;
+  /** Audit trail (oldest first). */
+  auditTrail: CloseEvent[];
   /** Which actions make sense now. */
-  can: { generate: boolean; approve: boolean; forceApprove: boolean; export: boolean };
+  can: {
+    generate: boolean;
+    approve: boolean;
+    forceApprove: boolean;
+    export: boolean;
+    markImported: boolean;
+    markPosted: boolean;
+  };
+}
+
+export type CloseStepKey = "acquire" | "archive" | "enrich" | "rules" | "bc_output" | "post_reconcile";
+
+export interface CloseStep {
+  key: CloseStepKey;
+  label: string;
+  status: "done" | "warning" | "todo";
+  detail: string;
+}
+
+export interface CloseWorkbookDifference {
+  sourceId: string;
+  accountNo: string;
+  /** Our journal / invoice total for the source + account, BC sign. */
+  ourCents: number;
+  workbookCents: number;
+  /** ourCents - workbookCents. */
+  diffCents: number;
+}
+
+export interface CloseWorkbookView {
+  loaded: boolean;
+  rows: number;
+  differences: CloseWorkbookDifference[];
+}
+
+export interface ClosePostingView {
+  status: PostingStatus;
+  batch: string | null;
+  documentNos: string[];
+  postedAt: string | null;
+  postedBy: string | null;
+  importedAt: string | null;
+  importedBy: string | null;
+  /** true = no real Business Central call was made (SimulatedBcAdapter). */
+  simulated: boolean;
+}
+
+const STEP_LABELS: Record<CloseStepKey, string> = {
+  acquire: "Acquire",
+  archive: "Archive",
+  enrich: "Enrich",
+  rules: "Apply rules",
+  bc_output: "Create BC output",
+  post_reconcile: "Post + reconcile",
+};
+
+async function hasColumn(db: Db, table: string, column: string): Promise<boolean> {
+  const r = await db.$client.execute(`pragma table_info(${table})`);
+  return r.rows.some((row) => (row as unknown as { name: string }).name === column);
 }
 
 export async function getCloseView(period: string, opts: { db?: Db } = {}): Promise<CloseView> {
@@ -188,7 +260,7 @@ export async function getCloseView(period: string, opts: { db?: Db } = {}): Prom
   const excludedTaxCents = taxRows.filter((o) => o.status !== "cancelled").reduce((s, o) => s + o.tax, 0);
 
   const sourcesReceived = sourceList.filter((s) => s.status !== "missing").length;
-  const empty: CloseView = {
+  const empty: BaseView = {
     period,
     status: (close?.status ?? "collecting") as CloseStatus,
     closeId: close?.id ?? null,
@@ -213,7 +285,7 @@ export async function getCloseView(period: string, opts: { db?: Db } = {}): Prom
     },
     can: { generate: true, approve: false, forceApprove: false, export: false },
   };
-  if (!close) return empty;
+  if (!close) return finish(db, period, empty, null, runs, []);
 
   // ---- Journal --------------------------------------------------------------
   const [lines, rules, invoices, excRows] = await Promise.all([
@@ -333,7 +405,7 @@ export async function getCloseView(period: string, opts: { db?: Db } = {}): Prom
   const openExceptions = excViews.filter((e) => e.status === "open").length;
   const status = close.status as CloseStatus;
 
-  return {
+  const base: BaseView = {
     ...empty,
     documents,
     totalsByAccount,
@@ -356,6 +428,7 @@ export async function getCloseView(period: string, opts: { db?: Db } = {}): Prom
       export: status === "approved" || status === "exported",
     },
   };
+  return finish(db, period, base, close, runs, excViews);
 }
 
 function countWarnings(json: string | null): number {
@@ -366,5 +439,163 @@ function countWarnings(json: string | null): number {
   } catch {
     return 0;
   }
+}
+
+type BaseView = Omit<CloseView, "steps" | "workbook" | "posting" | "evidenceUrl" | "auditTrail" | "can"> & {
+  can: Pick<CloseView["can"], "generate" | "approve" | "forceApprove" | "export">;
+};
+
+/** Adds the control-layer fields (steps, workbook, posting, evidence, audit, can). */
+async function finish(
+  db: Db,
+  period: string,
+  base: BaseView,
+  close: Close | null,
+  runs: IngestRun[],
+  excViews: CloseExceptionView[],
+): Promise<CloseView> {
+  const baseline = await loadWorkbookBaseline(db, period);
+  const tie = close ? await computeTieOut(db, close) : null;
+  const postingStatus = (close?.postingStatus ?? "not_posted") as PostingStatus;
+  const response = parsePostingResponse(close?.postingResponseJson);
+  let documentNos: string[] = [];
+  try {
+    documentNos = close?.bcDocumentNos ? (JSON.parse(close.bcDocumentNos) as string[]) : [];
+  } catch {
+    documentNos = [];
+  }
+
+  const workbook: CloseWorkbookView = {
+    loaded: baseline.length > 0,
+    rows: baseline.length,
+    differences: (tie?.rows ?? [])
+      .filter((r) => differs(r.workbookDiffCents))
+      .map((r) => ({
+        sourceId: r.sourceId,
+        accountNo: r.accountNo,
+        ourCents: r.journalCents,
+        workbookCents: r.workbookCents ?? 0,
+        diffCents: r.workbookDiffCents ?? 0,
+      })),
+  };
+  const posting: ClosePostingView = {
+    status: postingStatus,
+    batch: close?.bcBatch ?? null,
+    documentNos,
+    postedAt: close?.postedAt ?? null,
+    postedBy: close?.postedBy ?? null,
+    importedAt: close?.importedAt ?? null,
+    importedBy: close?.importedBy ?? null,
+    simulated: response?.simulated ?? true,
+  };
+
+  // ---- Slide 40 steps -------------------------------------------------------
+  const s = base.summary;
+  const missing = base.sources.filter((x) => x.status === "missing");
+  const open = excViews.filter((e) => e.status === "open");
+  const steps: CloseStep[] = [];
+  const step = (key: CloseStepKey, status: CloseStep["status"], detail: string) => steps.push({ key, label: STEP_LABELS[key], status, detail });
+
+  step(
+    "acquire",
+    s.sourcesReceived === 0 ? "todo" : missing.length ? "warning" : "done",
+    s.sourcesReceived === 0
+      ? "No source files for the period yet."
+      : `${s.sourcesReceived}/${s.sourcesExpected} sources received, ${runs.length} file(s)` + (missing.length ? `; missing: ${missing.map((x) => x.name).join(", ")}.` : "."),
+  );
+
+  // Archive columns come from another lane; read them only if they exist.
+  const archiveCol = runs.length ? await hasColumn(db, "ingest_runs", "archive_key") : false;
+  let archived = 0;
+  if (archiveCol) {
+    const r = await db.$client.execute({
+      sql: "select count(*) as n from ingest_runs where (period = ? or business_date like ?) and archive_key is not null and archive_key <> ''",
+      args: [period, `${period}-%`],
+    });
+    archived = Number((r.rows[0] as unknown as { n: number }).n ?? 0);
+  }
+  const failedRuns = runs.filter((r) => r.status === "failed").length;
+  step(
+    "archive",
+    runs.length === 0 ? "todo" : failedRuns || (archiveCol && archived < runs.length) ? "warning" : "done",
+    runs.length === 0
+      ? "Nothing to archive yet."
+      : `${runs.length} file(s) fingerprinted (SHA-256) with run history` +
+          (archiveCol ? `, ${archived}/${runs.length} archived` : "") +
+          (failedRuns ? `; ${failedRuns} failed to parse.` : "."),
+  );
+
+  let supplierDetail = "";
+  let supplierGap = 0;
+  if (runs.length && (await hasColumn(db, "orders", "supplier"))) {
+    const r = await db.$client.execute({
+      sql: "select count(*) as n, sum(case when supplier is null or supplier = '' then 1 else 0 end) as gap from orders where source_id = 'jewelry' and business_date like ?",
+      args: [`${period}-%`],
+    });
+    const row = r.rows[0] as unknown as { n: number; gap: number | null };
+    supplierGap = Number(row.gap ?? 0);
+    supplierDetail = `; Jewelry supplier on ${Number(row.n) - supplierGap}/${Number(row.n)} order(s)`;
+  }
+  step(
+    "enrich",
+    runs.length === 0 ? "todo" : supplierGap ? "warning" : "done",
+    runs.length === 0 ? "Waiting for source files." : `Facts carry source, channel and period metadata${supplierDetail}.`,
+  );
+
+  const unmappedOpen = open.filter((e) => e.kind === "unmapped_amount").length;
+  const srcDiffs = (tie?.rows ?? []).filter((r) => r.accountNo !== UNMAPPED_ACCOUNT && differs(r.sourceDiffCents)).length;
+  step(
+    "rules",
+    !close ? "todo" : unmappedOpen || srcDiffs ? "warning" : "done",
+    !close
+      ? "Generate the close to apply the GL rules."
+      : `${s.journalLines} journal line(s) from the GL rules (${s.placeholderLines} on placeholder TBC accounts)` +
+          (unmappedOpen ? `; ${unmappedOpen} unmapped amount group(s)` : "") +
+          (srcDiffs ? `; ${srcDiffs} account(s) no longer tie to the facts` : "") +
+          ".",
+  );
+
+  const unbalanced = s.documents - s.balancedDocuments;
+  step(
+    "bc_output",
+    !close ? "todo" : unbalanced || s.journalLines === 0 ? "warning" : "done",
+    !close
+      ? "No General Journal or AR invoice yet."
+      : `${s.journalLines} General Journal line(s) in ${s.documents} document(s) (${s.balancedDocuments} balanced, debits ${fmtUsd(s.debitCents)} = credits ${fmtUsd(s.creditCents)})` +
+          (base.invoice ? ` + AR invoice ${fmtUsd(base.invoice.totalCents)}` : "") +
+          (base.status === "exported" ? "; exported." : "; not exported yet."),
+  );
+
+  const openRecon = open.filter((e) => e.kind === "reconcile_mismatch").length;
+  const postLabel = `${postingStatus}${posting.simulated && postingStatus !== "not_posted" ? " (simulated BC)" : ""}`;
+  step(
+    "post_reconcile",
+    !close
+      ? "todo"
+      : postingStatus === "failed" || openRecon
+        ? "warning"
+        : postingStatus === "posted" && open.length === 0
+          ? "done"
+          : "todo",
+    !close
+      ? "Generate, approve and export first."
+      : `Posting: ${postLabel}${posting.batch ? ` (batch ${posting.batch})` : ""}; workbook ${workbook.loaded ? `${workbook.differences.length} difference(s)` : "not loaded"}; ${open.length} open exception(s)` +
+          (openRecon ? ` (${openRecon} reconcile mismatch)` : "") +
+          ".",
+  );
+
+  return {
+    ...base,
+    steps,
+    workbook,
+    posting,
+    evidenceUrl: `/api/close/${period}/evidence`,
+    auditTrail: parseEvents(close?.eventsJson),
+    can: {
+      ...base.can,
+      markImported: base.status === "exported" && (postingStatus === "not_posted" || postingStatus === "failed"),
+      markPosted: postingStatus === "imported",
+    },
+  };
 }
 

@@ -59,6 +59,20 @@ export interface ParseResult {
   businessDate?: string;
   /** e.g. ShopGoodwill "Period 1" / "Period 3". */
   periodLabel?: string;
+  /**
+   * Supplier assignments for orders that may already be in the DB (slide 40
+   * step 03 "Enrich"). Ingest sets orders.supplier on the order with that
+   * dedupe_key, whichever source loaded it. Additive: a parsed order that
+   * carries `supplier` and is dropped as a duplicate enriches the kept order
+   * the same way, so most parsers never need this list.
+   */
+  enrichments?: ParsedEnrichment[];
+}
+
+/** Set orders.supplier on the order with this dedupe_key (`channel:order:item`). */
+export interface ParsedEnrichment {
+  dedupeKey: string;
+  supplier: string;
 }
 
 export interface ParseContext {

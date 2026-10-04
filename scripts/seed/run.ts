@@ -34,7 +34,7 @@ import type { Db } from "../../src/db/client";
 import * as schema from "../../src/db/schema";
 import { pullAndIngest, type PulledFileResult } from "../../src/connectors";
 import { useMockFixtures } from "../../src/connectors/fixtures";
-import { checkCompleteness } from "../../src/ingest";
+import { checkCompleteness, type ArchiveMode } from "../../src/ingest";
 import { dateRange } from "../../src/lib/views/dates";
 import { END_DATE, PY_END, PY_START, SEED_NOW, START_DATE } from "../mock/model";
 import { dailyUpload, monthlyUpload } from "../mock/schedule";
@@ -61,6 +61,12 @@ export interface SeedOptions {
   fixtures: SeedFixture[];
   mode?: SeedMode;
   log?: (line: string) => void;
+  /**
+   * Copy every fixture into the raw-file archive (Blob / data/archive). Default
+   * false: fixtures are already versioned in the repo, so each ingest run just
+   * records archive_backend "repo" and archive_key = data/fixtures/<path>.
+   */
+  archive?: boolean;
 }
 
 export interface SeedResult {
@@ -211,16 +217,27 @@ function uploadTimes(fixtures: SeedFixture[]) {
   };
 }
 
+/** Archive mode per pulled file: the fixture's repo path unless --archive. */
+function archiveModes(fixtures: SeedFixture[], copy: boolean) {
+  const byName = new Map(fixtures.map((f) => [fileNameOf(f.path), f.path]));
+  return (_sourceId: string, fileName: string): ArchiveMode => {
+    if (copy) return "auto";
+    const path = byName.get(fileName.replace(/^pull_/, ""));
+    return path ? { backend: "repo", key: `data/fixtures/${path}` } : "skip";
+  };
+}
+
 /** Steps 2-3 on `db` (the target in direct mode, the scratch copy in staged mode). */
-async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => void) {
+async function ingestAll(db: Db, fixtures: SeedFixture[], log: (l: string) => void, copyToArchive = false) {
   const results: PulledFileResult[] = [];
   const problems: string[] = [];
   const uploadedAt = uploadTimes(fixtures);
+  const archive = archiveModes(fixtures, copyToArchive);
   // Mock connectors read exactly this fixture set (no inbox, samples or generated data).
   const restore = useMockFixtures(fixtures);
   try {
     for (const w of pullWindows()) {
-      const summary = await pullAndIngest({ from: w.from, to: w.to, mock: true, db, uploadedAt });
+      const summary = await pullAndIngest({ from: w.from, to: w.to, mock: true, db, uploadedAt, archive });
       for (const c of summary.connectors) {
         if (c.error) problems.push(`${c.sourceId} ${w.from}..${w.to}: ${c.error}`);
         for (const f of c.files) {
@@ -308,7 +325,7 @@ export async function runSeed(db: Db, opts: SeedOptions): Promise<SeedResult> {
     resetStatements(db, b);
     await b.commit(db.$client);
     const t1 = Date.now();
-    res = await withCachedDateTimeFormat(() => ingestAll(db, fixtures, log));
+    res = await withCachedDateTimeFormat(() => ingestAll(db, fixtures, log, !!opts.archive));
     ingestMs = Date.now() - t1;
   } else {
     const staging = await stagingDb(db);
@@ -318,7 +335,7 @@ export async function runSeed(db: Db, opts: SeedOptions): Promise<SeedResult> {
       resetStatements(mem, seedConfig);
       await seedConfig.commit(mem.$client);
       const t1 = Date.now();
-      res = await withCachedDateTimeFormat(() => ingestAll(mem, fixtures, log));
+      res = await withCachedDateTimeFormat(() => ingestAll(mem, fixtures, log, !!opts.archive));
       ingestMs = Date.now() - t1;
       // Copy the pipeline's output to the target in one transaction.
       const b = new StatementBatch(db);

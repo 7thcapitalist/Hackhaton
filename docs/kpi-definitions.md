@@ -27,6 +27,38 @@ to Goodwill's deck (`docs/goodwill-problem.md`).
 - **Processing labor cost** = Σ `labor_hours.hours` × loaded rate. Rate =
   `LABOR_RATE_CENTS_PER_HOUR`, default **1800 ($18.00/h). Assumption**, to be replaced by
   Goodwill's real loaded rate.
+- **Other charges** = −Σ `money_lines.amount_cents` where `amount_type` in
+  (`marketplace_fee`, `fulfillment_fee`, `adjustment`) and the line is NOT tied to an order
+  (the first ` / ` token of `reference` is not an `orders.external_order_id`): ads, seller
+  subscriptions, service fees, carrier/account adjustments. Per-order fees are already in
+  `orders.fee_cents` (e.g. the Goodwill Books statement repeats each commission) and are
+  not counted again. SQL shared by the scorecard and the cost views:
+  `src/lib/views/cost-sql.ts`.
+- **Contribution (fully costed)** = net revenue − net shipping cost − other charges −
+  processing labor cost. Net margin % = contribution / net revenue.
+
+## Costs (`getCostBreakdown`, `getCostedMargin`; chat tools `get_costs`, `get_costed_margin`)
+
+- **Breakdown** (`src/lib/views/costs.ts`): gross sales + shipping charged − refunds −
+  per-order marketplace fees = net revenue; then shipping labels by carrier, other charges,
+  labor, contribution and contribution %. The all-channel contribution % equals
+  `net_margin_pct` (checked by `npm run check:costs`).
+- **Excluded, with the reason:** tax collected (never revenue); cash movements
+  (`postage_topup` wallet top-ups, `wallet_refund`, `payout`, `statement_payment`, every
+  `bank_*` line); statement copies of order lines (`sale`, `refund`, order-linked fees).
+- **Costed margin by category / channel:** net revenue per group − shipping (a label whose
+  reference's first token equals an order id is linked to that order's group; the rest is
+  allocated by share of paid order lines) − labor (allocated by share of items listed in the
+  period: `items.category`, or `items.channel_source_id` for channels; listings through
+  Upright are spread pro rata) − other charges (by channel when the line has one, else by
+  paid order lines). Channels whose reports carry no category (Amazon, eBay) sit in
+  "Uncategorized" with their listings' labor; it is not a real category. Group totals equal
+  the breakdown exactly (largest-remainder allocation). In the mock data no label
+  reference carries an order id (references are tracking/invoice numbers), so all
+  shipping is allocated.
+- **Not in the data:** cost of goods (donated goods have none), overhead (rent, utilities,
+  management), packaging supplies.
+
 - **Transaction** = distinct `channel + external_order_id`, non-cancelled. **Customer
   count on the pulse = transactions** (unchanged).
 - **Buyer** = distinct `orders.buyer_key` (salted SHA-256 of the marketplace buyer id,
@@ -44,7 +76,7 @@ to Goodwill's deck (`docs/goodwill-problem.md`).
 |---|---|---|---|---|---|---|
 | total_revenue | Total E-Commerce Revenue | 33, 35 | Σ net_cents | orders.net_cents, business_date | real export | ok |
 | revenue_growth_pct | Revenue Growth % | 33, 35 | YoY when the same month last year has orders: (rev − rev same month last year) / that × 100; else MoM vs prior month, note "MoM: no prior-year data" | orders.net_cents, business_date | real export | ok (MoM until 2025 data lands) |
-| net_margin_pct ★ | Net Margin % | 33, 35, 36 | (net revenue − net shipping cost − processing labor cost) / net revenue × 100. Overhead not included | orders.net_cents; money_lines (shipping_label, shipping_refund); labor_hours.hours | real export + synthetic labor | simulated (awaiting_data for a month without shipping files, e.g. 2026-10) |
+| net_margin_pct ★ | Net Margin % | 33, 35, 36 | contribution / net revenue × 100, contribution = net revenue − net shipping cost − other charges − processing labor cost (see Costs). Overhead not included. Equals `getCostBreakdown().contributionPct` | orders.net_cents; money_lines (shipping_label, shipping_refund; non-order marketplace_fee, fulfillment_fee, adjustment); labor_hours.hours | real export + synthetic labor | simulated (awaiting_data for a month without shipping files, e.g. 2026-10) |
 | listings_created | Listings Created | 35 | count(items listed_at in period) | items.listed_at | synthetic | simulated |
 | revenue_per_labor_hour ★ | Revenue per Labor Hour | 33, 35, 36 | net revenue / Σ labor hours (cents/h) | orders.net_cents; labor_hours.hours | real export + synthetic labor | simulated |
 | listings_per_employee | Listings per Employee | 33, 35 | listings created / distinct employees with labor hours | items.listed_at; labor_hours.employee | synthetic | simulated |
@@ -63,7 +95,7 @@ to Goodwill's deck (`docs/goodwill-problem.md`).
 | id | Label | Slide | Formula | Tables / columns | Data basis | Status today |
 |---|---|---|---|---|---|---|
 | gross_margin_pct | Gross Margin % | 33 | (net revenue − processing labor cost) / net revenue × 100 | orders.net_cents; labor_hours.hours | real export + synthetic labor | simulated |
-| profit_per_labor_hour | Profit per Labor Hour | 33 | (net revenue − processing labor cost − net shipping cost) / Σ labor hours (cents/h) | orders.net_cents; money_lines shipping; labor_hours.hours | real export + synthetic labor | simulated (awaiting_data without shipping files) |
+| profit_per_labor_hour | Profit per Labor Hour | 33 | contribution (see Costs) / Σ labor hours (cents/h) | orders.net_cents; money_lines shipping; labor_hours.hours | real export + synthetic labor | simulated (awaiting_data without shipping files) |
 | items_identified | Items Identified for E-Commerce | 33 | count(items identified_at in period) | items.identified_at | synthetic | simulated |
 | items_sent_to_ecom | Items Sent to E-Commerce | 33 | count(items sent_to_ecom_at in period) | items.sent_to_ecom_at | synthetic | simulated |
 | listings_per_day | Listings Created per Day | 33 | listings created / calendar days from period start to the last listing date in the period | items.listed_at | synthetic | simulated |

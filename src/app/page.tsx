@@ -1,21 +1,22 @@
-import { getOrders, ORDERS_MAX_LIMIT } from "@/lib/views";
+import { getOrders, ORDERS_MAX_LIMIT, type OrdersView } from "@/lib/views";
 import { ButtonLink } from "@/components/Button";
 import { BarsIcon, CheckIcon, DatabaseIcon, PulseIcon } from "@/components/icons";
 import { SourceStrip } from "@/components/SourceStrip";
 import { CHANNEL_LABEL } from "./_lib/channels";
-import { getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
+import { customerKeyOf, getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
 import { formatStampFull } from "./_lib/format";
 import { MARKET_ORDER } from "./_lib/overview-theme";
 import { OverviewHero, type OrderLike } from "./OverviewHero";
-import type { ChannelId } from "./_lib/types";
 
 /** Overview's own marketplace label, ungrouped — unlike Daily Pulse's pre-grouped
  * SourceOrder.channelLabel (_lib/data.ts's toSourceOrders folds Goodwill Books into "Other
  * e-comm" for the pulse table), the filter here needs every real source on its own so none
  * of them hide inside a catch-all bucket. CHANNEL_LABEL is the shared, already-ungrouped
- * export _lib/channels.ts provides for exactly this. */
-function rawOrderLike(o: { channel: ChannelId; category: string | null; netCents: number; status: string; externalOrderId: string }): OrderLike {
-  return { channelLabel: CHANNEL_LABEL[o.channel], category: o.category ?? "Uncategorized", netCents: o.netCents, status: o.status, orderId: o.externalOrderId };
+ * export _lib/channels.ts provides for exactly this. customerKeyOf is #33's shared
+ * unique-customer rule (buyer per marketplace, else the transaction) — same definition
+ * Daily Pulse uses, applied here so a filtered Overview slice never drifts from it. */
+function rawOrderLike(o: OrdersView["rows"][number]): OrderLike {
+  return { channelLabel: CHANNEL_LABEL[o.channel], category: o.category ?? "Uncategorized", netCents: o.netCents, status: o.status, orderId: o.externalOrderId, customerKey: customerKeyOf(o) };
 }
 
 export default async function OverviewPage() {

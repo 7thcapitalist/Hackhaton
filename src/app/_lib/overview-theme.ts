@@ -3,28 +3,44 @@
 // identity, not color — see note below). Nothing here is shared with Daily Pulse or any
 // other screen; it only feeds OverviewHero.tsx / OverviewGlance.tsx.
 //
-// 2026-10-03: marketplace colors are a deliberate, small set distinct from the app's own
-// --accent (so "a marketplace is selected" reads differently from "nothing is selected").
-// They approximate each real marketplace's brand hue (darkened where needed for 4.5:1 text
-// contrast on white) — except "other", which stays house-neutral on purpose: it's a real
-// blend (Cash Monkey + some Upright-routed orders), not one brand, so giving it a borrowed
-// color would overclaim a single identity it doesn't have.
+// 2026-10-04: switched shopgoodwill/amazon/ebay/other/"all" from this file's own hardcoded
+// hex to the shared --mk-* tokens + --accent that landed in globals.css meanwhile (read-only
+// here — that file and src/components/marketplaceColors.ts are Gabriel's lane). Picking them
+// up means these colors now (a) match the dots Daily Pulse's own chart already uses for the
+// same marketplaces, and (b) get real dark-mode values for free, instead of this file's old
+// flat hex pair that only looked right in light mode — the caveat flagged in the previous
+// round. "soft"/"line" (the active-pill tint/border) are derived from the same var with
+// color-mix() rather than hand-picked, so they stay correct in both themes too.
 //
-// Categories don't get colors: the app's token system (globals.css) only has one accent
-// hue stepped by lightness (--s1..--s4), not a true multi-hue categorical palette, so
-// color-per-category would need new shared tokens. Icon-per-category gives each one a
-// distinct identity without touching any shared file.
+// Goodwill Books has no shared token yet (the shared system still files it under --mk-other,
+// same as Daily Pulse's "Other e-comm" row) — Ryan asked this filter to give it its own
+// identity rather than fold it in, so it keeps a one-off hex here. Picked to sit clearly
+// apart from eBay's teal and Amazon's tan now that those are the shared colors. Flagged as a
+// follow-up: promoting it to a real --mk-goodwill_books token (Gabriel's lane) would be the
+// cleaner long-term fix.
+//
+// Categories don't get colors: the app's token system only has one accent hue stepped by
+// lightness (--s1..--s4) plus the new marketplace set above, neither a categorical palette,
+// so color-per-category would still need new shared tokens. Icon-per-category gives each one
+// a distinct identity without touching any shared file.
 import type { ChannelId } from "./types";
 
 export type MarketTheme = { label: string; accent: string; soft: string; line: string };
 
+/** `soft`/`line` are derived from `accent` with color-mix() against the surface color, so
+ * an active filter pill's tint/border stay correct in both themes without a second hardcoded
+ * pair per marketplace. */
+function tint(accent: string): Pick<MarketTheme, "soft" | "line"> {
+  return { soft: `color-mix(in srgb, ${accent} 14%, var(--surface))`, line: `color-mix(in srgb, ${accent} 38%, var(--surface))` };
+}
+
 export const MARKET_THEME: Record<ChannelId | "all", MarketTheme> = {
-  all: { label: "All marketplaces", accent: "#4651c4", soft: "#eceefb", line: "#c9cdf3" },
-  shopgoodwill: { label: "ShopGoodwill", accent: "#0b5fa5", soft: "#e6f0fa", line: "#b9d6ef" },
-  amazon: { label: "Amazon", accent: "#b45900", soft: "#fdecd2", line: "#f0c98a" },
-  ebay: { label: "eBay", accent: "#c23934", soft: "#fbe4e2", line: "#f0b9b5" },
-  goodwill_books: { label: "Goodwill Books", accent: "#0f7d6c", soft: "#e1f3ef", line: "#aeddd2" },
-  other: { label: "Other e-comm", accent: "#4651c4", soft: "#eceefb", line: "#c9cdf3" },
+  all: { label: "All marketplaces", accent: "var(--accent)", ...tint("var(--accent)") },
+  shopgoodwill: { label: "ShopGoodwill", accent: "var(--mk-shopgoodwill)", ...tint("var(--mk-shopgoodwill)") },
+  amazon: { label: "Amazon", accent: "var(--mk-amazon)", ...tint("var(--mk-amazon)") },
+  ebay: { label: "eBay", accent: "var(--mk-ebay)", ...tint("var(--mk-ebay)") },
+  goodwill_books: { label: "Goodwill Books", accent: "#9b5a7a", ...tint("#9b5a7a") },
+  other: { label: "Other e-comm", accent: "var(--mk-other)", ...tint("var(--mk-other)") },
 };
 
 /** Fixed, sensible display order for the marketplace list (not raw-data insertion order). */

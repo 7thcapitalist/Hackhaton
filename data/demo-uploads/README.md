@@ -1,8 +1,8 @@
 # Live demo uploads
 
 The seeded baseline is **clean**: every file that is due is there, nothing warns, zero open
-exceptions. These five files are the messy cases, to upload **on stage** (Sources page upload,
-or `npm run ingest -- data/demo-uploads/<file>`). The seed never ingests them.
+exceptions. These five files are the messy cases, to ingest **on stage** with
+`npm run ingest -- data/demo-uploads/<file>` (the Sources page upload was removed in #31). The seed never ingests them.
 `npm run demo:reset` puts the database back to the clean baseline in a few seconds.
 
 They are generated with the fixtures (`npm run mock:generate`, checked by `-- --check`) from

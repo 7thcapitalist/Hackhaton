@@ -22,6 +22,7 @@ import {
   type MarketplaceMetricName,
   type PeriodFacts,
 } from "@/kpis";
+import { otherChargesTotalSql } from "./cost-sql";
 import { addDays, businessDateOf, daysBetween, localToUtc, periodBounds, previousPeriod } from "./dates";
 import type { Kpi, ScorecardView } from "./types";
 
@@ -100,6 +101,8 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
     select count(*) as lines, coalesce(sum(amount_cents), 0) as net
     from money_lines
     where period = ${period} and amount_type in ('shipping_label', 'shipping_refund')`);
+
+  const [oc] = await db.all<{ lines: number; net: number }>(otherChargesTotalSql(period));
 
   const [l] = await db.all<{ hours: number; employees: number }>(sql`
     select coalesce(sum(hours), 0) as hours, count(distinct employee) as employees
@@ -231,6 +234,7 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
         }
       : null,
     shipping: s && Number(s.lines) > 0 ? { netShippingCents: Number(s.net), lines: Number(s.lines) } : null,
+    otherCharges: oc ? { netCents: Number(oc.net), lines: Number(oc.lines) } : null,
     labor:
       hours > 0
         ? { hours, employees: Number(l!.employees), rateCentsPerHour: rate, costCents: Math.round(hours * rate) }

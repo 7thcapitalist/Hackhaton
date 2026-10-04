@@ -38,8 +38,13 @@ export function chatModel(env: NodeJS.ProcessEnv = process.env): string {
   return env.OPENAI_MODEL?.trim() || DEFAULT_CHAT_MODEL;
 }
 
+/** OpenAI key: OPENAI_API_KEY (preferred), else OPEN_API_KEY (the name set in some envs). */
+export function openAiApiKey(env: NodeJS.ProcessEnv = process.env): string | undefined {
+  return env.OPENAI_API_KEY?.trim() || env.OPEN_API_KEY?.trim() || undefined;
+}
+
 export function chatConfigured(env: NodeJS.ProcessEnv = process.env): boolean {
-  return Boolean(env.OPENAI_API_KEY?.trim());
+  return Boolean(openAiApiKey(env));
 }
 
 export interface ChatTurn {
@@ -104,7 +109,7 @@ export async function runChat(opts: {
   client?: OpenAI;
 }): Promise<ChatUsage> {
   const { emit, signal } = opts;
-  const client = opts.client ?? new OpenAI();
+  const client = opts.client ?? new OpenAI({ apiKey: openAiApiKey() });
   const model = chatModel();
   const usage: ChatUsage = {
     model,
