@@ -191,7 +191,7 @@ export interface IngestRunRow {
   /** Blob URL (private store: not directly downloadable); null for local / repo archives. */
   archiveUrl: string | null;
   archiveBackend: "blob" | "local" | "repo" | "none" | null;
-  /** `/api/archive?run=<id>` when the file was archived, else null. Use this for a download link. */
+  /** Signed, 15-minute `/api/archive?run=<id>&exp=…&sig=…` link when the file was archived, else null (src/archive/link.ts). */
   archiveDownloadPath: string | null;
 }
 

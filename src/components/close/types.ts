@@ -36,7 +36,7 @@ export type UiSource = Omit<CloseSourceItem, "files" | "status"> & {
   archiveUrl?: string | null;
 };
 
-export type UiCloseView = Omit<CloseView, "status" | "can" | "sources"> & {
+export type UiCloseView = Omit<CloseView, "status" | "can" | "sources" | "steps" | "workbook" | "posting" | "evidenceUrl"> & {
   status: CloseStage | string;
   sources: UiSource[];
   can: CloseCan;

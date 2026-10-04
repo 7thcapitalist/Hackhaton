@@ -28,7 +28,10 @@ export async function getCloseScreen(range: DataRange, period: string): Promise<
       status: s.status === "missing" && (screenSource?.status === "not_due" || (beforeMonthlyDue && screenSource?.cadence === "monthly")) ? "not_due" : s.status,
     };
   });
-  const out = { ...view, sources: merged };
+  // The close module reports its audit trail as auditTrail[{at, action, actor, detail}]; the page reads audit[{action, by, at, detail}].
+  const trail = (view as { auditTrail?: { at: string; action: string; actor: string | null; detail?: string | null }[] }).auditTrail;
+  const audit = view.audit ?? trail?.map(e => ({ action: e.action, by: e.actor, at: e.at, detail: e.detail ?? null }));
+  const out = { ...view, sources: merged, audit };
   const own = !!out.steps?.length;
   return { ...out, steps: own ? out.steps : deriveSteps(out), stepsDerived: !own };
 }

@@ -1,17 +1,19 @@
 /**
- * GET /api/archive?run=<ingest run id>   (or ?key=<archive key>)
+ * GET /api/archive?run=<ingest run id>&exp=<unix s>&sig=<hmac>
  *
  * Downloads the ORIGINAL file of an ingest run from the raw-file archive
  * (src/archive): private Vercel Blob, data/archive/ (dev) or the versioned
- * seed fixture ("repo"). A key must belong to an ingest run, so only files the
- * pipeline archived can be fetched. 404 when the run, key or file is missing.
+ * seed fixture ("repo"). Links are signed and expire (src/archive/link.ts):
+ * pages render them with signedArchivePath(); this route rejects unsigned,
+ * expired or forged links with 403. 404 when the run or file is missing.
  *
  * Privacy: raw files may hold marketplace buyer ids that the DB only stores
  * hashed; the blob store is private and this route is the only way in.
  */
 import { NextResponse, type NextRequest } from "next/server";
-import { desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { readArchived, type ArchiveBackend } from "@/archive";
+import { verifyArchiveLink } from "@/archive/link";
 import { getDb } from "@/db/client";
 import { redactSecrets } from "@/db/env";
 import { ingestRuns } from "@/db/schema";
@@ -24,17 +26,18 @@ const notFound = (error: string) => NextResponse.json({ status: "error", code: "
 export async function GET(req: NextRequest) {
   const p = req.nextUrl.searchParams;
   const runId = p.get("run")?.trim();
-  const key = p.get("key")?.trim();
-  if (!runId && !key) {
-    return NextResponse.json({ status: "error", code: "bad_input", error: "pass ?run=<ingest run id> or ?key=<archive key>" }, { status: 400 });
+  if (!runId) {
+    return NextResponse.json({ status: "error", code: "bad_input", error: "pass ?run=<ingest run id> with its signed exp and sig" }, { status: 400 });
+  }
+  const check = verifyArchiveLink(runId, p.get("exp"), p.get("sig"));
+  if (!check.ok) {
+    return NextResponse.json({ status: "error", code: "forbidden", error: check.reason }, { status: 403 });
   }
   try {
     const db = getDb();
     const cols = { id: ingestRuns.id, fileName: ingestRuns.fileName, archiveKey: ingestRuns.archiveKey, archiveBackend: ingestRuns.archiveBackend };
-    const [run] = runId
-      ? await db.select(cols).from(ingestRuns).where(eq(ingestRuns.id, runId)).limit(1)
-      : await db.select(cols).from(ingestRuns).where(eq(ingestRuns.archiveKey, key!)).orderBy(desc(ingestRuns.uploadedAt)).limit(1);
-    if (!run) return notFound(runId ? `no ingest run ${runId}` : `no archived file with key ${key}`);
+    const [run] = await db.select(cols).from(ingestRuns).where(eq(ingestRuns.id, runId)).limit(1);
+    if (!run) return notFound(`no ingest run ${runId}`);
     if (!run.archiveKey || !run.archiveBackend || run.archiveBackend === "none") {
       return notFound(`"${run.fileName}" (run ${run.id}) was not archived`);
     }
