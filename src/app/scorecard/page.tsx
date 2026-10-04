@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MonthPicker } from "@/components/MonthPicker";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PrintButton } from "@/components/PrintButton";
 import { CategoriesTable } from "@/components/scorecard/CategoriesTable";
@@ -36,7 +37,8 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
         <div className="flex flex-wrap items-start gap-2">
           <div className="flex flex-col items-start gap-1">
             <div data-print-hide>
-              <PeriodStepper label={label}
+              <PeriodStepper label={label} minWidth="190px"
+                center={<MonthPicker label={label} value={period} months={range.periods} latest={range.defaultPeriod} hrefPrefix="/scorecard?period=" />}
                 prevHref={i > 0 ? `/scorecard?period=${range.periods[i - 1]}` : null}
                 nextHref={i < range.periods.length - 1 ? `/scorecard?period=${range.periods[i + 1]}` : null}
                 prevLabel="Previous month" nextLabel="Next month" />
