@@ -15,7 +15,7 @@ analytics template.
 ## Palette
 
 Every existing token name is kept (other lanes reference them). New tokens: `--brand`,
-`--brand-yellow`, `--rail*` (sidebar), `--mk-books`, `--focus`.
+`--brand-yellow`, `--rail*` (sidebar), `--mk-books`, `--shadow-pop`.
 
 | Token | Role | Light | Dark |
 |---|---|---|---|
@@ -30,7 +30,8 @@ Every existing token name is kept (other lanes reference them). New tokens: `--b
 | `--accent` | Goodwill Blue: buttons, links, active states | `#01529C` | `#7DB4EE` |
 | `--accent-ink` | text on accent | `#FFFFFF` | `#0B1420` |
 | `--accent-soft` / `--accent-line` | tints | `#E3EDF7` / `#B3CBE5` | `#13304F` / `#24507F` |
-| `--brand` | brand blue for the rail and wordmark | `#01529C` | `#0E2A47` (rail) |
+| `--brand` | brand blue for headings/rules (Overview title, pillar rules) | `#01529C` | `#7DB4EE` |
+| `--rail` | sidebar / mobile header band | `#01529C` | `#0F2B4A` |
 | `--brand-yellow` | marker only: active nav bar, focus on blue | `#F4D152` | `#F4D152` |
 | `--ok` / `--ok-soft` | on track / received | `#1B6B45` / `#E3F1E9` | `#6DD29C` / `#11291D` |
 | `--warn` / `--warn-icon` / `--warn-soft` | near target / warnings (burnt ochre, clearly not brand yellow) | `#8A4B00` / `#C2650A` / `#FCEEDD` | `#F0AE6A` / `#F0AE6A` / `#2E1F10` |
