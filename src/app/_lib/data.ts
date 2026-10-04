@@ -9,6 +9,7 @@ import {
 } from "@/lib/views";
 import { addDays, businessDateOf, dateRange, daysBetween, periodBounds, previousPeriod } from "@/lib/views/dates";
 import { GROUP_MEMBERS } from "./channels";
+import { statsOf, weekdayOf, type PulseBaseline } from "../pulse/summary";
 import { formatDay, formatKpiShort, formatMoneyCompact, formatStamp, trackStatus } from "./format";
 import type { ChannelId, Kpi, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
 
@@ -121,10 +122,16 @@ function buildRows(view: ViewPulse, orders: OrdersView, runsById: Map<string, In
   });
 }
 
+/** Unique-customer key, same rule as the pulse view (src/lib/views/pulse.ts): buyer per marketplace, else the transaction. */
+export function customerKeyOf(o: OrdersView["rows"][number]): string {
+  return o.buyerKey ? `b:${o.channel}:${o.buyerKey}` : `t:${o.channel}:${o.externalOrderId}`;
+}
+
 function toSourceOrders(orders: OrdersView, rows: PulseRow[], runsById: Map<string, IngestRunRow>): SourceOrder[] {
   return orders.rows.map(o => ({
     id: o.id,
     orderId: o.externalOrderId,
+    customerKey: customerKeyOf(o),
     channelLabel: rows.find(r => r.channelId === rowFor(o.channel, rows))?.label ?? o.channel,
     category: o.category ?? "Uncategorized",
     status: o.status,
@@ -168,6 +175,34 @@ export async function getPulseScreen(range: DataRange, date: string): Promise<Pu
     prevDate: date > range.earliestDate ? addDays(date, -1) : null,
     nextDate: date < range.latestDate ? addDays(date, 1) : null,
     isPartial: date > range.completeDate,
+  };
+}
+
+/**
+ * Daily Pulse comparison: the selected day vs the same weekday over the previous `weeks` weeks
+ * (sales have a strong weekly rhythm, so a plain 30-day average is the wrong yardstick).
+ * Like for like: only marketplaces that reported on the selected day are summed, and an earlier
+ * day where one of them had no file is skipped (a missing day is not a $0 day).
+ * Null for a partial day, which would compare half a day to full ones.
+ */
+export async function getPulseBaseline(range: DataRange, view: PulseView, weeks = 4): Promise<PulseBaseline | null> {
+  const date = view.businessDate;
+  if (date > range.completeDate) return null;
+  const reporting = view.rows.filter(r => r.status === "ok").map(r => r.channelId);
+  if (reporting.length === 0) return null;
+  const candidates = Array.from({ length: weeks }, (_, k) => addDays(date, -7 * (k + 1))).filter(d => d >= range.earliestDate);
+  const days = await Promise.all(candidates.map(d => getPulse(d)));
+  const used = days.filter(d => reporting.every(id => d.rows.find(r => r.channelId === id)?.status === "ok"));
+  const totals = used.map(d => totalsOf(d.rows.filter(r => reporting.includes(r.channelId))));
+  return {
+    weekday: weekdayOf(date),
+    dates: used.map(d => d.businessDate),
+    wanted: weeks,
+    stats: {
+      revenue: statsOf(totals.map(t => t.revenueCents)),
+      customers: statsOf(totals.map(t => t.customers)),
+      orders: statsOf(totals.map(t => t.orders)),
+    },
   };
 }
 

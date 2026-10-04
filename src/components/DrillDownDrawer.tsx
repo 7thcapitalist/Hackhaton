@@ -1,9 +1,8 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { SourceOrder } from "@/app/_lib/types";
 import { formatInt, formatMoney } from "@/app/_lib/format";
-import { CheckIcon, CloseIcon, FileIcon, UploadIcon, WarnIcon } from "./icons";
+import { CheckIcon, CloseIcon, FileIcon, WarnIcon } from "./icons";
 
 export type DrawerContent =
   | {
@@ -11,8 +10,8 @@ export type DrawerContent =
       title: string;          // "ShopGoodwill · Revenue"
       value: string;          // "$6,842.15"
       caption: string;        // "158 orders · net of marketplace fees"
-      fileLabel: string;      // file name or "3 source files"
-      fileMeta: string;       // "Imported 6:04 AM ET · 158 rows"
+      files: string[];        // every source file behind the number
+      fileMeta: string;       // "Imported Oct 3, 6:33 AM ET · 158 rows"
       orders: SourceOrder[];
       totalNetCents: number;  // must equal the pulse number
       complete: boolean;      // false when the day has more rows than were loaded
@@ -75,7 +74,7 @@ export function DrillDownDrawer({ content, dateLong, dateShort, onClose }: Drill
               <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-warn-soft text-warn-icon"><WarnIcon className="size-4.5" /></span>
               <div className="flex flex-col gap-1">
                 <p className="text-[15px] font-semibold">Awaiting data</p>
-                <p className="text-[13.5px] text-pretty text-ink-2">No file has arrived for {dateShort}. These numbers are left out of today&apos;s totals rather than shown as $0. They&apos;ll fill in automatically once the export is imported.</p>
+                <p className="text-[13.5px] text-pretty text-ink-2">No file has arrived for {dateShort}. These numbers are left out of today&apos;s totals rather than shown as $0. They fill in automatically after the next nightly import that includes this file.</p>
               </div>
             </div>
             <dl className="grid grid-cols-[140px_1fr] gap-y-2.5 text-[13px]">
@@ -83,11 +82,6 @@ export function DrillDownDrawer({ content, dateLong, dateShort, onClose }: Drill
               <dt className="text-ink-3">Last day with data</dt><dd>{content.lastReceived}</dd>
               <dt className="text-ink-3">Feeds</dt><dd>{content.feeds}</dd>
             </dl>
-            <div className="flex flex-col items-center gap-2 rounded-xl border-[1.5px] border-dashed border-line px-5 py-7.5 text-center">
-              <UploadIcon className="size-5.5 text-ink-3" />
-              <span className="text-sm font-medium">Drop the export here (CSV or XLSX)</span>
-              <span className="text-[12.5px] text-ink-3">or <Link href="/sources" className="text-accent hover:text-ink">open Data Sources</Link></span>
-            </div>
           </div>
         ) : (
           <RowsBody content={content} showAll={showAll} onShowAll={() => setShowAll(true)} />
@@ -103,14 +97,21 @@ function RowsBody({ content: c, showAll, onShowAll }: { content: Extract<DrawerC
   const reconciled = sum === c.totalNetCents;
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex flex-wrap items-end justify-between gap-4 px-4 py-4.5 sm:px-6.5">
+      <div className="flex flex-col gap-4 px-4 py-4.5 sm:px-6.5">
         <div className="flex flex-col gap-1">
           <p className="text-[40px] leading-none font-semibold tracking-[-0.03em]">{c.value}</p>
-          <p className="text-[13px] text-ink-2">{c.caption}</p>
+          <p className="text-[13px] text-pretty text-ink-2">{c.caption}</p>
         </div>
-        <div className="flex flex-col items-end gap-1 text-xs text-ink-3">
-          <span className="font-mono text-ink-2">{c.fileLabel}</span>
-          <span>{c.fileMeta}</span>
+        <div className="flex flex-col gap-1.5 rounded-[10px] border border-line bg-surface-2 px-3.5 py-3">
+          <p className="flex items-center gap-1.5 text-xs font-medium text-ink-2">
+            <FileIcon className="size-3" />{c.files.length === 1 ? "Source file" : `${c.files.length} source files`}
+          </p>
+          {c.files.length > 0 && (
+            <ul className="flex flex-col gap-0.5 font-mono text-xs break-all text-ink">
+              {c.files.map(f => <li key={f}>{f}</li>)}
+            </ul>
+          )}
+          <p className="text-xs text-ink-3">{c.fileMeta}</p>
         </div>
       </div>
       <div className="flex-1 overflow-auto">

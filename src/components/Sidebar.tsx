@@ -8,8 +8,9 @@ import { ThemeToggle } from "./ThemeToggle";
 type SidebarProps = {
   pulseLabel: string;     // "Oct 2"
   scorecardLabel: string; // "Sep"
-  sourcesLabel: string;   // "7/9"
-  importLabel: string | null; // "Sat, Oct 3 · 6:12 AM ET"; null before the first import
+  sourcesLabel: string;   // "Sep 7/9": sources that sent data for the Scorecard month
+  sourcesHint?: string;   // "7 of 9 data sources sent September data"
+  importLabel: string | null; // newest file of any day, "Sat, Oct 3 · 11:56 AM ET"; null before the first import
 };
 
 type NavItem = { href: string; label: string; icon: ReactNode; meta?: ReactNode };
@@ -26,7 +27,7 @@ function Brand() {
   );
 }
 
-export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, importLabel }: SidebarProps) {
+export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint, importLabel }: SidebarProps) {
   const pathname = usePathname();
   const items: NavItem[] = [
     { href: "/", label: "Overview", icon: <GridIcon /> },
@@ -34,7 +35,11 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, importLabel 
     { href: "/scorecard", label: "Scorecard", icon: <BarsIcon />, meta: <span className="text-[11px] text-ink-3">{scorecardLabel}</span> },
     {
       href: "/sources", label: "Sources", icon: <DatabaseIcon />,
-      meta: <span className="rounded-[5px] border border-line bg-surface-2 px-[5px] text-[11px] leading-[17px] font-medium text-ink-2">{sourcesLabel}</span>,
+      meta: (
+        <span title={sourcesHint} className="rounded-[5px] border border-line bg-surface-2 px-[5px] text-[11px] leading-[17px] font-medium text-ink-2">
+          {sourcesLabel}{sourcesHint && <span className="sr-only"> ({sourcesHint})</span>}
+        </span>
+      ),
     },
     { href: "/close", label: "Month-end Close", icon: <FileIcon className="size-4" />, meta: <span className="text-[11px] text-ink-3">{scorecardLabel}</span> },
   ];
@@ -61,7 +66,7 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, importLabel 
         <div className="mt-auto flex flex-col gap-2">
           {importLabel && (
             <div className="flex flex-col gap-1.5 rounded-[10px] border border-line bg-surface-2 p-3">
-              <p className="flex items-center gap-[7px] text-xs font-medium text-ink"><CheckIcon className="size-3.5 text-ok" />Last import</p>
+              <p className="flex items-center gap-[7px] text-xs font-medium text-ink"><CheckIcon className="size-3.5 text-ok" />Newest file received</p>
               <p className="text-[11.5px] leading-normal text-ink-3">{importLabel}</p>
             </div>
           )}

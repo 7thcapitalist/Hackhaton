@@ -12,6 +12,11 @@ export function formatMoneyCompact(cents: number): string {
   return d >= 1000 ? `$${(d / 1000).toFixed(1)}k` : `$${Math.round(d).toLocaleString("en-US")}`;
 }
 
+/** $4,684: exact to the dollar, for KPI cards and sentences (tables keep the cents). */
+export function formatMoneyWhole(cents: number): string {
+  return (Math.round(cents / 100) || 0).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+}
+
 export const formatInt = (n: number) => Math.round(n).toLocaleString("en-US");
 
 /** Business dates are plain YYYY-MM-DD already in Eastern Time, so format them as UTC to avoid a day shift. */

@@ -84,7 +84,7 @@ export const CHAT_TOOLS = [
   tool({
     name: "get_pulse",
     description:
-      "Nightly pulse for one business date: net revenue (cents), customers (= transactions) and orders per channel row (ShopGoodwill, Amazon, eBay, Other e-commerce), totals, channels with no data ('missing'), and whether the day is synthetic. Same numbers as the Pulse page.",
+      "Nightly pulse for one business date: net revenue (cents), unique customers (distinct buyers per marketplace; one per transaction where there is no buyer id) and orders per channel row (ShopGoodwill, Amazon, eBay, Other e-commerce), totals, channels with no data ('missing'), and whether the day is synthetic. Same numbers as the Pulse page.",
     schema: z.object({ date }),
     label: (i) => `Reading the pulse for ${i.date}`,
     run: async (i) => {

@@ -2,11 +2,12 @@
  * Nightly pulse (slide 31): revenue and customers per pulse row, then totals.
  *
  * Rules:
- * - revenue = Σ orders.net_cents; customers = distinct transactions
- *   (channel + external_order_id, non-cancelled): every transaction counts as a
- *   different customer (Joao, 2026-10-03), so no buyer matching is needed and
- *   Amazon, whose report has no buyer id, counts the same way as the others;
- *   orders = count of non-cancelled order lines.
+ * - revenue = Σ orders.net_cents; orders = count of non-cancelled order lines.
+ * - customers = unique buyers per marketplace (channel + buyer_key, non-cancelled).
+ *   A row with no buyer_key counts as its own customer (channel +
+ *   external_order_id): Amazon's report has no buyer id at all, and CashMonkey,
+ *   Jewelry and some Upright rows have none either, so those still count one per
+ *   transaction (Gabriel, 2026-10-03, option A; the Daily Pulse says so).
  * - Rows are pulse groups from `channels.pulse_group`; the row's channelId is
  *   the group's first channel by sort_order (e.g. "other" for "Other e-commerce",
  *   which also includes goodwill_books).
@@ -92,7 +93,8 @@ async function computePulseDays(from: string, to: string): Promise<PulseDays> {
     select o.business_date, c.pulse_group,
            coalesce(sum(o.net_cents), 0) as revenue,
            count(case when o.status != 'cancelled' then 1 end) as orders,
-           count(distinct case when o.status != 'cancelled' then o.channel || ':' || o.external_order_id end) as customers
+           count(distinct case when o.status != 'cancelled' then
+             coalesce('b:' || o.channel || ':' || o.buyer_key, 't:' || o.channel || ':' || o.external_order_id) end) as customers
     from orders o join channels c on c.id = o.channel
     where o.business_date between ${from} and ${to}
     group by o.business_date, c.pulse_group`);
