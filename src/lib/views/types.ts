@@ -131,6 +131,9 @@ export interface OrdersView {
     status: string;
     ingestRunId: string;
     sourceRow: number;
+    /** Who sourced the item (Jewelry Report / Upright Supplier); null when unknown. */
+    supplier: string | null;
+    currency: string;
   }[];
   total: number;
 }
@@ -183,6 +186,13 @@ export interface IngestRunRow {
   warnings: string[];
   isSynthetic: boolean;
   uploadedAt: string;
+  /** Raw file archive key (`Month End/<YYYY>/<MM>/<source>/<file>`, or the fixture path for seed runs); null = not archived. */
+  archiveKey: string | null;
+  /** Blob URL (private store: not directly downloadable); null for local / repo archives. */
+  archiveUrl: string | null;
+  archiveBackend: "blob" | "local" | "repo" | "none" | null;
+  /** Signed, 15-minute `/api/archive?run=<id>&exp=…&sig=…` link when the file was archived, else null (src/archive/link.ts). */
+  archiveDownloadPath: string | null;
 }
 
 export interface IngestRunsView {

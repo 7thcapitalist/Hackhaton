@@ -60,6 +60,7 @@ import {
   CloseError,
   JOURNAL_TEMPLATE,
   TRACE_ID_LIMIT,
+  appendEvent,
   assertPeriod,
   documentNo,
   findClose,
@@ -78,6 +79,8 @@ export interface GenerateOptions {
   db?: Db;
   /** Allow regenerating an exported close. */
   force?: boolean;
+  /** Who ran it (audit trail). Default "system". */
+  by?: string;
 }
 
 export interface GenerateResult {
@@ -93,7 +96,7 @@ export interface GenerateResult {
   reconcile: ReconcileResult;
 }
 
-interface Group {
+export interface Group {
   sourceId: string;
   amountType: string;
   channel: string | null;
@@ -101,6 +104,15 @@ interface Group {
   tables: Set<"orders" | "money_lines">;
   ids: string[];
   runRows: Map<string, number[]>;
+}
+
+export interface FactGroups {
+  /** Key: source|amount_type|channel. */
+  groups: Map<string, Group>;
+  /** Marketplace-facilitator tax per source (not journaled). */
+  excludedTaxCents: Record<string, number>;
+  /** Goodwill Books statement reference (invoice External Document No.). */
+  statementRef: string | null;
 }
 
 const CHUNK = 200;
@@ -111,6 +123,9 @@ export async function generateClose(period: string, opts: GenerateOptions = {}):
   await ensureGlRules(db);
 
   const existing = await findClose(db, period);
+  if (existing?.postingStatus === "posted") {
+    throw new CloseError("conflict", `The ${period} close is posted in Business Central. Reverse it there before regenerating.`);
+  }
   if (existing?.status === "exported" && !opts.force) {
     throw new CloseError("conflict", `The ${period} close was already exported. Regenerate with force to rebuild it.`);
   }
@@ -131,73 +146,8 @@ export async function generateClose(period: string, opts: GenerateOptions = {}):
   const channelName = new Map(channelRows.map((c) => [c.id, c.name]));
 
   // ---- Facts ----------------------------------------------------------------
-  const [orderRows, lineRows] = await Promise.all([
-    db
-      .select({
-        id: orders.id,
-        sourceId: orders.sourceId,
-        channel: orders.channel,
-        ingestRunId: orders.ingestRunId,
-        sourceRow: orders.sourceRow,
-        gross: orders.grossCents,
-        shipping: orders.shippingCents,
-        refund: orders.refundCents,
-        fee: orders.feeCents,
-        tax: orders.taxCents,
-      })
-      .from(orders)
-      .where(and(like(orders.businessDate, `${period}-%`), ne(orders.status, "cancelled"))),
-    db.select().from(moneyLines).where(eq(moneyLines.period, period)),
-  ]);
-
-  const groups = new Map<string, Group>();
-  const add = (
-    table: "orders" | "money_lines",
-    sourceId: string,
-    amountType: string,
-    channel: string | null,
-    cents: number,
-    id: string,
-    runId: string,
-    row: number,
-  ) => {
-    if (!cents) return;
-    const key = `${sourceId}|${amountType}|${channel ?? ""}`;
-    let g = groups.get(key);
-    if (!g) {
-      g = { sourceId, amountType, channel, amountCents: 0, tables: new Set(), ids: [], runRows: new Map() };
-      groups.set(key, g);
-    }
-    g.amountCents += cents;
-    g.tables.add(table);
-    g.ids.push(id);
-    const rows = g.runRows.get(runId) ?? [];
-    rows.push(row);
-    g.runRows.set(runId, rows);
-  };
-
-  const excludedTaxCents: Record<string, number> = {};
-  for (const o of orderRows) {
-    add("orders", o.sourceId, "sale", o.channel, o.gross, o.id, o.ingestRunId, o.sourceRow);
-    add("orders", o.sourceId, "shipping_income", o.channel, o.shipping, o.id, o.ingestRunId, o.sourceRow);
-    add("orders", o.sourceId, "refund", o.channel, -o.refund, o.id, o.ingestRunId, o.sourceRow);
-    add("orders", o.sourceId, "marketplace_fee", o.channel, -o.fee, o.id, o.ingestRunId, o.sourceRow);
-    if (o.tax) excludedTaxCents[o.sourceId] = (excludedTaxCents[o.sourceId] ?? 0) + o.tax;
-  }
-  let statementRef: string | null = null;
-  for (const m of lineRows) {
-    if (m.amountType === "statement_payment") {
-      statementRef ??= m.reference;
-      continue; // control total, checked by reconcile
-    }
-    // EasyPost payment-log refunds are informational: the shipment report is
-    // the authority for label refunds (see shipping_osm_pb_easypost.ts).
-    if (m.amountType === "wallet_refund") continue;
-    // 1st Source bank statement lines are informational until bank reconciliation
-    // (they mirror payouts and shipping already counted from the source reports).
-    if (m.sourceId === "bank_1st_source") continue;
-    add("money_lines", m.sourceId, m.amountType, m.channel, m.amountCents, m.id, m.ingestRunId, m.sourceRow);
-  }
+  // ---- Facts ----------------------------------------------------------------
+  const { groups, excludedTaxCents, statementRef } = await collectFactGroups(db, period);
 
   // File names for traces.
   const runIds = [...new Set([...groups.values()].flatMap((g) => [...g.runRows.keys()]))];
@@ -367,7 +317,19 @@ export async function generateClose(period: string, opts: GenerateOptions = {}):
     if (existing) {
       await tx
         .update(closes)
-        .set({ status: "generated", approvedBy: null, approvedAt: null })
+        .set({
+          status: "generated",
+          approvedBy: null,
+          approvedAt: null,
+          postingStatus: "not_posted",
+          bcBatch: null,
+          bcDocumentNos: null,
+          importedAt: null,
+          importedBy: null,
+          postedAt: null,
+          postedBy: null,
+          postingResponseJson: null,
+        })
         .where(eq(closes.id, closeId));
       const oldInvoices = await tx.select({ id: arInvoices.id }).from(arInvoices).where(eq(arInvoices.closeId, closeId));
       if (oldInvoices.length) {
@@ -397,7 +359,12 @@ export async function generateClose(period: string, opts: GenerateOptions = {}):
     if (exc.length) await tx.insert(exceptions).values(exc);
   });
 
-  const reconcile = await reconcileClose(period, { db });
+  await appendEvent(db, closeId, {
+    action: "generated",
+    actor: opts.by ?? "system",
+    detail: `${jLines.length} journal lines in ${docs.size} documents, ${invLines.length} invoice lines${existing ? " (regenerated)" : ""}`,
+  });
+  const reconcile = await reconcileClose(period, { db, by: opts.by });
 
   const documents = [...docs.keys()].map((docNo) => {
     const ls = jLines.filter((l) => l.documentNo === docNo);
@@ -427,4 +394,81 @@ const SOURCE_ORDER = Object.keys(SOURCE_CODES);
 function sourceRank(id: string): number {
   const i = SOURCE_ORDER.indexOf(id);
   return i < 0 ? SOURCE_ORDER.length : i;
+}
+
+/**
+ * Sum the period's facts per (source, amount_type, channel), exactly as the
+ * journal is built. Exported so reconcile can tie the journal back to the
+ * facts independently of the stored journal lines.
+ */
+export async function collectFactGroups(db: Db, period: string): Promise<FactGroups> {
+  const [orderRows, lineRows] = await Promise.all([
+    db
+      .select({
+        id: orders.id,
+        sourceId: orders.sourceId,
+        channel: orders.channel,
+        ingestRunId: orders.ingestRunId,
+        sourceRow: orders.sourceRow,
+        gross: orders.grossCents,
+        shipping: orders.shippingCents,
+        refund: orders.refundCents,
+        fee: orders.feeCents,
+        tax: orders.taxCents,
+      })
+      .from(orders)
+      .where(and(like(orders.businessDate, `${period}-%`), ne(orders.status, "cancelled"))),
+    db.select().from(moneyLines).where(eq(moneyLines.period, period)),
+  ]);
+
+  const groups = new Map<string, Group>();
+  const add = (
+    table: "orders" | "money_lines",
+    sourceId: string,
+    amountType: string,
+    channel: string | null,
+    cents: number,
+    id: string,
+    runId: string,
+    row: number,
+  ) => {
+    if (!cents) return;
+    const key = `${sourceId}|${amountType}|${channel ?? ""}`;
+    let g = groups.get(key);
+    if (!g) {
+      g = { sourceId, amountType, channel, amountCents: 0, tables: new Set(), ids: [], runRows: new Map() };
+      groups.set(key, g);
+    }
+    g.amountCents += cents;
+    g.tables.add(table);
+    g.ids.push(id);
+    const rows = g.runRows.get(runId) ?? [];
+    rows.push(row);
+    g.runRows.set(runId, rows);
+  };
+
+  const excludedTaxCents: Record<string, number> = {};
+  for (const o of orderRows) {
+    add("orders", o.sourceId, "sale", o.channel, o.gross, o.id, o.ingestRunId, o.sourceRow);
+    add("orders", o.sourceId, "shipping_income", o.channel, o.shipping, o.id, o.ingestRunId, o.sourceRow);
+    add("orders", o.sourceId, "refund", o.channel, -o.refund, o.id, o.ingestRunId, o.sourceRow);
+    add("orders", o.sourceId, "marketplace_fee", o.channel, -o.fee, o.id, o.ingestRunId, o.sourceRow);
+    if (o.tax) excludedTaxCents[o.sourceId] = (excludedTaxCents[o.sourceId] ?? 0) + o.tax;
+  }
+  let statementRef: string | null = null;
+  for (const m of lineRows) {
+    if (m.amountType === "statement_payment") {
+      statementRef ??= m.reference;
+      continue; // control total, checked by reconcile
+    }
+    // EasyPost payment-log refunds are informational: the shipment report is
+    // the authority for label refunds (see shipping_osm_pb_easypost.ts).
+    if (m.amountType === "wallet_refund") continue;
+    // 1st Source bank statement lines are informational until bank reconciliation
+    // (they mirror payouts and shipping already counted from the source reports).
+    if (m.sourceId === "bank_1st_source") continue;
+    add("money_lines", m.sourceId, m.amountType, m.channel, m.amountCents, m.id, m.ingestRunId, m.sourceRow);
+  }
+
+  return { groups, excludedTaxCents, statementRef };
 }

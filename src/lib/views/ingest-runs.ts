@@ -13,6 +13,7 @@ import { and, count, desc, eq, like, or, type SQL } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { ingestRuns, sources } from "@/db/schema";
 import type { IngestRunRow, IngestRunsView } from "./types";
+import { signedArchivePath } from "@/archive/link";
 
 export interface IngestRunsQuery {
   sourceId?: string;
@@ -74,6 +75,9 @@ export async function getIngestRuns(q: IngestRunsQuery = {}): Promise<IngestRuns
         warningsJson: ingestRuns.warningsJson,
         isSynthetic: ingestRuns.isSynthetic,
         uploadedAt: ingestRuns.uploadedAt,
+        archiveKey: ingestRuns.archiveKey,
+        archiveUrl: ingestRuns.archiveUrl,
+        archiveBackend: ingestRuns.archiveBackend,
       })
       .from(ingestRuns)
       .leftJoin(sources, eq(sources.id, ingestRuns.sourceId))
@@ -90,6 +94,7 @@ export async function getIngestRuns(q: IngestRunsQuery = {}): Promise<IngestRuns
       sourceName: sourceName ?? r.sourceId,
       warnings: warningMessages(warningsJson),
       isSynthetic: isSynthetic === 1,
+      archiveDownloadPath: r.archiveKey ? signedArchivePath(r.id) : null,
     })),
     total: Number(totalRow[0]?.n ?? 0),
   };

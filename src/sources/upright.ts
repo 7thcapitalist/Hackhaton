@@ -34,7 +34,8 @@
  *    `${channel}:${channelOrderId}:${channelItemId}` collides with the same item
  *    in the eBay / ShopGoodwill files. Upright Order ID is a last-resort fallback.
  *  - `Channel Buyer ID` → buyerId (hashed by ingest). `Product Category` →
- *    category. `Poster` (employee) and `Supplier` are never emitted.
+ *    category. `Supplier` → supplier (blank = null; it enriches the Jewelry
+ *    Supplier assignment). `Poster` (employee) is never emitted.
  *  - Channel map: ShopGoodwill, eBay, Amazon, GoodwillBooks → their channel;
  *    Upright's other integrations (Facebook Marketplace, Mercari, OfferUp,
  *    Shopify, GoodwillFinds) → `other` silently; anything else → `other` with
@@ -81,6 +82,7 @@ const ALIASES = {
   tax: ["sales tax", "tax", "marketplace collected tax"],
   status: ["status", "order status"],
   currency: ["currency code", "currency"],
+  supplier: ["supplier", "supplier name", "vendor", "consignor"],
 };
 type Key = keyof typeof ALIASES;
 const REQUIRED: Key[] = ["channel", "channelItemId", "channelOrderId"];
@@ -109,7 +111,7 @@ export function uprightTimezone(ctx: Pick<ParseContext, "fileName"> & { reportTi
 
 export const uprightParser: SourceParser = {
   sourceId: "upright",
-  version: "2.0.0",
+  version: "2.1.0",
 
   accepts(table: RawTable): boolean {
     return findHeaderRowByAliases(table, ALIASES, REQUIRED) >= 0;
@@ -200,6 +202,7 @@ export const uprightParser: SourceParser = {
         category: cell(row, col.category) || null,
         quantity,
         currency: cell(row, col.currency) || "USD",
+        supplier: cell(row, col.supplier) || null,
         grossCents: gross,
         shippingCents: 0,
         refundCents: 0,

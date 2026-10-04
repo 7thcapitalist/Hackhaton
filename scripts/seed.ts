@@ -1,10 +1,12 @@
 /**
- * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged] [--no-golden]
+ * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged] [--no-golden] [--archive]
  *
  * Wipes the facts, upserts config + KPI targets, then pulls every mock export
  * in data/fixtures through the mock connectors (pullAndIngest, mock mode) into
  * ingestFile(), exactly like a real pull. Nothing but config and KPI targets
- * is inserted directly. Close tables are untouched. See scripts/seed/run.ts.
+ * is inserted directly. Close tables are untouched. Then the mock allocation
+ * workbook baselines in data/workbook are loaded (workbook_baseline, config:
+ * a demo reset leaves them in place). See scripts/seed/run.ts.
  *
  * Mode: by default the ingest runs in a scratch SQLite file and is copied to
  * the target in one transaction ("staged"); --direct ingests into the target.
@@ -14,6 +16,8 @@
  * Ends by saving the golden snapshot (src/lib/demo/golden.ts) that
  * `npm run demo:reset` and POST /api/demo/reset restore from in one batch.
  * --no-golden skips it (an existing snapshot is left as it was).
+ * --archive copies every fixture into the raw-file archive (Vercel Blob or
+ * data/archive/); by default runs only point at the versioned fixture path.
  */
 import { config } from "dotenv";
 
@@ -37,7 +41,7 @@ async function main() {
 
   let r;
   try {
-    r = await runSeed(getDb(), { fixtures, mode, log: (l) => console.log(l) });
+    r = await runSeed(getDb(), { fixtures, mode, log: (l) => console.log(l), archive: argv.includes("--archive") });
   } catch (err) {
     const root = err instanceof Error && err.cause instanceof Error ? err.cause : err;
     throw new Error(redactSecrets(root instanceof Error ? root.message : String(root)));
@@ -58,6 +62,8 @@ async function main() {
     for (const p of r.problems) console.error(`  ${p}`);
     process.exit(1);
   }
+  // Prior allocation-workbook baselines (data/workbook) the close reconciles against.
+  await (await import("./workbook-baseline")).importAllWorkbooks((l) => console.log(l));
   if (argv.includes("--no-golden")) {
     console.log("Golden snapshot: skipped (--no-golden).");
   } else {

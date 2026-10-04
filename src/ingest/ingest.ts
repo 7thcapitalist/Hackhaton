@@ -23,6 +23,17 @@
  * - Raw buyer ids are hashed (buyer_key) and never stored.
  * - Parser warnings (+ ingest's own) → ingest_runs.warnings_json and ONE
  *   `parse_warning` exception per file.
+ * - Supplier enrichment (slide 40 step 03, slide 41 WS2): an order row that
+ *   carries a supplier (Jewelry Report, Upright Supplier column) and is dropped
+ *   as a duplicate sets orders.supplier on the order that was kept, instead of
+ *   being logged as a duplicate. ParseResult.enrichments does the same by
+ *   dedupe_key. When Upright replaces a lower-authority row, the old row's
+ *   supplier is carried over if the Upright row has none.
+ * - Archive (slide 40 step 02): the original bytes of every parsed file are
+ *   stored under `Month End/<YYYY>/<MM>/<source_id>/<file>` (src/archive);
+ *   ingest_runs.archive_key / archive_url / archive_backend record where. An
+ *   archive failure never fails the ingest (backend "none" + a note in
+ *   warnings_json, no parse_warning).
  * - A file that cannot be ingested → ONE `parse_failed` exception. If a parser
  *   was chosen, a `failed` ingest run is recorded too; if the file could not be
  *   read or recognized (no source known), only the exception is recorded
@@ -31,6 +42,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { and, eq, inArray, ne, sql } from "drizzle-orm";
 import type { BatchItem } from "drizzle-orm/batch";
+import { archiveBackend, archiveFile, type ArchiveResult } from "@/archive";
 import { getDb, type Db } from "@/db/client";
 import { redactSecrets } from "@/db/env";
 import {
@@ -70,7 +82,15 @@ export interface IngestInput {
   db?: Db;
   /** Mark the run as synthetic (mock pull / demo data); the UI shows "simulated". */
   isSynthetic?: boolean;
+  /**
+   * Raw file archive. Default "auto" (Vercel Blob when configured, else
+   * data/archive/). "skip" records nothing; { backend: "repo", key } records a
+   * file already versioned in the repo (seed fixtures) without copying it.
+   */
+  archive?: ArchiveMode;
 }
+
+export type ArchiveMode = "auto" | "skip" | { backend: "repo"; key: string };
 
 export type IngestStatus = "parsed" | "parsed_with_warnings" | "failed" | "duplicate";
 
@@ -92,6 +112,11 @@ export interface IngestSummary {
   marketplaceMetricsInserted: number;
   /** Order rows dropped as duplicates (in-file or already in DB). */
   duplicates: number;
+  /** Existing orders whose supplier this file set or changed (supplier enrichment). */
+  ordersEnriched?: number;
+  /** Where the original file was archived (null key = not archived). */
+  archiveKey?: string | null;
+  archiveBackend?: ArchiveResult["backend"];
   warnings: number;
   period: string | null;
   businessDate: string | null;
@@ -468,8 +493,12 @@ async function writeParsed(
   }
 
   // --- Duplicates against the DB: revenue authority decides -----------------
-  const existing = new Map<string, { id: string; sourceId: string; ingestRunId: string; sourceRow: number }>();
-  for (const keys of chunks(unique.map((o) => o.dedupeKey), 500)) {
+  const existing = new Map<
+    string,
+    { id: string; sourceId: string; ingestRunId: string; sourceRow: number; supplier: string | null }
+  >();
+  const enrichKeys = (result.enrichments ?? []).map((e) => String(e.dedupeKey ?? "").trim()).filter(Boolean);
+  for (const keys of chunks([...new Set([...unique.map((o) => o.dedupeKey), ...enrichKeys])], 500)) {
     const rows = await db
       .select({
         id: orders.id,
@@ -477,6 +506,7 @@ async function writeParsed(
         sourceId: orders.sourceId,
         ingestRunId: orders.ingestRunId,
         sourceRow: orders.sourceRow,
+        supplier: orders.supplier,
       })
       .from(orders)
       .where(inArray(orders.dedupeKey, keys));
@@ -484,7 +514,17 @@ async function writeParsed(
   }
   const toInsert: NewOrder[] = [];
   const replaceIds: string[] = [];
+  // Supplier enrichment of orders already in the DB: order id → supplier.
+  const enrich = new Map<string, string>();
+  const supplierOf = (s: unknown) => (typeof s === "string" && s.trim() ? s.trim() : null);
+  for (const e of result.enrichments ?? []) {
+    const old = existing.get(String(e.dedupeKey ?? "").trim());
+    const supplier = supplierOf(e.supplier);
+    if (!old || !supplier) continue;
+    if (old.supplier !== supplier) enrich.set(old.id, supplier);
+  }
   for (const o of unique) {
+    o.supplier = supplierOf(o.supplier);
     const old = existing.get(o.dedupeKey);
     if (!old) {
       toInsert.push(o);
@@ -494,6 +534,9 @@ async function writeParsed(
     const newAuth = me.revenueAuthority ?? 0;
     if (oldAuth === 0 && newAuth === 1) {
       replaceIds.push(old.id);
+      enrich.delete(old.id);
+      // Keep the supplier an earlier Jewelry Report assigned to the replaced row.
+      if (!o.supplier && old.supplier) o.supplier = old.supplier;
       toInsert.push(o);
       exc.push({
         id: randomUUID(),
@@ -503,6 +546,9 @@ async function writeParsed(
         ...autoResolved(),
         message: `Auto-resolved: Order ${o.dedupeKey} reported by both ${nameOf(old.sourceId)} (run ${old.ingestRunId}, row ${old.sourceRow}) and ${me.name} (row ${o.sourceRow}); kept ${me.name} (revenue authority), replaced the ${nameOf(old.sourceId)} row.`,
       });
+    } else if (o.supplier && o.supplier !== (enrich.get(old.id) ?? old.supplier)) {
+      // Not a second sale: this row assigns the supplier of the order we keep.
+      enrich.set(old.id, o.supplier);
     } else {
       pushDup(
         `Order ${o.dedupeKey} reported by both ${nameOf(old.sourceId)} (run ${old.ingestRunId}, row ${old.sourceRow}) and ${me.name} (row ${o.sourceRow}); kept ${nameOf(old.sourceId)}, dropped the ${me.name} row.`,
@@ -595,6 +641,28 @@ async function writeParsed(
     if (months.size === 1) period = [...months][0];
   }
   const status = warnings.length > 0 ? "parsed_with_warnings" : "parsed";
+
+  // --- Archive the original bytes (never fails the ingest) ----------------------
+  const archivePeriod =
+    period ?? businessDate?.slice(0, 7) ?? (PERIOD_RE.test((base.uploadedAt ?? "").slice(0, 7)) ? base.uploadedAt.slice(0, 7) : new Date().toISOString().slice(0, 7));
+  const mode = input.archive ?? "auto";
+  let archived: ArchiveResult;
+  if (mode === "skip") archived = { key: null, url: null, backend: "none", note: "archive skipped" };
+  else if (typeof mode === "object") archived = { key: mode.key, url: null, backend: "repo" };
+  else {
+    archived = await archiveFile({
+      bytes: input.buffer,
+      fileName: base.fileName,
+      sourceId,
+      period: archivePeriod,
+      sha256: base.fileSha256,
+      backend: archiveBackend(),
+    });
+  }
+  // A failed archive is noted in warnings_json only: no parse_warning, same status.
+  const stored: ParseWarning[] = warnings.slice(0, MAX_STORED_WARNINGS);
+  if (archived.backend === "none" && mode !== "skip" && archived.note) stored.push({ message: `[archive] ${archived.note}` });
+
   if (warnings.length > 0) {
     const first = warnings[0];
     exc.push({
@@ -616,7 +684,10 @@ async function writeParsed(
     rowCount: toInsert.length + lines.length + itemRows.length + laborRows.length + metricRows.length,
     headerRowIndex: result.headerRowIndex,
     headerSignature: result.header?.length ? headerSignature(result.header) : null,
-    warningsJson: warnings.length ? JSON.stringify(warnings.slice(0, MAX_STORED_WARNINGS)) : null,
+    warningsJson: stored.length ? JSON.stringify(stored) : null,
+    archiveKey: archived.key,
+    archiveUrl: archived.url,
+    archiveBackend: archived.backend,
   };
 
   // --- One atomic write ---------------------------------------------------------
@@ -626,6 +697,7 @@ async function writeParsed(
   for (const c of chunks(laborRows)) stmts.push(db.insert(laborHours).values(c).onConflictDoUpdate(LABOR_UPSERT));
   for (const c of chunks(metricRows)) stmts.push(db.insert(marketplaceMetrics).values(c).onConflictDoUpdate(METRIC_UPSERT));
   for (const c of chunks(toInsert)) stmts.push(db.insert(orders).values(c));
+  for (const [id, supplier] of enrich) stmts.push(db.update(orders).set({ supplier }).where(eq(orders.id, id)));
   for (const c of chunks(lines)) stmts.push(db.insert(moneyLines).values(c));
   for (const c of chunks(exc)) stmts.push(db.insert(exceptions).values(c));
   await runBatch(db, stmts);
@@ -642,9 +714,12 @@ async function writeParsed(
     laborHoursInserted: laborRows.length,
     marketplaceMetricsInserted: metricRows.length,
     duplicates,
+    ordersEnriched: enrich.size,
     warnings: warnings.length,
     period: run.period ?? null,
     businessDate: run.businessDate ?? null,
+    archiveKey: archived.key,
+    archiveBackend: archived.backend,
   };
 }
 
