@@ -6,14 +6,10 @@ import { BarsIcon, CheckIcon, DatabaseIcon, FileIcon, GridIcon, PulseIcon } from
 import { ThemeToggle } from "./ThemeToggle";
 
 type SidebarProps = {
-  pulseLabel: string;     // "Oct 2"
-  scorecardLabel: string; // "Sep"
-  sourcesLabel: string;   // "Sep 7/9": sources that sent data for the Monthly report month
-  sourcesHint?: string;   // "7 of 9 data sources sent September data"
   importLabel: string | null; // newest file of any day, "Sat, Oct 3 · 11:56 AM ET"; null before the first import
 };
 
-type NavItem = { href: string; label: string; icon: ReactNode; meta?: ReactNode };
+type NavItem = { href: string; label: string; icon: ReactNode };
 
 function Brand() {
   // Text wordmark only: the Goodwill "smiling G" is a trademark, so it is not reproduced here.
@@ -27,21 +23,14 @@ function Brand() {
   );
 }
 
-export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint, importLabel }: SidebarProps) {
+export function Sidebar({ importLabel }: SidebarProps) {
   const pathname = usePathname();
   const items: NavItem[] = [
     { href: "/", label: "Overview", icon: <GridIcon /> },
-    { href: "/pulse", label: "Daily Pulse", icon: <PulseIcon />, meta: <span className="text-[11px] text-ink-3 tabular-nums">{pulseLabel}</span> },
-    { href: "/scorecard", label: "Monthly report", icon: <BarsIcon />, meta: <span className="text-[11px] text-ink-3 tabular-nums">{scorecardLabel}</span> },
-    {
-      href: "/sources", label: "Sources", icon: <DatabaseIcon />,
-      meta: (
-        <span title={sourcesHint} className="rounded-[5px] border border-line px-[5px] text-[11px] leading-[17px] font-medium text-ink-2">
-          {sourcesLabel}{sourcesHint && <span className="sr-only"> ({sourcesHint})</span>}
-        </span>
-      ),
-    },
-    { href: "/close", label: "Month-end Close", icon: <FileIcon className="size-4" />, meta: <span className="text-[11px] text-ink-3 tabular-nums">{scorecardLabel}</span> },
+    { href: "/pulse", label: "Daily Pulse", icon: <PulseIcon /> },
+    { href: "/scorecard", label: "Monthly report", icon: <BarsIcon /> },
+    { href: "/sources", label: "Sources", icon: <DatabaseIcon /> },
+    { href: "/close", label: "Month-end Close", icon: <FileIcon className="size-4" /> },
   ];
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
@@ -59,7 +48,6 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
                 className={`relative flex h-[34px] items-center gap-2.5 rounded-[7px] px-2.5 text-[13.5px] transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-accent ${active ? "bg-surface-2 font-semibold text-ink before:absolute before:top-2 before:bottom-2 before:-left-3.5 before:w-[3px] before:rounded-r-full before:bg-brand-yellow" : "font-medium text-ink-2"}`}>
                 {it.icon}
                 <span className="flex-1">{it.label}</span>
-                {it.meta}
               </Link>
             );
           })}
