@@ -302,6 +302,27 @@ export const closes = sqliteTable(
       .default("collecting"),
     approvedBy: text("approved_by"),
     approvedAt: text("approved_at"),
+    /**
+     * Business Central posting (slide 40 step 06, slide 41 WS4). Independent of
+     * `status`: an exported close is imported into BC, then posted there.
+     * Today the BC side is SIMULATED (src/close/posting.ts) and the stored
+     * response says so (`simulated: true`).
+     */
+    postingStatus: text("posting_status", { enum: ["not_posted", "imported", "posted", "failed"] })
+      .notNull()
+      .default("not_posted"),
+    /** BC General Journal batch the lines were imported into. */
+    bcBatch: text("bc_batch"),
+    /** JSON string[]: BC document numbers (journal Document No.s + sales invoice No.). */
+    bcDocumentNos: text("bc_document_nos"),
+    importedAt: text("imported_at"),
+    importedBy: text("imported_by"),
+    postedAt: text("posted_at"),
+    postedBy: text("posted_by"),
+    /** JSON: last posting-adapter response (import, then post), incl. `simulated`. */
+    postingResponseJson: text("posting_response_json"),
+    /** JSON CloseEvent[]: audit trail (generated, reconciled, approved, exported, imported, posted, ...). */
+    eventsJson: text("events_json"),
     createdAt: createdAt(),
   },
   (t) => [uniqueIndex("closes_period_uq").on(t.period)],

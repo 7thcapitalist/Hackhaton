@@ -18,7 +18,7 @@ import { and, eq, inArray } from "drizzle-orm";
 import type ExcelJS from "exceljs";
 import { getDb, type Db } from "@/db/client";
 import { arInvoiceLines, arInvoices, closes, exceptions, glRules, journalLines } from "@/db/schema";
-import { CloseError, assertPeriod, centsToDecimal, parseTrace, requireClose } from "./common";
+import { CloseError, appendEvent, assertPeriod, centsToDecimal, parseTrace, requireClose } from "./common";
 
 export type ExportFormat = "xlsx" | "csv";
 
@@ -71,10 +71,16 @@ export async function approveClose(
     waived = open.length;
     await tx.update(closes).set({ status: "approved", approvedBy: who, approvedAt: now }).where(eq(closes.id, close.id));
   });
+  await appendEvent(db, close.id, {
+    action: "approved",
+    actor: who,
+    at: now,
+    detail: waived ? `approved with force: ${waived} open exception(s) waived` : "approved with no open exceptions",
+  });
   return { period, status: "approved", approvedBy: who, approvedAt: now, waivedExceptions: waived };
 }
 
-const GJ_COLUMNS = [
+export const GJ_COLUMNS = [
   "Journal Template Name",
   "Journal Batch Name",
   "Line No.",
@@ -99,7 +105,7 @@ function csvCell(v: unknown): string {
   return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
-export async function exportClose(period: string, format: ExportFormat, opts: { db?: Db } = {}): Promise<Buffer> {
+export async function exportClose(period: string, format: ExportFormat, opts: { db?: Db; by?: string } = {}): Promise<Buffer> {
   assertPeriod(period);
   if (format !== "xlsx" && format !== "csv") throw new CloseError("bad_input", `format must be xlsx or csv, got "${format}"`);
   const db = opts.db ?? getDb();
@@ -260,10 +266,15 @@ export async function exportClose(period: string, format: ExportFormat, opts: { 
   if (close.status !== "exported") {
     await db.update(closes).set({ status: "exported" }).where(eq(closes.id, close.id));
   }
+  await appendEvent(db, close.id, {
+    action: "exported",
+    actor: opts.by ?? "system",
+    detail: `BC ${format.toUpperCase()} (${lines.length} journal lines, ${invLines.length} invoice lines, ${buffer.length} bytes)${close.status === "exported" ? " (re-download)" : ""}`,
+  });
   return buffer;
 }
 
-function styleHeader(ws: ExcelJS.Worksheet, widths: number[]) {
+export function styleHeader(ws: ExcelJS.Worksheet, widths: number[]) {
   ws.getRow(1).font = { bold: true };
   widths.forEach((w, i) => (ws.getColumn(i + 1).width = w));
 }
