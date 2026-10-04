@@ -211,8 +211,11 @@ export async function getPulseBaseline(range: DataRange, view: PulseView, weeks 
 export { PILLARS } from "../scorecard/kpiFormat";
 
 const TEAM_LEVEL = new Set(["listings_per_employee", "sales_per_employee"]);
+/** The scorecard view for a period, once per request (the screen and its charts share it). */
+export const getScorecardView = cache((period: string) => getScorecard(period));
+
 export const getScorecardScreen = cache(async (period: string) => {
-  const view = await getScorecard(period);
+  const view = await getScorecardView(period);
 
   const total = view.kpis.find(k => k.id === "total_revenue")?.value ?? null;
   const kpis: Kpi[] = view.kpis.filter(k => k.group === "coo15").map(k => {

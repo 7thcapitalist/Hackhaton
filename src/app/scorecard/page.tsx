@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PrintButton } from "@/components/PrintButton";
-import { AskDataButton } from "@/components/scorecard/AskDataButton";
 import { CategoriesTable } from "@/components/scorecard/CategoriesTable";
 import { ToggleAllSections } from "@/components/scorecard/CollapsibleCard";
 import { KeyKpiCards } from "@/components/scorecard/KeyKpiCards";
+import { CategoryBarsChart } from "@/components/scorecard/CategoryBarsChart";
+import { RepeatBuyersChart } from "@/components/scorecard/RepeatBuyersChart";
+import { RevenuePaceChart } from "@/components/scorecard/RevenuePaceChart";
 import { ScorecardTable } from "@/components/scorecard/ScorecardTable";
+import { getScorecardCharts } from "../_lib/scorecard-charts";
 import { getDataRange, getScorecardScreen, getSourcesScreen, periodLabel, periodShort, resolvePeriod, summarizeSources } from "../_lib/data";
 import { formatDay, formatStampFull } from "../_lib/format";
 import { periodBounds, previousPeriod } from "@/lib/views/dates";
@@ -16,6 +19,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
   const range = (await getDataRange())!; // the layout shows NoData when null
   const period = resolvePeriod(range, (await searchParams).period);
   const [{ kpis, categories, totalRevenueCents }, sourcesData] = await Promise.all([getScorecardScreen(period), getSourcesScreen(range, period)]);
+  const charts = await getScorecardCharts(range, period, kpis);
   const anchors = kpis.filter(k => k.anchor2027);
   const src = summarizeSources(sourcesData.sources);
   const i = range.periods.indexOf(period);
@@ -40,7 +44,6 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
             <span className="hidden text-[15px] font-semibold print:block">{label}</span>
             <span className="pl-1 text-[11.5px] text-ink-3">data through {formatDay(through, { month: "short", day: "numeric" })}, ET</span>
           </div>
-          <AskDataButton />
           <PrintButton />
         </div>
       </header>
@@ -52,7 +55,11 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
           <h2 id="pillars-title" className="text-[14px] font-semibold">All KPIs by pillar</h2>
           <ToggleAllSections />
         </div>
-        <ScorecardTable kpis={kpis} prevMonth={prevMonth} />
+        <ScorecardTable kpis={kpis} prevMonth={prevMonth} charts={{
+          financial: charts.revenuePace && <RevenuePaceChart data={charts.revenuePace} />,
+          sales: charts.categories && <CategoryBarsChart data={charts.categories} />,
+          category_customer: charts.repeatBuyers && <RepeatBuyersChart data={charts.repeatBuyers} />,
+        }} />
       </section>
 
       <CategoriesTable rows={categories} totalRevenueCents={totalRevenueCents} monthLabel={month} />
