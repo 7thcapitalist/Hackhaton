@@ -212,13 +212,13 @@ function Row({ children }: { children: ReactNode }) {
 function CardTitle({ icon, children, theme }: { icon: ReactNode; children: ReactNode; theme: MarketTheme }) {
   return (
     <h3 className="flex items-center gap-2 text-[13px] font-semibold text-ink-2">
-      <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.soft, color: theme.accent }}>{icon}</span>
+      <span aria-hidden className="flex size-5 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.soft, color: theme.accent }}>{icon}</span>
       {children}
     </h3>
   );
 }
 
-function RankCard({ icon, title, rows, limit = 6, barColor, rowIcon, nounSingular, nounPlural, theme, active }: {
+function RankCard({ icon, title, rows, limit = 4, barColor, rowIcon, nounSingular, nounPlural, theme, active }: {
   icon: ReactNode; title: string; rows: Bucket[]; limit?: number; barColor?: (key: string) => string; rowIcon?: (r: Bucket) => ReactNode;
   nounSingular: string; nounPlural: string; theme: MarketTheme; active: boolean;
 }) {
@@ -228,23 +228,23 @@ function RankCard({ icon, title, rows, limit = 6, barColor, rowIcon, nounSingula
   const totalCents = rows.reduce((a, r) => a + r.revenueCents, 0);
   const avgCents = rows.length ? Math.round(totalCents / rows.length) : 0;
   return (
-    <div className="flex flex-col gap-3 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
+    <div className="flex flex-col gap-1.5 rounded-[14px] border border-line bg-surface p-3.5" style={active ? { borderColor: theme.line } : undefined}>
       <CardTitle icon={icon} theme={theme}>{title}</CardTitle>
       {shown.length === 0 ? <p className="text-[13px] text-ink-3">No orders in this slice.</p> : (
         <>
-          <ol className="flex flex-col gap-2.5">
+          <ol className="flex flex-col gap-1.5">
             {shown.map((r, i) => (
               <li key={r.key} className="flex items-center gap-3">
                 <span className="w-4 shrink-0 text-[12px] font-semibold text-ink-3">{i + 1}</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline justify-between gap-2">
-                    <span className="flex min-w-0 items-center gap-1.5 truncate text-[13.5px] font-medium text-ink">
+                    <span className="flex min-w-0 items-center gap-1.5 truncate text-[13px] font-medium text-ink">
                       {rowIcon && <span className="shrink-0 text-ink-3">{rowIcon(r)}</span>}
                       <span className="truncate">{r.key}</span>
                     </span>
-                    <span className="shrink-0 text-[13.5px] font-semibold text-ink">{formatMoneyCompact(r.revenueCents)}</span>
+                    <span className="shrink-0 text-[13px] font-semibold text-ink">{formatMoneyCompact(r.revenueCents)}</span>
                   </div>
-                  <div className="mt-1 flex items-center gap-2">
+                  <div className="mt-0.5 flex items-center gap-2">
                     <span className="block h-[5px] flex-1 overflow-hidden rounded-full bg-muted-soft">
                       <span className="block h-full rounded-full" style={{ width: `${Math.max(4, Math.min(100, (r.revenueCents / max) * 100))}%`, backgroundColor: barColor ? barColor(r.key) : theme.accent }} />
                     </span>
@@ -263,14 +263,14 @@ function RankCard({ icon, title, rows, limit = 6, barColor, rowIcon, nounSingula
       )}
       {rest > 0 && <p className="text-[12px] text-ink-3">+{rest} more</p>}
       {shown.length > 0 && (
-        <div className="mt-auto grid grid-cols-2 gap-3 border-t border-line pt-3">
+        <div className="mt-auto grid grid-cols-2 gap-3 border-t border-line pt-2.5">
           <div className="flex flex-col gap-0.5">
             <span className="text-[11px] text-ink-3">{nounPlural[0].toUpperCase()}{nounPlural.slice(1)} tracked</span>
-            <span className="text-[16px] font-semibold text-ink">{formatInt(rows.length)}</span>
+            <span className="text-[15px] font-semibold text-ink">{formatInt(rows.length)}</span>
           </div>
           <div className="flex flex-col gap-0.5">
             <span className="text-[11px] text-ink-3">Avg per {nounSingular}</span>
-            <span className="text-[16px] font-semibold text-ink">{formatMoneyCompact(avgCents)}</span>
+            <span className="text-[15px] font-semibold text-ink">{formatMoneyCompact(avgCents)}</span>
           </div>
         </div>
       )}
@@ -289,9 +289,9 @@ function StatCard({ icon, title, value, changePct, comparedTo, caption, secondar
 }) {
   const up = (changePct ?? 0) >= 0;
   return (
-    <div className="flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
+    <div className="flex flex-col gap-1.5 rounded-[14px] border border-line bg-surface p-3.5" style={active ? { borderColor: theme.line } : undefined}>
       <CardTitle icon={icon} theme={theme}>{title}</CardTitle>
-      <span className="font-display text-[44px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
+      <span className="font-display text-[36px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
       {secondary && <span className="text-[12.5px] font-medium text-ink-2">{secondary}</span>}
       <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-ink-3">
         {changePct != null && (
@@ -300,11 +300,11 @@ function StatCard({ icon, title, value, changePct, comparedTo, caption, secondar
         <span>{changePct != null ? `vs ${comparedTo} · ` : ""}{caption}</span>
       </div>
       {stats && stats.length > 0 && (
-        <div className="mt-auto grid grid-cols-2 gap-3 border-t border-line pt-3">
+        <div className="mt-auto grid grid-cols-2 gap-3 border-t border-line pt-2.5">
           {stats.map(s => (
             <div key={s.label} className="flex flex-col gap-0.5">
               <span className="text-[11px] text-ink-3">{s.label}</span>
-              <span className="text-[16px] font-semibold text-ink">{s.value}</span>
+              <span className="text-[15px] font-semibold text-ink">{s.value}</span>
             </div>
           ))}
         </div>
@@ -332,26 +332,30 @@ const WHY_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 7.3v3.4M8
  * Round 7b (Ryan: still didn't understand it, make it bigger and easier to read): rewritten
  * as a full plain-language sentence or two — names what happened, then explains the "why" in
  * words a non-technical reader parses on one pass (no bare arrows, no colon-separated
- * shorthand), instead of a terse data-label sentence. */
+ * shorthand), instead of a terse data-label sentence.
+ *
+ * Round 8 (Ryan: good, but trim it to 5-6 lines — the two-sentence version above ran longer
+ * than that in the box's actual width). Same plain-language content, each branch collapsed to
+ * one sentence instead of two — still names the real cause and the real numbers, just without
+ * the second clause restating it. */
 function moverExplanation(mover: Mover, driver: Driver | null, label: string, comparedTo: string): string {
   const upWord = mover.pct >= 0 ? "grew" : "dropped";
   if (driver) {
     const driverVerb = driver.deltaCents >= 0 ? "rose" : "fell";
-    return `${label} ${upWord} mostly because of ${driver.label}. Its sales ${driverVerb} by ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${comparedTo} — more than any other marketplace or category in this slice, making it the main reason behind the change.`;
+    return `${label} ${upWord} mainly because of ${driver.label} — its sales ${driverVerb} ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${comparedTo}, the biggest swing in this slice.`;
   }
   if (mover.previousOrders === 0) {
-    return `${label} had no sales on ${comparedTo}, so this is all new activity — ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} with nothing from last time to compare it to.`;
+    const isOne = mover.currentOrders === 1;
+    return `${label} had no sales on ${comparedTo} — all ${formatInt(mover.currentOrders)} order${isOne ? "" : "s"} today ${isOne ? "is" : "are"} new activity.`;
   }
   const avgPrev = mover.previousCents / mover.previousOrders;
   const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
   const ordersEffect = (mover.currentOrders - mover.previousOrders) * avgPrev;
   const avgEffect = (avgCur - avgPrev) * mover.currentOrders;
   if (Math.abs(ordersEffect) >= Math.abs(avgEffect)) {
-    const orderWord = mover.currentOrders >= mover.previousOrders ? "More people bought" : "Fewer people bought";
-    return `${label} ${upWord} mainly because of how many orders came in, not how much each one was worth. ${orderWord} — ${formatInt(mover.previousOrders)} orders compared to ${comparedTo}, now ${formatInt(mover.currentOrders)} — while the typical order stayed close to the same size.`;
+    return `${label} ${upWord} mainly because more orders came in — ${formatInt(mover.previousOrders)} compared to ${comparedTo}, now ${formatInt(mover.currentOrders)} — while the typical order size barely changed.`;
   }
-  const valueWord = avgCur >= avgPrev ? "customers simply spent more per order" : "customers simply spent less per order";
-  return `${label} ${upWord} mainly because of order size, not how many orders came in. On average, ${valueWord}: the typical order went from ${formatMoney(avgPrev)} to ${formatMoney(avgCur)} compared to ${comparedTo}, while the number of orders held steady.`;
+  return `${label} ${upWord} mainly because of order size — the typical order went from ${formatMoney(avgPrev)} to ${formatMoney(avgCur)} compared to ${comparedTo}, while order volume held steady.`;
 }
 
 /** Headline mover (movers[0]) — a number, then a sentence — with up to 3 runners-up listed
@@ -376,32 +380,36 @@ function MoverCard({ title, movers, comparedTo, describeKey, driver = null, them
   active: boolean;
 }) {
   const mover = movers[0] ?? null;
-  const runners = movers.slice(1, 4);
+  // Round 8 (Ryan: fit the Overview page without scrolling): 1 runner-up instead of 3 — one
+  // fewer row's worth of height on the tallest card in the row, which is what sets how tall
+  // every card in the row gets stretched to. Safe to cut now that the why-box below fills the
+  // card structurally (flex-1, round 7b) rather than needing extra rows to avoid blank space.
+  const runners = movers.slice(1, 2);
   const described = mover ? describeKey(mover.key) : null;
   const label = described == null ? null : typeof described === "string" ? described : described.label;
   const hint = described == null || typeof described === "string" ? null : described.hint;
   const up = (mover?.pct ?? 0) >= 0;
   const verb = up ? "jumped" : "fell";
   return (
-    <div className="flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
+    <div className="flex flex-col gap-1.5 rounded-[14px] border border-line bg-surface p-3.5" style={active ? { borderColor: theme.line } : undefined}>
       <CardTitle icon={<PulseIcon className="size-3.5" />} theme={theme}>{title}</CardTitle>
       {!mover ? (
-        <div className="flex flex-1 items-center gap-3 rounded-[12px] border border-line bg-muted-soft p-4 text-[14px] text-ink-2">
-          <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full bg-surface text-ink-3">
+        <div className="flex flex-1 items-center gap-2.5 rounded-[12px] border border-line bg-muted-soft p-3 text-[13.5px] text-ink-2">
+          <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-full bg-surface text-ink-3">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
           </span>
           <p>Not enough data yet to compare — there&apos;s no prior period to measure this slice against.</p>
         </div>
       ) : (
         <>
-          <span className={`font-display text-[44px] leading-none font-semibold ${up ? "text-ok" : "text-bad"}`}>
+          <span className={`font-display text-[36px] leading-none font-semibold ${up ? "text-ok" : "text-bad"}`}>
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
           </span>
           <p className="text-[13px] text-ink-2">
             <strong className="font-semibold text-ink">{label}</strong>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {comparedTo} — {formatMoneyCompact(mover.currentCents)} today.
           </p>
           {runners.length > 0 && (
-            <ul className="flex flex-col gap-2 border-t border-line pt-3">
+            <ul className="flex flex-col gap-1.5 border-t border-line pt-2.5">
               {runners.map(m => {
                 const d = describeKey(m.key);
                 const l = typeof d === "string" ? d : d.label;
@@ -419,11 +427,11 @@ function MoverCard({ title, movers, comparedTo, describeKey, driver = null, them
               })}
             </ul>
           )}
-          <div className="flex flex-1 items-center gap-3 rounded-[12px] border p-4" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
-            <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
+          <div className="flex flex-1 items-center gap-2.5 rounded-[12px] border p-3" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
+            <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
             </span>
-            <p className="text-[14px] leading-snug text-ink-2">
+            <p className="text-[13.5px] leading-snug text-ink-2">
               <span className="block text-[12px] font-semibold tracking-wide text-ink">Why this happened</span>
               {moverExplanation(mover, driver, label ?? String(mover.key), comparedTo)}
             </p>
