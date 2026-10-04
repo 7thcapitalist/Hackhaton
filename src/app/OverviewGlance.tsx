@@ -10,15 +10,15 @@
 // marketplaces keep their series color as the bar and a swatch, categories stay plain ink.
 // Numbers are set in the UI face with tabular figures, sized for reading, not for show.
 import type { ReactNode } from "react";
-import { bucketBy, matches, rankMovers, sliceStats, type Bucket, type Mover, type OrderLike } from "./_lib/overview-filters";
+import { biggestDriver, bucketBy, matches, rankMovers, sliceStats, type Bucket, type Driver, type Mover, type OrderLike } from "./_lib/overview-filters";
 import { MARKET_THEME, type MarketKey } from "./_lib/overview-theme";
 import { formatInt, formatMoney, formatMoneyCompact, pctChange } from "./_lib/format";
 
-/** Change vs the comparison day as plain text: up in green, down in neutral ink (a dip is not an alarm). */
+/** Change vs the comparison day as plain text: up in green, down in red (#53). */
 export function ChangeText({ pct }: { pct: number | null }) {
   if (pct == null) return <span className="text-ink-4">–</span>;
   const up = pct >= 0;
-  return <span className={`font-medium ${up ? "text-ok" : "text-ink-2"}`}>{up ? "↑" : "↓"} {Math.abs(pct).toFixed(1)}%</span>;
+  return <span className={`font-medium ${up ? "text-ok" : "text-bad"}`}>{up ? "↑" : "↓"} {Math.abs(pct).toFixed(1)}%</span>;
 }
 
 type OverviewGlanceProps = {
@@ -43,12 +43,18 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           [...tag(bucketBy(previous, o => o.channelLabel), "m:"), ...tag(bucketBy(previous, o => o.category), "c:")],
         )
       : [];
+    const headline = movers[0] ?? null;
+    const dir = (headline && headline.pct < 0 ? -1 : 1) as 1 | -1;
+    const driver = headline
+      ? headline.key.startsWith("c:")
+        ? biggestDriver(current, previous, o => o.category, headline.key.slice(2), o => o.channelLabel, dir)
+        : biggestDriver(current, previous, o => o.channelLabel, headline.key.slice(2), o => o.category, dir)
+      : null;
     return (
       <Row>
         <RankPanel title="Top marketplaces today" keyLabel="Marketplace" rows={byChannel} barColor={marketBarColor} />
         <RankPanel title="Top categories today" keyLabel="Category" rows={byCategory} limit={4} />
-        <MoverPanel title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey}
-          explainer="Compares today's revenue in every marketplace and category to the same day last week, ranked by the size of the swing." />
+        <MoverPanel title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey} driver={driver} />
       </Row>
     );
   }
@@ -66,8 +72,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? `, ${formatInt(stats.cancelled)} cancelled` : ""}`}
           stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]} />
-        <MoverPanel title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k}
-          explainer={`Compares each category's ${channelLabel} revenue today to the same day last week, ranked by the size of the swing.`} />
+        <MoverPanel title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} />
       </Row>
     );
   }
@@ -85,8 +90,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? `, ${formatInt(stats.cancelled)} cancelled` : ""}`}
           stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]} />
-        <MoverPanel title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k}
-          explainer={`Compares each marketplace's ${category} revenue today to the same day last week, ranked by the size of the swing.`} />
+        <MoverPanel title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} />
       </Row>
     );
   }
@@ -106,8 +110,10 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
         changePct={null} comparedTo={comparedTo} caption={stats.cancelled ? `${(stats.cancelRate * 100).toFixed(1)}% of this slice` : "none in this slice"}
         stats={[{ label: "Live orders", value: formatInt(stats.orders) }, { label: "Unique customers", value: formatInt(stats.customers) }]} />
       <MoverPanel title="Change vs comparison day" comparedTo={comparedTo} describeKey={() => `${channelLabel}, ${category}`}
-        movers={revenueChangePct == null ? [] : [{ key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents }]}
-        explainer={`Compares this slice's (${channelLabel}, ${category}) revenue today to the same day last week.`} />
+        movers={revenueChangePct == null || !prevStats ? [] : [{
+          key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents,
+          previousCents: prevStats.revenueCents, currentOrders: stats.orders, previousOrders: prevStats.orders,
+        }]} />
     </Row>
   );
 }
@@ -152,7 +158,8 @@ function RankPanel({ title, keyLabel, rows, limit = 6, barColor }: {
   const max = shown[0]?.revenueCents || 1;
   const rest = rows.length - shown.length;
   const totalCents = rows.reduce((a, r) => a + r.revenueCents, 0);
-  const totalOrders = rows.reduce((a, r) => a + r.orders, 0);
+  const noun = keyLabel === "Category" ? ["category", "categories"] : ["marketplace", "marketplaces"];
+  const avgCents = rows.length ? Math.round(totalCents / rows.length) : 0;
   return (
     <Panel title={title}>
       {shown.length === 0 ? <p className="text-[13px] text-ink-3">No orders in this slice.</p> : (
@@ -187,7 +194,7 @@ function RankPanel({ title, keyLabel, rows, limit = 6, barColor }: {
       {rest > 0 && <p className="text-[12px] text-ink-3">+{rest} more</p>}
       {shown.length > 0 && (
         <p className="mt-auto border-t border-line-2 pt-2 text-[12px] text-ink-3">
-          Total <span className="font-medium text-ink">{formatMoneyCompact(totalCents)}</span> from <span className="font-medium text-ink">{formatInt(totalOrders)}</span> orders
+          <span className="font-medium text-ink">{formatInt(rows.length)}</span> {rows.length === 1 ? noun[0] : noun[1]}, average <span className="font-medium text-ink">{formatMoneyCompact(avgCents)}</span> per {noun[0]}
         </p>
       )}
     </Panel>
@@ -222,11 +229,28 @@ function StatPanel({ title, value, changePct, comparedTo, caption, secondary, st
   );
 }
 
+/** Why the headline moved, from its own numbers (#53): the sub-bucket that drove it in the same
+ * direction when one exists, else whether order volume or order value accounts for most of it. */
+function moverExplanation(mover: Mover, driver: Driver | null, comparedTo: string): string {
+  if (driver) {
+    const sign = driver.deltaCents >= 0 ? "+" : "−";
+    return `Mainly ${driver.deltaCents >= 0 ? "a jump" : "a drop"} in ${driver.label} (${sign}${formatMoneyCompact(Math.abs(driver.deltaCents))} vs ${comparedTo}).`;
+  }
+  if (mover.previousOrders === 0) return `New vs ${comparedTo}: ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"}, nothing to compare against.`;
+  const avgPrev = mover.previousCents / mover.previousOrders;
+  const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
+  const ordersEffect = (mover.currentOrders - mover.previousOrders) * avgPrev;
+  const avgEffect = (avgCur - avgPrev) * mover.currentOrders;
+  return Math.abs(ordersEffect) >= Math.abs(avgEffect)
+    ? `Mainly order volume: ${formatInt(mover.previousOrders)} to ${formatInt(mover.currentOrders)} orders vs ${comparedTo}.`
+    : `Mainly order value: average order ${formatMoney(avgPrev)} to ${formatMoney(avgCur)} vs ${comparedTo}.`;
+}
+
 /** The biggest swing, explained in a sentence, then up to 3 runners-up (rankMovers order; #47). */
-function MoverPanel({ title, movers, comparedTo, describeKey, explainer }: {
+function MoverPanel({ title, movers, comparedTo, describeKey, driver = null }: {
   title: string;
   movers: Mover[];
-  explainer: string; // what this card compares (#51), shown as a footnote
+  driver?: Driver | null; // what caused the headline swing, when a second dimension is free (#53)
   comparedTo: string;
   describeKey: (key: string) => string | { label: string; hint: string };
 }) {
@@ -242,7 +266,7 @@ function MoverPanel({ title, movers, comparedTo, describeKey, explainer }: {
     <Panel title={title}>
       {!mover ? <p className="text-[13px] text-ink-3">Not enough data yet to compare.</p> : (
         <>
-          <span className={`text-[24px] leading-none font-semibold tracking-[-0.02em] ${up ? "text-ok" : "text-ink"}`}>
+          <span className={`text-[24px] leading-none font-semibold tracking-[-0.02em] ${up ? "text-ok" : "text-bad"}`}>
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
           </span>
           <p className="text-[13px] text-pretty text-ink-2">
@@ -260,7 +284,7 @@ function MoverPanel({ title, movers, comparedTo, describeKey, explainer }: {
           )}
         </>
       )}
-      <p className="mt-auto border-t border-line-2 pt-2 text-[12px] text-pretty text-ink-3">{explainer}</p>
+      {mover && <p className="mt-auto border-t border-line-2 pt-2 text-[12px] text-pretty text-ink-3">{moverExplanation(mover, driver, comparedTo)}</p>}
     </Panel>
   );
 }
