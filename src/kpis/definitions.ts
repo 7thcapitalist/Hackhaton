@@ -47,8 +47,28 @@ const buyerNote = (f: PeriodFacts) =>
     ? `${f.buyers.transactionsWithoutBuyer} transactions without a buyer id (e.g. Amazon) are excluded.`
     : null;
 
-const growthNote = (f: PeriodFacts) =>
-  f.priorYear ? `YoY vs ${f.priorYear.period}.` : "MoM: no prior-year data.";
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "Oct 1–3" for period 2026-10, days 1..3 (end clamped to the month's length). */
+const dayRange = (period: string, day: number) => {
+  const [y, m] = period.split("-").map(Number) as [number, number];
+  const last = Math.min(day, new Date(Date.UTC(y, m, 0)).getUTCDate());
+  return `${MONTHS[m - 1]} 1${last > 1 ? `–${last}` : ""}`;
+};
+const prevMonth = (period: string) => {
+  const [y, m] = period.split("-").map(Number) as [number, number];
+  return new Date(Date.UTC(y, m - 2, 1)).toISOString().slice(0, 7);
+};
+
+const growthNote = (f: PeriodFacts) => {
+  const mtd = f.monthToDate;
+  if (mtd) {
+    const cur = `Month to date (${dayRange(f.period, mtd.throughDay)})`;
+    return f.priorYear
+      ? `${cur} vs ${dayRange(f.priorYear.period, mtd.throughDay)}, ${f.priorYear.period.slice(0, 4)}.`
+      : `${cur} vs ${dayRange(prevMonth(f.period), mtd.throughDay)} (MoM: no prior-year data).`;
+  }
+  return f.priorYear ? `YoY vs ${f.priorYear.period}.` : "MoM: no prior-year data.";
+};
 
 const catNote = "Breakdown per category in categories[].";
 

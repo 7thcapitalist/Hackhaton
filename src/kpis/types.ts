@@ -129,6 +129,19 @@ export interface PeriodFacts {
   categories: CategoryFacts[];
   /** Revenue (Σ net_cents) of the same month one year earlier; null when that month has no orders. */
   priorYear: { period: string; netCents: number } | null;
+  /**
+   * Set only for a partial period (orders stop before period end, e.g. the
+   * running month): revenue of days 1..throughDay of the comparison months, so
+   * growth compares like with like. Absent/null for a finished period.
+   */
+  monthToDate?: {
+    /** Day of month of the last business date with orders in the period. */
+    throughDay: number;
+    /** Σ net_cents of days 1..throughDay of the same month last year. */
+    priorYearNetCents: number;
+    /** Σ net_cents of days 1..throughDay (clamped to month length) of the previous month. */
+    prevMonthNetCents: number;
+  } | null;
   marketplace: MarketplaceMetricFact[];
 }
 
