@@ -8,14 +8,16 @@ import { HeroStat } from "@/components/HeroStat";
 import { ClockIcon, DownloadIcon, MailIcon, WarnIcon } from "@/components/icons";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PulseChart } from "@/components/PulseChart";
+import { CategoryMixCard } from "@/components/CategoryMixCard";
+import { MonthPaceCard } from "@/components/MonthPaceCard";
 import { RevenueSplit } from "@/components/RevenueSplit";
 import { NO_BUYER_ID, PulseTable, type PulseField } from "@/components/PulseTable";
-import type { PulseScreenData } from "../_lib/data";
+import type { CategoryMix, MonthPace, PulseScreenData } from "../_lib/data";
 import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyWhole, formatStamp } from "../_lib/format";
 import { baselineLabel, buildPulseSummary, significance, weekdayOf, type PulseBaseline, type PulseMetric } from "./summary";
 import type { ChannelId, PulseSeries, PulseView, SourceOrder } from "../_lib/types";
 
-type PulseScreenProps = PulseScreenData & { baseline: PulseBaseline | null; latestDate: string }; // latestDate = last complete day
+type PulseScreenProps = PulseScreenData & { baseline: PulseBaseline | null; pace: MonthPace; categoryMix: CategoryMix; latestDate: string }; // latestDate = last complete day
 
 type DrawerState = { channel: ChannelId | "total"; field: PulseField } | { channel: ChannelId; missing: true } | null;
 
@@ -36,7 +38,7 @@ function useAdvanced() {
   return [advanced, set] as const;
 }
 
-export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevDate, nextDate, isPartial, latestDate }: PulseScreenProps) {
+export function PulseScreen({ view, orders, ordersTotal, baseline, pace, categoryMix, series, prevDate, nextDate, isPartial, latestDate }: PulseScreenProps) {
   const router = useRouter();
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [advanced, setAdvanced] = useAdvanced();
@@ -132,14 +134,17 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
         </div>
       )}
 
-      {advanced ? (
-        <>
-          <PulseTable rows={view.rows} totals={T} dateLabel={dateShort} onCellClick={openCell} onMissingClick={channel => setDrawer({ channel, missing: true })} />
-          <PulseChart data={series} selectedDate={date} lastCompleteDate={latestDate} onSelectDate={d => router.push(href(d), { scroll: false })} />
-        </>
-      ) : (
-        <RevenueSplit rows={view.rows} totalCents={T.revenueCents} />
-      )}
+      {advanced
+        ? <PulseTable rows={view.rows} totals={T} dateLabel={dateShort} onCellClick={openCell} onMissingClick={channel => setDrawer({ channel, missing: true })} />
+        : <RevenueSplit rows={view.rows} totalCents={T.revenueCents} />}
+
+      {/* Both views: is the month on track, and what sold today. */}
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <MonthPaceCard pace={pace} />
+        <CategoryMixCard mix={categoryMix} dateLabel={dateShort} />
+      </div>
+
+      {advanced && <PulseChart data={series} selectedDate={date} lastCompleteDate={latestDate} onSelectDate={d => router.push(href(d), { scroll: false })} />}
 
       <DrillDownDrawer content={drawerContent} dateLong={dateLong} dateShort={dateShort} onClose={close} />
     </div>

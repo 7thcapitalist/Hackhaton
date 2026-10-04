@@ -206,6 +206,83 @@ export async function getPulseBaseline(range: DataRange, view: PulseView, weeks 
   };
 }
 
+// ---- Daily Pulse: category mix and month-to-date pace ----
+
+export type CategoryMixRow = { category: string; revenueCents: number; sharePct: number; typicalSharePct: number | null };
+export type CategoryMix = {
+  rows: CategoryMixRow[];         // categorized revenue, largest first; the tail folded into "Other categories"
+  uncategorized: CategoryMixRow;  // orders whose source has no category (all of Amazon, most of eBay)
+  totalCents: number;
+  weekday: string;
+  baselineDays: number;           // same weekdays averaged for "usually"
+  complete: boolean;              // false when the day has more order rows than were loaded
+};
+
+const NO_CATEGORY = "Uncategorized";
+export const CATEGORY_MIX_TOP = 6;
+
+function revenueByCategory(rows: { category: string | null; netCents: number }[]) {
+  const by = new Map<string, number>();
+  for (const r of rows) by.set(r.category ?? NO_CATEGORY, (by.get(r.category ?? NO_CATEGORY) ?? 0) + r.netCents);
+  return by;
+}
+
+/**
+ * The day's revenue by item category, as a share of total revenue (net, so it sums to the pulse
+ * total), next to the usual share on the same weekday over the previous `weeks` weeks.
+ */
+export async function getCategoryMix(range: DataRange, date: string, orders: SourceOrder[], ordersTotal: number, weeks = 4): Promise<CategoryMix> {
+  const today = revenueByCategory(orders.map(o => ({ category: o.category === NO_CATEGORY ? null : o.category, netCents: o.netCents })));
+  const totalCents = [...today.values()].reduce((a, v) => a + v, 0);
+  const days = Array.from({ length: weeks }, (_, k) => addDays(date, -7 * (k + 1))).filter(d => d >= range.earliestDate);
+  const earlier = (await Promise.all(days.map(d => getOrders({ date: d, limit: ORDERS_MAX_LIMIT }))))
+    .map(v => revenueByCategory(v.rows.map(o => ({ category: o.category, netCents: o.netCents }))))
+    .filter(m => [...m.values()].reduce((a, v) => a + v, 0) > 0);
+  const typical = (cats: string[]) => earlier.length === 0 ? null : earlier.reduce((sum, m) => {
+    const t = [...m.values()].reduce((a, v) => a + v, 0);
+    return sum + cats.reduce((a, c) => a + (m.get(c) ?? 0), 0) / t;
+  }, 0) / earlier.length * 100;
+  const share = (cents: number) => (totalCents ? (cents / totalCents) * 100 : 0);
+
+  const named = [...today.entries()].filter(([c]) => c !== NO_CATEGORY).sort((a, b) => b[1] - a[1]);
+  const top = named.slice(0, CATEGORY_MIX_TOP), rest = named.slice(CATEGORY_MIX_TOP);
+  const rows: CategoryMixRow[] = top.map(([category, cents]) => ({ category, revenueCents: cents, sharePct: share(cents), typicalSharePct: typical([category]) }));
+  if (rest.length) {
+    const cents = rest.reduce((a, [, v]) => a + v, 0);
+    rows.push({ category: `Other categories (${rest.length})`, revenueCents: cents, sharePct: share(cents), typicalSharePct: typical(rest.map(([c]) => c)) });
+  }
+  const noCat = today.get(NO_CATEGORY) ?? 0;
+  return {
+    rows, totalCents, weekday: weekdayOf(date), baselineDays: earlier.length, complete: orders.length >= ordersTotal,
+    uncategorized: { category: "No category", revenueCents: noCat, sharePct: share(noCat), typicalSharePct: typical([NO_CATEGORY]) },
+  };
+}
+
+export type MonthPace = {
+  period: string;            // YYYY-MM of the selected day
+  daysInMonth: number;
+  through: string | null;    // last complete day counted (null = none yet this month)
+  daily: number[];           // revenue per day of the month from day 1 through `through`
+  targetCents: number | null;
+};
+
+/** Month-to-date revenue through the selected day (complete days only) against the month's revenue target. */
+export async function getMonthPace(range: DataRange, date: string): Promise<MonthPace> {
+  const period = date.slice(0, 7);
+  const { start, end } = periodBounds(period);
+  const last = [date, range.completeDate].sort()[0];
+  const through = last >= start ? last : null;
+  const [series, scorecard] = await Promise.all([
+    through ? getPulseSeries(start, through) : null,
+    getScorecard(period),
+  ]);
+  return {
+    period, daysInMonth: daysBetween(start, end) + 1, through,
+    daily: series?.totals.revenueCents ?? [],
+    targetCents: scorecard.kpis.find(k => k.id === "total_revenue")?.target ?? null,
+  };
+}
+
 // ---- COO Scorecard ----
 
 export { PILLARS } from "../scorecard/kpiFormat";
