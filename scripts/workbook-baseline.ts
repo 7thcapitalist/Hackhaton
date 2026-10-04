@@ -22,6 +22,7 @@
 import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { config } from "dotenv";
+import { revalidateViews } from "./revalidate-views";
 
 config({ path: ".env.local", quiet: true });
 config({ quiet: true });
@@ -122,6 +123,7 @@ async function main() {
   } else {
     console.log("No close generated for the period yet; the baseline is used when it is.");
   }
+  await revalidateViews();
 }
 
 if (process.argv[1] && /workbook-baseline\.ts$/.test(process.argv[1])) {

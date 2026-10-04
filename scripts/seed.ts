@@ -20,6 +20,7 @@
  * data/archive/); by default runs only point at the versioned fixture path.
  */
 import { config } from "dotenv";
+import { revalidateViews } from "./revalidate-views";
 
 config({ path: ".env.local", quiet: true });
 config({ quiet: true });
@@ -74,6 +75,7 @@ async function main() {
       `Golden snapshot saved in ${Date.now() - t} ms (${rows} rows, ${Object.keys(g.counts).length} tables). Reset with \`npm run demo:reset\`.`,
     );
   }
+  await revalidateViews();
 }
 
 main().catch((err) => {

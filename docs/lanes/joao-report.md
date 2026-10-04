@@ -46,6 +46,7 @@ npm run dev
 ## Demo checklist
 
 1. Run `npm run demo:reset` against production right before the demo.
+   Pages are cached (#77). Scripts run against production refresh the live site themselves when `REPORTS_VIEW_ORIGIN` and `CRON_SECRET` are set in your shell; otherwise they print the `curl` to run.
 2. Show the Overview, Pulse and Scorecard pages (all KPIs ok), then ask the chatbot "Why were sales lower yesterday?"
 3. Ingest a file from `data/demo-uploads/` with `npm run ingest -- data/demo-uploads/<file>` (see its README; the upload UI was removed in #31) and show the issue it raises on the Sources page.
 4. On `/close` for September, run the full flow:

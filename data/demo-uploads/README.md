@@ -4,6 +4,7 @@ The seeded baseline is **clean**: every file that is due is there, nothing warns
 exceptions. These five files are the messy cases, to ingest **on stage** with
 `npm run ingest -- data/demo-uploads/<file>` (the Sources page upload was removed in #31). The seed never ingests them.
 `npm run demo:reset` puts the database back to the clean baseline in a few seconds.
+Against production, also set `REPORTS_VIEW_ORIGIN` and `CRON_SECRET`, so each script refreshes the live site's cache (#77) when it finishes.
 
 They are generated with the fixtures (`npm run mock:generate`, checked by `-- --check`) from
 `scripts/mock/demo-uploads.ts`, all for business day 2026-10-02.

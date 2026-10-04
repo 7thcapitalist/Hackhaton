@@ -5,6 +5,7 @@
  * Only SQL statements go over the wire, never rows.
  */
 import { config } from "dotenv";
+import { revalidateViews } from "./revalidate-views";
 
 config({ path: ".env.local", quiet: true });
 config({ quiet: true });
@@ -19,6 +20,7 @@ async function main() {
     const r = await restoreGolden(getClient());
     for (const [name, n] of Object.entries(r.counts)) console.log(`  ${name.padEnd(20)} ${n}`);
     console.log(`Restored golden snapshot from ${r.createdAt} in ${r.ms} ms.`);
+    await revalidateViews();
   } catch (err) {
     throw new Error(redactSecrets(err instanceof Error ? err.message : String(err)));
   }

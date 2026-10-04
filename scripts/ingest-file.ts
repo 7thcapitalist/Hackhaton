@@ -11,6 +11,7 @@
 import { readFile } from "node:fs/promises";
 import { basename } from "node:path";
 import { config } from "dotenv";
+import { revalidateViews } from "./revalidate-views";
 
 config({ path: ".env.local", quiet: true });
 config({ quiet: true });
@@ -61,6 +62,7 @@ async function main() {
       else console.error(`${basename(path)}:`, err instanceof Error ? err.message : err);
     }
   }
+  await revalidateViews();
   if (failed) process.exit(1);
 }
 
