@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Kpi, Pillar } from "@/app/_lib/types";
 import { formatKpiShort } from "@/app/_lib/format";
-import { CHANGE_TONE, PILLARS, STATUS_META, countsLabel, formatTarget, formatValue, kpiChange, kpiStatus, statusCounts, type StatusCounts } from "@/app/scorecard/kpiFormat";
+import { CHANGE_TONE, KEY_KPI_IDS, PILLARS, STATUS_META, countsLabel, formatTarget, formatValue, kpiChange, kpiStatus, statusCounts, type StatusCounts } from "@/app/scorecard/kpiFormat";
 import { Tooltip } from "../Tooltip";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { EstMarker } from "./EstMarker";
@@ -16,7 +16,8 @@ type ScorecardTableProps = {
   idPrefix?: string;
 };
 
-export const KEY_KPI_HINT = "One of the three KPIs Goodwill's 2027 plan is built around.";
+export const KEY_KPI_HINT = "One of the three key KPIs at the top of this report.";
+const KEY_IDS = new Set<string>(KEY_KPI_IDS);
 export const TEAM_LEVEL_NOTE = "Team-level, for capacity planning.";
 const CATEGORY_KPIS = new Set([
   "top10_categories_revenue", "top10_categories_margin",
@@ -96,7 +97,7 @@ function KpiRow({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
           {CATEGORY_KPIS.has(k.id)
             ? <a href="#categories" className="font-medium text-ink underline decoration-ink-4 decoration-dotted underline-offset-4 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-accent">{k.label}</a>
             : <span className="font-medium text-ink">{k.label}</span>}
-          {k.anchor2027 && <span className="rounded-[4px] bg-accent-soft px-1.5 text-[11px] leading-[17px] font-semibold whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
+          {KEY_IDS.has(k.id) && <span className="rounded-[4px] bg-accent-soft px-1.5 text-[11px] leading-[17px] font-semibold whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
           {note && <InfoTip text={note} label={k.label} />}
         </span>
       </th>

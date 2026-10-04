@@ -14,6 +14,9 @@ export const PILLARS: { id: Kpi["pillar"]; name: string }[] = [
 /** Within this share of the target (on the wrong side) counts as "near" rather than "off". */
 export const NEAR_BAND = 0.05;
 
+/** The Monthly report's three key cards, in order: revenue, orders, net margin. */
+export const KEY_KPI_IDS = ["total_revenue", "total_orders", "net_margin_pct"] as const;
+
 export type Status = "on" | "near" | "off" | "none" | "awaiting";
 type Scored = Pick<Kpi, "value" | "target" | "higherIsBetter">;
 
