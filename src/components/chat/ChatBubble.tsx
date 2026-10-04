@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { CHAT_OPEN_EVENT, useHasInlineLauncher } from "./launcher";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { CloseIcon } from "../icons";
 import { Markdown } from "./markdown";
@@ -68,6 +69,8 @@ const PlusIcon = ({ className = "size-3.5" }: { className?: string }) => (
 
 export function ChatBubble() {
   const [open, setOpen] = useState(false);
+  const inlineLauncher = useHasInlineLauncher(); // a page header has its own "Ask the data" button
+  const returnFocus = useRef<HTMLElement | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
@@ -110,7 +113,19 @@ export function ChatBubble() {
 
   const close = useCallback(() => {
     setOpen(false);
-    requestAnimationFrame(() => bubbleRef.current?.focus());
+    const back = returnFocus.current;
+    returnFocus.current = null;
+    requestAnimationFrame(() => (back?.isConnected ? back : bubbleRef.current)?.focus());
+  }, []);
+
+  // Opened from an inline launcher (openChat()): remember where to put focus back.
+  useEffect(() => {
+    const onOpen = () => {
+      returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      setOpen(true);
+    };
+    window.addEventListener(CHAT_OPEN_EVENT, onOpen);
+    return () => window.removeEventListener(CHAT_OPEN_EVENT, onOpen);
   }, []);
 
   // Focus the input on open; Esc closes; Tab stays inside the panel.
@@ -215,7 +230,7 @@ export function ChatBubble() {
 
   return (
     <div data-print-hide>
-      {!open && (
+      {!open && !inlineLauncher && (
         <div className="group fixed right-4 bottom-4 z-40 sm:right-6 sm:bottom-6">
           <span role="tooltip" id={`${titleId}-tip`}
             className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 rounded-md border border-line bg-surface px-2 py-1 text-xs font-medium whitespace-nowrap text-ink opacity-0 shadow-xs transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
