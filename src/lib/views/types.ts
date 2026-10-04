@@ -189,3 +189,100 @@ export interface IngestRunsView {
   rows: IngestRunRow[];
   total: number;
 }
+
+// ---- Costs (getCostBreakdown / getCostedMargin) ------------------------------
+// All amounts are integer cents. Cost fields are POSITIVE numbers meaning money
+// spent (a net credit shows as a negative cost). contribution = net revenue −
+// shipping label cost − other charges − labor cost. Overhead is not in the data.
+
+export interface CostLineItem {
+  key: string;
+  label: string;
+  /** Cents. For costs: positive = money spent. For excluded lines: signed money_lines amount (+ in, − out). */
+  cents: number;
+  /** Where it comes from, e.g. "money_lines shipping_label (fedex)". */
+  source: string;
+  lines?: number;
+  note?: string;
+}
+
+export interface CostBreakdownView {
+  period: string;
+  /** null = all channels. With a channel, shipping, labor and unattributed other charges are ALLOCATED (see method). */
+  channel: ChannelId | null;
+  revenue: {
+    grossSalesCents: number;
+    shippingChargedCents: number;
+    /** Positive = refunded / cancelled amount. */
+    refundsCents: number;
+    /** Per-order marketplace fees (orders.fee_cents), positive = cost. */
+    marketplaceFeesCents: number;
+    /** = gross + shipping charged − refunds − marketplace fees = Σ orders.net_cents. */
+    netRevenueCents: number;
+    orderLines: number;
+    paidOrderLines: number;
+  };
+  shippingLabels: {
+    /** Labels bought − carrier label refunds. For a channel view: the allocated net cost (labels carry no channel), byCarrier empty. */
+    costCents: number;
+    labelsCents: number;
+    carrierRefundsCents: number;
+    byCarrier: CostLineItem[];
+    /** Label cost linked to an order of this scope (label reference = order id). */
+    linkedCents: number;
+    /** Cost allocated to this scope by share of paid order lines (0 for the all-channel view). */
+    allocatedCents: number;
+  };
+  labor: {
+    hours: number;
+    rateCentsPerHour: number;
+    costCents: number;
+    /** Labor hours are SIMULATED data and the rate is an assumption. */
+    simulated: true;
+    allocated: boolean;
+  };
+  otherCharges: { costCents: number; lines: CostLineItem[] };
+  contributionCents: number;
+  /** contribution / net revenue × 100, 1 decimal; null when net revenue ≤ 0. Equals the scorecard's net_margin_pct for the all-channel view. */
+  contributionPct: number | null;
+  excluded: {
+    taxCollectedCents: number;
+    lines: (CostLineItem & { reason: string })[];
+  };
+  /** Missing inputs: shipping files or labor hours absent for the period. */
+  missing: string[];
+  method: string;
+}
+
+export type CostedMarginBy = "category" | "channel";
+
+export interface CostedMarginRow {
+  group: string;
+  netRevenueCents: number;
+  paidOrderLines: number;
+  itemsListed: number;
+  /** Items sold in the period (SIMULATED items data). */
+  itemsSold: number;
+  /** Mean days from listing to sale for items sold in the period (SIMULATED); null when none. */
+  avgDaysToSell: number | null;
+  /** Caveat for pseudo-groups ("Uncategorized", "Unallocated"). */
+  note?: string;
+  shippingLinkedCents: number;
+  shippingAllocatedCents: number;
+  shippingCostCents: number;
+  laborAllocatedCents: number;
+  otherChargesCents: number;
+  contributionCents: number;
+  contributionPct: number | null;
+}
+
+export interface CostedMarginView {
+  period: string;
+  by: CostedMarginBy;
+  /** Sorted by contributionCents, highest first. */
+  groups: CostedMarginRow[];
+  totals: CostedMarginRow;
+  method: string;
+  laborSimulated: true;
+  missing: string[];
+}

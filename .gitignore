@@ -23,6 +23,7 @@ yarn-error.log*
 
 # local database
 local.db*
+eval.db*
 
 # vercel
 .vercel
