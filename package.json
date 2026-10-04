@@ -5,6 +5,7 @@
   "scripts": {
     "test:emails": "tsx --test src/emails/*.test.ts",
     "test:pulse": "tsx --test src/app/pulse/*.test.ts",
+    "test:scorecard": "tsx --test src/app/scorecard/*.test.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

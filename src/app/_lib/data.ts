@@ -7,11 +7,11 @@ import {
   isValidDate, isValidPeriod,
   type ExceptionRow, type IngestRunRow, type OrdersView, type PulseView as ViewPulse,
 } from "@/lib/views";
-import { addDays, businessDateOf, dateRange, daysBetween, periodBounds, previousPeriod } from "@/lib/views/dates";
+import { addDays, businessDateOf, dateRange, daysBetween, periodBounds } from "@/lib/views/dates";
 import { GROUP_MEMBERS } from "./channels";
 import { statsOf, weekdayOf, type PulseBaseline } from "../pulse/summary";
-import { formatDay, formatKpiShort, formatMoneyCompact, formatStamp, trackStatus } from "./format";
-import type { ChannelId, Kpi, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
+import { formatDay, formatStamp } from "./format";
+import type { CategoryRow, ChannelId, Kpi, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
 
 // ---- Data range: which days and months have data ----
 
@@ -208,65 +208,31 @@ export async function getPulseBaseline(range: DataRange, view: PulseView, weeks 
 
 // ---- COO Scorecard ----
 
-export const PILLARS: { id: Kpi["pillar"]; name: string }[] = [
-  { id: "financial", name: "Financial" },
-  { id: "productivity", name: "Productivity" },
-  { id: "inventory", name: "Inventory" },
-  { id: "sales", name: "Sales" },
-  { id: "category_customer", name: "Category + Cust." },
-];
+export { PILLARS } from "../scorecard/kpiFormat";
 
-const LOWER_IS_BETTER = new Set(["days_donation_to_listing", "unlisted_backlog", "unsold_inventory_pct"]);
 const TEAM_LEVEL = new Set(["listings_per_employee", "sales_per_employee"]);
-
 export const getScorecardScreen = cache(async (period: string) => {
   const view = await getScorecard(period);
+
   const total = view.kpis.find(k => k.id === "total_revenue")?.value ?? null;
   const kpis: Kpi[] = view.kpis.filter(k => k.group === "coo15").map(k => {
-    const extra: Partial<Kpi> = {
-      lowerIsBetter: LOWER_IS_BETTER.has(k.id),
-      teamLevel: TEAM_LEVEL.has(k.id),
-      history: k.previous != null && k.value != null ? [k.previous, k.value] : undefined,
-    };
-    if (k.id === "top10_categories_revenue") {
-      extra.breakdown = view.topCategoriesByRevenue.map(c => ({ label: c.category, value: c.revenueCents }));
-      if (k.value != null && total) extra.displaySuffix = `${Math.round((k.value / total) * 100)}% of total`;
-    }
-    if (k.id === "top10_categories_margin") {
-      extra.breakdown = view.topCategoriesByMargin.map(c => ({ label: c.category, value: c.marginCents }));
-    }
+    const extra: Partial<Kpi> = { teamLevel: TEAM_LEVEL.has(k.id) };
+    if (k.id === "top10_categories_revenue" && k.value != null && total) extra.valueNote = `${Math.round((k.value / total) * 100)}% of revenue`;
+    if (k.id === "top10_categories_margin" && k.value != null) extra.valueNote = "margin";
     return { ...k, ...extra };
   });
-  return { period, kpis, insights: buildInsights(kpis, view.topCategoriesByRevenue, period) };
-});
 
-/** Plain-language summary written from the numbers (deterministic, no AI). */
-function buildInsights(kpis: Kpi[], topCats: { category: string; revenueCents: number }[], period: string): string[] {
-  const by = (id: string) => kpis.find(k => k.id === id);
-  const out: string[] = [];
-  const rev = by("total_revenue"), growth = by("revenue_growth_pct");
-  if (rev?.value != null) {
-    const mom = rev.previous ? ((rev.value - rev.previous) / rev.previous) * 100 : null;
-    const parts = [`Revenue was ${formatMoneyCompact(rev.value)}`];
-    if (mom != null) parts.push(`${mom >= 0 ? "up" : "down"} ${Math.abs(mom).toFixed(1)}% on ${formatDay(`${previousPeriod(period)}-01`, { month: "long" })}`);
-    if (growth?.value != null) parts.push(`${growth.value >= 0 ? "up" : "down"} ${Math.abs(growth.value).toFixed(1)}% ${growth.note?.startsWith("YoY") ? "year over year" : "vs the prior period"}`);
-    out.push(`${parts.join(", ")}.`);
-  }
-  if (rev?.value && topCats.length >= 3) {
-    const top3 = topCats.slice(0, 3), sum = top3.reduce((a, c) => a + c.revenueCents, 0);
-    out.push(`${top3[0].category}, ${top3[1].category} and ${top3[2].category} brought in ${formatMoneyCompact(sum)}, ${Math.round((sum / rev.value) * 100)}% of revenue.`);
-  }
-  const anchors = kpis.filter(k => k.anchor2027 && k.value != null);
-  const behind = anchors.filter(k => ["near", "off"].includes(trackStatus(k)));
-  if (behind.length) {
-    out.push(behind.map(k => `${k.label} is ${formatKpiShort(k.unit, k.value)} vs a ${formatKpiShort(k.unit, k.target)} target`).join("; ") + ".");
-  } else if (anchors.length) {
-    out.push(`All ${anchors.length} 2027 anchors are on track.`);
-  }
-  const simulated = kpis.filter(k => k.status === "simulated").length;
-  if (simulated) out.push(`${simulated} of ${kpis.length} KPIs use synthetic item or labor data, so treat them as estimates.`);
-  return out;
-}
+  // Categories: the union of the two Top-10 lists, with which list(s) each one is in.
+  const inRev = new Set(view.topCategoriesByRevenue.map(c => c.category));
+  const inMargin = new Set(view.topCategoriesByMargin.map(c => c.category));
+  const categories: CategoryRow[] = view.categories
+    .filter(c => inRev.has(c.category) || inMargin.has(c.category))
+    .map(c => ({ category: c.category, revenueCents: c.revenueCents, marginCents: c.marginCents, inRevenueTop10: inRev.has(c.category), inMarginTop10: inMargin.has(c.category) }));
+
+  return {
+    period, kpis, categories, totalRevenueCents: total,
+  };
+});
 
 // ---- Data Sources ----
 
