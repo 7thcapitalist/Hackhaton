@@ -28,7 +28,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
   return (
     <div className="flex flex-col gap-6 px-4 pt-[26px] pb-8 sm:px-8">
       <header className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
-        <h1 className="text-[28px] leading-[1.15] font-semibold tracking-[-0.02em]">Monthly report</h1>
+        <h1 className="font-display text-[34px] leading-[1.05] font-semibold sm:text-[38px]">Monthly report</h1>
         <div className="flex flex-wrap items-start gap-2">
           <div className="flex flex-col items-start gap-1">
             <div data-print-hide>

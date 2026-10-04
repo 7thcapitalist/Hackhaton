@@ -13,7 +13,7 @@
 // theming — see MarketKey below) are derived from the same var with color-mix() rather than
 // hand-picked, so they stay correct in both themes too.
 //
-// Goodwill Books, Cash Monkey and Upright have no shared token yet (the shared --mk-* system
+// Goodwill Books uses the shared --mk-books token (globals.css, #44). Cash Monkey and Upright have no shared token yet (the shared --mk-* system
 // still files all three under --mk-other, same as Daily Pulse's "Other e-comm" row) — Ryan
 // asked the filter to give each real source its own identity rather than fold them together,
 // so they keep one-off hex values here, picked to sit clearly apart from eBay's teal and
@@ -50,7 +50,7 @@ export const MARKET_THEME: Record<MarketKey | "all", MarketTheme> = {
   shopgoodwill: { label: "ShopGoodwill", accent: "var(--mk-shopgoodwill)", ...tint("var(--mk-shopgoodwill)") },
   amazon: { label: "Amazon", accent: "var(--mk-amazon)", ...tint("var(--mk-amazon)") },
   ebay: { label: "eBay", accent: "var(--mk-ebay)", ...tint("var(--mk-ebay)") },
-  goodwill_books: { label: "Goodwill Books", accent: "#9b5a7a", ...tint("#9b5a7a") },
+  goodwill_books: { label: "Goodwill Books", accent: "var(--mk-books)", ...tint("var(--mk-books)") },
   cashmonkey: { label: "Cash Monkey", accent: "#93721c", ...tint("#93721c") },
   upright: { label: "Upright", accent: "#5f7a6b", ...tint("#5f7a6b") },
   other: { label: "Other e-comm", accent: "var(--mk-other)", ...tint("var(--mk-other)") },

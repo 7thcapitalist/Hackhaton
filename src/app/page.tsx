@@ -67,8 +67,8 @@ export default async function OverviewPage() {
     <div className="flex flex-col gap-7 px-4 pt-8 pb-12 sm:px-8 sm:pt-10">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="flex max-w-[640px] flex-col gap-1.5">
-          <p className="text-[12.5px] font-medium text-ink-3">Goodwill Michiana · E-commerce operations</p>
-          <h1 className="text-[28px] leading-[1.12] font-semibold tracking-[-0.025em] text-balance sm:text-[34px]">Goodwill Mission Control</h1>
+          <p className="text-[12.5px] font-semibold text-ink-2">Goodwill Michiana · E-commerce operations</p>
+          <h1 className="font-display text-[38px] leading-[1.02] font-semibold text-balance text-brand sm:text-[46px]">Goodwill Mission Control</h1>
           <p className="mt-1 text-[15px] text-pretty text-ink-2">{src.total} data sources (marketplaces, shipping, labor and bank), imported every night. One place to see the day, the month, and where each number came from.</p>
         </div>
         <div className="flex flex-col items-start gap-2 sm:items-end">

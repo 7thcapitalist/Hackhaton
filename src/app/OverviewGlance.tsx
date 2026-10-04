@@ -205,7 +205,7 @@ function StatCard({ icon, title, value, changePct, comparedTo, caption, secondar
   return (
     <div className="flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
       <CardTitle icon={icon} theme={theme}>{title}</CardTitle>
-      <span className="text-[38px] leading-none font-semibold tracking-[-0.02em] text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
+      <span className="font-display text-[44px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
       {secondary && <span className="text-[12.5px] font-medium text-ink-2">{secondary}</span>}
       <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-ink-3">
         {changePct != null && (
@@ -235,7 +235,7 @@ function MoverCard({ title, mover, comparedTo, describeKey, theme, active }: {
       <CardTitle icon={<PulseIcon className="size-3.5" />} theme={theme}>{title}</CardTitle>
       {!mover ? <p className="text-[13px] text-ink-3">Not enough data yet to compare.</p> : (
         <>
-          <span className={`text-[38px] leading-none font-semibold tracking-[-0.02em] ${up ? "text-ok" : "text-ink"}`}>
+          <span className={`font-display text-[44px] leading-none font-semibold ${up ? "text-ok" : "text-ink"}`}>
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
           </span>
           <p className="text-[13px] text-ink-2">

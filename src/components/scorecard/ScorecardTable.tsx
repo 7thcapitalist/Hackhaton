@@ -84,7 +84,7 @@ function KpiRow({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
           {CATEGORY_KPIS.has(k.id)
             ? <a href="#categories" className="font-medium text-ink underline decoration-ink-4 decoration-dotted underline-offset-4 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-accent">{k.label}</a>
             : <span className="font-medium text-ink">{k.label}</span>}
-          {k.anchor2027 && <span className="rounded-[4px] bg-surface-2 px-1.5 text-[11px] leading-[17px] font-medium whitespace-nowrap text-ink-2" title={KEY_KPI_HINT}>Key KPI</span>}
+          {k.anchor2027 && <span className="rounded-[4px] bg-accent-soft px-1.5 text-[11px] leading-[17px] font-semibold whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
           {note && <InfoTip text={note} label={k.label} />}
         </span>
       </th>

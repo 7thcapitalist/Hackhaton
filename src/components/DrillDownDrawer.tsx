@@ -55,7 +55,7 @@ export function DrillDownDrawer({ content, dateLong, dateShort, onClose }: Drill
   return (
     <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
       <div className="absolute inset-0 bg-[var(--scrim)]" onClick={onClose} />
-      <aside className="relative flex h-full w-[660px] max-w-full flex-col border-l border-line bg-surface shadow-[-12px_0_40px_rgba(0,0,0,.14)]">
+      <aside className="relative flex h-full w-[660px] max-w-full flex-col border-l border-line bg-surface shadow-[-12px_0_40px_var(--scrim)]">
         <header className="flex items-start justify-between gap-4 border-b border-line px-4 pt-5.5 pb-4.5 sm:px-6.5">
           <div className="flex flex-col gap-1.5">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-accent"><FileIcon className="size-[13px]" />Traced to source</span>
@@ -99,7 +99,7 @@ function RowsBody({ content: c, showAll, onShowAll }: { content: Extract<DrawerC
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex flex-col gap-4 px-4 py-4.5 sm:px-6.5">
         <div className="flex flex-col gap-1">
-          <p className="text-[40px] leading-none font-semibold tracking-[-0.03em]">{c.value}</p>
+          <p className="font-display text-[48px] leading-none font-semibold">{c.value}</p>
           <p className="text-[13px] text-pretty text-ink-2">{c.caption}</p>
         </div>
         <div className="flex flex-col gap-1.5 rounded-[10px] border border-line bg-surface-2 px-3.5 py-3">

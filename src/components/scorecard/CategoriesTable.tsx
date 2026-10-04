@@ -85,7 +85,7 @@ function BarValue({ value, max }: { value: number; max: number }) {
   return (
     <span className="flex items-center justify-end gap-2.5">
       <span aria-hidden className="h-1.5 w-[clamp(48px,10vw,120px)] overflow-hidden rounded-full bg-surface-2">
-        <span className="block h-full rounded-full bg-ink-4" style={{ width: `${Math.max(0, (value / max) * 100)}%` }} />
+        <span className="block h-full rounded-full bg-s2" style={{ width: `${Math.max(0, (value / max) * 100)}%` }} />
       </span>
       <span className="w-[72px] text-right font-medium text-ink tabular-nums">{formatMoneyWhole(value)}</span>
     </span>

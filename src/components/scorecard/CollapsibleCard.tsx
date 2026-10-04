@@ -33,7 +33,7 @@ export function CollapsibleCard({ id, title, meta, children, defaultOpen = false
           className="flex w-full flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-surface-2/60 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:px-5">
           <span className="flex items-center gap-2.5">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden data-print-hide
-              className={`size-3.5 shrink-0 text-ink-3 transition-transform duration-150 ${open ? "rotate-90" : ""}`}>
+              className={`size-3.5 shrink-0 text-accent transition-transform duration-150 ${open ? "rotate-90" : ""}`}>
               <path d="m6 3 5 5-5 5" />
             </svg>
             <span className="text-[15px] font-semibold text-ink">{title}</span>

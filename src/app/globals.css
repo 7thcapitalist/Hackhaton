@@ -1,30 +1,50 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Design tokens from the Claude Design handoff (design/mission-control-ui-mockups). */
+/* Goodwill Michiana theme (docs/design/goodwill-theme.md). Token names are shared with other
+   lanes, keep them; values follow goodwill-ni.org: Goodwill Blue #01529C, yellow #F4D152,
+   pale blue-gray #ECF1F5. */
 :root {
-  --bg: #f7f8fa; --surface: #ffffff; --surface2: #f2f3f6; --line: #e3e5ea; --line2: #eef0f3;
-  --ink: #14161b; --ink2: #454a55; --ink3: #646976; --ink4: #a3a7b2;
-  --accent: #4651c4; --accent-ink: #ffffff; --accent-soft: #eceefb; --accent-line: #c9cdf3;
-  --ok: #1c7444; --ok-soft: #e5f3ea; --warn: #8a5700; --warn-icon: #b97d0c; --warn-soft: #fcf1dc;
-  --bad: #b42318; --bad-soft: #fdeceb; --muted: #5d6270; --muted-soft: #eff0f3;
-  --s1: #4651c4; --s2: #8189e3; --s3: #b7bcef; --s4: #d3d6de;
-  /* Marketplace hues (Daily Pulse chart + table dots): muted on purpose, "Other" is a warm gray.
-     Validated light and dark (dataviz validator, stack order): neighbors CVD-safe; low chroma is intended. */
-  --mk-shopgoodwill: #4f7db1; --mk-amazon: #cf8c6a; --mk-ebay: #147874; --mk-other: #a49d94;
-  --shadow: 0 1px 2px rgba(20, 22, 27, 0.05); --scrim: rgba(20, 22, 27, 0.32);
+  --bg: #f1f4f8; --surface: #ffffff; --surface2: #ecf1f5; --line: #d8e0e9; --line2: #e6ecf2;
+  --ink: #0e1a28; --ink2: #3a4859; --ink3: #556375; --ink4: #9aa7b6;
+  --accent: #01529c; --accent-ink: #ffffff; --accent-soft: #e3edf7; --accent-line: #b3cbe5;
+  --ok: #1b6b45; --ok-soft: #e3f1e9; --warn: #8a4b00; --warn-icon: #c2650a; --warn-soft: #fceedd;
+  --bad: #b42318; --bad-soft: #fdeceb; --muted: #556375; --muted-soft: #ebeff4;
+  --s1: #01529c; --s2: #4c86c4; --s3: #9dbfe3; --s4: #d3dce6;
+  /* Marketplace hues (Daily Pulse chart + table dots, Overview filter). ShopGoodwill wears
+     Goodwill Blue. Validated with the dataviz validator, all pairs, light + dark: CVD and
+     normal-vision floors pass; "Other" is a deliberate neutral (fails chroma on purpose). */
+  --mk-shopgoodwill: #01529c; --mk-amazon: #eea055; --mk-ebay: #1d7a5c; --mk-other: #9a958e; --mk-books: #9b5a7a;
+  /* Brand moments: the blue rail (sidebar / mobile header) and the yellow marker. */
+  --brand: #01529c; --brand-yellow: #f4d152;
+  --rail: #01529c; --rail-ink: #ffffff; --rail-ink2: #e4edf7; --rail-ink3: #dce7f3;
+  --rail-hover: rgba(255, 255, 255, 0.1); --rail-line: rgba(255, 255, 255, 0.2); --rail-ok: #9fe0bb;
+  --shadow: 0 1px 2px rgba(1, 40, 80, 0.06); --shadow-pop: 0 8px 24px rgba(1, 30, 60, 0.14); --scrim: rgba(8, 24, 44, 0.36);
   color-scheme: light;
 }
 .dark {
-  --bg: #0d0e11; --surface: #15171b; --surface2: #1c1e23; --line: #282b32; --line2: #202228;
-  --ink: #eceef2; --ink2: #b4b9c4; --ink3: #8f94a1; --ink4: #5e6370;
-  --accent: #959cf3; --accent-ink: #0d0e11; --accent-soft: #1f2240; --accent-line: #353a6e;
-  --ok: #6dd29c; --ok-soft: #12261b; --warn: #eab45a; --warn-icon: #eab45a; --warn-soft: #2a2111;
-  --bad: #f2918a; --bad-soft: #2d1615; --muted: #a3a8b4; --muted-soft: #23262c;
-  --s1: #959cf3; --s2: #6169c9; --s3: #3e4489; --s4: #3b3e47;
-  --mk-shopgoodwill: #4674a7; --mk-amazon: #c2805e; --mk-ebay: #197b77; --mk-other: #989188;
-  --shadow: none; --scrim: rgba(0, 0, 0, 0.6);
+  --bg: #0b1420; --surface: #111c2a; --surface2: #172434; --line: #243447; --line2: #1b2a3b;
+  --ink: #e8eef5; --ink2: #b4c1d0; --ink3: #8e9db0; --ink4: #5a6a7e;
+  --accent: #7db4ee; --accent-ink: #0b1420; --accent-soft: #13304f; --accent-line: #24507f;
+  --ok: #6dd29c; --ok-soft: #11291d; --warn: #f0ae6a; --warn-icon: #f0ae6a; --warn-soft: #2e1f10;
+  --bad: #f2918a; --bad-soft: #2d1615; --muted: #a3afbe; --muted-soft: #1e2b3b;
+  --s1: #7db4ee; --s2: #4a84c6; --s3: #2a5487; --s4: #2c3a4b;
+  --mk-shopgoodwill: #2773c0; --mk-amazon: #c87a30; --mk-ebay: #3ca17b; --mk-other: #68625c; --mk-books: #c084a2;
+  --brand: #7db4ee;
+  --rail: #0f2b4a; --rail-ink: #ffffff; --rail-ink2: #d3deeb; --rail-ink3: #a9bcd3;
+  --rail-hover: rgba(255, 255, 255, 0.08); --rail-line: rgba(255, 255, 255, 0.12); --rail-ok: #6dd29c;
+  --shadow: none; --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.45); --scrim: rgba(0, 0, 0, 0.6);
   color-scheme: dark;
+}
+
+/* The rail re-scopes the shared tokens, so Sidebar/ThemeToggle markup stays token-driven:
+   white ink on Goodwill Blue, translucent hover, yellow focus ring. */
+.rail {
+  --ink: var(--rail-ink); --ink2: var(--rail-ink2); --ink3: var(--rail-ink3);
+  --surface: var(--rail); --surface2: var(--rail-hover); --line: var(--rail-line);
+  --ok: var(--rail-ok); --accent: var(--brand-yellow);
+  background-color: var(--rail);
+  color: var(--rail-ink);
 }
 
 @theme inline {
@@ -37,8 +57,10 @@
   --color-bad: var(--bad); --color-bad-soft: var(--bad-soft);
   --color-muted: var(--muted); --color-muted-soft: var(--muted-soft);
   --color-s1: var(--s1); --color-s2: var(--s2); --color-s3: var(--s3); --color-s4: var(--s4);
-  --shadow-xs: var(--shadow);
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --color-brand: var(--brand); --color-brand-yellow: var(--brand-yellow);
+  --shadow-xs: var(--shadow); --shadow-pop: var(--shadow-pop);
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), var(--font-figtree), ui-sans-serif, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
@@ -47,6 +69,17 @@ body {
   font-size: 14px;
   line-height: 1.45;
   font-variant-numeric: tabular-nums;
+}
+
+/* Condensed display face (stand-in for Goodwill's Atrament): page titles and hero numbers only. */
+@layer base {
+  h1 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.005em; }
+}
+
+::selection { background: var(--accent-soft); color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }
 
 @media print {
