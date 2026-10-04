@@ -76,13 +76,14 @@ type OverviewGlanceProps = {
   cmpOrders: OrderLike[] | null;
   moverBaseline: OrderLike[][];
   weekday: string;
+  now: string; // 2026-10-04: what to call the current slice ("today" or "this month") — see moverExplanation
   channel: MarketKey | "all";
   channelLabel: string;
   category: string;
   comparedTo: string;
 };
 
-export function OverviewGlance({ orders, cmpOrders, moverBaseline, weekday, channel, channelLabel, category, comparedTo }: OverviewGlanceProps) {
+export function OverviewGlance({ orders, cmpOrders, moverBaseline, weekday, now, channel, channelLabel, category, comparedTo }: OverviewGlanceProps) {
   const current = orders.filter(o => matches(o, channelLabel, category));
   const previous = cmpOrders?.filter(o => matches(o, channelLabel, category)) ?? null;
   // The mover cards compare against the same weekday over the last 4 weeks, averaged (like
@@ -117,11 +118,11 @@ export function OverviewGlance({ orders, cmpOrders, moverBaseline, weekday, chan
       : null;
     return (
       <Row>
-        <RankCard icon={<MarketIcon />} title="Top marketplaces today" rows={byChannel} barColor={marketBarColor} rowIcon={undefined}
+        <RankCard icon={<MarketIcon />} title={`Top marketplaces ${now}`} rows={byChannel} barColor={marketBarColor} rowIcon={undefined}
           nounSingular="marketplace" nounPlural="marketplaces" theme={theme} active={active} />
-        <RankCard icon={<CategoryGlyph category="" />} title="Top categories today" rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />}
+        <RankCard icon={<CategoryGlyph category="" />} title={`Top categories ${now}`} rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />}
           nounSingular="category" nounPlural="categories" theme={theme} active={active} />
-        <MoverCard title="Biggest mover" movers={movers} vs={vs} describeKey={describeTaggedKey} driver={driver} theme={theme} active={active} />
+        <MoverCard title="Biggest mover" movers={movers} vs={vs} now={now} describeKey={describeTaggedKey} driver={driver} theme={theme} active={active} />
       </Row>
     );
   }
@@ -140,7 +141,7 @@ export function OverviewGlance({ orders, cmpOrders, moverBaseline, weekday, chan
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
-        <MoverCard title={`Biggest mover in ${channelLabel}`} movers={movers} vs={vs} describeKey={k => k} theme={theme} active={active} />
+        <MoverCard title={`Biggest mover in ${channelLabel}`} movers={movers} vs={vs} now={now} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
@@ -159,7 +160,7 @@ export function OverviewGlance({ orders, cmpOrders, moverBaseline, weekday, chan
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
-        <MoverCard title={`Biggest mover for ${category}`} movers={movers} vs={vs} describeKey={k => k} theme={theme} active={active} />
+        <MoverCard title={`Biggest mover for ${category}`} movers={movers} vs={vs} now={now} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
@@ -181,7 +182,7 @@ export function OverviewGlance({ orders, cmpOrders, moverBaseline, weekday, chan
         changePct={null} comparedTo={comparedTo}
         stats={[{ label: "Live orders", value: formatInt(stats.orders) }, { label: "Unique customers", value: formatInt(stats.customers) }]}
         caption={stats.cancelled ? `${(stats.cancelRate * 100).toFixed(1)}% of this slice` : "none in this slice"} theme={theme} active={active} />
-      <MoverCard title={`Change vs ${vs.typical}`} vs={vs} describeKey={() => `${channelLabel} · ${category}`}
+      <MoverCard title={`Change vs ${vs.typical}`} vs={vs} now={now} describeKey={() => `${channelLabel} · ${category}`}
         movers={revenueChangePct == null || !typicalSlice ? [] : [{
           key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents,
           previousCents: typicalSlice.revenueCents, currentOrders: stats.orders, previousOrders: typicalSlice.orders,
@@ -348,16 +349,23 @@ const WHY_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 7.3v3.4M8
  *
  * Round 8 (Ryan: trim it to 5-6 lines): one sentence per branch, still naming the real cause and
  * the real numbers. Baseline is the typical same weekday (#64). The "barely changed" clauses are
- * only added when the other factor really moved less than 10%. */
-function moverExplanation(mover: Mover, driver: Driver | null, label: string, vs: MoverVs): string {
+ * only added when the other factor really moved less than 10%.
+ *
+ * Round 9 (2026-10-04, Ryan: this card is the first thing judges see — the why-text reads too
+ * short/thin for that, make it a bit bigger): folded the headline swing's own percentage into
+ * each sentence (it was only ever shown above, in the headline, not inside the explanation
+ * itself) and added the dollar total to the "no previous orders" branch, so every branch now
+ * carries both a magnitude and a cause instead of cause alone. */
+function moverExplanation(mover: Mover, driver: Driver | null, label: string, vs: MoverVs, now: string): string {
   const upWord = mover.pct >= 0 ? "grew" : "dropped";
+  const pct = Math.abs(mover.pct).toFixed(1);
   if (driver) {
     const driverVerb = driver.deltaCents >= 0 ? "rose" : "fell";
-    return `${label} ${upWord} mainly because of ${driver.label}: its sales ${driverVerb} ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${vs.typical}, the biggest swing in the same direction.`;
+    return `${label} ${upWord} ${pct}% mainly because of ${driver.label}: its sales ${driverVerb} ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${vs.typical}, the biggest swing behind this move.`;
   }
   if (mover.previousOrders === 0) {
     const isOne = mover.currentOrders === 1;
-    return `${label} had no orders on ${vs.typical}, so all ${formatInt(mover.currentOrders)} order${isOne ? "" : "s"} today ${isOne ? "is" : "are"} new activity.`;
+    return `${label} had no orders on ${vs.typical}, so all ${formatInt(mover.currentOrders)} order${isOne ? "" : "s"} ${now} ${isOne ? "is" : "are"} new activity, worth ${formatMoneyCompact(mover.currentCents)}.`;
   }
   const avgPrev = mover.previousCents / mover.previousOrders;
   const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
@@ -366,9 +374,9 @@ function moverExplanation(mover: Mover, driver: Driver | null, label: string, vs
   const steady = (a: number, b: number) => b > 0 && Math.abs(a - b) / b < 0.1; // the other factor barely moved
   if (Math.abs(ordersEffect) >= Math.abs(avgEffect)) {
     const more = mover.currentOrders >= mover.previousOrders ? "more" : "fewer";
-    return `${label} ${upWord} mainly because ${more} orders came in: ${formatAvg(mover.previousOrders)} on ${vs.typical}, ${formatInt(mover.currentOrders)} today${steady(avgCur, avgPrev) ? ", while the typical order size barely changed" : ""}.`;
+    return `${label} ${upWord} ${pct}% mainly because ${more} orders came in: ${formatAvg(mover.previousOrders)} on ${vs.typical}, ${formatInt(mover.currentOrders)} ${now}${steady(avgCur, avgPrev) ? ", while the typical order size barely changed" : ""}.`;
   }
-  return `${label} ${upWord} mainly because of order size: the typical order went from ${formatMoney(avgPrev)} on ${vs.typical} to ${formatMoney(avgCur)} today${steady(mover.currentOrders, mover.previousOrders) ? ", while order volume held steady" : ""}.`;
+  return `${label} ${upWord} ${pct}% mainly because of order size: the typical order went from ${formatMoney(avgPrev)} on ${vs.typical} to ${formatMoney(avgCur)} ${now}${steady(mover.currentOrders, mover.previousOrders) ? ", while order volume held steady" : ""}.`;
 }
 
 /** How the mover cards name their baseline: `short` in the headline sentence, `typical` inside the "why" text. */
@@ -389,10 +397,11 @@ const formatAvg = (n: number) => (Number.isInteger(n) ? formatInt(n) : n.toFixed
  * from this mover's real numbers (moverExplanation above), not a fixed caption. Styled with
  * this card's own theme (soft background, accent badge, themed border) instead of a flat gray
  * box, so it reads as part of this page's design instead of a bolted-on tooltip. */
-function MoverCard({ title, movers, vs, describeKey, driver = null, theme, active }: {
+function MoverCard({ title, movers, vs, now, describeKey, driver = null, theme, active }: {
   title: string;
   movers: Mover[];
   vs: MoverVs;
+  now: string;
   describeKey: (key: string) => string | { label: string; hint: string };
   driver?: Driver | null;
   theme: MarketTheme;
@@ -425,7 +434,7 @@ function MoverCard({ title, movers, vs, describeKey, driver = null, theme, activ
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
           </span>
           <p className="text-[13px] text-ink-2">
-            <strong className="font-semibold text-ink">{label}</strong>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {vs.short} — {formatMoneyCompact(mover.currentCents)} today.
+            <strong className="font-semibold text-ink">{label}</strong>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {vs.short} — {formatMoneyCompact(mover.currentCents)} {now}.
           </p>
           {runners.length > 0 && (
             <ul className="flex flex-col gap-1.5 border-t border-line pt-2.5">
@@ -458,7 +467,7 @@ function MoverCard({ title, movers, vs, describeKey, driver = null, theme, activ
             </span>
             <p className="text-[13.5px] leading-snug text-ink-2">
               <span className="block text-[12px] font-semibold tracking-wide text-ink">Why this happened</span>
-              {moverExplanation(mover, driver, label ?? String(mover.key), vs)}
+              {moverExplanation(mover, driver, label ?? String(mover.key), vs, now)}
             </p>
           </div>
         </>

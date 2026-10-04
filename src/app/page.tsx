@@ -1,7 +1,7 @@
 import { getOrders, ORDERS_MAX_LIMIT, type OrdersView } from "@/lib/views";
-import { addDays } from "@/lib/views/dates";
+import { addDays, previousPeriod } from "@/lib/views/dates";
 import { ButtonLink } from "@/components/Button";
-import { BarsIcon, CheckIcon, DatabaseIcon, PulseIcon } from "@/components/icons";
+import { BarsIcon, CheckIcon, DatabaseIcon, FileIcon, PulseIcon } from "@/components/icons";
 import { SourceStrip } from "@/components/SourceStrip";
 import { customerKeyOf, getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
 import { formatStampFull } from "./_lib/format";
@@ -53,6 +53,19 @@ export default async function OverviewPage() {
   // previous 4 weeks feeds the "Biggest mover" card (like Daily Pulse's "vs a typical Friday");
   // the first of those is one week back, which cmpOrders reuses so a filtered view can still
   // show the hero's "vs last week" comparison.
+  // Monthly overview toggle (OverviewHero.tsx): the same card language as Daily, but over
+  // `period` (the last complete month) vs. the month before it. 2026-10-04 (code review on
+  // #67, Joao): the first version fetched both full months here and shipped every row to the
+  // client on every Overview visit — ~11k rows, 320KB -> 2.9MB, 0.17s -> ~1s locally plus ~12
+  // extra Turso round-trips in production, paid on every load whether or not anyone ever opens
+  // Monthly. Fixed by loading Monthly on demand instead: only the period strings go down here
+  // (string formatting, no DB cost); OverviewHero fetches the actual rows client-side, through
+  // the existing GET /api/views/orders?period=... route, the first time someone switches to
+  // Monthly — so Daily's cost on every load is back to exactly what it was before this toggle
+  // existed.
+  const monthPeriod = period;
+  const monthPrevPeriod = previousPeriod(period);
+
   const weekdayDates = [1, 2, 3, 4].map(k => addDays(latest, -7 * k)).filter(d => d >= range.earliestDate);
   const [ordersRaw, ...earlierRaw] = await Promise.all([
     getOrders({ date: latest, limit: ORDERS_MAX_LIMIT }),
@@ -102,6 +115,10 @@ export default async function OverviewPage() {
         cmpOrders={cmpOrders}
         moverBaseline={moverBaseline}
         weekday={weekdayOf(latest)}
+        monthPeriod={monthPeriod}
+        monthPrevPeriod={monthPrevPeriod}
+        monthLabel={periodLabel(monthPeriod)}
+        monthPrevLabel={periodLabel(monthPrevPeriod)}
       />
 
       <nav aria-label="More views" className="flex flex-col items-center gap-2 border-t border-line pt-3">
@@ -110,6 +127,7 @@ export default async function OverviewPage() {
           <ButtonLink href="/pulse" variant="secondary" icon={<PulseIcon className="size-3.5" />}>Daily Pulse</ButtonLink>
           <ButtonLink href="/scorecard" variant="secondary" icon={<BarsIcon className="size-3.5" />}>Monthly report</ButtonLink>
           <ButtonLink href="/sources" variant="secondary" icon={<DatabaseIcon className="size-3.5" />}>Data Sources</ButtonLink>
+          <ButtonLink href="/close" variant="secondary" icon={<FileIcon className="size-3.5" />}>Month-end Close</ButtonLink>
         </div>
       </nav>
     </div>
