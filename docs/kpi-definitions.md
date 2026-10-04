@@ -113,7 +113,7 @@ to Goodwill's deck (`docs/goodwill-problem.md`).
 | csat | Customer Satisfaction Rating | 34 | mean of `csat` across channels, weighted by sample_size when every row has one (per channel in `marketplaceMetrics[]`) | marketplace_metrics | mock | awaiting_data |
 | nps | Net Promoter Score | 34 | same average for `nps` (−100..100) | marketplace_metrics | mock | awaiting_data |
 | marketplace_conversion | Marketplace Conversion | 34 | same average for `conversion_rate` (percent), per channel in `marketplaceMetrics[]` | marketplace_metrics | mock | awaiting_data |
-| total_orders | Total Orders | — (team addition; key card on the Monthly report) | count(orders where status ≠ cancelled) | orders.status, business_date | real export | ok |
+| total_orders | Total Orders | — (team addition; key card on the Monthly report). Placeholder target 5,900 orders/month | count(orders where status ≠ cancelled) | orders.status, business_date | real export | ok |
 
 ## Assumptions to confirm with Goodwill
 
