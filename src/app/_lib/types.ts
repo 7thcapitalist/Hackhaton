@@ -1,59 +1,37 @@
-// UI-side data shapes. They follow the view contract in docs/interfaces.md (§2) plus a few
-// display extras. When Joao's src/lib/views lands, swap demo-data.ts for the view functions.
+// UI-side shapes: the view contract from src/lib/views (docs/interfaces.md §2) plus the
+// display extras each screen needs. Built on the server in data.ts.
+import type { ChannelId, Kpi as ViewKpi, PulseRow as ViewPulseRow, PulseSeriesView } from "@/lib/views/types";
 
-export type ChannelId = "shopgoodwill" | "amazon" | "ebay" | "goodwill_books" | "other";
+export type { ChannelId, KpiUnit } from "@/lib/views/types";
 
-export type PulseRow = {
-  channelId: ChannelId;
-  label: string;
-  status: "ok" | "missing";
-  revenueCents: number | null;
-  customers: number | null;
-  orders: number | null;
-  /** display extras */
+export type PulseRow = ViewPulseRow & {
   sublabel: string;
-  sourceFile: string;
-  importedAt: string; // "6:04 AM"
+  sourceFiles: string[];      // files the row's orders came from
+  importedAt: string | null;  // ISO, latest of those files
+  expectedFile: string | null; // for missing rows
 };
 
 export type PulseTotals = { revenueCents: number; customers: number; orders: number };
 
 export type PulseView = {
-  businessDate: string; // YYYY-MM-DD
+  businessDate: string;
   rows: PulseRow[];
   totals: PulseTotals; // ok rows only
   missingChannels: ChannelId[];
   isSynthetic: boolean;
-  /** Most recent file upload timestamp (ISO) behind this pulse, when known. */
-  lastImportAt?: string | null;
 };
 
-export type PulseSeries = {
-  dates: string[];
-  series: { channelId: ChannelId; label: string; revenueCents: (number | null)[]; customers: (number | null)[] }[];
-};
+export type PulseSeries = Pick<PulseSeriesView, "dates" | "series">;
 
-export type KpiUnit = "cents" | "percent" | "count" | "days" | "ratio" | "cents_per_hour";
-export type KpiStatus = "ok" | "simulated" | "awaiting_data";
-export type Pillar = "financial" | "productivity" | "inventory" | "sales" | "category_customer";
+export type KpiStatus = ViewKpi["status"];
+export type Pillar = ViewKpi["pillar"];
 
-export type Kpi = {
-  id: string;
-  label: string;
-  pillar: Pillar;
-  unit: KpiUnit;
-  value: number | null;
-  previous: number | null;
-  target: number | null;
-  status: KpiStatus;
-  anchor2027: boolean;
-  note?: string;
-  /** display extras */
+export type Kpi = ViewKpi & {
   lowerIsBetter?: boolean;
   teamLevel?: boolean;
   history?: number[]; // oldest → newest
-  breakdown?: { label: string; value: number }[]; // Top 10 bars
-  displaySuffix?: string; // overrides the unit suffix, e.g. "78% of total"
+  breakdown?: { label: string; value: number }[]; // Top 10 bars (same unit as the KPI)
+  displaySuffix?: string; // overrides the unit suffix, e.g. "56% of total"
 };
 
 export type SourceStatus = "received" | "warnings" | "missing" | "not_due";
@@ -63,23 +41,22 @@ export type Source = {
   sublabel: string;
   cadence: "daily" | "monthly";
   status: SourceStatus;
-  openIssues: number;
-  lastImportAt: string | null; // ISO timestamp
-  lastFileLabel?: string; // shown when the period's file is missing, e.g. "Sep 2 (August file)"
+  openIssues: number;          // issues that need a person (handled ones are excluded)
+  formatUnconfirmed?: boolean; // parser layout not yet confirmed with a real export
+  lastImportAt: string | null; // ISO, this period
+  lastFileLabel?: string;      // when this period's file is missing, e.g. "Sep 30 (2026-09)"
   rowCount: number | null;
-  days?: ("received" | "warning" | "missing")[];
-  impact?: string; // why the warnings matter, shown on the Overview
+  days?: ("received" | "warning" | "missing")[]; // daily sources, one per day of the period so far
 };
 
-export type SourceIssue = { text: string; source: string; file: string };
+export type SourceIssue = { text: string; source: string; detail: string };
 
 export type SourceOrder = {
+  id: string;
   orderId: string;
-  /** Minutes after midnight ET, when known. The real order data has no timestamp
-   * (src/lib/views/types.ts OrdersView), so this is omitted rather than invented. */
-  minute?: number;
   channelLabel: string;
   category: string;
+  status: string; // paid | refunded | cancelled
   grossCents: number;
   netCents: number;
   sourceFile: string;

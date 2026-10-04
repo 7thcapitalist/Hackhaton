@@ -9,7 +9,7 @@ type SidebarProps = {
   pulseLabel: string;     // "Oct 2"
   scorecardLabel: string; // "Sep"
   sourcesLabel: string;   // "7/9"
-  importLabel: string;    // "Sat, Oct 3 · 6:12 AM ET"
+  importLabel: string | null; // "Sat, Oct 3 · 6:12 AM ET"; null before the first import
 };
 
 type NavItem = { href: string; label: string; icon: ReactNode; meta?: ReactNode };
@@ -58,10 +58,12 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, importLabel 
           })}
         </nav>
         <div className="mt-auto flex flex-col gap-2">
-          <div className="flex flex-col gap-1.5 rounded-[10px] border border-line bg-surface-2 p-3">
-            <p className="flex items-center gap-[7px] text-xs font-medium text-ink"><CheckIcon className="size-3.5 text-ok" />Nightly import done</p>
-            <p className="text-[11.5px] leading-normal text-ink-3">{importLabel}</p>
-          </div>
+          {importLabel && (
+            <div className="flex flex-col gap-1.5 rounded-[10px] border border-line bg-surface-2 p-3">
+              <p className="flex items-center gap-[7px] text-xs font-medium text-ink"><CheckIcon className="size-3.5 text-ok" />Last import</p>
+              <p className="text-[11.5px] leading-normal text-ink-3">{importLabel}</p>
+            </div>
+          )}
           <ThemeToggle />
         </div>
       </aside>
