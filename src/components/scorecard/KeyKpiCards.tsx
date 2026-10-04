@@ -4,7 +4,7 @@ import { CHANGE_TONE, STATUS_META, formatTarget, formatValue, kpiChange, kpiStat
 import { EstMarker } from "./EstMarker";
 import { InfoTip } from "./InfoTip";
 
-const KEY_KPIS_HINT = "The three KPIs Goodwill's 2027 plan is built around (slide 36).";
+const KEY_KPIS_HINT = "The month's headline numbers: revenue, orders and net margin.";
 const BAR: Partial<Record<Status, string>> = { on: "var(--ok)", near: "var(--warn-icon)", off: "var(--bad)" };
 const TARGET_AT = 1 / 1.25; // the target tick sits at 80% of the bar, leaving room to show a beat
 
@@ -30,7 +30,7 @@ function KeyKpiCard({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
     <article className="flex min-w-0 flex-col gap-3 rounded-xl border border-line border-t-[3px] border-t-brand bg-surface px-5 py-4.5 shadow-xs">
       <header className="flex items-start justify-between gap-3">
         <h3 className="text-[13.5px] leading-snug font-medium text-ink-2">{k.label}</h3>
-        <span className={`inline-flex shrink-0 items-center gap-1.5 text-[12.5px] font-semibold whitespace-nowrap ${meta.fg}`}><span aria-hidden>{meta.icon}</span>{meta.label}</span>
+        {status !== "none" && <span className={`inline-flex shrink-0 items-center gap-1.5 text-[12.5px] font-semibold whitespace-nowrap ${meta.fg}`}><span aria-hidden>{meta.icon}</span>{meta.label}</span>}
       </header>
       <p className="flex flex-wrap items-baseline gap-x-1.5 tabular-nums">
         {v ? <>
@@ -46,8 +46,9 @@ function KeyKpiCard({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
           <span aria-hidden className="absolute -top-1 -bottom-1 w-0.5 rounded-full bg-ink-2" style={{ left: `${TARGET_AT * 100}%` }} />
         </div>
       )}
-      <footer className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-[12.5px]">
-        <span className="whitespace-nowrap text-ink-2 tabular-nums">Target {formatTarget(k)}</span>
+      {/* mt-auto keeps the footers level when one card has no target bar. */}
+      <footer className="mt-auto flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-[12.5px]">
+        <span className="whitespace-nowrap text-ink-2 tabular-nums">{k.target != null ? `Target ${formatTarget(k)}` : "No target set"}</span>
         {change ? (
           <span className={`font-medium whitespace-nowrap tabular-nums ${CHANGE_TONE[change.tone]}`} aria-label={`${change.spoken}; ${prevMonth} was ${formatKpiShort(k.unit, k.previous)}`}>
             {change.text} <span className="font-normal text-ink-3">vs {prevMonth} ({formatKpiShort(k.unit, k.previous)})</span>
