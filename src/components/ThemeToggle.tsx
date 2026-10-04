@@ -11,7 +11,7 @@ export function ThemeToggle({ compact = false }: { compact?: boolean }) {
   };
   return (
     <button type="button" onClick={toggle} aria-label="Switch between light and dark theme"
-      className={`flex items-center gap-2 rounded-[7px] text-xs text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-accent ${compact ? "size-8 justify-center" : "h-8 px-2.5"}`}>
+      className={`flex items-center gap-2 rounded-md text-xs text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-accent ${compact ? "size-8 justify-center" : "h-8 px-2.5"}`}>
       <SunMoonIcon />
       {!compact && <span>Light / dark</span>}
     </button>
