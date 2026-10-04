@@ -45,7 +45,14 @@ export function biggestMover(current: Bucket[], previous: Bucket[]): Mover | nul
 
 export function sliceStats(rows: OrderLike[]) {
   const live = liveRows(rows);
+  const cancelled = rows.length - live.length;
   const revenueCents = rows.reduce((a, o) => a + o.netCents, 0);
   const orders = live.length;
-  return { revenueCents, orders, avgCents: orders ? Math.round(revenueCents / orders) : 0 };
+  return {
+    revenueCents,
+    orders,
+    avgCents: orders ? Math.round(revenueCents / orders) : 0,
+    cancelled,
+    cancelRate: rows.length ? cancelled / rows.length : 0,
+  };
 }
