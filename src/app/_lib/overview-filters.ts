@@ -5,7 +5,11 @@
 // "live" rows exclude cancellations — the same convention as src/lib/views/pulse.ts.
 import { pctChange } from "./format";
 
-export type OrderLike = { channelLabel: string; category: string; netCents: number; status: string; orderId: string; customerKey: string };
+// grossCents (pre-fee/refund) rides alongside netCents only so OverviewHero can show
+// "fees & refunds" (grossCents - netCents) as a substitute hero number when a filtered
+// slice would otherwise show the same count twice (unique customers === orders) — see
+// OverviewHero.tsx's aggregateTotals. Nothing else here uses it.
+export type OrderLike = { channelLabel: string; category: string; netCents: number; grossCents: number; status: string; orderId: string; customerKey: string };
 
 export function matches(o: OrderLike, channelLabel: string | "all", category: string | "all") {
   return (channelLabel === "all" || o.channelLabel === channelLabel) && (category === "all" || o.category === category);

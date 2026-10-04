@@ -2,21 +2,36 @@ import { getOrders, ORDERS_MAX_LIMIT, type OrdersView } from "@/lib/views";
 import { ButtonLink } from "@/components/Button";
 import { BarsIcon, CheckIcon, DatabaseIcon, PulseIcon } from "@/components/icons";
 import { SourceStrip } from "@/components/SourceStrip";
-import { CHANNEL_LABEL } from "./_lib/channels";
 import { customerKeyOf, getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
 import { formatStampFull } from "./_lib/format";
-import { MARKET_ORDER } from "./_lib/overview-theme";
+import { MARKET_ORDER, MARKET_THEME, type MarketKey } from "./_lib/overview-theme";
 import { OverviewHero, type OrderLike } from "./OverviewHero";
 
-/** Overview's own marketplace label, ungrouped — unlike Daily Pulse's pre-grouped
- * SourceOrder.channelLabel (_lib/data.ts's toSourceOrders folds Goodwill Books into "Other
- * e-comm" for the pulse table), the filter here needs every real source on its own so none
- * of them hide inside a catch-all bucket. CHANNEL_LABEL is the shared, already-ungrouped
- * export _lib/channels.ts provides for exactly this. customerKeyOf is #33's shared
- * unique-customer rule (buyer per marketplace, else the transaction) — same definition
- * Daily Pulse uses, applied here so a filtered Overview slice never drifts from it. */
+/** Overview's own marketplace key, ungrouped and source-split — unlike Daily Pulse's
+ * pre-grouped SourceOrder.channelLabel (_lib/data.ts's toSourceOrders folds Goodwill Books,
+ * Cash Monkey and Upright all into "Other e-comm" for the pulse table), the filter here
+ * needs every real source on its own so none of them hide inside a catch-all bucket.
+ * channel="other" is itself a blend of two unrelated operations (Cash Monkey's own
+ * storefront, Upright reselling across channels — see overview-theme.ts's MarketKey doc),
+ * so it's split further by sourceId; the other four channels (which don't mix sources this
+ * way) pass through unchanged. customerKeyOf is #33's shared unique-customer rule (buyer
+ * per marketplace, else the transaction) — same definition Daily Pulse uses, applied here
+ * so a filtered Overview slice never drifts from it. */
+function marketKeyOf(o: OrdersView["rows"][number]): MarketKey {
+  if (o.channel !== "other") return o.channel;
+  return o.sourceId === "cashmonkey" ? "cashmonkey" : o.sourceId === "upright" ? "upright" : "other";
+}
+
 function rawOrderLike(o: OrdersView["rows"][number]): OrderLike {
-  return { channelLabel: CHANNEL_LABEL[o.channel], category: o.category ?? "Uncategorized", netCents: o.netCents, status: o.status, orderId: o.externalOrderId, customerKey: customerKeyOf(o) };
+  return {
+    channelLabel: MARKET_THEME[marketKeyOf(o)].label,
+    category: o.category ?? "Uncategorized",
+    netCents: o.netCents,
+    grossCents: o.grossCents,
+    status: o.status,
+    orderId: o.externalOrderId,
+    customerKey: customerKeyOf(o),
+  };
 }
 
 export default async function OverviewPage() {
@@ -41,8 +56,8 @@ export default async function OverviewPage() {
   ]);
   const orders: OrderLike[] = ordersRaw.rows.map(rawOrderLike);
   const cmpOrders: OrderLike[] | null = cmpOrdersRaw ? cmpOrdersRaw.rows.map(rawOrderLike) : null;
-  const presentChannels = new Set(ordersRaw.rows.map(o => o.channel));
-  const channelOptions = MARKET_ORDER.filter(id => presentChannels.has(id)).map(id => ({ id, label: CHANNEL_LABEL[id] }));
+  const presentKeys = new Set(ordersRaw.rows.map(marketKeyOf));
+  const channelOptions = MARKET_ORDER.filter(id => presentKeys.has(id)).map(id => ({ id, label: MARKET_THEME[id].label }));
 
   const SOURCES = sourcesData.sources;
   const src = summarizeSources(SOURCES);
