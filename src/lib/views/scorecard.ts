@@ -12,6 +12,7 @@ import { sql } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import {
   AGED_LISTING_DAYS,
+  DEFAULT_KPI_TARGETS,
   DEFAULT_LABOR_RATE_CENTS_PER_HOUR,
   KPI_DEFINITIONS,
   categoryBreakdown,
@@ -288,13 +289,24 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
   };
 }
 
+/** Loads one period's facts; pass a per-request cached loader to share loads between views. */
+export type PeriodFactsLoader = (period: string) => Promise<PeriodFacts>;
+
+/**
+ * Target for a KPI: the period's kpi_targets row when there is one, otherwise the
+ * default placeholder target (src/kpis/targets.ts), otherwise null.
+ */
+function targetFor(kpiId: string, stored: Map<string, number>): number | null {
+  return stored.get(kpiId) ?? DEFAULT_KPI_TARGETS[kpiId] ?? null;
+}
+
 /** Scorecard for a period (`YYYY-MM`). */
-export async function getScorecard(period: string): Promise<ScorecardView> {
+export async function getScorecard(period: string, load: PeriodFactsLoader = loadPeriodFacts): Promise<ScorecardView> {
   const prevPeriod = previousPeriod(period);
   const [cur, prev, prev2, targets] = await Promise.all([
-    loadPeriodFacts(period),
-    loadPeriodFacts(prevPeriod),
-    loadPeriodFacts(previousPeriod(prevPeriod)),
+    load(period),
+    load(prevPeriod),
+    load(previousPeriod(prevPeriod)),
     getDb().all<{ kpi_key: string; target_value: number }>(
       sql`select kpi_key, target_value from kpi_targets where period = ${period}`,
     ),
@@ -322,7 +334,7 @@ export async function getScorecard(period: string): Promise<ScorecardView> {
       unit: def.unit,
       value,
       previous,
-      target: targetByKey.get(def.id) ?? null,
+      target: targetFor(def.id, targetByKey),
       status,
       anchor2027: def.anchor2027,
       higherIsBetter: def.higherIsBetter,
@@ -339,4 +351,32 @@ export async function getScorecard(period: string): Promise<ScorecardView> {
     categories: categoryBreakdown(cur.categories),
     marketplaceMetrics: marketplaceByChannel(cur),
   };
+}
+
+/** Every KPI's value for each of the `months` periods ending at `period` (oldest first). */
+export interface ScorecardHistory {
+  periods: string[];
+  /** KPI id -> one value per period; null = not computable that month (a gap, never zero). */
+  values: Record<string, (number | null)[]>;
+}
+
+/**
+ * KPI values over the last `months` periods ending at `period`, for trend lines.
+ * Loads each period's facts once (plus the month before the first, for month-over-month
+ * KPIs) and computes every KPI from them, with the same formulas as getScorecard.
+ */
+export async function getScorecardHistory(
+  period: string,
+  months = 6,
+  load: PeriodFactsLoader = loadPeriodFacts,
+): Promise<ScorecardHistory> {
+  const periods: string[] = [period];
+  while (periods.length < months) periods.unshift(previousPeriod(periods[0]));
+  const before = previousPeriod(periods[0]);
+  const facts = await Promise.all([before, ...periods].map((p) => load(p)));
+  const values: ScorecardHistory["values"] = {};
+  for (const def of KPI_DEFINITIONS) {
+    values[def.id] = periods.map((_, i) => def.compute(facts[i + 1], facts[i]));
+  }
+  return { periods, values };
 }
