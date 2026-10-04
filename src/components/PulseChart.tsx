@@ -37,7 +37,7 @@ const isWeekend = (d: string) => [0, 6].includes(new Date(`${d}T00:00:00Z`).getU
 const short = (d: string) => formatDay(d, { month: "short", day: "numeric" });
 
 const segmentBtn = (on: boolean) =>
-  `h-[26px] rounded-[4px] px-2.5 text-[12.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-accent ${on ? "bg-surface text-ink ring-1 ring-line" : "text-ink-3 hover:text-ink"}`;
+  `h-7 rounded-md px-3 text-[12.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-accent ${on ? "bg-surface text-ink shadow-xs" : "text-ink-3 hover:text-ink"}`;
 
 export function PulseChart({ data, selectedDate, lastCompleteDate, onSelectDate }: PulseChartProps) {
   const [metric, setMetric] = useState<Metric>("revenue");
@@ -112,21 +112,21 @@ export function PulseChart({ data, selectedDate, lastCompleteDate, onSelectDate 
   );
 
   return (
-    <section className="flex flex-col gap-3.5 rounded-lg border border-line bg-surface px-4 pt-[18px] pb-4 sm:px-[22px]">
+    <section className="flex flex-col gap-3.5 rounded-xl border border-line bg-surface px-4 pt-[18px] pb-4 shadow-xs sm:px-[22px]">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex flex-col gap-0.5">
-          <h2 className="text-[14px] font-semibold">Daily {metric} by marketplace</h2>
+          <h2 className="text-[15px] font-semibold">Daily {metric} by marketplace</h2>
           <p className="text-[12.5px] text-ink-3">
             Last {n} days · {range} · click a day to open its pulse{layout === "multiples" ? " · each marketplace on its own scale" : ""}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <div role="group" aria-label="Chart metric" className="flex gap-0.5 rounded-md border border-line bg-surface-2 p-[2px]">
+          <div role="group" aria-label="Chart metric" className="flex gap-0.5 rounded-[9px] border border-line bg-surface-2 p-[3px]">
             {(["revenue", "customers"] as const).map(m => (
               <button key={m} type="button" aria-pressed={metric === m} onClick={() => setMetric(m)} className={segmentBtn(metric === m)}>{m === "revenue" ? "Revenue" : "Unique customers"}</button>
             ))}
           </div>
-          <div role="group" aria-label="Chart layout" className="flex gap-0.5 rounded-md border border-line bg-surface-2 p-[2px]">
+          <div role="group" aria-label="Chart layout" className="flex gap-0.5 rounded-[9px] border border-line bg-surface-2 p-[3px]">
             {([["stacked", "Stacked"], ["multiples", "By marketplace"]] as const).map(([v, label]) => (
               <button key={v} type="button" aria-pressed={layout === v} onClick={() => setLayout(v)} className={segmentBtn(layout === v)}>{label}</button>
             ))}
@@ -135,7 +135,7 @@ export function PulseChart({ data, selectedDate, lastCompleteDate, onSelectDate 
       </div>
       <ul className="flex flex-wrap gap-x-[18px] gap-y-1 text-[12.5px] text-ink-2" aria-label="Legend">
         {data.series.map(s => (
-          <li key={s.channelId} className="flex items-center gap-1.5"><span className="size-2.5 rounded-[2px]" style={{ background: marketplaceColor(s.channelId) }} />{s.label}</li>
+          <li key={s.channelId} className="flex items-center gap-1.5"><span className="size-2.5 rounded-[3px]" style={{ background: marketplaceColor(s.channelId) }} />{s.label}</li>
         ))}
         <li className="flex items-center gap-1.5 text-ink-3"><span className="size-2.5 rounded-[3px] border border-line bg-surface-2" />Weekend</li>
         {layout === "stacked" && avg != null && (
@@ -238,7 +238,7 @@ export function PulseChart({ data, selectedDate, lastCompleteDate, onSelectDate 
           ))}
         </svg>
         {hover != null && (
-          <div className="pointer-events-none absolute top-2 flex w-[210px] flex-col gap-1.5 rounded-lg border border-line bg-surface px-3 py-2.5 text-[12.5px] shadow-pop"
+          <div className="pointer-events-none absolute top-2 flex w-[210px] flex-col gap-1.5 rounded-[10px] border border-line bg-surface px-3 py-2.5 text-[12.5px] shadow-pop"
             style={{ left: X(hover) > W - 240 ? Math.max(0, X(hover) - 222) : X(hover) + 12 }}>
             <p className="font-semibold">{formatDay(data.dates[hover])}{isWeekend(data.dates[hover]) && <span className="font-normal text-ink-3"> · weekend</span>}</p>
             {[...data.series].reverse().map(s => {

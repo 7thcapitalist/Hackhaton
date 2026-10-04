@@ -69,7 +69,7 @@ export function CloseActions({ period, stage, can, openExceptions, defaultBatch 
         : <Button variant="primary" disabled={!!busy || !can.markPosted} onClick={() => setAsk("posted")} aria-expanded={ask === "posted"}>Mark posted</Button>;
       break;
     case "posted":
-      primary = <span className="inline-flex h-8 items-center gap-1.5 rounded-md bg-ok-soft px-3 text-[13px] font-medium text-ok"><CheckIcon />Close posted</span>;
+      primary = <span className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-ok-soft px-3.5 text-[13px] font-semibold text-ok"><CheckIcon />Close posted</span>;
       break;
   }
 
@@ -92,7 +92,7 @@ export function CloseActions({ period, stage, can, openExceptions, defaultBatch 
       </div>
 
       {ask && (
-        <form onSubmit={submit} className="flex w-full max-w-[460px] flex-col gap-2.5 rounded-lg border border-line bg-surface p-3.5" aria-describedby={error ? errId : undefined}>
+        <form onSubmit={submit} className="flex w-full max-w-[460px] flex-col gap-2.5 rounded-xl border border-line bg-surface p-3.5 shadow-xs" aria-describedby={error ? errId : undefined}>
           {ask === "force" && (
             <p className="flex gap-2 text-[12.5px] text-pretty text-warn">
               <WarnIcon className="mt-0.5 size-3.5 shrink-0 text-warn-icon" />
@@ -103,13 +103,13 @@ export function CloseActions({ period, stage, can, openExceptions, defaultBatch 
             <label htmlFor={nameId} className="flex min-w-[180px] flex-1 flex-col gap-1 text-xs font-medium text-ink-2">
               {askLabel}
               <input id={nameId} required autoFocus value={name} onChange={e => setName(e.target.value)} onFocus={e => e.currentTarget.select()} placeholder="Your name" autoComplete="name"
-                className="h-8 rounded-md border border-line bg-surface px-2.5 text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-accent" />
+                className="h-9 rounded-lg border border-line bg-surface px-2.5 text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-accent" />
             </label>
             {ask === "imported" && (
               <label htmlFor={batchId} className="flex w-[140px] flex-col gap-1 text-xs font-medium text-ink-2">
                 BC journal batch
                 <input id={batchId} value={batch} onChange={e => setBatch(e.target.value)} maxLength={10}
-                  className="h-8 rounded-md border border-line bg-surface px-2.5 font-mono text-[12.5px] text-ink focus-visible:outline-2 focus-visible:outline-accent" />
+                  className="h-9 rounded-lg border border-line bg-surface px-2.5 font-mono text-[12.5px] text-ink focus-visible:outline-2 focus-visible:outline-accent" />
               </label>
             )}
           </div>

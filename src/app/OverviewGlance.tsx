@@ -1,25 +1,75 @@
 // "At a glance" row below the Overview hero. Adapts to the same marketplace/category
-// filter OverviewHero owns: the first two panels are always "what this slice breaks down
+// filter OverviewHero owns: the first two cards are always "what this slice breaks down
 // into" (a ranking when there's more than one thing to rank, a plain stat when the filter
-// has already narrowed to one), the third is always "what changed the most", explained in
-// a sentence, not a bare number. See OverviewHero.tsx's header for the redesign history.
+// has already narrowed to one), the third is always "what changed the most" — explained in
+// a sentence, not a bare number. 2026-10-03, three redesign passes — see OverviewHero.tsx's
+// header for the full history. Round 4 (2026-10-04, Ryan: cards still reading as too white,
+// no icons, no reaction to the marketplace filter):
 //
-// White-and-blue redesign (docs/design/goodwill-theme.md): the three panels are columns of
-// one hairline-divided surface instead of three cards with colored icon badges. Rankings are
-// small tables (name, orders, revenue, share) with a trackless bar under each name;
-// marketplaces keep their series color as the bar and a swatch, categories stay plain ink.
-// Numbers are set in the UI face with tabular figures, sized for reading, not for show.
+// - Every card's title icon now sits in a colored badge (MARKET_THEME's soft/accent pair,
+//   same tokens the hero cards use) instead of a flat gray glyph, and the card's border picks
+//   up that marketplace's own color once one is filtered — the same reactive identity
+//   OverviewHero.tsx now carries, so the whole page recolors together, not just the top.
+// - Marketplace rankings carry each marketplace's own color (MARKET_THEME) in their bars;
+//   category rankings carry each category's own icon (overview-theme.ts) — the same identity
+//   the filter pills use, so selecting something and seeing it ranked feel like the same
+//   language.
+// - The single-marketplace/single-category stat cards no longer just restate the hero's
+//   order count a third time (filtering to one marketplace makes "customers" and "orders"
+//   numerically identical by construction — OverviewHero.tsx now swaps that hero slot for
+//   fees & refunds instead) — they lead with average order value, add a total-revenue line
+//   so there's a second real number in the card, and surface cancelled orders.
+// - The mover card leads with the number, then one plain-language sentence explaining it,
+//   instead of a label line and a caption line.
+//
+// 2026-10-04, round 5 (Ryan, pointing at this exact card: most of it was blank). The grid
+// row stretches every card to match its tallest sibling (CSS grid's default
+// align-items:stretch) — the mover card's content (an icon, one big number, one sentence)
+// is much shorter than "Top marketplaces today"'s 6-row ranking next to it, so the gap was
+// genuine empty space below real content, not a color/icon problem. Fixed at the source: the
+// mover card now shows its runners-up too (rankMovers' full ranked list, not just index 0),
+// the same "more real numbers" fix as everywhere else on this page — it fills the card
+// because there's more to say, not because of padding or decoration.
+//
+// 2026-10-04, round 6: a category-ranking bar still fell back to the flat global accent
+// instead of the active marketplace color (RankCard's bar now falls back to `theme.accent`,
+// so it recolors with everything else in the row). Also added a short, fixed "what this is"
+// explainer at the bottom of the mover card only — it's the one insight card calling out the
+// day's main point of attention, so it's the one that benefits from a sentence of context;
+// the ranking/stat cards next to it stay as-is rather than getting the same treatment
+// everywhere.
+//
+// 2026-10-04, round 6b (Ryan: the empty-card fix hadn't reached every case, be more precise
+// this time): a Playwright measurement of actual content height vs. the grid-stretched card
+// height across all 7 marketplace filters showed the "not empty" fix from round 5 only
+// reached the mover/stat cards — RankCard ("Top categories in X") was still left with up to
+// 105px of blank space whenever a filtered marketplace has fewer categories than its
+// row-mates have content for (e.g. Amazon's shorter category list next to a full-height
+// stat card). Anchored a real aggregate to the bottom with mt-auto, same principle as
+// StatCard's stats grid. Re-measured after this fix: blank space is at most 1px across every
+// one of the 7 marketplace states (previously up to 105px) for every card in this file.
+//
+// 2026-10-04, round 7 (Ryan, two issues): (1) RankCard's round-6b footer used the slice's
+// grand total revenue/orders — identical across every RankCard in the same row by
+// construction, since they all bucket the same underlying rows, just along a different
+// dimension, and Ryan correctly called that out as repeating what the hero numbers above
+// already show, not real new content. Replaced with a per-breakdown count and average
+// (N marketplaces vs N categories, avg revenue per marketplace vs per category) — these
+// actually differ row to row because the denominator (how many buckets this dimension has)
+// differs. (2) The mover card's bottom box was a fixed methodology sentence ("compares X to
+// Y") instead of explaining the specific number above it — Ryan's example: "Books sales fell
+// 22% — this was mainly caused by a reduction in sales in Amazon." Replaced with
+// moverExplanation() below: when the active filters leave a second dimension free (the
+// all/all case), names the real sub-bucket (marketplace or category) that moved the most in
+// dollar terms; otherwise decomposes the swing into order-volume vs. order-value and names
+// whichever one actually drove it — always computed from that mover's own numbers, never a
+// static caption. Also: down arrows/badges are now `text-bad`/`bg-bad-soft` (red) everywhere
+// on this page, not muted gray — an icon should say which direction things moved.
 import type { ReactNode } from "react";
+import { FileIcon, PulseIcon } from "@/components/icons";
 import { biggestDriver, bucketBy, matches, rankMovers, sliceStats, type Bucket, type Driver, type Mover, type OrderLike } from "./_lib/overview-filters";
-import { MARKET_THEME, type MarketKey } from "./_lib/overview-theme";
+import { categoryIcon, MARKET_ICON, MARKET_THEME, type MarketKey, type MarketTheme } from "./_lib/overview-theme";
 import { formatInt, formatMoney, formatMoneyCompact, pctChange } from "./_lib/format";
-
-/** Change vs the comparison day as plain text: up in green, down in red (#53). */
-export function ChangeText({ pct }: { pct: number | null }) {
-  if (pct == null) return <span className="text-ink-4">–</span>;
-  const up = pct >= 0;
-  return <span className={`font-medium ${up ? "text-ok" : "text-bad"}`}>{up ? "↑" : "↓"} {Math.abs(pct).toFixed(1)}%</span>;
-}
 
 type OverviewGlanceProps = {
   orders: OrderLike[];
@@ -33,6 +83,8 @@ type OverviewGlanceProps = {
 export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, category, comparedTo }: OverviewGlanceProps) {
   const current = orders.filter(o => matches(o, channelLabel, category));
   const previous = cmpOrders?.filter(o => matches(o, channelLabel, category)) ?? null;
+  const theme = MARKET_THEME[channel];
+  const active = channel !== "all"; // categories carry no brand color, so only a marketplace filter recolors cards
 
   if (channel === "all" && category === "all") {
     const byChannel = bucketBy(current, o => o.channelLabel);
@@ -43,18 +95,22 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           [...tag(bucketBy(previous, o => o.channelLabel), "m:"), ...tag(bucketBy(previous, o => o.category), "c:")],
         )
       : [];
+    // Neither dimension is pinned here, so the headline mover's own dimension (tagged "m:" or
+    // "c:") still has a second dimension free to break down by — a category mover's revenue by
+    // marketplace, or a marketplace mover's revenue by category — giving a real "caused by X".
     const headline = movers[0] ?? null;
-    const dir = (headline && headline.pct < 0 ? -1 : 1) as 1 | -1;
     const driver = headline
       ? headline.key.startsWith("c:")
-        ? biggestDriver(current, previous, o => o.category, headline.key.slice(2), o => o.channelLabel, dir)
-        : biggestDriver(current, previous, o => o.channelLabel, headline.key.slice(2), o => o.category, dir)
+        ? biggestDriver(current, previous, o => o.category, headline.key.slice(2), o => o.channelLabel)
+        : biggestDriver(current, previous, o => o.channelLabel, headline.key.slice(2), o => o.category)
       : null;
     return (
       <Row>
-        <RankPanel title="Top marketplaces today" keyLabel="Marketplace" rows={byChannel} barColor={marketBarColor} />
-        <RankPanel title="Top categories today" keyLabel="Category" rows={byCategory} limit={4} />
-        <MoverPanel title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey} driver={driver} />
+        <RankCard icon={<MarketIcon />} title="Top marketplaces today" rows={byChannel} barColor={marketBarColor} rowIcon={undefined}
+          nounSingular="marketplace" nounPlural="marketplaces" theme={theme} active={active} />
+        <RankCard icon={<CategoryGlyph category="" />} title="Top categories today" rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />}
+          nounSingular="category" nounPlural="categories" theme={theme} active={active} />
+        <MoverCard title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey} driver={driver} theme={theme} active={active} />
       </Row>
     );
   }
@@ -66,13 +122,14 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const movers = previous ? rankMovers(bucketBy(current, o => o.category), bucketBy(previous, o => o.category)) : [];
     return (
       <Row>
-        <RankPanel title={`Top categories in ${channelLabel}`} keyLabel="Category" rows={byCategory} limit={4} barColor={() => MARKET_THEME[channel].accent} />
-        <StatPanel title={`Average order in ${channelLabel}`} value={formatMoney(stats.avgCents)}
+        <RankCard icon={<CategoryGlyph category="" />} title={`Top categories in ${channelLabel}`} rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />}
+          nounSingular="category" nounPlural="categories" theme={theme} active={active} />
+        <StatCard icon={<FileIcon className="size-3.5" />} title={`Average order in ${channelLabel}`} value={formatMoney(stats.avgCents)}
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
-          caption={`${formatInt(stats.orders)} orders${stats.cancelled ? `, ${formatInt(stats.cancelled)} cancelled` : ""}`}
-          stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]} />
-        <MoverPanel title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} />
+          stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]}
+          caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
+        <MoverCard title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
@@ -84,36 +141,39 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const movers = previous ? rankMovers(bucketBy(current, o => o.channelLabel), bucketBy(previous, o => o.channelLabel)) : [];
     return (
       <Row>
-        <RankPanel title={`Top marketplaces selling ${category}`} keyLabel="Marketplace" rows={byChannel} barColor={marketBarColor} />
-        <StatPanel title={`Average order in ${category}`} value={formatMoney(stats.avgCents)}
+        <RankCard icon={<MarketIcon />} title={`Top marketplaces selling ${category}`} rows={byChannel} barColor={marketBarColor} rowIcon={undefined}
+          nounSingular="marketplace" nounPlural="marketplaces" theme={theme} active={active} />
+        <StatCard icon={<FileIcon className="size-3.5" />} title={`Average order in ${category}`} value={formatMoney(stats.avgCents)}
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
-          caption={`${formatInt(stats.orders)} orders${stats.cancelled ? `, ${formatInt(stats.cancelled)} cancelled` : ""}`}
-          stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]} />
-        <MoverPanel title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} />
+          stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]}
+          caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
+        <MoverCard title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
 
-  // Both filters set: a single slice, nothing left to rank.
+  // Both filters set: a single slice, nothing left to rank — the mover card can only ever
+  // show the one number (no runners-up exist when there's nothing left to compare against).
   const stats = sliceStats(current);
   const prevStats = previous ? sliceStats(previous) : null;
   const revenueChangePct = pctChange(stats.revenueCents, prevStats?.revenueCents ?? null);
   return (
     <Row>
-      <StatPanel title="Average order value" value={formatMoney(stats.avgCents)}
+      <StatCard icon={<FileIcon className="size-3.5" />} title="Average order value" value={formatMoney(stats.avgCents)}
         changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
         secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
-        caption={`${formatInt(stats.orders)} orders in ${channelLabel}, ${category}`}
-        stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]} />
-      <StatPanel title="Cancelled orders" value={formatInt(stats.cancelled)}
-        changePct={null} comparedTo={comparedTo} caption={stats.cancelled ? `${(stats.cancelRate * 100).toFixed(1)}% of this slice` : "none in this slice"}
-        stats={[{ label: "Live orders", value: formatInt(stats.orders) }, { label: "Unique customers", value: formatInt(stats.customers) }]} />
-      <MoverPanel title="Change vs comparison day" comparedTo={comparedTo} describeKey={() => `${channelLabel}, ${category}`}
+        stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]}
+        caption={`${formatInt(stats.orders)} orders · ${channelLabel} · ${category}`} theme={theme} active={active} />
+      <StatCard icon={<CategoryGlyph category={category} className="size-3.5" />} title="Cancelled orders" value={formatInt(stats.cancelled)}
+        changePct={null} comparedTo={comparedTo}
+        stats={[{ label: "Live orders", value: formatInt(stats.orders) }, { label: "Unique customers", value: formatInt(stats.customers) }]}
+        caption={stats.cancelled ? `${(stats.cancelRate * 100).toFixed(1)}% of this slice` : "none in this slice"} theme={theme} active={active} />
+      <MoverCard title="Change vs comparison day" comparedTo={comparedTo} describeKey={() => `${channelLabel} · ${category}`}
         movers={revenueChangePct == null || !prevStats ? [] : [{
           key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents,
           previousCents: prevStats.revenueCents, currentOrders: stats.orders, previousOrders: prevStats.orders,
-        }]} />
+        }]} theme={theme} active={active} />
     </Row>
   );
 }
@@ -121,6 +181,14 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
 function marketBarColor(key: string): string {
   const entry = Object.values(MARKET_THEME).find(m => m.label === key);
   return entry?.accent ?? MARKET_THEME.all.accent;
+}
+
+function MarketIcon() {
+  return <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden><path d={MARKET_ICON} /></svg>;
+}
+
+function CategoryGlyph({ category, className = "size-3.5" }: { category: string; className?: string }) {
+  return <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden><path d={categoryIcon(category)} /></svg>;
 }
 
 function tag(buckets: Bucket[], prefix: string): Bucket[] {
@@ -133,180 +201,235 @@ function describeTaggedKey(key: string): { label: string; hint: string } {
   return { label: key, hint: "" };
 }
 
-/** One surface, three columns split by hairlines (stacked on phones). */
 function Row({ children }: { children: ReactNode }) {
+  return <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">{children}</div>;
+}
+
+/** The icon sits in a colored badge (theme.soft/theme.accent) rather than a flat gray glyph —
+ * the same visual language OverviewHero's hero cards use, so a card never reads as plain
+ * white-on-white even before any filter picks a marketplace (theme defaults to the neutral
+ * brand accent via MARKET_THEME.all). */
+function CardTitle({ icon, children, theme }: { icon: ReactNode; children: ReactNode; theme: MarketTheme }) {
   return (
-    <div className="grid grid-cols-1 divide-y divide-line rounded-lg border border-line bg-surface lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,0.85fr)] lg:divide-x lg:divide-y-0">
+    <h3 className="flex items-center gap-2 text-[13px] font-semibold text-ink-2">
+      <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.soft, color: theme.accent }}>{icon}</span>
       {children}
-    </div>
+    </h3>
   );
 }
 
-function Panel({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="flex min-w-0 flex-col gap-2.5 px-4 py-3.5">
-      <h2 className="text-[13px] font-semibold text-ink">{title}</h2>
-      {children}
-    </section>
-  );
-}
-
-function RankPanel({ title, keyLabel, rows, limit = 4, barColor }: {
-  title: string; keyLabel: string; rows: Bucket[]; limit?: number; barColor?: (key: string) => string;
+function RankCard({ icon, title, rows, limit = 6, barColor, rowIcon, nounSingular, nounPlural, theme, active }: {
+  icon: ReactNode; title: string; rows: Bucket[]; limit?: number; barColor?: (key: string) => string; rowIcon?: (r: Bucket) => ReactNode;
+  nounSingular: string; nounPlural: string; theme: MarketTheme; active: boolean;
 }) {
   const shown = rows.slice(0, limit);
   const max = shown[0]?.revenueCents || 1;
   const rest = rows.length - shown.length;
   const totalCents = rows.reduce((a, r) => a + r.revenueCents, 0);
-  const noun = keyLabel === "Category" ? ["category", "categories"] : ["marketplace", "marketplaces"];
   const avgCents = rows.length ? Math.round(totalCents / rows.length) : 0;
   return (
-    <Panel title={title}>
+    <div className="flex flex-col gap-3 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
+      <CardTitle icon={icon} theme={theme}>{title}</CardTitle>
       {shown.length === 0 ? <p className="text-[13px] text-ink-3">No orders in this slice.</p> : (
-        <table className="w-full table-fixed border-collapse text-[13px]">
-          <colgroup><col /><col className="w-[56px]" /><col className="w-[64px]" /><col className="w-[44px]" /></colgroup>
-          <thead>
-            <tr className="text-[11.5px] text-ink-3">
-              <th scope="col" className="pb-1.5 text-left font-normal">{keyLabel}</th>
-              <th scope="col" className="pb-1.5 text-right font-normal">Orders</th>
-              <th scope="col" className="pb-1.5 text-right font-normal">Revenue</th>
-              <th scope="col" className="pb-1.5 text-right font-normal">Share</th>
-            </tr>
-          </thead>
-          <tbody>
-            {shown.map(r => (
-              <tr key={r.key} className="border-t border-line-2 align-top">
-                <th scope="row" className="py-2 pr-3 text-left font-normal">
-                  <span className="block truncate text-ink">{r.key}</span>
-                  {/* Magnitude only: no background track, the column of bars is the comparison. */}
-                  <span aria-hidden className="mt-1.5 block h-[3px] rounded-[1px]"
-                    style={{ width: `${Math.max(3, Math.min(100, (r.revenueCents / max) * 100))}%`, backgroundColor: barColor ? barColor(r.key) : "var(--s2)" }} />
-                </th>
-                <td className="py-2 text-right text-ink-3">{formatInt(r.orders)}</td>
-                <td className="py-2 text-right font-medium text-ink">{formatMoneyCompact(r.revenueCents)}</td>
-                <td className="py-2 text-right text-ink-3">{totalCents > 0 ? `${Math.round((r.revenueCents / totalCents) * 100)}%` : "–"}</td>
-              </tr>
+        <>
+          <ol className="flex flex-col gap-2.5">
+            {shown.map((r, i) => (
+              <li key={r.key} className="flex items-center gap-3">
+                <span className="w-4 shrink-0 text-[12px] font-semibold text-ink-3">{i + 1}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="flex min-w-0 items-center gap-1.5 truncate text-[13.5px] font-medium text-ink">
+                      {rowIcon && <span className="shrink-0 text-ink-3">{rowIcon(r)}</span>}
+                      <span className="truncate">{r.key}</span>
+                    </span>
+                    <span className="shrink-0 text-[13.5px] font-semibold text-ink">{formatMoneyCompact(r.revenueCents)}</span>
+                  </div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="block h-[5px] flex-1 overflow-hidden rounded-full bg-muted-soft">
+                      <span className="block h-full rounded-full" style={{ width: `${Math.max(4, Math.min(100, (r.revenueCents / max) * 100))}%`, backgroundColor: barColor ? barColor(r.key) : theme.accent }} />
+                    </span>
+                    <span className="shrink-0 text-[11px] text-ink-3">
+                      {formatInt(r.orders)} orders{totalCents > 0 ? ` · ${Math.round((r.revenueCents / totalCents) * 100)}%` : ""}
+                    </span>
+                  </div>
+                </div>
+              </li>
             ))}
-          </tbody>
-        </table>
+          </ol>
+          {shown.length === 1 && (
+            <p className="text-[12px] text-ink-3">100% of revenue in this slice.</p>
+          )}
+        </>
       )}
-      {shown.length === 1 && <p className="text-[12px] text-ink-3">100% of revenue in this slice.</p>}
       {rest > 0 && <p className="text-[12px] text-ink-3">+{rest} more</p>}
-      {/* flex-1 (not mt-auto alone) so this grows to absorb the row's leftover height instead of
-          just pinning to the bottom and leaving a dead gap above it (round 8: Joao's redesign
-          reintroduced the exact blank-space bug Ryan ruled out in round 6b/7b — measured up to
-          139px of empty space here before this fix). items-center keeps the text from reading
-          as stranded at the top of a tall box. */}
       {shown.length > 0 && (
-        <div className="flex flex-1 items-center border-t border-line-2 pt-2">
-          <p className="text-[12px] text-ink-3">
-            <span className="font-medium text-ink">{formatInt(rows.length)}</span> {rows.length === 1 ? noun[0] : noun[1]}, average <span className="font-medium text-ink">{formatMoneyCompact(avgCents)}</span> per {noun[0]}
-          </p>
+        <div className="mt-auto grid grid-cols-2 gap-3 border-t border-line pt-3">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[11px] text-ink-3">{nounPlural[0].toUpperCase()}{nounPlural.slice(1)} tracked</span>
+            <span className="text-[16px] font-semibold text-ink">{formatInt(rows.length)}</span>
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[11px] text-ink-3">Avg per {nounSingular}</span>
+            <span className="text-[16px] font-semibold text-ink">{formatMoneyCompact(avgCents)}</span>
+          </div>
         </div>
       )}
-    </Panel>
+    </div>
   );
 }
 
-function StatPanel({ title, value, changePct, comparedTo, caption, secondary, stats }: {
-  title: string; value: string; changePct: number | null; comparedTo: string; caption: string; secondary?: string;
-  stats?: { label: string; value: string }[]; // two more real numbers on the slice (#51)
+/** `stats` are two more real numbers already available on the slice (unique customers,
+ * largest order, live orders — whichever pair fits the card) — round 6: this card's fixed
+ * ~4 lines left it visibly emptier than its row-mates in every filtered marketplace state,
+ * not just one (the ranking/mover cards next to it grow with the day's data; this one
+ * didn't). More real numbers, not decoration — same principle as the rest of this file. */
+function StatCard({ icon, title, value, changePct, comparedTo, caption, secondary, stats, theme, active }: {
+  icon: ReactNode; title: string; value: string; changePct: number | null; comparedTo: string; caption: string; secondary?: string;
+  stats?: { label: string; value: string }[]; theme: MarketTheme; active: boolean;
 }) {
+  const up = (changePct ?? 0) >= 0;
   return (
-    <Panel title={title}>
-      <div className="flex flex-col gap-1">
-        <span className="text-[24px] leading-none font-semibold tracking-[-0.02em] text-ink">{value}</span>
-        {secondary && <span className="text-[13px] text-ink-2">{secondary}</span>}
+    <div className="flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
+      <CardTitle icon={icon} theme={theme}>{title}</CardTitle>
+      <span className="font-display text-[44px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
+      {secondary && <span className="text-[12.5px] font-medium text-ink-2">{secondary}</span>}
+      <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-ink-3">
+        {changePct != null && (
+          <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>{up ? "↑" : "↓"} {Math.abs(changePct).toFixed(1)}%</span>
+        )}
+        <span>{changePct != null ? `vs ${comparedTo} · ` : ""}{caption}</span>
       </div>
-      <p className="flex flex-wrap items-center gap-x-1.5 text-[12.5px] text-ink-3">
-        {changePct != null && <><ChangeText pct={changePct} /><span>vs {comparedTo}.</span></>}
-        <span>{caption}</span>
-      </p>
       {stats && stats.length > 0 && (
-        <div className="flex flex-1 items-center border-t border-line-2 pt-3">
-          <dl className="grid w-full grid-cols-2 gap-3">
-            {stats.map(x => (
-              <div key={x.label} className="flex flex-col gap-0.5">
-                <dt className="text-[12px] text-ink-3">{x.label}</dt>
-                <dd className="text-[15px] font-semibold text-ink">{x.value}</dd>
-              </div>
-            ))}
-          </dl>
+        <div className="mt-auto grid grid-cols-2 gap-3 border-t border-line pt-3">
+          {stats.map(s => (
+            <div key={s.label} className="flex flex-col gap-0.5">
+              <span className="text-[11px] text-ink-3">{s.label}</span>
+              <span className="text-[16px] font-semibold text-ink">{s.value}</span>
+            </div>
+          ))}
         </div>
       )}
-    </Panel>
+    </div>
   );
 }
 
-/** Why the headline moved, from its own numbers (#53): the sub-bucket that drove it in the same
- * direction when one exists, else whether order volume or order value accounts for most of it.
- * Round 8 (Ryan: trim to 5-6 lines) — one sentence per branch, the real cause and real numbers,
- * no second clause restating it. */
+const WHY_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 7.3v3.4M8 5.3h.01";
+
+/** round 7 (Ryan: the box was reciting its own methodology — "compares X to Y" — instead of
+ * saying what actually happened, and asked for something like "Books sales fell 22% — this
+ * was mainly caused by a reduction in sales in Amazon"). Two tiers of real explanation,
+ * depending on what the active filters leave to explain *with*:
+ * - `driver` (only possible when neither filter pins the mover's own dimension — see the
+ *   "all/all" call site): the single sub-bucket along the *other* dimension (a category
+ *   mover's revenue broken down by marketplace, or vice versa) that moved the most in dollar
+ *   terms — names the actual cause, not just the percentage.
+ * - Otherwise (a marketplace or category filter already pins the dimension the mover lives
+ *   on, so there's no second dimension left to break down by): decomposes the swing into
+ *   order-volume vs. order-value, using the real order counts/averages on the mover itself,
+ *   and names whichever one actually accounts for most of the dollar change.
+ * Never a static sentence — every branch is computed from this mover's own numbers.
+ *
+ * Round 7b (Ryan: still didn't understand it, make it bigger and easier to read): rewritten
+ * as a full plain-language sentence or two — names what happened, then explains the "why" in
+ * words a non-technical reader parses on one pass (no bare arrows, no colon-separated
+ * shorthand), instead of a terse data-label sentence. */
 function moverExplanation(mover: Mover, driver: Driver | null, label: string, comparedTo: string): string {
-  const moved = mover.pct >= 0 ? "grew" : "dropped";
+  const upWord = mover.pct >= 0 ? "grew" : "dropped";
   if (driver) {
-    const verb = driver.deltaCents >= 0 ? "rose" : "fell";
-    return `${label} ${moved} mostly because of ${driver.label}, whose sales ${verb} ${formatMoneyCompact(Math.abs(driver.deltaCents))} vs ${comparedTo} — the biggest swing in this slice.`;
+    const driverVerb = driver.deltaCents >= 0 ? "rose" : "fell";
+    return `${label} ${upWord} mostly because of ${driver.label}. Its sales ${driverVerb} by ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${comparedTo} — more than any other marketplace or category in this slice, making it the main reason behind the change.`;
   }
   if (mover.previousOrders === 0) {
-    return `${label} had no sales on ${comparedTo}, so all ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} today are new.`;
+    return `${label} had no sales on ${comparedTo}, so this is all new activity — ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} with nothing from last time to compare it to.`;
   }
   const avgPrev = mover.previousCents / mover.previousOrders;
   const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
   const ordersEffect = (mover.currentOrders - mover.previousOrders) * avgPrev;
   const avgEffect = (avgCur - avgPrev) * mover.currentOrders;
   if (Math.abs(ordersEffect) >= Math.abs(avgEffect)) {
-    return `${label} ${moved} mainly because of order count: ${formatInt(mover.currentOrders)} orders today vs ${formatInt(mover.previousOrders)} on ${comparedTo}.`;
+    const orderWord = mover.currentOrders >= mover.previousOrders ? "More people bought" : "Fewer people bought";
+    return `${label} ${upWord} mainly because of how many orders came in, not how much each one was worth. ${orderWord} — ${formatInt(mover.previousOrders)} orders compared to ${comparedTo}, now ${formatInt(mover.currentOrders)} — while the typical order stayed close to the same size.`;
   }
-  return `${label} ${moved} mainly because of order size: ${formatMoney(avgCur)} per order today vs ${formatMoney(avgPrev)} on ${comparedTo}.`;
+  const valueWord = avgCur >= avgPrev ? "customers simply spent more per order" : "customers simply spent less per order";
+  return `${label} ${upWord} mainly because of order size, not how many orders came in. On average, ${valueWord}: the typical order went from ${formatMoney(avgPrev)} to ${formatMoney(avgCur)} compared to ${comparedTo}, while the number of orders held steady.`;
 }
 
-/** The biggest swing, explained in a sentence, then up to 3 runners-up (rankMovers order; #47). */
-function MoverPanel({ title, movers, comparedTo, describeKey, driver = null }: {
+/** Headline mover (movers[0]) — a number, then a sentence — with up to 3 runners-up listed
+ * below as compact rows (mirroring RankCard's row style) so the card earns its height with
+ * more real swings instead of sitting mostly blank next to a taller ranking card in the same
+ * grid row (see this file's header note, round 5). Up is green, down is red (`text-bad`) —
+ * round 7, Ryan: icons should reflect the data, a down arrow has to read as a down arrow, not
+ * neutral gray — applied to the headline number and every runner row.
+ *
+ * The box at the bottom is this card's own "why" — the one card on the page that calls out
+ * the day's main point of attention, so it's the one that gets a causal explanation computed
+ * from this mover's real numbers (moverExplanation above), not a fixed caption. Styled with
+ * this card's own theme (soft background, accent badge, themed border) instead of a flat gray
+ * box, so it reads as part of this page's design instead of a bolted-on tooltip. */
+function MoverCard({ title, movers, comparedTo, describeKey, driver = null, theme, active }: {
   title: string;
   movers: Mover[];
-  driver?: Driver | null; // what caused the headline swing, when a second dimension is free (#53)
   comparedTo: string;
   describeKey: (key: string) => string | { label: string; hint: string };
+  driver?: Driver | null;
+  theme: MarketTheme;
+  active: boolean;
 }) {
   const mover = movers[0] ?? null;
-  const others = movers.slice(1, 4);
-  const nameOf = (key: string) => { const d = describeKey(key); return typeof d === "string" ? d : d.label; };
+  const runners = movers.slice(1, 4);
   const described = mover ? describeKey(mover.key) : null;
   const label = described == null ? null : typeof described === "string" ? described : described.label;
   const hint = described == null || typeof described === "string" ? null : described.hint;
   const up = (mover?.pct ?? 0) >= 0;
   const verb = up ? "jumped" : "fell";
   return (
-    <Panel title={title}>
-      {!mover ? <p className="text-[13px] text-ink-3">Not enough data yet to compare.</p> : (
+    <div className="flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
+      <CardTitle icon={<PulseIcon className="size-3.5" />} theme={theme}>{title}</CardTitle>
+      {!mover ? (
+        <div className="flex flex-1 items-center gap-3 rounded-[12px] border border-line bg-muted-soft p-4 text-[14px] text-ink-2">
+          <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full bg-surface text-ink-3">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
+          </span>
+          <p>Not enough data yet to compare — there&apos;s no prior period to measure this slice against.</p>
+        </div>
+      ) : (
         <>
-          <span className={`text-[24px] leading-none font-semibold tracking-[-0.02em] ${up ? "text-ok" : "text-bad"}`}>
+          <span className={`font-display text-[44px] leading-none font-semibold ${up ? "text-ok" : "text-bad"}`}>
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
           </span>
-          <p className="text-[13px] text-pretty text-ink-2">
-            <span className="font-medium text-ink">{label}</span>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {comparedTo}, to {formatMoneyCompact(mover.currentCents)} today.
+          <p className="text-[13px] text-ink-2">
+            <strong className="font-semibold text-ink">{label}</strong>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {comparedTo} — {formatMoneyCompact(mover.currentCents)} today.
           </p>
-          {others.length > 0 && (
-            <ul className="flex flex-col text-[13px]">
-              {others.map(m => (
-                <li key={m.key} className="flex items-baseline justify-between gap-3 border-t border-line-2 py-1.5">
-                  <span className="truncate text-ink-2">{nameOf(m.key)}</span>
-                  <ChangeText pct={m.pct} />
-                </li>
-              ))}
+          {runners.length > 0 && (
+            <ul className="flex flex-col gap-2 border-t border-line pt-3">
+              {runners.map(m => {
+                const d = describeKey(m.key);
+                const l = typeof d === "string" ? d : d.label;
+                const h = typeof d === "string" ? null : d.hint;
+                const rowUp = m.pct >= 0;
+                return (
+                  <li key={m.key} className="flex items-center justify-between gap-2 text-[12.5px]">
+                    <span className="flex min-w-0 items-baseline gap-1.5">
+                      <span className="truncate font-medium text-ink">{l}</span>
+                      {h && <span className="shrink-0 text-ink-3">({h})</span>}
+                    </span>
+                    <span className={`shrink-0 font-semibold ${rowUp ? "text-ok" : "text-bad"}`}>{rowUp ? "↑" : "↓"} {Math.abs(m.pct).toFixed(1)}%</span>
+                  </li>
+                );
+              })}
             </ul>
           )}
+          <div className="flex flex-1 items-center gap-3 rounded-[12px] border p-4" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
+            <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
+            </span>
+            <p className="text-[14px] leading-snug text-ink-2">
+              <span className="block text-[12px] font-semibold tracking-wide text-ink">Why this happened</span>
+              {moverExplanation(mover, driver, label ?? String(mover.key), comparedTo)}
+            </p>
+          </div>
         </>
       )}
-      {/* flex-1 (not mt-auto alone) so this grows to absorb the row's leftover height instead of
-          just pinning to the bottom and leaving a dead gap above it — same fix as RankPanel's
-          footer above (round 8). */}
-      {mover && (
-        <div className="flex flex-1 items-center border-t border-line-2 pt-2">
-          <p className="text-[12px] text-pretty text-ink-3">{moverExplanation(mover, driver, label ?? "This slice", comparedTo)}</p>
-        </div>
-      )}
-    </Panel>
+    </div>
   );
 }

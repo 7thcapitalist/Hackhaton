@@ -51,8 +51,8 @@ export function Popover({ open, onClose, anchorRef, label, children }: PopoverPr
     <>
       <div aria-hidden className="fixed inset-0 z-40 bg-[var(--scrim)] sm:hidden" />
       <div ref={panel} role="dialog" aria-label={label}
-        className="popover-in fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] origin-top-left overflow-y-auto rounded-t-lg border border-line bg-surface p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(20,22,27,.18)]
-          sm:absolute sm:inset-x-auto sm:top-full sm:bottom-auto sm:left-0 sm:mt-2 sm:max-h-none sm:w-max sm:overflow-visible sm:rounded-lg sm:p-3.5 sm:shadow-[var(--shadow-pop)]">
+        className="popover-in fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] origin-top-left overflow-y-auto rounded-t-2xl border border-line bg-surface p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(20,22,27,.18)]
+          sm:absolute sm:inset-x-auto sm:top-full sm:bottom-auto sm:left-0 sm:mt-2 sm:max-h-none sm:w-max sm:overflow-visible sm:rounded-xl sm:p-3.5 sm:shadow-[0_12px_32px_rgba(20,22,27,.16)]">
         <div aria-hidden className="mx-auto mb-3 h-1 w-10 rounded-full bg-line sm:hidden" />
         {children}
       </div>

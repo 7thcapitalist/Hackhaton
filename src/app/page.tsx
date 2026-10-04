@@ -1,6 +1,6 @@
 import { getOrders, ORDERS_MAX_LIMIT, type OrdersView } from "@/lib/views";
 import { ButtonLink } from "@/components/Button";
-import { CheckIcon } from "@/components/icons";
+import { BarsIcon, CheckIcon, DatabaseIcon, PulseIcon } from "@/components/icons";
 import { SourceStrip } from "@/components/SourceStrip";
 import { customerKeyOf, getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
 import { formatStampFull } from "./_lib/format";
@@ -64,22 +64,21 @@ export default async function OverviewPage() {
   const SCORECARD_PERIOD = { label: periodLabel(period) };
 
   return (
-    <div className="flex flex-col gap-5 px-4 pt-5 pb-6 sm:px-8 sm:pt-6">
-      <header className="flex flex-wrap items-start justify-between gap-x-8 gap-y-3 border-b border-line pb-4">
-        <div className="flex max-w-[62ch] flex-col gap-1">
-          <h1 className="text-[22px] leading-tight text-ink sm:text-[24px]">Goodwill Mission Control</h1>
-          <p className="text-[13.5px] text-pretty text-ink-3">{src.total} sources, imported nightly — the day, the month, and the number behind it.</p>
+    <div className="flex flex-col gap-7 px-4 pt-8 pb-12 sm:px-8 sm:pt-10">
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <div className="flex max-w-[640px] flex-col gap-1.5">
+          <p className="text-[12.5px] font-semibold text-ink-2">Goodwill Michiana · E-commerce operations</p>
+          <h1 className="font-display text-[38px] leading-[1.02] font-semibold text-balance text-brand sm:text-[46px]">Goodwill Mission Control</h1>
+          <p className="mt-1 text-[15px] text-pretty text-ink-2">{src.total} data sources (marketplaces, shipping, labor and bank), imported every night. One place to see the day, the month, and where each number came from.</p>
         </div>
-        <div className="flex flex-col gap-1.5 text-[12.5px] sm:items-end">
-          <p className="flex items-center gap-1.5 text-ink-3">
-            <CheckIcon className="size-3.5 text-ok" />Last updated <span className="font-medium text-ink">{formatStampFull(range.lastImportAt)}</span>
-          </p>
-          <div className="flex items-center gap-2.5 text-ink-3">
+        <div className="flex flex-col items-start gap-2 sm:items-end">
+          <p className="flex items-center gap-[7px] text-[13px] text-ink-2"><CheckIcon className="size-3.5 text-ok" />Last updated <strong className="font-semibold text-ink">{formatStampFull(range.lastImportAt)}</strong></p>
+          <div className="flex items-center gap-2.5 text-[12.5px] text-ink-3">
             <SourceStrip sources={SOURCES} size="sm" />
             <span>{src.arrived} of {src.total} sources received for {SCORECARD_PERIOD.label.split(" ")[0]}</span>
           </div>
         </div>
-      </header>
+      </div>
 
       <OverviewHero
         date={latest}
@@ -91,11 +90,13 @@ export default async function OverviewPage() {
         cmpOrders={cmpOrders}
       />
 
-      <nav aria-label="More views" className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-4">
-        <span className="mr-1 text-[12.5px] text-ink-3">More detail</span>
-        <ButtonLink href="/pulse" variant="secondary">Daily Pulse</ButtonLink>
-        <ButtonLink href="/scorecard" variant="secondary">Monthly report</ButtonLink>
-        <ButtonLink href="/sources" variant="secondary">Data Sources</ButtonLink>
+      <nav aria-label="More views" className="flex flex-col items-center gap-3 border-t border-line pt-6">
+        <span className="text-[12px] font-medium text-ink-3">More detail</span>
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
+          <ButtonLink href="/pulse" variant="secondary" icon={<PulseIcon className="size-3.5" />}>Daily Pulse</ButtonLink>
+          <ButtonLink href="/scorecard" variant="secondary" icon={<BarsIcon className="size-3.5" />}>Monthly report</ButtonLink>
+          <ButtonLink href="/sources" variant="secondary" icon={<DatabaseIcon className="size-3.5" />}>Data Sources</ButtonLink>
+        </div>
       </nav>
     </div>
   );

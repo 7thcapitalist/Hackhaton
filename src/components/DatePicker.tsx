@@ -60,7 +60,7 @@ export function DatePicker({ label, value, min, max, today, days, href }: DatePi
   return (
     <div className="relative flex">
       <button ref={trigger} type="button" onClick={toggle} aria-haspopup="dialog" aria-expanded={open} aria-label={`${label}. Choose a date`}
-        className="flex w-full items-center gap-2 px-3 text-[13px] font-medium whitespace-nowrap hover:bg-surface-2 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent">
+        className="flex w-full items-center gap-2 px-3.5 text-sm font-semibold whitespace-nowrap hover:bg-surface-2 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent">
         <CalendarIcon className="size-[15px] text-ink-3" />
         <span>{label}</span>
       </button>

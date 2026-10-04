@@ -30,35 +30,35 @@ export default async function ClosePage({ searchParams }: { searchParams: Promis
   const locked = stage === "posted";
 
   return (
-    <div className="flex flex-col gap-5 px-4 pt-6 pb-10 sm:px-8 sm:pt-8">
+    <div className="flex flex-col gap-5 px-4 pt-[26px] pb-10 sm:px-8">
       <PrintExpander />
-      <header className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4 border-b border-line pb-5">
+      <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="flex flex-col gap-1.5">
-          <h1 className="text-[22px] leading-tight text-balance sm:text-[24px]">Month-end Close, {label}</h1>
-          <p className="text-[13px] text-ink-3">
-            Source reports → allocation rules → Business Central. {view.summary.sourcesReceived} of {view.summary.sourcesExpected} sources in.
+          <p className="text-[12.5px] font-medium text-ink-3">
+            Source reports → allocation rules → Business Central · {view.summary.sourcesReceived} of {view.summary.sourcesExpected} sources in
           </p>
-          <div className="mt-1 flex flex-wrap items-center gap-2">
+          <h1 className="font-display text-[34px] leading-[1.05] font-semibold text-balance sm:text-[38px]">Month-end Close · {label}</h1>
+          <div className="flex flex-wrap items-center gap-2">
             <StagePill stage={stage} />
             <StatusBadge status="simulated" label="Synthetic data" />
             {view.approvedBy && (
-              <span className="text-xs text-ink-3">Approved by {view.approvedBy}{view.approvedAt ? `, ${formatStampFull(view.approvedAt)}` : ""}</span>
+              <span className="text-xs text-ink-3">Approved by {view.approvedBy}{view.approvedAt ? ` · ${formatStampFull(view.approvedAt)}` : ""}</span>
             )}
           </div>
         </div>
         <div className="flex flex-col items-start gap-3 sm:items-end">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-3">
             <div data-print-hide>
               <PeriodStepper label={label}
                 prevHref={i > 0 ? `/close?period=${range.periods[i - 1]}` : null}
                 nextHref={i < range.periods.length - 1 ? `/close?period=${range.periods[i + 1]}` : null}
                 prevLabel="Previous month" nextLabel="Next month" />
             </div>
-            <PrintButton variant="secondary" />
+            <PrintButton />
           </div>
           <CloseActions period={period} stage={stage} can={view.can} openExceptions={view.summary.openExceptions} defaultBatch={batch} />
         </div>
-      </header>
+      </div>
 
       <CloseStepper steps={view.steps ?? []} derived={view.stepsDerived} />
 

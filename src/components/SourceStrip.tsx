@@ -13,7 +13,7 @@ export function SourceStrip({ sources, size }: { sources: Source[]; size: "sm" |
       {sorted.map(s => (
         <span key={s.id} title={`${s.name}: ${s.status}`}
           className={`${size === "sm" ? "h-1.5 rounded-[2px]" : "h-2.5 rounded-[3px]"} ${
-            s.status === "received" ? "bg-ok/60" : s.status === "warnings" ? "bg-warn-icon" : "border-[1.5px] border-dashed border-ink-4"}`} />
+            s.status === "received" ? "bg-ok" : s.status === "warnings" ? "bg-warn-icon" : "border-[1.5px] border-dashed border-ink-4"}`} />
       ))}
     </div>
   );
