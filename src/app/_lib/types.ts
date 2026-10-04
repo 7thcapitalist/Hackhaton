@@ -1,6 +1,6 @@
 // UI-side shapes: the view contract from src/lib/views (docs/interfaces.md §2) plus the
 // display extras each screen needs. Built on the server in data.ts.
-import type { ChannelId, Kpi as ViewKpi, PulseRow as ViewPulseRow, PulseSeriesView } from "@/lib/views/types";
+import type { ChannelId, Kpi as ViewKpi, KpiUnit, PulseRow as ViewPulseRow, PulseSeriesView } from "@/lib/views/types";
 
 export type { ChannelId, KpiUnit } from "@/lib/views/types";
 
@@ -29,7 +29,14 @@ export type PulseSeries = Pick<PulseSeriesView, "dates" | "series">;
 export type KpiStatus = ViewKpi["status"];
 export type Pillar = ViewKpi["pillar"];
 
-export type Kpi = ViewKpi & {
+/**
+ * How a KPI is shown: the view's units plus two display-only ones for KPIs whose view unit is
+ * "ratio" but read differently: "score" (CSAT 4.62 of 5, NPS 44.05) and "per_day" (listings per day).
+ */
+export type DisplayUnit = KpiUnit | "score" | "per_day";
+
+export type Kpi = Omit<ViewKpi, "unit"> & {
+  unit: DisplayUnit;
   teamLevel?: boolean;
   valueNote?: string; // shown after the value, e.g. "58% of revenue"
 };

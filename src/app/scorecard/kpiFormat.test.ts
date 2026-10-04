@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { countsLabel, formatTarget, kpiChange, kpiStatus, statusCounts } from "./kpiFormat";
+import { countsLabel, formatTarget, formatValue, kpiChange, kpiStatus, statusCounts } from "./kpiFormat";
 
 test("status respects the better direction and the near band", () => {
   assert.equal(kpiStatus({ value: 56.9, target: 55, higherIsBetter: true }), "on");
@@ -46,4 +46,17 @@ test("status counts leave out KPIs without a target or a value", () => {
   assert.equal(countsLabel(c), "1 of 3 on track · 1 near");
   assert.equal(countsLabel(c, true), "1 of 3 on track · 1 near · 1 off");
   assert.equal(countsLabel({ on: 2, near: 0, off: 0, scored: 2 }), "2 of 2 on track");
+});
+
+test("scores keep their decimals and move in their own units; per-day rates say so", () => {
+  assert.deepEqual(formatValue({ unit: "score", value: 4.62 }), { value: "4.62", suffix: "" }); // CSAT of 5
+  assert.deepEqual(formatValue({ unit: "score", value: 38.89 }), { value: "38.9", suffix: "" }); // NPS
+  assert.deepEqual(formatValue({ unit: "per_day", value: 138.5 }), { value: "138.5", suffix: "per day" });
+  assert.deepEqual(formatValue({ unit: "days", value: 19.7 }), { value: "19.7", suffix: "days" });
+  assert.equal(formatTarget({ unit: "per_day", target: 150, higherIsBetter: true }), "≥ 150.0/day");
+  assert.equal(kpiChange({ unit: "score", value: 4.62, previous: 4.6, higherIsBetter: true })?.text, "↑ 0.02");
+  assert.equal(kpiChange({ unit: "score", value: 44.05, previous: 38.89, higherIsBetter: true })?.text, "↑ 5.16");
+  assert.equal(kpiChange({ unit: "score", value: -5, previous: 0, higherIsBetter: true })?.tone, "bad"); // NPS can cross zero
+  assert.equal(kpiChange({ unit: "score", value: 4.6, previous: 4.6, higherIsBetter: true })?.text, "flat");
+  assert.equal(kpiChange({ unit: "per_day", value: 138.5, previous: 168.1, higherIsBetter: true })?.text, "↓ 17.6%");
 });
