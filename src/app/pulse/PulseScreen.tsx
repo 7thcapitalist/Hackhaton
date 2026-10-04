@@ -8,7 +8,6 @@ import { HeroStat } from "@/components/HeroStat";
 import { ClockIcon, DownloadIcon, MailIcon, WarnIcon } from "@/components/icons";
 import { DatePicker, type DayStatus } from "@/components/DatePicker";
 import { PeriodStepper } from "@/components/PeriodStepper";
-import { PrintButton } from "@/components/PrintButton";
 import { PulseChart } from "@/components/PulseChart";
 import { CategoryMixCard } from "@/components/CategoryMixCard";
 import { MonthPaceCard } from "@/components/MonthPaceCard";
@@ -103,19 +102,11 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, pace, categor
           <div data-print-hide className="flex flex-wrap items-center gap-2">
             <button type="button" onClick={emailPulse} className={buttonClass("primary", "px-[15px]")}><MailIcon />Email this pulse</button>
             {advanced && <>
-              {/* 2026-10-04 (Ryan): Monthly report has a PDF download (PrintButton, src/components —
-                  shared, not Gabriel- or Denis-exclusive) and Daily Pulse didn't. Same component
-                  here. Round 2 (Ryan): grouped with the other downloads behind Advanced instead of
-                  always visible — same reasoning as CSV/XLSX below. It's currently a plain
-                  window.print() ("a generic PDF", per Ryan) — Denis is planning to swap this
-                  mechanism so Print/PDF instead downloads the same PDF the daily email already
-                  sends. Reusing the shared PrintButton rather than building a one-off here means
-                  that fix lands for both Daily Pulse and Monthly at once, with no further change
-                  needed on this end. */}
-              <PrintButton />
               {/* Export routes are Denis's lane (docs/interfaces.md §3). */}
               <a href={`/api/export/pulse?date=${date}&format=csv`} className={buttonClass("secondary")}><DownloadIcon />Export CSV</a>
               <a href={`/api/export/pulse?date=${date}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
+              {/* The same branded CEO PDF the daily email attaches (Denis, #76). */}
+              <a href={`/api/export/pulse?date=${date}&format=pdf`} className={buttonClass("secondary")}><DownloadIcon />Export PDF</a>
             </>}
           </div>
         </div>

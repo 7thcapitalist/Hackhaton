@@ -1,17 +1,18 @@
-import { reportProvider } from "@/export/provider";
-import { download, reportFailure } from "@/export/http";
+import { reportFailure } from "@/export/http";
 import { ReportError, validPeriod } from "@/export/validation";
-import { monthlyReportHtml } from "@/report/monthly";
+import { profileDownload } from "@/export/profile-http";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 export async function GET(request: Request): Promise<Response> {
   try {
     const params = new URL(request.url).searchParams;
     const period = params.get("period") ?? "";
     if (!validPeriod(period)) throw new ReportError(400, "invalid_period", "Use a month in YYYY-MM format.");
-    if ((params.get("format") ?? "html") !== "html") throw new ReportError(400, "invalid_format", "Supported format: html.");
-    return download(monthlyReportHtml(await reportProvider.loadScorecard(period)), `monthly-report-${period}.html`, "text/html; charset=utf-8");
+    const format = params.get("format") ?? "pdf";
+    if (format !== "html" && format !== "pdf" && format !== "xlsx") throw new ReportError(400, "invalid_format", "Supported formats: pdf, xlsx, html.");
+    return await profileDownload(request, "monthly", period, format);
   } catch (error) { return reportFailure(error); }
 }
