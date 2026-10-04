@@ -68,7 +68,7 @@ export default async function OverviewPage() {
       <nav aria-label="More views" className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4 text-[13px]">
         <span className="text-ink-3">More detail:</span>
         <Link href="/pulse" className="font-medium text-ink-2 underline-offset-4 transition-colors hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-accent">Daily Pulse →</Link>
-        <Link href="/scorecard" className="font-medium text-ink-2 underline-offset-4 transition-colors hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-accent">COO Scorecard →</Link>
+        <Link href="/scorecard" className="font-medium text-ink-2 underline-offset-4 transition-colors hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-accent">Monthly report →</Link>
         <Link href="/sources" className="font-medium text-ink-2 underline-offset-4 transition-colors hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-accent">Data Sources →</Link>
       </nav>
     </div>
