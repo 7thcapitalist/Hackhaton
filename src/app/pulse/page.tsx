@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PulseScreen } from "./PulseScreen";
-import { getDataRange, getPulseBaseline, getPulseScreen, resolveDate } from "../_lib/data";
+import { getCategoryMix, getDataRange, getMonthPace, getPulseBaseline, getPulseScreen, resolveDate } from "../_lib/data";
 
 export const metadata: Metadata = { title: "Daily Pulse – Mission Control" };
 
@@ -8,6 +8,11 @@ export default async function PulsePage({ searchParams }: { searchParams: Promis
   const range = (await getDataRange())!; // the layout shows NoData when null
   const date = resolveDate(range, (await searchParams).date);
   const data = await getPulseScreen(range, date);
-  const baseline = await getPulseBaseline(range, data.view);
-  return <PulseScreen {...data} baseline={baseline} latestDate={range.completeDate} firstDate={range.earliestDate} lastDate={range.latestDate} />;
+  const [baseline, pace, categoryMix] = await Promise.all([
+    getPulseBaseline(range, data.view),
+    getMonthPace(range, date),
+    getCategoryMix(range, date, data.orders, data.ordersTotal),
+  ]);
+  return <PulseScreen {...data} baseline={baseline} pace={pace} categoryMix={categoryMix}
+    latestDate={range.completeDate} firstDate={range.earliestDate} lastDate={range.latestDate} />;
 }
