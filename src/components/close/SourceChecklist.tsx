@@ -45,7 +45,7 @@ export function SourceChecklist({ sources, exceptions, period }: Props) {
                   <th scope="row" className="px-4 py-2.5 font-normal">
                     <span className="block font-semibold">{s.name}</span>
                     <span className="block text-[11.5px] text-ink-3">
-                      {s.cadence ? `${s.cadence === "daily" ? "Daily" : "Monthly"} · ` : ""}{s.target === "invoice" ? "AR invoice" : "General journal"}
+                      {s.cadence ? `${s.cadence === "daily" ? "Daily" : "Monthly"} · ` : ""}{s.target === "invoice" ? "AR invoice" : s.kind === "internal" ? "Ops data, not journaled" : s.sourceId.startsWith("bank") ? "Bank lookup" : "General journal"}
                     </span>
                   </th>
                   <td className="px-2 py-2.5"><StatusBadge status={s.status} count={s.warningCount} size="sm" /></td>

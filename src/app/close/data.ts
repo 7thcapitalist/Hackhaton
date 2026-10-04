@@ -3,7 +3,7 @@ import { getDb } from "@/db/client";
 import { sources } from "@/db/schema";
 import type { CloseStep, UiCloseView, UiSource } from "@/components/close/types";
 import { stageOf } from "@/components/close/types";
-import { getSourcesScreen, type DataRange } from "../_lib/data";
+import { getSourcesScreen, nextPeriod, type DataRange } from "../_lib/data";
 
 /**
  * The close view plus the display extras the page needs: cadence and "not due yet"
@@ -15,6 +15,8 @@ export async function getCloseScreen(range: DataRange, period: string): Promise<
     getSourcesScreen(range, period),
     getDb().select({ id: sources.id, owner: sources.owner }).from(sources),
   ]);
+  // A monthly file (e.g. the Goodwill Books statement) is not due until the 5th of the next month.
+  const beforeMonthlyDue = new Date().toISOString().slice(0, 10) < `${nextPeriod(period)}-05`;
   const byId = new Map(screen.sources.map(s => [s.id, s]));
   const ownerOf = new Map(owners.map(o => [o.id, o.owner]));
   const merged: UiSource[] = view.sources.map(s => {
@@ -23,7 +25,7 @@ export async function getCloseScreen(range: DataRange, period: string): Promise<
       ...s,
       owner: s.owner ?? ownerOf.get(s.sourceId) ?? null,
       cadence: s.cadence ?? screenSource?.cadence,
-      status: s.status === "missing" && screenSource?.status === "not_due" ? "not_due" : s.status,
+      status: s.status === "missing" && (screenSource?.status === "not_due" || (beforeMonthlyDue && screenSource?.cadence === "monthly")) ? "not_due" : s.status,
     };
   });
   const out = { ...view, sources: merged };
@@ -45,7 +47,6 @@ function deriveSteps(v: UiCloseView): CloseStep[] {
   const generated = v.summary.documents > 0;
   const unbalanced = v.summary.documents - v.summary.balancedDocuments;
   const open = v.summary.openExceptions;
-  const postStages = ["exported", "imported", "posted"];
   return [
     {
       key: "acquire", label: "Acquire",
@@ -74,8 +75,8 @@ function deriveSteps(v: UiCloseView): CloseStep[] {
     },
     {
       key: "post", label: "Post + reconcile",
-      status: stage === "posted" ? "done" : !generated ? "todo" : open ? "warning" : postStages.includes(stage) ? "done" : "todo",
-      detail: stage === "posted" ? "Posted in Business Central" : !generated ? "Nothing to reconcile yet" : open ? `${open} open exception${open === 1 ? "" : "s"}` : stage === "collecting" || stage === "generated" ? "Run reconcile" : postStages.includes(stage) ? "Journal exported for BC" : "Reconciled, awaiting export",
+      status: stage === "posted" ? "done" : generated && open ? "warning" : "todo",
+      detail: stage === "posted" ? "Posted in Business Central" : !generated ? "Nothing to reconcile yet" : open ? `${open} open exception${open === 1 ? "" : "s"}` : stage === "collecting" || stage === "generated" ? "Run reconcile" : stage === "imported" ? "Imported to BC, awaiting posting" : stage === "exported" ? "Exported, awaiting BC import" : stage === "approved" ? "Approved, awaiting export" : "Reconciled, awaiting approval",
     },
   ];
 }
