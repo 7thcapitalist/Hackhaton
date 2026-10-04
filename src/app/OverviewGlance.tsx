@@ -45,15 +45,29 @@
 // reached the mover/stat cards — RankCard ("Top categories in X") was still left with up to
 // 105px of blank space whenever a filtered marketplace has fewer categories than its
 // row-mates have content for (e.g. Amazon's shorter category list next to a full-height
-// stat card). Same principle as StatCard's stats grid: a real aggregate the per-row numbers
-// don't already show (total revenue and total orders across every bucket, not just the ones
-// listed) anchored to the bottom with mt-auto, so the card is grounded regardless of how many
-// rows that day's data happens to produce. Re-measured after this fix: blank space is at most
-// 1px across every one of the 7 marketplace states (previously up to 105px) for every card in
-// this file.
+// stat card). Anchored a real aggregate to the bottom with mt-auto, same principle as
+// StatCard's stats grid. Re-measured after this fix: blank space is at most 1px across every
+// one of the 7 marketplace states (previously up to 105px) for every card in this file.
+//
+// 2026-10-04, round 7 (Ryan, two issues): (1) RankCard's round-6b footer used the slice's
+// grand total revenue/orders — identical across every RankCard in the same row by
+// construction, since they all bucket the same underlying rows, just along a different
+// dimension, and Ryan correctly called that out as repeating what the hero numbers above
+// already show, not real new content. Replaced with a per-breakdown count and average
+// (N marketplaces vs N categories, avg revenue per marketplace vs per category) — these
+// actually differ row to row because the denominator (how many buckets this dimension has)
+// differs. (2) The mover card's bottom box was a fixed methodology sentence ("compares X to
+// Y") instead of explaining the specific number above it — Ryan's example: "Books sales fell
+// 22% — this was mainly caused by a reduction in sales in Amazon." Replaced with
+// moverExplanation() below: when the active filters leave a second dimension free (the
+// all/all case), names the real sub-bucket (marketplace or category) that moved the most in
+// dollar terms; otherwise decomposes the swing into order-volume vs. order-value and names
+// whichever one actually drove it — always computed from that mover's own numbers, never a
+// static caption. Also: down arrows/badges are now `text-bad`/`bg-bad-soft` (red) everywhere
+// on this page, not muted gray — an icon should say which direction things moved.
 import type { ReactNode } from "react";
 import { FileIcon, PulseIcon } from "@/components/icons";
-import { bucketBy, matches, rankMovers, sliceStats, type Bucket, type Mover, type OrderLike } from "./_lib/overview-filters";
+import { biggestDriver, bucketBy, matches, rankMovers, sliceStats, type Bucket, type Driver, type Mover, type OrderLike } from "./_lib/overview-filters";
 import { categoryIcon, MARKET_ICON, MARKET_THEME, type MarketKey, type MarketTheme } from "./_lib/overview-theme";
 import { formatInt, formatMoney, formatMoneyCompact, pctChange } from "./_lib/format";
 
@@ -81,12 +95,22 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           [...tag(bucketBy(previous, o => o.channelLabel), "m:"), ...tag(bucketBy(previous, o => o.category), "c:")],
         )
       : [];
+    // Neither dimension is pinned here, so the headline mover's own dimension (tagged "m:" or
+    // "c:") still has a second dimension free to break down by — a category mover's revenue by
+    // marketplace, or a marketplace mover's revenue by category — giving a real "caused by X".
+    const headline = movers[0] ?? null;
+    const driver = headline
+      ? headline.key.startsWith("c:")
+        ? biggestDriver(current, previous, o => o.category, headline.key.slice(2), o => o.channelLabel)
+        : biggestDriver(current, previous, o => o.channelLabel, headline.key.slice(2), o => o.category)
+      : null;
     return (
       <Row>
-        <RankCard icon={<MarketIcon />} title="Top marketplaces today" rows={byChannel} barColor={marketBarColor} rowIcon={undefined} theme={theme} active={active} />
-        <RankCard icon={<CategoryGlyph category="" />} title="Top categories today" rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />} theme={theme} active={active} />
-        <MoverCard title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey} theme={theme} active={active}
-          explainer="Compares today's revenue in every marketplace and category to the same day last week, and ranks the swings by size — the fastest way to spot what changed." />
+        <RankCard icon={<MarketIcon />} title="Top marketplaces today" rows={byChannel} barColor={marketBarColor} rowIcon={undefined}
+          nounSingular="marketplace" nounPlural="marketplaces" theme={theme} active={active} />
+        <RankCard icon={<CategoryGlyph category="" />} title="Top categories today" rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />}
+          nounSingular="category" nounPlural="categories" theme={theme} active={active} />
+        <MoverCard title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey} driver={driver} theme={theme} active={active} />
       </Row>
     );
   }
@@ -98,14 +122,14 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const movers = previous ? rankMovers(bucketBy(current, o => o.category), bucketBy(previous, o => o.category)) : [];
     return (
       <Row>
-        <RankCard icon={<CategoryGlyph category="" />} title={`Top categories in ${channelLabel}`} rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />} theme={theme} active={active} />
+        <RankCard icon={<CategoryGlyph category="" />} title={`Top categories in ${channelLabel}`} rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />}
+          nounSingular="category" nounPlural="categories" theme={theme} active={active} />
         <StatCard icon={<FileIcon className="size-3.5" />} title={`Average order in ${channelLabel}`} value={formatMoney(stats.avgCents)}
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
-        <MoverCard title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active}
-          explainer={`Compares each category's ${channelLabel} revenue today to the same day last week, and ranks the swings by size.`} />
+        <MoverCard title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
@@ -117,14 +141,14 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const movers = previous ? rankMovers(bucketBy(current, o => o.channelLabel), bucketBy(previous, o => o.channelLabel)) : [];
     return (
       <Row>
-        <RankCard icon={<MarketIcon />} title={`Top marketplaces selling ${category}`} rows={byChannel} barColor={marketBarColor} rowIcon={undefined} theme={theme} active={active} />
+        <RankCard icon={<MarketIcon />} title={`Top marketplaces selling ${category}`} rows={byChannel} barColor={marketBarColor} rowIcon={undefined}
+          nounSingular="marketplace" nounPlural="marketplaces" theme={theme} active={active} />
         <StatCard icon={<FileIcon className="size-3.5" />} title={`Average order in ${category}`} value={formatMoney(stats.avgCents)}
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           stats={[{ label: "Unique customers", value: formatInt(stats.customers) }, { label: "Largest order", value: formatMoney(stats.maxCents) }]}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
-        <MoverCard title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active}
-          explainer={`Compares each marketplace's ${category} revenue today to the same day last week, and ranks the swings by size.`} />
+        <MoverCard title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
@@ -146,8 +170,10 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
         stats={[{ label: "Live orders", value: formatInt(stats.orders) }, { label: "Unique customers", value: formatInt(stats.customers) }]}
         caption={stats.cancelled ? `${(stats.cancelRate * 100).toFixed(1)}% of this slice` : "none in this slice"} theme={theme} active={active} />
       <MoverCard title="Change vs comparison day" comparedTo={comparedTo} describeKey={() => `${channelLabel} · ${category}`}
-        movers={revenueChangePct == null ? [] : [{ key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents }]} theme={theme} active={active}
-        explainer={`Compares this slice's (${channelLabel} · ${category}) revenue today to the same day last week.`} />
+        movers={revenueChangePct == null || !prevStats ? [] : [{
+          key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents,
+          previousCents: prevStats.revenueCents, currentOrders: stats.orders, previousOrders: prevStats.orders,
+        }]} theme={theme} active={active} />
     </Row>
   );
 }
@@ -192,14 +218,15 @@ function CardTitle({ icon, children, theme }: { icon: ReactNode; children: React
   );
 }
 
-function RankCard({ icon, title, rows, limit = 6, barColor, rowIcon, theme, active }: {
-  icon: ReactNode; title: string; rows: Bucket[]; limit?: number; barColor?: (key: string) => string; rowIcon?: (r: Bucket) => ReactNode; theme: MarketTheme; active: boolean;
+function RankCard({ icon, title, rows, limit = 6, barColor, rowIcon, nounSingular, nounPlural, theme, active }: {
+  icon: ReactNode; title: string; rows: Bucket[]; limit?: number; barColor?: (key: string) => string; rowIcon?: (r: Bucket) => ReactNode;
+  nounSingular: string; nounPlural: string; theme: MarketTheme; active: boolean;
 }) {
   const shown = rows.slice(0, limit);
   const max = shown[0]?.revenueCents || 1;
   const rest = rows.length - shown.length;
   const totalCents = rows.reduce((a, r) => a + r.revenueCents, 0);
-  const totalOrders = rows.reduce((a, r) => a + r.orders, 0);
+  const avgCents = rows.length ? Math.round(totalCents / rows.length) : 0;
   return (
     <div className="flex flex-col gap-3 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
       <CardTitle icon={icon} theme={theme}>{title}</CardTitle>
@@ -238,12 +265,12 @@ function RankCard({ icon, title, rows, limit = 6, barColor, rowIcon, theme, acti
       {shown.length > 0 && (
         <div className="mt-auto grid grid-cols-2 gap-3 border-t border-line pt-3">
           <div className="flex flex-col gap-0.5">
-            <span className="text-[11px] text-ink-3">Total revenue</span>
-            <span className="text-[16px] font-semibold text-ink">{formatMoneyCompact(totalCents)}</span>
+            <span className="text-[11px] text-ink-3">{nounPlural[0].toUpperCase()}{nounPlural.slice(1)} tracked</span>
+            <span className="text-[16px] font-semibold text-ink">{formatInt(rows.length)}</span>
           </div>
           <div className="flex flex-col gap-0.5">
-            <span className="text-[11px] text-ink-3">Total orders</span>
-            <span className="text-[16px] font-semibold text-ink">{formatInt(totalOrders)}</span>
+            <span className="text-[11px] text-ink-3">Avg per {nounSingular}</span>
+            <span className="text-[16px] font-semibold text-ink">{formatMoneyCompact(avgCents)}</span>
           </div>
         </div>
       )}
@@ -268,7 +295,7 @@ function StatCard({ icon, title, value, changePct, comparedTo, caption, secondar
       {secondary && <span className="text-[12.5px] font-medium text-ink-2">{secondary}</span>}
       <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-ink-3">
         {changePct != null && (
-          <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-muted-soft text-ink-2"}`}>{up ? "↑" : "↓"} {Math.abs(changePct).toFixed(1)}%</span>
+          <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>{up ? "↑" : "↓"} {Math.abs(changePct).toFixed(1)}%</span>
         )}
         <span>{changePct != null ? `vs ${comparedTo} · ` : ""}{caption}</span>
       </div>
@@ -286,26 +313,59 @@ function StatCard({ icon, title, value, changePct, comparedTo, caption, secondar
   );
 }
 
-const INFO_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 7.3v3.4M8 5.3h.01";
+const WHY_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 7.3v3.4M8 5.3h.01";
 
-/** Headline mover (movers[0]) rendered the same as before — a number, then a sentence —
- * with up to 3 runners-up listed below as compact rows (mirroring RankCard's row style) so
- * the card earns its height with more real swings instead of sitting mostly blank next to a
- * taller ranking card in the same grid row (see this file's header note, round 5).
+/** round 7 (Ryan: the box was reciting its own methodology — "compares X to Y" — instead of
+ * saying what actually happened, and asked for something like "Books sales fell 22% — this
+ * was mainly caused by a reduction in sales in Amazon"). Two tiers of real explanation,
+ * depending on what the active filters leave to explain *with*:
+ * - `driver` (only possible when neither filter pins the mover's own dimension — see the
+ *   "all/all" call site): the single sub-bucket along the *other* dimension (a category
+ *   mover's revenue broken down by marketplace, or vice versa) that moved the most in dollar
+ *   terms — names the actual cause, not just the percentage.
+ * - Otherwise (a marketplace or category filter already pins the dimension the mover lives
+ *   on, so there's no second dimension left to break down by): decomposes the swing into
+ *   order-volume vs. order-value, using the real order counts/averages on the mover itself,
+ *   and names whichever one actually accounts for most of the dollar change.
+ * Never a static sentence — every branch is computed from this mover's own numbers. */
+function moverExplanation(mover: Mover, driver: Driver | null, comparedTo: string): string {
+  if (driver) {
+    const verb = driver.deltaCents >= 0 ? "a jump" : "a drop";
+    const sign = driver.deltaCents >= 0 ? "+" : "−";
+    return `Mainly caused by ${verb} in ${driver.label} (${sign}${formatMoneyCompact(Math.abs(driver.deltaCents))} vs ${comparedTo}).`;
+  }
+  if (mover.previousOrders === 0) {
+    return `New vs ${comparedTo} — ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} with no prior data to compare against.`;
+  }
+  const avgPrev = mover.previousCents / mover.previousOrders;
+  const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
+  const ordersEffect = (mover.currentOrders - mover.previousOrders) * avgPrev;
+  const avgEffect = (avgCur - avgPrev) * mover.currentOrders;
+  return Math.abs(ordersEffect) >= Math.abs(avgEffect)
+    ? `Mainly driven by order volume: ${formatInt(mover.previousOrders)} → ${formatInt(mover.currentOrders)} orders vs ${comparedTo}.`
+    : `Mainly driven by order value: avg order ${formatMoney(avgPrev)} → ${formatMoney(avgCur)} vs ${comparedTo}.`;
+}
+
+/** Headline mover (movers[0]) — a number, then a sentence — with up to 3 runners-up listed
+ * below as compact rows (mirroring RankCard's row style) so the card earns its height with
+ * more real swings instead of sitting mostly blank next to a taller ranking card in the same
+ * grid row (see this file's header note, round 5). Up is green, down is red (`text-bad`) —
+ * round 7, Ryan: icons should reflect the data, a down arrow has to read as a down arrow, not
+ * neutral gray — applied to the headline number and every runner row.
  *
- * This is the one card on the page that calls out the day's main point of attention, so —
- * per Ryan, round 6 — it's the one that gets a fixed "what this is" explainer nested at the
- * bottom as its own small sub-card (muted background, info icon), always present even when
- * there's no mover yet to show. The ranking/stat cards next to it don't get this treatment;
- * it's specific to this insight card, not a general template for every card on the page. */
-function MoverCard({ title, movers, comparedTo, describeKey, theme, active, explainer }: {
+ * The box at the bottom is this card's own "why" — the one card on the page that calls out
+ * the day's main point of attention, so it's the one that gets a causal explanation computed
+ * from this mover's real numbers (moverExplanation above), not a fixed caption. Styled with
+ * this card's own theme (soft background, accent badge, themed border) instead of a flat gray
+ * box, so it reads as part of this page's design instead of a bolted-on tooltip. */
+function MoverCard({ title, movers, comparedTo, describeKey, driver = null, theme, active }: {
   title: string;
   movers: Mover[];
   comparedTo: string;
   describeKey: (key: string) => string | { label: string; hint: string };
+  driver?: Driver | null;
   theme: MarketTheme;
   active: boolean;
-  explainer: string;
 }) {
   const mover = movers[0] ?? null;
   const runners = movers.slice(1, 4);
@@ -319,7 +379,7 @@ function MoverCard({ title, movers, comparedTo, describeKey, theme, active, expl
       <CardTitle icon={<PulseIcon className="size-3.5" />} theme={theme}>{title}</CardTitle>
       {!mover ? <p className="text-[13px] text-ink-3">Not enough data yet to compare.</p> : (
         <>
-          <span className={`font-display text-[44px] leading-none font-semibold ${up ? "text-ok" : "text-ink"}`}>
+          <span className={`font-display text-[44px] leading-none font-semibold ${up ? "text-ok" : "text-bad"}`}>
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
           </span>
           <p className="text-[13px] text-ink-2">
@@ -338,18 +398,20 @@ function MoverCard({ title, movers, comparedTo, describeKey, theme, active, expl
                       <span className="truncate font-medium text-ink">{l}</span>
                       {h && <span className="shrink-0 text-ink-3">({h})</span>}
                     </span>
-                    <span className={`shrink-0 font-semibold ${rowUp ? "text-ok" : "text-ink-3"}`}>{rowUp ? "↑" : "↓"} {Math.abs(m.pct).toFixed(1)}%</span>
+                    <span className={`shrink-0 font-semibold ${rowUp ? "text-ok" : "text-bad"}`}>{rowUp ? "↑" : "↓"} {Math.abs(m.pct).toFixed(1)}%</span>
                   </li>
                 );
               })}
             </ul>
           )}
+          <div className="mt-auto flex items-start gap-2.5 rounded-[10px] border p-3 text-[12.5px] text-ink-2" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
+            <span aria-hidden className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3" aria-hidden><path d={WHY_ICON} /></svg>
+            </span>
+            <p><span className="font-semibold text-ink">Why: </span>{moverExplanation(mover, driver, comparedTo)}</p>
+          </div>
         </>
       )}
-      <div className="mt-auto flex items-start gap-2 rounded-[10px] bg-muted-soft p-3 text-[12px] text-ink-3">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" className="mt-px size-3.5 shrink-0" aria-hidden><path d={INFO_ICON} /></svg>
-        <p>{explainer}</p>
-      </div>
     </div>
   );
 }
