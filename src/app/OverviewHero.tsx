@@ -119,8 +119,8 @@ export function OverviewHero({ date, cmpDate, channelOptions, totals, compareCha
   const suffix = [channel !== "all" ? channelLabel : null, category !== "all" ? category : null].filter(Boolean).join(", ");
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
           <DropdownPill
             ariaLabel="Filter by marketplace"
@@ -188,15 +188,15 @@ function HeroNumber({ icon, label, value, changePct, comparedTo, theme, active }
 }) {
   const up = (changePct ?? 0) >= 0;
   return (
-    <div className="relative flex flex-col gap-2.5 overflow-hidden rounded-[16px] border border-line bg-surface p-5 pt-[18px]" style={active ? { borderColor: theme.line } : undefined}>
+    <div className="relative flex flex-col gap-1.5 overflow-hidden rounded-[16px] border border-line bg-surface p-3.5 pt-3" style={active ? { borderColor: theme.line } : undefined}>
       <span aria-hidden className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: theme.accent }} />
       <div className="flex items-center gap-2">
-        <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.soft, color: theme.accent }}>
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden><path d={icon} /></svg>
+        <span aria-hidden className="flex size-5 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.soft, color: theme.accent }}>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3" aria-hidden><path d={icon} /></svg>
         </span>
         <span className="text-[13px] font-medium text-ink-3">{label}</span>
       </div>
-      <span className="font-display text-[52px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
+      <span className="font-display text-[34px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-ink-3">
         {changePct == null ? <span className="rounded-full bg-muted-soft px-[7px] py-0.5 font-semibold">—</span> : (
           <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>
