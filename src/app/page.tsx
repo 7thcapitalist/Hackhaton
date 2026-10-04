@@ -64,11 +64,11 @@ export default async function OverviewPage() {
   const SCORECARD_PERIOD = { label: periodLabel(period) };
 
   return (
-    <div className="flex flex-col gap-6 px-4 pt-6 pb-12 sm:px-8 sm:pt-8">
-      <header className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4 border-b border-line pb-5">
+    <div className="flex flex-col gap-5 px-4 pt-5 pb-6 sm:px-8 sm:pt-6">
+      <header className="flex flex-wrap items-start justify-between gap-x-8 gap-y-3 border-b border-line pb-4">
         <div className="flex max-w-[62ch] flex-col gap-1">
           <h1 className="text-[22px] leading-tight text-ink sm:text-[24px]">Goodwill Mission Control</h1>
-          <p className="text-[14px] text-pretty text-ink-3">{src.total} data sources (marketplaces, shipping, labor and bank), imported every night. One place to see the day, the month, and where each number came from.</p>
+          <p className="text-[13.5px] text-pretty text-ink-3">{src.total} sources, imported nightly — the day, the month, and the number behind it.</p>
         </div>
         <div className="flex flex-col gap-1.5 text-[12.5px] sm:items-end">
           <p className="flex items-center gap-1.5 text-ink-3">
@@ -91,7 +91,7 @@ export default async function OverviewPage() {
         cmpOrders={cmpOrders}
       />
 
-      <nav aria-label="More views" className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-5">
+      <nav aria-label="More views" className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-4">
         <span className="mr-1 text-[12.5px] text-ink-3">More detail</span>
         <ButtonLink href="/pulse" variant="secondary">Daily Pulse</ButtonLink>
         <ButtonLink href="/scorecard" variant="secondary">Monthly report</ButtonLink>

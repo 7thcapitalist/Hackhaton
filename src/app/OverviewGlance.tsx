@@ -144,14 +144,14 @@ function Row({ children }: { children: ReactNode }) {
 
 function Panel({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="flex min-w-0 flex-col gap-3 px-5 py-4">
+    <section className="flex min-w-0 flex-col gap-2.5 px-4 py-3.5">
       <h2 className="text-[13px] font-semibold text-ink">{title}</h2>
       {children}
     </section>
   );
 }
 
-function RankPanel({ title, keyLabel, rows, limit = 6, barColor }: {
+function RankPanel({ title, keyLabel, rows, limit = 4, barColor }: {
   title: string; keyLabel: string; rows: Bucket[]; limit?: number; barColor?: (key: string) => string;
 }) {
   const shown = rows.slice(0, limit);
@@ -192,10 +192,17 @@ function RankPanel({ title, keyLabel, rows, limit = 6, barColor }: {
       )}
       {shown.length === 1 && <p className="text-[12px] text-ink-3">100% of revenue in this slice.</p>}
       {rest > 0 && <p className="text-[12px] text-ink-3">+{rest} more</p>}
+      {/* flex-1 (not mt-auto alone) so this grows to absorb the row's leftover height instead of
+          just pinning to the bottom and leaving a dead gap above it (round 8: Joao's redesign
+          reintroduced the exact blank-space bug Ryan ruled out in round 6b/7b — measured up to
+          139px of empty space here before this fix). items-center keeps the text from reading
+          as stranded at the top of a tall box. */}
       {shown.length > 0 && (
-        <p className="mt-auto border-t border-line-2 pt-2 text-[12px] text-ink-3">
-          <span className="font-medium text-ink">{formatInt(rows.length)}</span> {rows.length === 1 ? noun[0] : noun[1]}, average <span className="font-medium text-ink">{formatMoneyCompact(avgCents)}</span> per {noun[0]}
-        </p>
+        <div className="flex flex-1 items-center border-t border-line-2 pt-2">
+          <p className="text-[12px] text-ink-3">
+            <span className="font-medium text-ink">{formatInt(rows.length)}</span> {rows.length === 1 ? noun[0] : noun[1]}, average <span className="font-medium text-ink">{formatMoneyCompact(avgCents)}</span> per {noun[0]}
+          </p>
+        </div>
       )}
     </Panel>
   );
@@ -216,26 +223,30 @@ function StatPanel({ title, value, changePct, comparedTo, caption, secondary, st
         <span>{caption}</span>
       </p>
       {stats && stats.length > 0 && (
-        <dl className="mt-auto grid grid-cols-2 gap-3 border-t border-line-2 pt-3">
-          {stats.map(x => (
-            <div key={x.label} className="flex flex-col gap-0.5">
-              <dt className="text-[12px] text-ink-3">{x.label}</dt>
-              <dd className="text-[15px] font-semibold text-ink">{x.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="flex flex-1 items-center border-t border-line-2 pt-3">
+          <dl className="grid w-full grid-cols-2 gap-3">
+            {stats.map(x => (
+              <div key={x.label} className="flex flex-col gap-0.5">
+                <dt className="text-[12px] text-ink-3">{x.label}</dt>
+                <dd className="text-[15px] font-semibold text-ink">{x.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       )}
     </Panel>
   );
 }
 
 /** Why the headline moved, from its own numbers (#53): the sub-bucket that drove it in the same
- * direction when one exists, else whether order volume or order value accounts for most of it. */
+ * direction when one exists, else whether order volume or order value accounts for most of it.
+ * Round 8 (Ryan: trim to 5-6 lines) — one sentence per branch, the real cause and real numbers,
+ * no second clause restating it. */
 function moverExplanation(mover: Mover, driver: Driver | null, label: string, comparedTo: string): string {
   const moved = mover.pct >= 0 ? "grew" : "dropped";
   if (driver) {
     const verb = driver.deltaCents >= 0 ? "rose" : "fell";
-    return `${label} ${moved} mostly because of ${driver.label}: its sales ${verb} by ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${comparedTo}, more than anything else moving the same way.`;
+    return `${label} ${moved} mostly because of ${driver.label}, whose sales ${verb} ${formatMoneyCompact(Math.abs(driver.deltaCents))} vs ${comparedTo} — the biggest swing in this slice.`;
   }
   if (mover.previousOrders === 0) {
     return `${label} had no sales on ${comparedTo}, so all ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} today are new.`;
@@ -244,13 +255,10 @@ function moverExplanation(mover: Mover, driver: Driver | null, label: string, co
   const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
   const ordersEffect = (mover.currentOrders - mover.previousOrders) * avgPrev;
   const avgEffect = (avgCur - avgPrev) * mover.currentOrders;
-  const steady = (a: number, b: number) => b > 0 && Math.abs(a - b) / b < 0.1; // the other factor barely moved
   if (Math.abs(ordersEffect) >= Math.abs(avgEffect)) {
-    const more = mover.currentOrders >= mover.previousOrders ? "More" : "Fewer";
-    return `${label} ${moved} mainly because of how many orders came in. ${more} orders: ${formatInt(mover.currentOrders)} today against ${formatInt(mover.previousOrders)} on ${comparedTo}${steady(avgCur, avgPrev) ? ", with the typical order about the same size" : ""}.`;
+    return `${label} ${moved} mainly because of order count: ${formatInt(mover.currentOrders)} orders today vs ${formatInt(mover.previousOrders)} on ${comparedTo}.`;
   }
-  const spent = avgCur >= avgPrev ? "more" : "less";
-  return `${label} ${moved} mainly because of order size. Customers spent ${spent} per order: ${formatMoney(avgCur)} on average today against ${formatMoney(avgPrev)} on ${comparedTo}${steady(mover.currentOrders, mover.previousOrders) ? ", with about the same number of orders" : ""}.`;
+  return `${label} ${moved} mainly because of order size: ${formatMoney(avgCur)} per order today vs ${formatMoney(avgPrev)} on ${comparedTo}.`;
 }
 
 /** The biggest swing, explained in a sentence, then up to 3 runners-up (rankMovers order; #47). */
@@ -291,7 +299,14 @@ function MoverPanel({ title, movers, comparedTo, describeKey, driver = null }: {
           )}
         </>
       )}
-      {mover && <p className="mt-auto border-t border-line-2 pt-2 text-[12px] text-pretty text-ink-3">{moverExplanation(mover, driver, label ?? "This slice", comparedTo)}</p>}
+      {/* flex-1 (not mt-auto alone) so this grows to absorb the row's leftover height instead of
+          just pinning to the bottom and leaving a dead gap above it — same fix as RankPanel's
+          footer above (round 8). */}
+      {mover && (
+        <div className="flex flex-1 items-center border-t border-line-2 pt-2">
+          <p className="text-[12px] text-pretty text-ink-3">{moverExplanation(mover, driver, label ?? "This slice", comparedTo)}</p>
+        </div>
+      )}
     </Panel>
   );
 }
