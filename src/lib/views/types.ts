@@ -247,8 +247,8 @@ export interface CostBreakdownView {
     hours: number;
     rateCentsPerHour: number;
     costCents: number;
-    /** Labor hours are SIMULATED data and the rate is an assumption. */
-    simulated: true;
+    /** Hours come from the timekeeping source; the hourly rate is an assumption (LABOR_RATE_CENTS_PER_HOUR). True only when the hours themselves are estimated. */
+    simulated: boolean;
     allocated: boolean;
   };
   otherCharges: { costCents: number; lines: CostLineItem[] };
@@ -293,6 +293,6 @@ export interface CostedMarginView {
   groups: CostedMarginRow[];
   totals: CostedMarginRow;
   method: string;
-  laborSimulated: true;
+  laborSimulated: boolean;
   missing: string[];
 }

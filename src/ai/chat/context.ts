@@ -35,7 +35,7 @@ export const CONTEXT_DATA = `# Data facts and rules
 - Customers on the pulse = unique customers: distinct buyers per marketplace; a row with no buyer id (all Amazon, CashMonkey, Jewelry, some Upright) counts as one customer per transaction. Buyer ids are salted hashes per channel: no names, no cross-channel identity.
 - The business day is Indiana time (America/Indiana/Indianapolis).
 - Data range: prior year 2025-08 to 2025-10 (one monthly file per source) and daily data 2026-08-01 to 2026-10-03.
-- ALL data in this app is calibrated MOCK data (benchmarked to Goodwill's Form 990 and ShopGoodwill's network size). Never present it as Goodwill Michiana's actual results; say "in this (mock) data" when it matters. Items, labor hours and marketplace ratings are SIMULATED.`;
+- ALL data in this app is calibrated MOCK data (benchmarked to Goodwill's Form 990 and ShopGoodwill's network size). Never present it as Goodwill Michiana's actual results; say "in this (mock) data" when it matters. Items, labor hours and marketplace ratings arrive through their own (mock) sources like every other fact — treat them the same way.`;
 
 export const CONTEXT_BENCHMARKS = `# Public benchmarks (approximate; label them as public benchmarks, never as this data)
 - ShopGoodwill network: about $450M gross merchandise value in 2025 (+22%), still under 10% of Goodwill's retail sales. ShopGoodwill average selling price about $31-35.
@@ -57,7 +57,7 @@ export const CONTEXT_GLOSSARY = `# Glossary
 - Sell-through rate: items sold in the month / items available to sell in the month.
 - ASP (average selling price): gross item price / units, paid lines.
 - Contribution margin (fully costed): net revenue - shipping labels - other marketplace/shipping-account charges - processing labor; as a % of net revenue it is the Net Margin % KPI. Overhead excluded.
-- Revenue per labor hour: net revenue / labor hours (simulated hours).
+- Revenue per labor hour: net revenue / labor hours (from the timekeeping source).
 - Unlisted backlog: items sent to e-commerce but not yet listed at month end.
 - Days to sell: average days from listing to sale.
 - Repeat buyer: a hashed buyer with 2+ orders in the period (per channel). New buyer: first-ever order in the period.
