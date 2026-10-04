@@ -32,7 +32,7 @@ export const CONTEXT_DATA = `# Data facts and rules
 - 14 sources. Daily: Upright, ShopGoodwill, eBay, Amazon, Cash Monkey, Jewelry, EasyPost / Pitney Bowes shipping, FedEx, production tracking, Upright inventory, timekeeping, marketplace ratings, 1st Source bank. Weekly: OSM shipping invoices. Monthly: the Goodwill Books payment statement (its sales also arrive daily through Upright).
 - A weekly or monthly file for the running period is "not_due", not missing. A daily source is "missing" only for a finished day without a file.
 - Upright is the source of truth for orders: when two sources report the same order, Upright wins and the duplicate is dropped and logged as a (resolved) duplicate_order exception. Marketplace files still add fees, refunds, payouts and orders Upright doesn't list.
-- Customers on the pulse = transactions (each order counts as one customer). Buyer ids are salted hashes per channel: no names, no cross-channel identity, Amazon gives no buyer id.
+- Customers on the pulse = unique customers: distinct buyers per marketplace; a row with no buyer id (all Amazon, CashMonkey, Jewelry, some Upright) counts as one customer per transaction. Buyer ids are salted hashes per channel: no names, no cross-channel identity.
 - The business day is Indiana time (America/Indiana/Indianapolis).
 - Data range: prior year 2025-08 to 2025-10 (one monthly file per source) and daily data 2026-08-01 to 2026-10-03.
 - ALL data in this app is calibrated MOCK data (benchmarked to Goodwill's Form 990 and ShopGoodwill's network size). Never present it as Goodwill Michiana's actual results; say "in this (mock) data" when it matters. Items, labor hours and marketplace ratings are SIMULATED.`;
