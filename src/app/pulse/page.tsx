@@ -13,5 +13,6 @@ export default async function PulsePage({ searchParams }: { searchParams: Promis
     getMonthPace(range, date),
     getCategoryMix(range, date, data.orders, data.ordersTotal),
   ]);
-  return <PulseScreen {...data} baseline={baseline} pace={pace} categoryMix={categoryMix} latestDate={range.completeDate} />;
+  return <PulseScreen {...data} baseline={baseline} pace={pace} categoryMix={categoryMix}
+    latestDate={range.completeDate} firstDate={range.earliestDate} lastDate={range.latestDate} />;
 }
