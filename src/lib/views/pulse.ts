@@ -21,6 +21,7 @@ import { sql } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { BUSINESS_TZ, dateRange } from "./dates";
 import type { ChannelId, PulseRow, PulseSeriesView, PulseView } from "./types";
+import { cachedView } from "./cache";
 
 interface PulseGroup {
   channelId: ChannelId;
@@ -136,7 +137,7 @@ async function computePulseDays(from: string, to: string): Promise<PulseDays> {
 }
 
 /** Nightly pulse for one business date (`YYYY-MM-DD`, Indianapolis). */
-export async function getPulse(businessDate: string): Promise<PulseView> {
+async function getPulseUncached(businessDate: string): Promise<PulseView> {
   const { groups, cells, synthetic } = await computePulseDays(businessDate, businessDate);
   const dayCells = cells.get(businessDate) ?? [];
   const rows: PulseRow[] = groups.map((g, i) => ({ channelId: g.channelId, label: g.label, ...dayCells[i]! }));
@@ -156,7 +157,7 @@ export async function getPulse(businessDate: string): Promise<PulseView> {
 }
 
 /** Pulse per day for an inclusive date range (for trend charts). */
-export async function getPulseSeries(from: string, to: string): Promise<PulseSeriesView> {
+async function getPulseSeriesUncached(from: string, to: string): Promise<PulseSeriesView> {
   const { groups, cells } = await computePulseDays(from, to);
   const dates = dateRange(from, to);
   const series = groups.map((g, i) => ({
@@ -176,3 +177,6 @@ export async function getPulseSeries(from: string, to: string): Promise<PulseSer
     },
   };
 }
+
+export const getPulse = cachedView("getPulse", getPulseUncached);
+export const getPulseSeries = cachedView("getPulseSeries", getPulseSeriesUncached);

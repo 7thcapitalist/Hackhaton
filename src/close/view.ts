@@ -13,6 +13,7 @@ import type { Close, IngestRun } from "@/db/schema";
 import type { PostingStatus } from "./posting";
 import { computeTieOut, differs, parsePostingResponse, UNMAPPED_ACCOUNT } from "./tieout";
 import { loadWorkbookBaseline } from "./workbook";
+import { cachedView } from "@/lib/views/cache";
 
 export type CloseStatus = "collecting" | "generated" | "reconciled" | "approved" | "exported";
 
@@ -210,7 +211,7 @@ async function hasColumn(db: Db, table: string, column: string): Promise<boolean
   return r.rows.some((row) => (row as unknown as { name: string }).name === column);
 }
 
-export async function getCloseView(period: string, opts: { db?: Db } = {}): Promise<CloseView> {
+async function getCloseViewUncached(period: string, opts: { db?: Db } = {}): Promise<CloseView> {
   assertPeriod(period);
   const db = opts.db ?? getDb();
   const close = await findClose(db, period);
@@ -608,3 +609,9 @@ async function finish(
   };
 }
 
+const getCloseViewCached = cachedView("getCloseView", (period: string) => getCloseViewUncached(period));
+
+/** Cached unless a specific db (e.g. a transaction) is passed. */
+export function getCloseView(period: string, opts: { db?: Db } = {}): Promise<CloseView> {
+  return opts.db ? getCloseViewUncached(period, opts) : getCloseViewCached(period);
+}

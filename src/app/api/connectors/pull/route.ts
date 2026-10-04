@@ -20,6 +20,7 @@ import { NextResponse } from "next/server";
 import { redactSecrets } from "@/db/env";
 import { pullAndIngest } from "@/connectors";
 import { businessDateOf } from "@/sources/_shared/table";
+import { invalidateViews } from "@/lib/views/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -65,7 +66,7 @@ async function run(input: { from?: string; to?: string; mock?: unknown; sourceId
 
 const unauthorized = () => NextResponse.json({ status: "error", code: "unauthorized" }, { status: 401 });
 
-export async function POST(req: Request) {
+async function handlePOST(req: Request) {
   if (!authorized(req)) return unauthorized();
   let body: Record<string, unknown> = {};
   const text = await req.text();
@@ -85,7 +86,7 @@ export async function POST(req: Request) {
   });
 }
 
-export async function GET(req: Request) {
+async function handleGET(req: Request) {
   if (!authorized(req)) return unauthorized();
   const q = new URL(req.url).searchParams;
   const sources = q.getAll("source").flatMap((s) => s.split(",")).map((s) => s.trim()).filter(Boolean);
@@ -95,4 +96,22 @@ export async function GET(req: Request) {
     mock: q.has("mock") ? q.get("mock") || "1" : undefined,
     sourceIds: sources.length ? sources : undefined,
   });
+}
+
+/** Writes to the database, so cached view results are dropped afterwards. */
+export async function POST(...args: Parameters<typeof handlePOST>) {
+  try {
+    return await handlePOST(...args);
+  } finally {
+    invalidateViews();
+  }
+}
+
+/** Writes to the database, so cached view results are dropped afterwards. */
+export async function GET(...args: Parameters<typeof handleGET>) {
+  try {
+    return await handleGET(...args);
+  } finally {
+    invalidateViews();
+  }
 }

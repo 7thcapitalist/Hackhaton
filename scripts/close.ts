@@ -16,6 +16,7 @@
  */
 import { writeFile } from "node:fs/promises";
 import { config } from "dotenv";
+import { revalidateViews } from "./revalidate-views";
 
 config({ path: ".env.local", quiet: true });
 config({ quiet: true });
@@ -146,6 +147,7 @@ async function main() {
     }
     throw err;
   }
+  await revalidateViews();
 }
 
 main().catch((err) => {

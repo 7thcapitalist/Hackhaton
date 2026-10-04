@@ -12,6 +12,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { config } from "dotenv";
+import { revalidateViews } from "./revalidate-views";
 
 config({ path: ".env.local", quiet: true });
 config({ quiet: true });
@@ -99,6 +100,7 @@ async function main() {
       `\nTotals: ${t.files} files, ${t.ordersInserted} orders, ${t.moneyLinesInserted} money lines, ${t.duplicates} duplicates, ${t.failedFiles} failed files, ${t.connectorErrors} connector errors`,
     );
   }
+  await revalidateViews();
   if (!summary.ok) process.exit(1);
 }
 

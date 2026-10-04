@@ -8,6 +8,7 @@ import { and, count, desc, eq, like, type SQL } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { orders } from "@/db/schema";
 import type { ChannelId, OrdersView } from "./types";
+import { cachedView } from "./cache";
 
 export interface OrdersQuery {
   channel?: ChannelId;
@@ -20,7 +21,7 @@ export interface OrdersQuery {
 export const ORDERS_DEFAULT_LIMIT = 100;
 export const ORDERS_MAX_LIMIT = 1000;
 
-export async function getOrders(q: OrdersQuery = {}): Promise<OrdersView> {
+async function getOrdersUncached(q: OrdersQuery = {}): Promise<OrdersView> {
   const db = getDb();
   const filters: SQL[] = [];
   if (q.channel) filters.push(eq(orders.channel, q.channel));
@@ -62,3 +63,5 @@ export async function getOrders(q: OrdersQuery = {}): Promise<OrdersView> {
     total: Number(totalRow[0]?.n ?? 0),
   };
 }
+
+export const getOrders = cachedView("getOrders", getOrdersUncached);

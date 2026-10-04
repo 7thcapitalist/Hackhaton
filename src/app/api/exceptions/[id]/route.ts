@@ -6,11 +6,12 @@
 import { NextResponse } from "next/server";
 import { redactSecrets } from "@/db/env";
 import { EXCEPTION_STATUSES, setExceptionStatus, type ExceptionStatus } from "@/lib/views";
+import { invalidateViews } from "@/lib/views/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function handlePATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   let body: unknown;
   try {
@@ -41,5 +42,14 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const message = redactSecrets(root instanceof Error ? root.message : String(root));
     console.error("[api/exceptions]", message);
     return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
+/** Writes to the database, so cached view results are dropped afterwards. */
+export async function PATCH(...args: Parameters<typeof handlePATCH>) {
+  try {
+    return await handlePATCH(...args);
+  } finally {
+    invalidateViews();
   }
 }

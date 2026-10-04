@@ -26,6 +26,7 @@ import {
 import { otherChargesTotalSql } from "./cost-sql";
 import { addDays, businessDateOf, daysBetween, localToUtc, periodBounds, previousPeriod } from "./dates";
 import type { Kpi, ScorecardView } from "./types";
+import { cachedView } from "./cache";
 
 const isoUtc = (d: Date) => d.toISOString();
 
@@ -41,7 +42,7 @@ function priorYearPeriod(period: string): string {
   return `${Number(y) - 1}-${m}`;
 }
 
-export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
+async function loadPeriodFactsUncached(period: string): Promise<PeriodFacts> {
   const db = getDb();
   const { start, end } = periodBounds(period);
   // Item/labor timestamps are UTC; the period is in business time.
@@ -301,7 +302,7 @@ function targetFor(kpiId: string, stored: Map<string, number>): number | null {
 }
 
 /** Scorecard for a period (`YYYY-MM`). */
-export async function getScorecard(period: string, load: PeriodFactsLoader = loadPeriodFacts): Promise<ScorecardView> {
+async function getScorecardUncached(period: string, load: PeriodFactsLoader = loadPeriodFacts): Promise<ScorecardView> {
   const prevPeriod = previousPeriod(period);
   const [cur, prev, prev2, targets] = await Promise.all([
     load(period),
@@ -351,4 +352,12 @@ export async function getScorecard(period: string, load: PeriodFactsLoader = loa
     categories: categoryBreakdown(cur.categories),
     marketplaceMetrics: marketplaceByChannel(cur),
   };
+}
+
+export const loadPeriodFacts = cachedView("loadPeriodFacts", loadPeriodFactsUncached);
+const getScorecardCached = cachedView("getScorecard", (period: string) => getScorecardUncached(period));
+
+/** Scorecard for a period (`YYYY-MM`). Cached unless a custom facts loader is passed. */
+export function getScorecard(period: string, load?: PeriodFactsLoader): Promise<ScorecardView> {
+  return load ? getScorecardUncached(period, load) : getScorecardCached(period);
 }

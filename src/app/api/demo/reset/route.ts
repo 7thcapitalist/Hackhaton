@@ -21,6 +21,7 @@ import { NextResponse } from "next/server";
 import { getDb } from "@/db/client";
 import { redactSecrets } from "@/db/env";
 import { NoGoldenError, restoreGolden, saveGolden } from "@/lib/demo/golden";
+import { invalidateViews } from "@/lib/views/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,7 +33,7 @@ function sameSecret(given: string, expected: string): boolean {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-export async function POST(req: Request) {
+async function handlePOST(req: Request) {
   const expected = process.env.DEMO_RESET_SECRET?.trim();
   if (!expected) {
     return NextResponse.json({ error: "Demo reset is disabled: DEMO_RESET_SECRET is not set" }, { status: 503 });
@@ -71,5 +72,14 @@ export async function POST(req: Request) {
     const message = redactSecrets(root instanceof Error ? root.message : String(root));
     console.error("[api/demo/reset]", message);
     return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
+/** Writes to the database, so cached view results are dropped afterwards. */
+export async function POST(...args: Parameters<typeof handlePOST>) {
+  try {
+    return await handlePOST(...args);
+  } finally {
+    invalidateViews();
   }
 }

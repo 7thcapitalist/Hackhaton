@@ -10,6 +10,7 @@
 import { NextResponse } from "next/server";
 import { redactSecrets } from "@/db/env";
 import { IngestError, ingestFile, type IngestSummary } from "@/ingest";
+import { invalidateViews } from "@/lib/views/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,7 +34,7 @@ function errorOf(fileName: string, err: unknown): { body: FileError; httpStatus:
 
 const bad = (error: string, status = 400) => NextResponse.json({ status: "error", code: "bad_input", error }, { status });
 
-export async function POST(req: Request) {
+async function handlePOST(req: Request) {
   const length = Number(req.headers.get("content-length") ?? 0);
   if (length > MAX_BYTES + 64 * 1024) return bad(`Upload is larger than ${MAX_BYTES / 1024 / 1024} MB`, 413);
 
@@ -69,4 +70,13 @@ export async function POST(req: Request) {
 
   if (files.length === 1) return NextResponse.json(results[0], { status: firstStatus });
   return NextResponse.json(results, { status: 200 });
+}
+
+/** Writes to the database, so cached view results are dropped afterwards. */
+export async function POST(...args: Parameters<typeof handlePOST>) {
+  try {
+    return await handlePOST(...args);
+  } finally {
+    invalidateViews();
+  }
 }

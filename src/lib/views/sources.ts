@@ -23,8 +23,9 @@ import { getDb } from "@/db/client";
 import { cadenceOf } from "@/ingest/config";
 import { addDays, businessDateOf, periodBounds } from "./dates";
 import type { SourceStatus, SourceStatusView } from "./types";
+import { cachedView } from "./cache";
 
-export async function getSourceStatus(period: string): Promise<SourceStatusView> {
+async function getSourceStatusUncached(period: string): Promise<SourceStatusView> {
   const db = getDb();
   const like = `${period}-%`;
 
@@ -123,3 +124,5 @@ export async function getSourceStatus(period: string): Promise<SourceStatusView>
 
   return { period, asOf, sources: out };
 }
+
+export const getSourceStatus = cachedView("getSourceStatus", getSourceStatusUncached);
