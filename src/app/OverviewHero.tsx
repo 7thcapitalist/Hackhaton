@@ -36,6 +36,16 @@
 // - When a single-marketplace filter makes unique customers and orders the same count, the
 //   customers slot swaps to "Daily fees & refunds" (gross minus net — the only other
 //   already-fetched number for that slice) instead of repeating the orders figure.
+//
+// 2026-10-04, Daily/Monthly toggle (Ryan: keep Daily exactly as it is, add a way to switch
+// to the same cards for the month): a small segmented control next to the marketplace/
+// category filters. Monthly reuses every card below unchanged — OverviewGlance never
+// learns about the toggle, it just gets handed the month's orders instead of today's, with
+// `weekday="month"` so its "vs a typical X" / "no earlier X" copy reads correctly without
+// any branching on its end. Monthly's hero numbers always come from aggregateTotals over the
+// month's raw rows (there's no monthly equivalent of the pulse view's precomputed `totals`),
+// compared against the prior calendar month — simpler than Daily's weekday-matched baseline,
+// since there's no real "same month 4 times" history to average over yet.
 import { useEffect, useRef, useState } from "react";
 import { OverviewGlance } from "./OverviewGlance";
 import { matches, type OrderLike } from "./_lib/overview-filters";
@@ -60,6 +70,10 @@ type OverviewHeroProps = {
   cmpOrders: OrderLike[] | null;
   moverBaseline: OrderLike[][]; // the same weekday over the previous 4 weeks (days with data only), for the mover card
   weekday: string;
+  monthOrders: OrderLike[]; // the last complete month, ungrouped — Monthly view's equivalent of `orders`
+  monthPrevOrders: OrderLike[]; // the month before that — Monthly's equivalent of `cmpOrders` *and* its mover baseline
+  monthLabel: string; // e.g. "September 2026"
+  monthPrevLabel: string; // e.g. "August 2026"
 };
 
 /** feesCents is gross minus net (fees + refunds + any other deduction already reflected in
@@ -84,103 +98,139 @@ const CUSTOMERS_ICON = "M8 8a2.6 2.6 0 1 0 0-5.2A2.6 2.6 0 0 0 8 8z M3 13.3c0-2.
 const ORDERS_ICON = "M2.5 5.3 8 2.8l5.5 2.5v6L8 13.8l-5.5-2.5z M2.5 5.3 8 7.8l5.5-2.5M8 7.8v6";
 const FEES_ICON = "M4 2h8v12l-1.5-1-1.5 1-1.5-1-1.5 1-1.5-1-1.5 1z M6 5h4M6 7.5h4M6 10h2";
 
-export function OverviewHero({ date, cmpDate, channelOptions, totals, compareChanges, orders, cmpOrders, moverBaseline, weekday }: OverviewHeroProps) {
+export function OverviewHero({ date, cmpDate, channelOptions, totals, compareChanges, orders, cmpOrders, moverBaseline, weekday, monthOrders, monthPrevOrders, monthLabel, monthPrevLabel }: OverviewHeroProps) {
   const [channel, setChannel] = useState<MarketKey | "all">("all");
   const [category, setCategory] = useState<string>("all");
+  const [view, setView] = useState<"daily" | "monthly">("daily");
 
-  const categories = [...new Set(orders.map(o => o.category))].sort();
+  // Union of today's and this month's categories/marketplaces, so switching to Monthly never
+  // hides an option that only shows up over the month, not today (channelOptions is already
+  // the union — see page.tsx).
+  const categories = [...new Set([...orders, ...monthOrders].map(o => o.category))].sort();
   const channelLabel = channel === "all" ? "all" : channelOptions.find(c => c.id === channel)?.label ?? "all";
   const filtered = channel !== "all" || category !== "all";
   const marketActive = channel !== "all";
   const theme: MarketTheme = MARKET_THEME[channel];
+  const labelPrefix = view === "daily" ? "Daily" : "Monthly";
 
-  const filteredTotals = filtered ? aggregateTotals(orders, channelLabel, category) : null;
-  const current: PulseTotals = filteredTotals ?? totals;
-  const matchedCount = filtered ? orders.filter(o => matches(o, channelLabel, category)).length : null;
-  const noData = matchedCount === 0;
+  const dailyTotals = filtered ? aggregateTotals(orders, channelLabel, category) : null;
+  const dailyCurrent: PulseTotals = dailyTotals ?? totals;
+  const dailyMatchedCount = filtered ? orders.filter(o => matches(o, channelLabel, category)).length : null;
+  const dailyNoData = dailyMatchedCount === 0;
   // Filtering to one marketplace makes "unique customers" and "orders" the same count by
   // construction (one buyer per order within a single marketplace) — swap in fees & refunds,
   // an equally-real number for the slice, instead of repeating the orders figure.
-  const showFees = filteredTotals != null && filteredTotals.orders > 0 && filteredTotals.customers === filteredTotals.orders;
-
-  const changes: Changes | null = !filtered
+  const dailyShowFees = dailyTotals != null && dailyTotals.orders > 0 && dailyTotals.customers === dailyTotals.orders;
+  const dailyChanges: Changes | null = !filtered
     ? (compareChanges ? { ...compareChanges, fees: null } : null)
     : !cmpOrders
       ? null
       : (() => {
           const base = aggregateTotals(cmpOrders, channelLabel, category);
           return {
-            revenue: pctChange(current.revenueCents, base.revenueCents),
-            customers: pctChange(current.customers, base.customers),
-            orders: pctChange(current.orders, base.orders),
-            fees: filteredTotals ? pctChange(filteredTotals.feesCents, base.feesCents) : null,
+            revenue: pctChange(dailyCurrent.revenueCents, base.revenueCents),
+            customers: pctChange(dailyCurrent.customers, base.customers),
+            orders: pctChange(dailyCurrent.orders, base.orders),
+            fees: dailyTotals ? pctChange(dailyTotals.feesCents, base.feesCents) : null,
           };
         })();
 
-  const comparedTo = cmpDate ? formatDay(cmpDate) : "prior week";
+  // Monthly mirrors Daily's filtered math exactly, but there's no monthly equivalent of the
+  // pulse view's precomputed `totals` — every monthly number comes from aggregateTotals over
+  // the month's own raw rows, filtered or not.
+  const monthTotals = aggregateTotals(monthOrders, channelLabel, category);
+  const monthMatchedCount = monthOrders.filter(o => matches(o, channelLabel, category)).length;
+  const monthNoData = monthMatchedCount === 0;
+  const monthShowFees = monthTotals.orders > 0 && monthTotals.customers === monthTotals.orders;
+  const monthPrevTotals = monthPrevOrders.length ? aggregateTotals(monthPrevOrders, channelLabel, category) : null;
+  const monthChanges: Changes | null = !monthPrevTotals ? null : {
+    revenue: pctChange(monthTotals.revenueCents, monthPrevTotals.revenueCents),
+    customers: pctChange(monthTotals.customers, monthPrevTotals.customers),
+    orders: pctChange(monthTotals.orders, monthPrevTotals.orders),
+    fees: pctChange(monthTotals.feesCents, monthPrevTotals.feesCents),
+  };
+
+  const current: PulseTotals = view === "daily" ? dailyCurrent : monthTotals;
+  const filteredTotals = view === "daily" ? dailyTotals : monthTotals;
+  const changes = view === "daily" ? dailyChanges : monthChanges;
+  const showFees = view === "daily" ? dailyShowFees : monthShowFees;
+  const noData = view === "daily" ? dailyNoData : monthNoData;
+
+  const comparedTo = view === "daily" ? (cmpDate ? formatDay(cmpDate) : "prior week") : monthPrevLabel;
   const suffix = [channel !== "all" ? channelLabel : null, category !== "all" ? category : null].filter(Boolean).join(", ");
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <DropdownPill
-            ariaLabel="Filter by marketplace"
-            iconD={MARKET_ICON}
-            label={`Marketplace: ${theme.label}`}
-            active={marketActive}
-            fg={theme.accent}
-            bg={marketActive ? theme.soft : undefined}
-            border={marketActive ? theme.line : undefined}
-          >
-            {(close) => (
-              <>
-                <DropdownOption onClick={() => { setChannel("all"); close(); }} selected={channel === "all"} dot={MARKET_THEME.all.accent}>
-                  {MARKET_THEME.all.label}
-                </DropdownOption>
-                {MARKET_ORDER.filter(id => channelOptions.some(c => c.id === id)).map(id => (
-                  <DropdownOption key={id} onClick={() => { setChannel(id); close(); }} selected={channel === id} dot={MARKET_THEME[id].accent}>
-                    {MARKET_THEME[id].label}
+        <div className="flex flex-wrap items-center justify-between gap-2.5">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <DropdownPill
+              ariaLabel="Filter by marketplace"
+              iconD={MARKET_ICON}
+              label={`Marketplace: ${theme.label}`}
+              active={marketActive}
+              fg={theme.accent}
+              bg={marketActive ? theme.soft : undefined}
+              border={marketActive ? theme.line : undefined}
+            >
+              {(close) => (
+                <>
+                  <DropdownOption onClick={() => { setChannel("all"); close(); }} selected={channel === "all"} dot={MARKET_THEME.all.accent}>
+                    {MARKET_THEME.all.label}
                   </DropdownOption>
-                ))}
-              </>
-            )}
-          </DropdownPill>
+                  {MARKET_ORDER.filter(id => channelOptions.some(c => c.id === id)).map(id => (
+                    <DropdownOption key={id} onClick={() => { setChannel(id); close(); }} selected={channel === id} dot={MARKET_THEME[id].accent}>
+                      {MARKET_THEME[id].label}
+                    </DropdownOption>
+                  ))}
+                </>
+              )}
+            </DropdownPill>
 
-          <DropdownPill ariaLabel="Filter by category" iconD={category === "all" ? ALL_CATEGORIES_ICON : categoryIcon(category)} label={`Category: ${category === "all" ? "All categories" : category}`} active={category !== "all"}>
-            {(close) => (
-              <>
-                <DropdownOption onClick={() => { setCategory("all"); close(); }} selected={category === "all"} iconD={ALL_CATEGORIES_ICON}>
-                  All categories
-                </DropdownOption>
-                {categories.map(c => (
-                  <DropdownOption key={c} onClick={() => { setCategory(c); close(); }} selected={category === c} iconD={categoryIcon(c)}>
-                    {c}
+            <DropdownPill ariaLabel="Filter by category" iconD={category === "all" ? ALL_CATEGORIES_ICON : categoryIcon(category)} label={`Category: ${category === "all" ? "All categories" : category}`} active={category !== "all"}>
+              {(close) => (
+                <>
+                  <DropdownOption onClick={() => { setCategory("all"); close(); }} selected={category === "all"} iconD={ALL_CATEGORIES_ICON}>
+                    All categories
                   </DropdownOption>
-                ))}
-              </>
-            )}
-          </DropdownPill>
+                  {categories.map(c => (
+                    <DropdownOption key={c} onClick={() => { setCategory(c); close(); }} selected={category === c} iconD={categoryIcon(c)}>
+                      {c}
+                    </DropdownOption>
+                  ))}
+                </>
+              )}
+            </DropdownPill>
+          </div>
+
+          <ViewToggle view={view} onChange={setView} />
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <HeroNumber icon={SALES_ICON} label={suffix ? `Daily sales — ${suffix}` : "Daily sales"} value={formatMoneyCompact(current.revenueCents)}
+          <HeroNumber icon={SALES_ICON} label={suffix ? `${labelPrefix} sales — ${suffix}` : `${labelPrefix} sales`} value={formatMoneyCompact(current.revenueCents)}
             changePct={changes?.revenue ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
           {showFees ? (
-            <HeroNumber icon={FEES_ICON} label={suffix ? `Daily fees & refunds — ${suffix}` : "Daily fees & refunds"} value={formatMoneyCompact(filteredTotals!.feesCents)}
+            <HeroNumber icon={FEES_ICON} label={suffix ? `${labelPrefix} fees & refunds — ${suffix}` : `${labelPrefix} fees & refunds`} value={formatMoneyCompact(filteredTotals!.feesCents)}
               changePct={changes?.fees ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
           ) : (
-            <HeroNumber icon={CUSTOMERS_ICON} label={suffix ? `Daily unique customers — ${suffix}` : "Daily unique customers"} value={formatInt(current.customers)}
+            <HeroNumber icon={CUSTOMERS_ICON} label={suffix ? `${labelPrefix} unique customers — ${suffix}` : `${labelPrefix} unique customers`} value={formatInt(current.customers)}
               changePct={changes?.customers ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
           )}
-          <HeroNumber icon={ORDERS_ICON} label={suffix ? `Daily orders — ${suffix}` : "Daily orders"} value={formatInt(current.orders)}
+          <HeroNumber icon={ORDERS_ICON} label={suffix ? `${labelPrefix} orders — ${suffix}` : `${labelPrefix} orders`} value={formatInt(current.orders)}
             changePct={changes?.orders ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
         </div>
       </div>
 
       {noData
-        ? <p className="text-[12.5px] text-ink-3">No orders in this slice on {formatDay(date)}.</p>
-        : <OverviewGlance orders={orders} cmpOrders={cmpOrders} moverBaseline={moverBaseline} weekday={weekday} channel={channel} channelLabel={channelLabel} category={category} comparedTo={comparedTo} />}
+        ? <p className="text-[12.5px] text-ink-3">No orders in this slice {view === "daily" ? `on ${formatDay(date)}` : `in ${monthLabel}`}.</p>
+        : view === "daily"
+          ? <OverviewGlance orders={orders} cmpOrders={cmpOrders} moverBaseline={moverBaseline} weekday={weekday} now="today" channel={channel} channelLabel={channelLabel} category={category} comparedTo={comparedTo} />
+          // Monthly reuses OverviewGlance unchanged: monthPrevOrders doubles as both the
+          // "vs last month" comparison and the (single-entry) mover baseline, and
+          // weekday="month" makes its "vs a typical X" / "no earlier X" copy read correctly
+          // with no branching on OverviewGlance's end (base.length === 1 takes the same
+          // "the last X" phrasing the daily card uses when there's only one prior day).
+          : <OverviewGlance orders={monthOrders} cmpOrders={monthPrevOrders.length ? monthPrevOrders : null} moverBaseline={monthPrevOrders.length ? [monthPrevOrders] : []} weekday="month" now="this month" channel={channel} channelLabel={channelLabel} category={category} comparedTo={comparedTo} />}
     </div>
   );
 }
@@ -207,6 +257,30 @@ function HeroNumber({ icon, label, value, changePct, comparedTo, theme, active }
         )}
         <span>vs {comparedTo}</span>
       </span>
+    </div>
+  );
+}
+
+/** Daily/Monthly switch for the whole hero + "at a glance" row below it — a two-segment
+ * control matching Button.tsx's primary-button tokens (bg-accent/text-accent-ink) for the
+ * selected side, sized to sit flush with the filter pills beside it. */
+function ViewToggle({ view, onChange }: { view: "daily" | "monthly"; onChange: (v: "daily" | "monthly") => void }) {
+  return (
+    <div role="tablist" aria-label="Time range" className="inline-flex items-center gap-0.5 rounded-full border border-line bg-surface p-[3px] shadow-xs">
+      {(["daily", "monthly"] as const).map(v => (
+        <button
+          key={v}
+          type="button"
+          role="tab"
+          aria-selected={view === v}
+          onClick={() => onChange(v)}
+          className={`rounded-full px-3.5 py-[7px] text-[13.5px] font-semibold capitalize transition-colors ${
+            view === v ? "bg-accent text-accent-ink" : "text-ink-2 hover:text-ink"
+          }`}
+        >
+          {v}
+        </button>
+      ))}
     </div>
   );
 }
