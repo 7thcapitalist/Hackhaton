@@ -142,7 +142,7 @@ function HeroNumber({ label, value, changePct, comparedTo, side }: {
   return (
     <div className={`flex flex-col gap-1.5 ${padding}`}>
       <span className="text-[13px] font-medium text-ink-3">{label}</span>
-      <span className="text-[44px] leading-none font-semibold tracking-[-0.03em] text-ink">{value}</span>
+      <span className="font-display text-[52px] leading-none font-semibold text-ink">{value}</span>
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-ink-3">
         {changePct == null ? <span className="rounded-full bg-muted-soft px-[7px] py-0.5 font-semibold">—</span> : (
           <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-muted-soft text-ink-2"}`}>

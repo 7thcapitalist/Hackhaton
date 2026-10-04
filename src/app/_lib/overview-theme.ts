@@ -12,12 +12,9 @@
 // round. "soft"/"line" (the active-pill tint/border) are derived from the same var with
 // color-mix() rather than hand-picked, so they stay correct in both themes too.
 //
-// Goodwill Books has no shared token yet (the shared system still files it under --mk-other,
-// same as Daily Pulse's "Other e-comm" row) — Ryan asked this filter to give it its own
-// identity rather than fold it in, so it keeps a one-off hex here. Picked to sit clearly
-// apart from eBay's teal and Amazon's tan now that those are the shared colors. Flagged as a
-// follow-up: promoting it to a real --mk-goodwill_books token (Gabriel's lane) would be the
-// cleaner long-term fix.
+// Goodwill Books keeps its own identity here (Daily Pulse still folds it into "Other
+// e-comm"); its color now lives in the shared --mk-books token (globals.css), so it has a
+// real dark-mode value too.
 //
 // Categories don't get colors: the app's token system only has one accent hue stepped by
 // lightness (--s1..--s4) plus the new marketplace set above, neither a categorical palette,
@@ -39,7 +36,7 @@ export const MARKET_THEME: Record<ChannelId | "all", MarketTheme> = {
   shopgoodwill: { label: "ShopGoodwill", accent: "var(--mk-shopgoodwill)", ...tint("var(--mk-shopgoodwill)") },
   amazon: { label: "Amazon", accent: "var(--mk-amazon)", ...tint("var(--mk-amazon)") },
   ebay: { label: "eBay", accent: "var(--mk-ebay)", ...tint("var(--mk-ebay)") },
-  goodwill_books: { label: "Goodwill Books", accent: "#9b5a7a", ...tint("#9b5a7a") },
+  goodwill_books: { label: "Goodwill Books", accent: "var(--mk-books)", ...tint("var(--mk-books)") },
   other: { label: "Other e-comm", accent: "var(--mk-other)", ...tint("var(--mk-other)") },
 };
 

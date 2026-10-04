@@ -27,14 +27,14 @@ function KeyKpiCard({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
   const v = formatValue(k), change = kpiChange(k);
   const progress = k.value != null && k.target ? (k.higherIsBetter === false ? k.target / k.value : k.value / k.target) : null;
   return (
-    <article className="flex min-w-0 flex-col gap-3 rounded-xl border border-line bg-surface px-5 py-4.5 shadow-xs">
+    <article className="flex min-w-0 flex-col gap-3 rounded-xl border border-line border-t-[3px] border-t-brand bg-surface px-5 py-4.5 shadow-xs">
       <header className="flex items-start justify-between gap-3">
         <h3 className="text-[13.5px] leading-snug font-medium text-ink-2">{k.label}</h3>
         <span className={`inline-flex shrink-0 items-center gap-1.5 text-[12.5px] font-semibold whitespace-nowrap ${meta.fg}`}><span aria-hidden>{meta.icon}</span>{meta.label}</span>
       </header>
       <p className="flex flex-wrap items-baseline gap-x-1.5 tabular-nums">
         {v ? <>
-          <span className="text-[34px] leading-none font-semibold tracking-[-0.03em] text-ink">{v.value}</span>
+          <span className="font-display text-[44px] leading-none font-semibold text-ink">{v.value}</span>
           {v.suffix && <span className="text-[13px] text-ink-3">{v.suffix}</span>}
           {k.status === "simulated" && <EstMarker />}
         </> : <span className="text-[15px] text-ink-3">Awaiting data</span>}

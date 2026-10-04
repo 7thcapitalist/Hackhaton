@@ -238,7 +238,7 @@ export function ChatBubble() {
           </span>
           <button ref={bubbleRef} type="button" onClick={() => setOpen(true)} aria-label="Ask the data" aria-describedby={`${titleId}-tip`}
             aria-haspopup="dialog" aria-expanded={false}
-            className="grid size-12 place-items-center rounded-full bg-accent text-accent-ink shadow-[0_6px_20px_rgba(20,22,27,.22)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+            className="grid size-12 place-items-center rounded-full bg-accent text-accent-ink shadow-[0_6px_20px_rgba(1,40,80,.28)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
             <ChatIcon />
             {messages.length > 0 && <span className="absolute top-0.5 right-0.5 size-2.5 rounded-full border-2 border-accent bg-accent-ink" aria-hidden />}
           </button>
@@ -247,7 +247,7 @@ export function ChatBubble() {
 
       {open && (
         <div ref={panelRef} role="dialog" aria-modal="true" aria-labelledby={titleId}
-          className="fixed inset-0 z-50 flex flex-col bg-surface sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[min(600px,calc(100dvh-48px))] sm:w-[400px] sm:overflow-hidden sm:rounded-2xl sm:border sm:border-line sm:shadow-[0_16px_48px_rgba(20,22,27,.18)]">
+          className="fixed inset-0 z-50 flex flex-col bg-surface sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[min(600px,calc(100dvh-48px))] sm:w-[400px] sm:overflow-hidden sm:rounded-2xl sm:border sm:border-line sm:shadow-pop">
           <header className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
             <div className="flex min-w-0 items-center gap-2.5">
               <span className="grid size-7 shrink-0 place-items-center rounded-[8px] bg-accent-soft text-accent"><ChatIcon className="size-4" /></span>

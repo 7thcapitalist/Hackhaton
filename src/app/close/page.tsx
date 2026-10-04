@@ -37,7 +37,7 @@ export default async function ClosePage({ searchParams }: { searchParams: Promis
           <p className="text-[12.5px] font-medium text-ink-3">
             Source reports → allocation rules → Business Central · {view.summary.sourcesReceived} of {view.summary.sourcesExpected} sources in
           </p>
-          <h1 className="text-[28px] leading-[1.15] font-semibold tracking-[-0.02em]">Month-end Close · {label}</h1>
+          <h1 className="font-display text-[34px] leading-[1.05] font-semibold text-balance sm:text-[38px]">Month-end Close · {label}</h1>
           <div className="flex flex-wrap items-center gap-2">
             <StagePill stage={stage} />
             <StatusBadge status="simulated" label="Synthetic data" />

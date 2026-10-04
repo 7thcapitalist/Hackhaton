@@ -37,7 +37,7 @@ const isWeekend = (d: string) => [0, 6].includes(new Date(`${d}T00:00:00Z`).getU
 const short = (d: string) => formatDay(d, { month: "short", day: "numeric" });
 
 const segmentBtn = (on: boolean) =>
-  `h-7 rounded-md px-3 text-[12.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-accent ${on ? "bg-surface text-ink shadow-[0_1px_2px_rgba(0,0,0,.08)]" : "text-ink-3 hover:text-ink"}`;
+  `h-7 rounded-md px-3 text-[12.5px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-accent ${on ? "bg-surface text-ink shadow-xs" : "text-ink-3 hover:text-ink"}`;
 
 export function PulseChart({ data, selectedDate, lastCompleteDate, onSelectDate }: PulseChartProps) {
   const [metric, setMetric] = useState<Metric>("revenue");
@@ -238,7 +238,7 @@ export function PulseChart({ data, selectedDate, lastCompleteDate, onSelectDate 
           ))}
         </svg>
         {hover != null && (
-          <div className="pointer-events-none absolute top-2 flex w-[210px] flex-col gap-1.5 rounded-[10px] border border-line bg-surface px-3 py-2.5 text-[12.5px] shadow-[0_8px_24px_rgba(0,0,0,.12)]"
+          <div className="pointer-events-none absolute top-2 flex w-[210px] flex-col gap-1.5 rounded-[10px] border border-line bg-surface px-3 py-2.5 text-[12.5px] shadow-pop"
             style={{ left: X(hover) > W - 240 ? Math.max(0, X(hover) - 222) : X(hover) + 12 }}>
             <p className="font-semibold">{formatDay(data.dates[hover])}{isWeekend(data.dates[hover]) && <span className="font-normal text-ink-3"> · weekend</span>}</p>
             {[...data.series].reverse().map(s => {

@@ -20,7 +20,7 @@ export function Tooltip({ text, children, align = "center", className = "", maxW
     <span className={`group/tip relative inline-flex ${className}`}>
       {children}
       <span aria-hidden style={{ maxWidth: `min(${maxWidth}px, calc(100vw - 32px))` }}
-        className={`pointer-events-none absolute bottom-full z-20 mb-1.5 w-max rounded-md bg-ink px-2 py-1 text-[11.5px] leading-snug font-medium text-surface shadow-[0_4px_12px_rgba(0,0,0,.15)] hidden group-hover/tip:block group-has-[:focus-visible]/tip:block ${ALIGN[align]}`}>
+        className={`pointer-events-none absolute bottom-full z-20 mb-1.5 w-max rounded-md bg-ink px-2 py-1 text-[11.5px] leading-snug font-medium text-surface shadow-pop hidden group-hover/tip:block group-has-[:focus-visible]/tip:block ${ALIGN[align]}`}>
         {text}
       </span>
     </span>
