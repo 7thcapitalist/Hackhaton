@@ -6,7 +6,7 @@ import { buttonClass } from "@/components/Button";
 import { DrillDownDrawer, type DrawerContent } from "@/components/DrillDownDrawer";
 import { HeroStat } from "@/components/HeroStat";
 import { ClockIcon, DownloadIcon, MailIcon, WarnIcon } from "@/components/icons";
-import { DatePicker } from "@/components/DatePicker";
+import { DatePicker, type DayStatus } from "@/components/DatePicker";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PulseChart } from "@/components/PulseChart";
 import { CategoryMixCard } from "@/components/CategoryMixCard";
@@ -20,7 +20,7 @@ import type { ChannelId, PulseSeries, PulseView, SourceOrder } from "../_lib/typ
 
 type PulseScreenProps = PulseScreenData & {
   baseline: PulseBaseline | null; pace: MonthPace; categoryMix: CategoryMix;
-  latestDate: string; firstDate: string; lastDate: string; // latestDate = last complete day; firstDate..lastDate = days with any data
+  latestDate: string; firstDate: string; days: DayStatus[]; today: string; // latestDate = latest completed close; the picker offers firstDate..latestDate
 };
 
 type DrawerState = { channel: ChannelId | "total"; field: PulseField } | { channel: ChannelId; missing: true } | null;
@@ -42,7 +42,7 @@ function useAdvanced() {
   return [advanced, set] as const;
 }
 
-export function PulseScreen({ view, orders, ordersTotal, baseline, pace, categoryMix, series, prevDate, nextDate, isPartial, latestDate, firstDate, lastDate }: PulseScreenProps) {
+export function PulseScreen({ view, orders, ordersTotal, baseline, pace, categoryMix, series, prevDate, nextDate, isPartial, latestDate, firstDate, days, today }: PulseScreenProps) {
   const router = useRouter();
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [advanced, setAdvanced] = useAdvanced();
@@ -84,8 +84,8 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, pace, categor
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <PeriodStepper label={dateLong} minWidth="200px"
-              center={<DatePicker label={dateLong} value={date} min={firstDate} max={lastDate} href={href} />}
-              prevHref={prevDate && href(prevDate)} nextHref={nextDate && href(nextDate)}
+              center={<DatePicker label={dateLong} value={date} min={firstDate} max={latestDate} today={today} days={days} href={href} />}
+              prevHref={prevDate && href(prevDate)} nextHref={nextDate && nextDate <= latestDate ? href(nextDate) : null}
               prevLabel="Previous day" nextLabel="Next day" />
             {advanced && (
               <span className="text-[12.5px] text-ink-3">

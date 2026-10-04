@@ -231,19 +231,26 @@ function StatPanel({ title, value, changePct, comparedTo, caption, secondary, st
 
 /** Why the headline moved, from its own numbers (#53): the sub-bucket that drove it in the same
  * direction when one exists, else whether order volume or order value accounts for most of it. */
-function moverExplanation(mover: Mover, driver: Driver | null, comparedTo: string): string {
+function moverExplanation(mover: Mover, driver: Driver | null, label: string, comparedTo: string): string {
+  const moved = mover.pct >= 0 ? "grew" : "dropped";
   if (driver) {
-    const sign = driver.deltaCents >= 0 ? "+" : "−";
-    return `Mainly ${driver.deltaCents >= 0 ? "a jump" : "a drop"} in ${driver.label} (${sign}${formatMoneyCompact(Math.abs(driver.deltaCents))} vs ${comparedTo}).`;
+    const verb = driver.deltaCents >= 0 ? "rose" : "fell";
+    return `${label} ${moved} mostly because of ${driver.label}: its sales ${verb} by ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${comparedTo}, more than anything else moving the same way.`;
   }
-  if (mover.previousOrders === 0) return `New vs ${comparedTo}: ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"}, nothing to compare against.`;
+  if (mover.previousOrders === 0) {
+    return `${label} had no sales on ${comparedTo}, so all ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} today are new.`;
+  }
   const avgPrev = mover.previousCents / mover.previousOrders;
   const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
   const ordersEffect = (mover.currentOrders - mover.previousOrders) * avgPrev;
   const avgEffect = (avgCur - avgPrev) * mover.currentOrders;
-  return Math.abs(ordersEffect) >= Math.abs(avgEffect)
-    ? `Mainly order volume: ${formatInt(mover.previousOrders)} to ${formatInt(mover.currentOrders)} orders vs ${comparedTo}.`
-    : `Mainly order value: average order ${formatMoney(avgPrev)} to ${formatMoney(avgCur)} vs ${comparedTo}.`;
+  const steady = (a: number, b: number) => b > 0 && Math.abs(a - b) / b < 0.1; // the other factor barely moved
+  if (Math.abs(ordersEffect) >= Math.abs(avgEffect)) {
+    const more = mover.currentOrders >= mover.previousOrders ? "More" : "Fewer";
+    return `${label} ${moved} mainly because of how many orders came in. ${more} orders: ${formatInt(mover.currentOrders)} today against ${formatInt(mover.previousOrders)} on ${comparedTo}${steady(avgCur, avgPrev) ? ", with the typical order about the same size" : ""}.`;
+  }
+  const spent = avgCur >= avgPrev ? "more" : "less";
+  return `${label} ${moved} mainly because of order size. Customers spent ${spent} per order: ${formatMoney(avgCur)} on average today against ${formatMoney(avgPrev)} on ${comparedTo}${steady(mover.currentOrders, mover.previousOrders) ? ", with about the same number of orders" : ""}.`;
 }
 
 /** The biggest swing, explained in a sentence, then up to 3 runners-up (rankMovers order; #47). */
@@ -284,7 +291,7 @@ function MoverPanel({ title, movers, comparedTo, describeKey, driver = null }: {
           )}
         </>
       )}
-      {mover && <p className="mt-auto border-t border-line-2 pt-2 text-[12px] text-pretty text-ink-3">{moverExplanation(mover, driver, comparedTo)}</p>}
+      {mover && <p className="mt-auto border-t border-line-2 pt-2 text-[12px] text-pretty text-ink-3">{moverExplanation(mover, driver, label ?? "This slice", comparedTo)}</p>}
     </Panel>
   );
 }

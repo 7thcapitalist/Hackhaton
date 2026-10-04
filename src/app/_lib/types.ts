@@ -21,6 +21,9 @@ export type PulseView = {
   isSynthetic: boolean;
 };
 
+/** Marketplaces that reported on a day (reported 0 = no data imported). */
+export type DayStatus = { date: string; reported: number; total: number };
+
 export type PulseSeries = Pick<PulseSeriesView, "dates" | "series">;
 
 export type KpiStatus = ViewKpi["status"];
