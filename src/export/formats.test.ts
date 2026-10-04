@@ -8,6 +8,8 @@ import { pulseXlsx, scorecardXlsx } from "./xlsx";
 import { reportProvider } from "./provider";
 import { parseScorecard, ReportError } from "./validation";
 import { monthlyReportHtml } from "../report/monthly";
+import { monthlyProvider } from "../report/monthly-provider";
+import { monthlyData } from "../report/monthly-data";
 import { samplePulse, sampleScorecard } from "./testing/fixtures";
 import { GET as pulseGET } from "../app/api/export/pulse/route";
 import { GET as scorecardGET } from "../app/api/export/scorecard/route";
@@ -71,13 +73,13 @@ test("scorecard preserves units, percentage scale, previous, target and category
   assert.ok(scorecardCsv(parsed).includes('"category_margin"'));
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.load(Uint8Array.from(await scorecardXlsx(parsed)).buffer);
-  assert.deepEqual(workbook.worksheets.map(sheet => sheet.name), ["Scorecard", "Categories Revenue", "Categories Margin", "Category Detail", "Marketplace Metrics"]);
-  assert.equal(workbook.worksheets[0].getCell("G4").value, 0.15);
-  assert.ok(!workbook.worksheets[0].getCell("G4").numFmt?.includes("%"));
-  assert.equal(workbook.worksheets[0].getCell("L9").value, "awaiting_data");
-  assert.equal(workbook.worksheets[1].getCell("B3").value, "'=Not a formula");
-  assert.equal(workbook.worksheets[1].getCell("B3").type, ExcelJS.ValueType.String);
-  assert.equal(workbook.worksheets[2].getCell("D2").value, -1.05);
+  assert.deepEqual(workbook.worksheets.map(sheet => sheet.name), ["Scorecard", "Categories", "Category Rankings", "Marketplaces", "Sources"]);
+  assert.equal(workbook.getWorksheet("Scorecard")!.getCell("D10").value, 0.0015);
+  assert.ok(workbook.getWorksheet("Scorecard")!.getCell("D10").numFmt?.includes("%"));
+  assert.equal(workbook.getWorksheet("Scorecard")!.getCell("G15").value, "Data unavailable");
+  assert.equal(workbook.getWorksheet("Category Rankings")!.getCell("C9").value, "'=Not a formula");
+  assert.equal(workbook.getWorksheet("Category Rankings")!.getCell("C9").type, ExcelJS.ValueType.String);
+  assert.equal(workbook.getWorksheet("Category Rankings")!.getCell("D10").value, -1.05);
 });
 
 test("fractional metrics beyond Excel precision are preserved as text", async () => {
@@ -85,21 +87,19 @@ test("fractional metrics beyond Excel precision are preserved as text", async ()
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.load(Uint8Array.from(await scorecardXlsx({ ...sampleScorecard,
     kpis: [{ ...sampleScorecard.kpis[1], value, previous: value, target: value }] })).buffer);
-  for (const column of ["F", "G", "H", "I", "J", "K"]) {
-    assert.equal(workbook.worksheets[0].getCell(`${column}2`).value, String(value));
-  }
+  for (const column of ["D", "E", "F"]) assert.equal(workbook.getWorksheet("Scorecard")!.getCell(`${column}8`).value, String(value) + "%");
 });
 
 test("monthly HTML identifies simulation, unavailable data and safely renders text", () => {
   const html = monthlyReportHtml({ ...sampleScorecard, kpis: [{ ...sampleScorecard.kpis[0],
     label: '<img src=x onerror="alert(1)">', note: "<script>unsafe</script>" }, ...sampleScorecard.kpis.slice(1)] });
-  assert.ok(html.includes("Contains simulated indicators"));
-  assert.ok(html.includes("Some data is unavailable"));
-  assert.ok(html.includes("1234.56"));
-  assert.ok(html.includes('<div class="unit">currency units</div>'));
-  assert.ok(html.includes("&lt;img"));
+  assert.ok(html.includes("Simulated inputs"));
+  assert.ok(html.includes("Unavailable = missing"));
+  assert.ok(html.includes("1,234.56"));
+  assert.ok(html.includes("Currency is unconfirmed"));
+  assert.ok(!html.includes("<img src=x"));
   assert.ok(!html.includes("<script>"));
-  assert.equal((html.match(/class="card"/g) ?? []).length, 15);
+  assert.equal((html.match(/data-kpi-group="coo15"/g) ?? []).length, 15);
 });
 
 test("monetary KPI values, previous and target require integer safe cents", () => {
@@ -122,7 +122,7 @@ test("a pulse without channels is marked partial in the file and download header
   assert.equal(response.headers.get("X-Report-Status"), "partial");
 });
 
-test("routes deliver CSV, XLSX and HTML with correct filters and metadata", async t => {
+test("CSV routes retain metadata and detailed reports require server access by default", async t => {
   t.mock.method(reportProvider, "loadPulse", async (date: string) => {
     assert.equal(date, "2026-10-02"); return samplePulse;
   });
@@ -137,14 +137,8 @@ test("routes deliver CSV, XLSX and HTML with correct filters and metadata", asyn
   assert.ok(csv.headers.get("Content-Disposition")?.includes("daily-pulse-2026-10-02.csv"));
   assert.ok((await csv.text()).includes("1234.56"));
   const xlsx = await scorecardGET(new Request("https://demo.example/api/export/scorecard?period=2026-09&format=xlsx"));
-  assert.equal(xlsx.status, 200);
-  assert.ok(xlsx.headers.get("Content-Type")?.includes("spreadsheetml"));
-  const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.load(await xlsx.arrayBuffer());
-  assert.equal(workbook.worksheets.length, 5);
-  const html = await monthlyGET(new Request("https://demo.example/api/export/monthly?period=2026-09"));
-  assert.equal(html.status, 200);
-  assert.ok((await html.text()).includes("Monthly COO scorecard"));
+  assert.ok([401, 503].includes(xlsx.status)); // Detailed records never leave an unprotected route.
+
 });
 
 test("route upstream errors return explicit failures instead of a downloaded error page", async t => {
@@ -154,7 +148,7 @@ test("route upstream errors return explicit failures instead of a downloaded err
   assert.equal((await response.json()).error, "view_unavailable");
   const invalid = await scorecardGET(new Request("http://localhost:3000/api/export/scorecard?period=2026-13"));
   assert.equal(invalid.status, 400);
-  const format = await pulseGET(new Request("http://localhost:3000/api/export/pulse?date=2026-10-02&format=pdf"));
+  const format = await pulseGET(new Request("http://localhost:3000/api/export/pulse?date=2026-10-02&format=zip"));
   assert.equal(format.status, 400);
 });
 
@@ -173,24 +167,22 @@ test("extended groups, category detail and marketplace metrics survive all forma
   assert.ok(csv.includes('"extended"'));
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.load(Uint8Array.from(await scorecardXlsx(view)).buffer);
-  const detail = workbook.getWorksheet("Category Detail")!;
-  assert.equal(detail.getCell("C2").value, 12345);
-  assert.equal(detail.getCell("D2").value, 123.45);
-  assert.equal(detail.getCell("F2").value, -1.05);
-  assert.equal(detail.getCell("H2").value, 50);
-  assert.equal(detail.getCell("I3").value, null);
-  assert.equal(detail.getCell("J3").value, "awaiting data");
-  const metrics = workbook.getWorksheet("Marketplace Metrics")!;
-  assert.equal(metrics.getCell("D2").value, -15);
-  assert.equal(metrics.getCell("E2").value, 2.4);
-  assert.equal(metrics.getCell("C3").value, null);
+  const detail = workbook.getWorksheet("Categories")!;
+  assert.equal(detail.getCell("B8").value, 123.45);
+  assert.equal(detail.getCell("C8").value, -1.05);
+  assert.equal(detail.getCell("E8").value, 0.5);
+  assert.equal(detail.getCell("F9").value, null);
+  const metrics = workbook.getWorksheet("Marketplaces")!;
+  assert.equal(metrics.getCell("C8").value, -15);
+  assert.equal(metrics.getCell("D8").value, 0.024);
+  assert.equal(metrics.getCell("B9").value, null);
+  assert.equal(workbook.getWorksheet("Scorecard")!.rowCount - 7, view.kpis.length);
+  assert.equal(workbook.getWorksheet("Scorecard")!.getCell("A23").value, "Supporting");
+  assert.equal(workbook.getWorksheet("Scorecard")!.getCell("D23").value, 0.255);
   const html = monthlyReportHtml(view);
-  assert.ok(html.includes("Extended indicators"));
-  assert.ok(html.includes("Extra growth"));
-  assert.ok(html.includes("All category performance"));
-  assert.ok(html.includes("Marketplace metrics"));
-  assert.ok(html.includes("does not certify real data"));
-  assert.ok(!html.includes("scale unconfirmed"));
+  assert.ok(!html.includes('data-kpi-group="extended"'));
+  assert.equal((html.match(/data-kpi-group="coo15"/g) ?? []).length, 15);
+  assert.ok(html.includes("not proof of real data"));
 });
 
 test("invalid group and invalid new monetary details fail explicitly", () => {

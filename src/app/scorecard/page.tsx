@@ -51,7 +51,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
             <span className="hidden text-[15px] font-semibold print:block">{label}</span>
             <span className="pl-1 text-[11.5px] text-ink-3">data through {formatDay(through, { month: "short", day: "numeric" })}, ET</span>
           </div>
-          <PrintButton />
+          <PrintButton period={period} />
         </div>
       </header>
 

@@ -1,7 +1,8 @@
 import ExcelJS from "exceljs";
 import { spreadsheetText } from "./csv";
 import { pulseTable } from "./pulse";
-import { scorecardTables } from "./scorecard";
+import { monthlyXlsx } from "../report/monthly-xlsx";
+import type { MonthlyData } from "../report/monthly-data";
 import type { PulseExportData, ReportCell, ReportTable, ScorecardExportData } from "./types";
 
 function exceedsExcelPrecision(value: string): boolean {
@@ -51,4 +52,4 @@ export async function tablesToXlsx(tables: ReportTable[]): Promise<Uint8Array> {
 }
 
 export function pulseXlsx(view: PulseExportData) { return tablesToXlsx([pulseTable(view)]); }
-export function scorecardXlsx(view: ScorecardExportData) { return tablesToXlsx(scorecardTables(view)); }
+export function scorecardXlsx(view: ScorecardExportData | MonthlyData) { return monthlyXlsx(view); }

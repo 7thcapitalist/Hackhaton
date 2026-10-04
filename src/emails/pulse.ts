@@ -45,7 +45,7 @@ function authenticate(request: Request, env: Environment): void {
   }
 }
 
-function getReportOrigin(env: Environment): URL {
+export function getReportOrigin(env: Environment): URL {
   const configured = env.REPORTS_VIEW_ORIGIN?.trim();
   // Prefer the production domain: VERCEL_URL is the per-deployment URL, which
   // Deployment Protection puts behind a login, so a self-fetch to it fails.
