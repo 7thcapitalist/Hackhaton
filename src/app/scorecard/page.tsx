@@ -6,7 +6,6 @@ import { CategoriesTable } from "@/components/scorecard/CategoriesTable";
 import { ToggleAllSections } from "@/components/scorecard/CollapsibleCard";
 import { KeyKpiCards } from "@/components/scorecard/KeyKpiCards";
 import { MarketplaceMetricsTable } from "@/components/scorecard/MarketplaceMetricsTable";
-import { MonthlyKpiBarsChart } from "@/components/scorecard/MonthlyKpiBarsChart";
 import { CategoryBarsChart } from "@/components/scorecard/CategoryBarsChart";
 import { RepeatBuyersChart } from "@/components/scorecard/RepeatBuyersChart";
 import { RevenuePaceChart } from "@/components/scorecard/RevenuePaceChart";
@@ -64,10 +63,6 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
         </div>
         <ScorecardTable kpis={rows} prevMonth={prevMonth} charts={{
           financial: charts.revenuePace && <RevenuePaceChart data={charts.revenuePace} />,
-          productivity: charts.productivity && <MonthlyKpiBarsChart data={charts.productivity} title="Listings created per month"
-            subtitle="New listings each month, last 6 months, against the monthly target." />,
-          inventory: charts.inventory && <MonthlyKpiBarsChart data={charts.inventory} title="Unlisted backlog at month end"
-            subtitle="Items sent to e-commerce but not yet listed, last 6 months, against the backlog ceiling." />,
           sales: charts.categories && <CategoryBarsChart data={charts.categories} />,
           category_customer: (charts.repeatBuyers || marketplaceMetrics.length > 0) && <>
             {charts.repeatBuyers && <RepeatBuyersChart data={charts.repeatBuyers} />}

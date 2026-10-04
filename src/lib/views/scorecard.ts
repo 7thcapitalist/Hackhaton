@@ -352,31 +352,3 @@ export async function getScorecard(period: string, load: PeriodFactsLoader = loa
     marketplaceMetrics: marketplaceByChannel(cur),
   };
 }
-
-/** Every KPI's value for each of the `months` periods ending at `period` (oldest first). */
-export interface ScorecardHistory {
-  periods: string[];
-  /** KPI id -> one value per period; null = not computable that month (a gap, never zero). */
-  values: Record<string, (number | null)[]>;
-}
-
-/**
- * KPI values over the last `months` periods ending at `period`, for trend lines.
- * Loads each period's facts once (plus the month before the first, for month-over-month
- * KPIs) and computes every KPI from them, with the same formulas as getScorecard.
- */
-export async function getScorecardHistory(
-  period: string,
-  months = 6,
-  load: PeriodFactsLoader = loadPeriodFacts,
-): Promise<ScorecardHistory> {
-  const periods: string[] = [period];
-  while (periods.length < months) periods.unshift(previousPeriod(periods[0]));
-  const before = previousPeriod(periods[0]);
-  const facts = await Promise.all([before, ...periods].map((p) => load(p)));
-  const values: ScorecardHistory["values"] = {};
-  for (const def of KPI_DEFINITIONS) {
-    values[def.id] = periods.map((_, i) => def.compute(facts[i + 1], facts[i]));
-  }
-  return { periods, values };
-}

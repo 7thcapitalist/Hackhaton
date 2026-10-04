@@ -5,7 +5,7 @@
  */
 export * from "./types";
 export { getPulse, getPulseSeries } from "./pulse";
-export { getScorecard, getScorecardHistory, laborRateCentsPerHour, loadPeriodFacts, type PeriodFactsLoader, type ScorecardHistory } from "./scorecard";
+export { getScorecard, laborRateCentsPerHour, loadPeriodFacts, type PeriodFactsLoader } from "./scorecard";
 export { getSourceStatus } from "./sources";
 export { getCostBreakdown, getCostedMargin, allocate } from "./costs";
 export { getOrders, ORDERS_DEFAULT_LIMIT, ORDERS_MAX_LIMIT, type OrdersQuery } from "./orders";

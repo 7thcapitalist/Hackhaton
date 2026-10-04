@@ -6,7 +6,7 @@ import { KPI_DEFINITIONS } from "@/kpis";
 import { getPulseSeries } from "@/lib/views";
 import { dateRange, periodBounds } from "@/lib/views/dates";
 import type { DataRange } from "./data";
-import { getPeriodFacts, getScorecardHistoryView, getScorecardView, periodShort } from "./data";
+import { getPeriodFacts, getScorecardView, periodShort } from "./data";
 import type { Kpi } from "./types";
 
 /** Same month one year earlier ("2026-09" → "2025-09"). */
@@ -86,57 +86,20 @@ export type RepeatBuyers = {
 const repeatDef = KPI_DEFINITIONS.find(d => d.id === "repeat_buyer_rate")!;
 const repeatRate = cache(async (period: string) => repeatDef.compute(await getPeriodFacts(period), null));
 
-// ---- Productivity and Inventory: one KPI per month as bars vs its target ----
-
-export type MonthlyKpiBars = {
-  /** The KPI drawn as bars, with the selected period's target (a floor or a ceiling). */
-  kpi: { id: string; label: string; unit: Kpi["unit"]; target: number | null; higherIsBetter: boolean };
-  months: {
-    period: string;
-    month: string;                // "Sep"
-    value: number | null;         // null = no data that month (no bar, never zero)
-    inProgress: boolean;          // month not finished: counts are still growing
-    selected: boolean;
-  }[];
-};
-
 export type ScorecardCharts = {
   revenuePace: RevenuePace | null;
   categories: CategoryBars | null;
   repeatBuyers: RepeatBuyers | null;
-  productivity: MonthlyKpiBars | null;
-  inventory: MonthlyKpiBars | null;
 };
-
-/** Monthly bars for one KPI from the scorecard history (same formulas as the rows). */
-function monthlyKpiBars(
-  history: { periods: string[]; values: Record<string, (number | null)[]> },
-  kpis: Kpi[], id: string, range: DataRange, period: string,
-): MonthlyKpiBars | null {
-  const k = kpis.find(x => x.id === id);
-  if (!k) return null;
-  const months = history.periods.map((p, i) => ({
-    period: p,
-    month: periodShort(p),
-    value: history.values[id]?.[i] ?? null,
-    inProgress: periodBounds(p).end > range.completeDate,
-    selected: p === period,
-  }));
-  // A single month is no trend: skip the chart.
-  return months.filter(m => m.value != null).length >= 2
-    ? { kpi: { id, label: k.label, unit: k.unit, target: k.target, higherIsBetter: k.higherIsBetter !== false }, months }
-    : null;
-}
 
 /** kpis may be a promise, so the charts' own loads start before the screen's KPIs are ready. */
 export async function getScorecardCharts(range: DataRange, period: string, kpisIn: Kpi[] | Promise<Kpi[]>): Promise<ScorecardCharts> {
   const ly = priorYearPeriod(period);
-  const [kpis, current, lastYear, view, history, repeat] = await Promise.all([
+  const [kpis, current, lastYear, view, repeat] = await Promise.all([
     kpisIn,
     paceSeries(period, range.latestDate, range.completeDate),
     paceSeries(ly, range.latestDate, range.completeDate),
     getScorecardView(period),
-    getScorecardHistoryView(period),
     Promise.all(range.periods.map(async p => {
       const lyp = priorYearPeriod(p);
       const [thisYear, lastYear] = await Promise.all([repeatRate(p), repeatRate(lyp)]);
@@ -166,8 +129,5 @@ export async function getScorecardCharts(range: DataRange, period: string, kpisI
     ? { target: kpi("repeat_buyer_rate")?.target ?? null, months }
     : null;
 
-  const productivity = monthlyKpiBars(history, kpis, "listings_created", range, period);
-  const inventory = monthlyKpiBars(history, kpis, "unlisted_backlog", range, period);
-
-  return { revenuePace, categories, repeatBuyers, productivity, inventory };
+  return { revenuePace, categories, repeatBuyers };
 }

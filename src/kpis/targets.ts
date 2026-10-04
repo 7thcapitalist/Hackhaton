@@ -2,9 +2,9 @@
  * Default monthly KPI targets, keyed by KPI id (src/kpis/definitions.ts).
  *
  * PLACEHOLDERS until Goodwill gives real targets. Values are set a little ahead
- * of the recent actuals (Jul-Sep 2026 in the demo data; Aug-Sep where
- * earlier months have no data) so the scorecard shows a
- * realistic mix of on / near / off. Direction follows each KPI's higherIsBetter
+ * of the recent actuals (Aug-Sep 2026: the first full months of every feed;
+ * earlier item dates are leftovers from before the operations feeds started on
+ * 2026-08-01) so the scorecard shows a realistic mix of on / near / off. Direction follows each KPI's higherIsBetter
  * (a "days" or backlog target is a ceiling, the rest are floors).
  *
  * Single source of truth: scripts/seed/config.ts seeds kpi_targets from this map,
@@ -33,9 +33,9 @@ export const DEFAULT_KPI_TARGETS: Readonly<Record<string, number>> = {
   // ---- Rest of slides 33-34 ----
   gross_margin_pct: 75,
   profit_per_labor_hour: 3_800, // cents per hour = $38/h (Aug $39.11, Sep $36.60)
-  items_identified: 4_300, // Jul 3,501, Aug 5,096, Sep 4,198 (3-month avg 4,265)
-  items_sent_to_ecom: 4_300, // Jul 3,324, Aug 5,164, Sep 4,301 (3-month avg 4,263)
-  listings_per_day: 140, // Jul 86.7, Aug 168.1, Sep 138.5 (3-month avg 131)
+  items_identified: 4_700, // Aug 5,096, Sep 4,198 (avg 4,647)
+  items_sent_to_ecom: 4_800, // Aug 5,164, Sep 4,301 (avg 4,733)
+  listings_per_day: 155, // Aug 168.1, Sep 138.5 (avg 153.3)
   avg_time_to_list_days: 5, // ceiling; Aug 5.1, Sep 5.1
   median_sale_price: 1_750, // cents = $17.50 (Aug $16.99, Sep $17.00)
   days_to_sell: 20, // ceiling; Aug 19.5, Sep 19.7

@@ -3,7 +3,7 @@
 import { cache } from "react";
 import {
   INGEST_RUNS_MAX_LIMIT, ORDERS_MAX_LIMIT,
-  getExceptions, getIngestRuns, getOrders, getPulse, getPulseSeries, getScorecard, getScorecardHistory, getSourceStatus, loadPeriodFacts,
+  getExceptions, getIngestRuns, getOrders, getPulse, getPulseSeries, getScorecard, getSourceStatus, loadPeriodFacts,
   isValidDate, isValidPeriod,
   type ExceptionRow, type IngestRunRow, type OrdersView, type PulseView as ViewPulse,
 } from "@/lib/views";
@@ -302,10 +302,6 @@ const DISPLAY_UNIT: Record<string, DisplayUnit> = { csat: "score", nps: "score",
 export const getPeriodFacts = cache((period: string) => loadPeriodFacts(period));
 /** The scorecard view for a period, once per request (the screen and its charts share it). */
 export const getScorecardView = cache((period: string) => getScorecard(period, getPeriodFacts));
-/** Months of history behind the monthly Productivity and Inventory charts. */
-export const TREND_MONTHS = 6;
-/** Every KPI over the TREND_MONTHS months ending at the period, once per request. */
-export const getScorecardHistoryView = cache((period: string) => getScorecardHistory(period, TREND_MONTHS, getPeriodFacts));
 
 /**
  * Shown elsewhere on the page, so not repeated as KPI rows: the Top-10 totals and the
