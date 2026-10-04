@@ -87,7 +87,7 @@ async function main() {
   } else {
     console.log(`Pull ${summary.from}..${summary.to} (${summary.mock ? "mock" : "real"})`);
     for (const c of summary.connectors) {
-      console.log(`\n${c.sourceId} [${c.mode}] ${c.used}${c.reason ? ` (${c.reason})` : ""}${c.error ? ` ERROR: ${c.error}` : ""}`);
+      console.log(`\n${c.sourceId} [${c.mode}] ${c.outcome === "skipped_no_credentials" ? `skipped: ${c.reason}` : `${c.used}: ${c.summary}`}`);
       for (const f of c.files) {
         console.log(
           `  ${f.status.padEnd(20)} ${f.fileName}  orders+${f.ordersInserted} lines+${f.moneyLinesInserted} dup ${f.duplicates} warn ${f.warnings}${f.error ? `  ${f.error}` : ""}`,

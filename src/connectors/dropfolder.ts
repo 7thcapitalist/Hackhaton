@@ -16,26 +16,18 @@
  *    seller portal, Cash Monkey orders, the Jewelry report) and drops it into
  *    the folder, or uploads it at /api/ingest. Same parsers either way.
  *
- * Which files a pull takes: files whose name carries a date in the range
- * (YYYY-MM-DD inside it, or a YYYY-MM month overlapping it); if no file name
- * has a date, the newest file. Already-ingested bytes are skipped by ingest
- * (same SHA-256), so re-pulling is harmless.
+ * Which files a pull takes: only files whose name carries a date in the
+ * range (YYYY-MM-DD inside it, or a YYYY-MM month overlapping it). Undated
+ * files and files of other dates are never taken, so a pull for a day with
+ * nothing in the folder ingests nothing. Already-ingested bytes are skipped
+ * by ingest (same SHA-256), so re-pulling is harmless.
  *
- * Mock path: inbox first, then data/fixtures/<source_id>/ (in range), then
- * the parser samples in src/sources/__samples__/ (newest), so a demo always
- * has something to show.
+ * Mock path: the fixture files (data/fixtures/<source_id>/ or the seed's
+ * in-memory set) dated in the range, nothing else: no inbox, no parser samples.
  */
-import { fixtureFiles, fixturesOnly, inboxDir, sampleFiles } from "./fixtures";
-import type { Connector, ConnectorMode, PulledFile, PullRange } from "./types";
-import { assertRange, filesInRange, listFiles, nameInRange, newest, readLocal, type LocalFile } from "./util";
-
-function pick(files: LocalFile[], range: PullRange): LocalFile[] {
-  const inRange = filesInRange(files, range);
-  if (inRange.length) return inRange;
-  const undated = files.filter((f) => nameInRange(f.name, range) === null);
-  const n = newest(undated);
-  return n ? [n] : [];
-}
+import { fixtureFiles, inboxDir } from "./fixtures";
+import type { Connector, ConnectorMode, PulledFile } from "./types";
+import { assertRange, filesInRange, listFiles, readLocal } from "./util";
 
 export function dropFolderConnector(opts: {
   sourceId: string;
@@ -51,14 +43,8 @@ export function dropFolderConnector(opts: {
     hasCredentials: () => listFiles(inboxDir(opts.sourceId)).length > 0,
     async pull(req): Promise<PulledFile[]> {
       assertRange(req);
-      // Seed / demo reset: exactly the given fixture set (no inbox, no samples).
-      if (req.mock && fixturesOnly()) return fixtureFiles(opts.sourceId, req).map((f) => readLocal(f, "pull_"));
-      const inbox = pick(listFiles(inboxDir(opts.sourceId)), req);
-      if (inbox.length || !req.mock) return inbox.map((f) => readLocal(f, "pull_"));
-      const fixtures = fixtureFiles(opts.sourceId, req);
-      if (fixtures.length) return fixtures.map((f) => readLocal(f, "pull_"));
-      const sample = newest(sampleFiles(opts.sourceId).map((f) => ({ ...f, mtimeMs: 0 })));
-      return sample ? [readLocal(sample, "pull_")] : [];
+      const files = req.mock ? fixtureFiles(opts.sourceId, req) : filesInRange(listFiles(inboxDir(opts.sourceId)), req);
+      return files.map((f) => readLocal(f, "pull_"));
     },
   };
 }

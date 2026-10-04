@@ -22,7 +22,8 @@
  *  EBAY_ENV=sandbox switches to the sandbox hosts.
  *
  * Mock path: the same three responses, generated per day (src/connectors/mock/ebay.ts),
- * built from data/fixtures/ebay/ when a fixture covers the day.
+ * built from data/fixtures/ebay/ when a fixture covers the day. Days without a
+ * fixture return nothing (generated only with CONNECTORS_MOCK_GENERATE=1, see fixturesOnly()).
  */
 import { ebayParser } from "@/sources/ebay";
 import { fixtureOrders, fixturesOnly } from "./fixtures";
@@ -119,6 +120,8 @@ async function pullMock(req: PullRequest): Promise<PulledFile[]> {
   const out: PulledFile[] = [];
   for (const day of daysIn(req)) {
     const orders = await mockOrders(day);
+    // No orders for the day (no fixture covers it): no pages, not empty ones.
+    if (!orders.length) continue;
     const prev = new Date(`${day}T12:00:00Z`);
     prev.setUTCDate(prev.getUTCDate() - 1);
     const previous = await mockOrders(prev.toISOString().slice(0, 10));

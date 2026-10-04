@@ -9,7 +9,12 @@
  * CONNECTORS_MOCK=1 in the env, else false (real APIs where configured).
  * Auth: `Authorization: Bearer <CRON_SECRET>` (what Vercel Cron sends). If
  * CRON_SECRET is unset, only non-production builds allow the call.
- * Returns the PullSummary from src/connectors/run.ts.
+ * Returns the PullSummary from src/connectors/run.ts (per connector: outcome +
+ * summary, e.g. "pulled 3 files" / "skipped (no credentials)" / "no data for this day").
+ *
+ * Vercel Cron (vercel.json) calls GET daily at 10:30 UTC, before the 11:00 UTC
+ * pulse email, with no params: yesterday's Indiana business date. A day with
+ * no inbox files, no credentials or (mock) no fixture ingests nothing.
  */
 import { NextResponse } from "next/server";
 import { redactSecrets } from "@/db/env";

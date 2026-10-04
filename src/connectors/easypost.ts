@@ -18,8 +18,9 @@
  *    shipping_osm_pb_easypost parser.  https://docs.easypost.com/docs/reports
  *
  * Mock path: shipments per day (from an EasyPost shipment CSV in
- * data/fixtures/shipping_osm_pb_easypost/ when one covers the day, else
- * generated) plus a payment-log CSV per day.
+ * data/fixtures/shipping_osm_pb_easypost/ when one covers the day) plus the
+ * payment-log fixtures. Days without a fixture return nothing (generated only
+ * with CONNECTORS_MOCK_GENERATE=1, see fixturesOnly()).
  */
 import { shippingOsmPbEasypostParser } from "@/sources/shipping_osm_pb_easypost";
 import { businessDateOf } from "@/sources/_shared/table";
@@ -111,6 +112,7 @@ async function pullMock(req: PullRequest): Promise<PulledFile[]> {
   const paylogFixtures = fixtureFiles(SOURCE, req).filter((f) => /pay.?log/i.test(kind(f.name)));
   for (const day of daysIn(req)) {
     const shipments = await mockShipments(day);
+    if (!shipments.length) continue; // no fixture for the day: no page
     out.push(jsonFile(`pull_easypost_api_shipments_${day}_p1.json`, shipmentsPage(shipments)));
     if (!paylogFixtures.length && !fixturesOnly()) {
       out.push({ fileName: `pull_easypost_payment_log_${day}.csv`, bytes: Buffer.from(paymentLogCsv(day, shipments), "utf8") });

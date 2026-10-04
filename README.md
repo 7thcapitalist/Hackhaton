@@ -74,6 +74,7 @@ See `.env.example`.
 | `OPENAI_API_KEY` (preferred; `OPEN_API_KEY` also accepted) (optional `OPENAI_MODEL`, default `gpt-6.1-sol`) | Data chat, `POST /api/chat` (503 without a key), `npm run chat`, `npm run eval:chat` |
 | `CHAT_DATABASE_URL`, `CHAT_DATABASE_AUTH_TOKEN` | Optional read-only Turso credentials for the chat's `run_sql` tool (falls back to the main DB client) |
 | `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
+| `CONNECTORS_MOCK_GENERATE` | Local dev only. `1` = mock pulls invent data for days with no fixture. Leave unset in Vercel: mock pulls then return only fixture days, nothing else |
 | `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_FEED` = `finances` (default) or `reports`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
 | `UPRIGHT_API_TOKEN` (optional `UPRIGHT_API_BASE`, `UPRIGHT_API_TIME_FORMAT=date`) | Real Upright Lister API pulls (without it: the email drop folder) |
