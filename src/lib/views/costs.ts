@@ -23,6 +23,7 @@ import type {
   CostedMarginView,
   CostLineItem,
 } from "./types";
+import { cachedView } from "./cache";
 
 const CHANNEL_IDS: ChannelId[] = ["shopgoodwill", "amazon", "ebay", "goodwill_books", "other"];
 const UNCATEGORIZED = "Uncategorized";
@@ -375,7 +376,7 @@ function computeGroups(f: CostingFacts, by: CostedMarginBy) {
 }
 
 /** Fully costed contribution margin per category or channel for a period (`YYYY-MM`). */
-export async function getCostedMargin(opts: { period: string; by: CostedMarginBy }): Promise<CostedMarginView> {
+async function getCostedMarginUncached(opts: { period: string; by: CostedMarginBy }): Promise<CostedMarginView> {
   const f = await loadCostingFacts(opts.period);
   const { rows, totals } = computeGroups(f, opts.by);
   return {
@@ -390,7 +391,7 @@ export async function getCostedMargin(opts: { period: string; by: CostedMarginBy
 }
 
 /** P&L-style cost breakdown for a period, optionally for one channel (costs then allocated). */
-export async function getCostBreakdown(opts: { period: string; channel?: ChannelId | null }): Promise<CostBreakdownView> {
+async function getCostBreakdownUncached(opts: { period: string; channel?: ChannelId | null }): Promise<CostBreakdownView> {
   const f = await loadCostingFacts(opts.period);
   const channel = opts.channel ?? null;
   const inScope = <T extends { channel: string | null }>(r: T) => channel === null || r.channel === channel;
@@ -500,3 +501,6 @@ export async function getCostBreakdown(opts: { period: string; channel?: Channel
     method: `${METHOD_COMMON} ${scopeNote}`,
   };
 }
+
+export const getCostedMargin = cachedView("getCostedMargin", getCostedMarginUncached);
+export const getCostBreakdown = cachedView("getCostBreakdown", getCostBreakdownUncached);

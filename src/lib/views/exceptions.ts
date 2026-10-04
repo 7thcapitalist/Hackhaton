@@ -16,6 +16,7 @@ import { and, count, desc, eq, isNull, like, or, type SQL } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { closes, exceptions, ingestRuns, sources } from "@/db/schema";
 import type { ExceptionKind, ExceptionRow, ExceptionStatus, ExceptionsView } from "./types";
+import { cachedView } from "./cache";
 
 export interface ExceptionsQuery {
   status?: ExceptionStatus;
@@ -66,7 +67,7 @@ function periodFilter(period: string): SQL {
   )!;
 }
 
-export async function getExceptions(q: ExceptionsQuery = {}): Promise<ExceptionsView> {
+async function getExceptionsUncached(q: ExceptionsQuery = {}): Promise<ExceptionsView> {
   const db = getDb();
   const base: SQL[] = [];
   if (q.status) base.push(eq(exceptions.status, q.status));
@@ -154,3 +155,5 @@ export async function setExceptionStatus(id: string, input: SetExceptionStatusIn
     .limit(1);
   return (row as ExceptionRow | undefined) ?? null;
 }
+
+export const getExceptions = cachedView("getExceptions", getExceptionsUncached);

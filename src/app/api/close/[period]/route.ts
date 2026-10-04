@@ -27,6 +27,7 @@ import {
   resolveCloseException,
 } from "@/close";
 import { closeErrorResponse } from "@/close/http";
+import { invalidateViews } from "@/lib/views/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -45,7 +46,7 @@ export async function GET(_req: Request, { params }: Ctx) {
   }
 }
 
-export async function POST(req: Request, { params }: Ctx) {
+async function handlePOST(req: Request, { params }: Ctx) {
   try {
     const { period } = await params;
 
@@ -108,5 +109,14 @@ export async function POST(req: Request, { params }: Ctx) {
     }
   } catch (err) {
     return closeErrorResponse(err);
+  }
+}
+
+/** Writes to the database, so cached view results are dropped afterwards. */
+export async function POST(...args: Parameters<typeof handlePOST>) {
+  try {
+    return await handlePOST(...args);
+  } finally {
+    invalidateViews();
   }
 }

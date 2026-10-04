@@ -6,11 +6,12 @@
 import { NextResponse } from "next/server";
 import { CloseError, EXPORT_CONTENT_TYPES, exportClose, exportFileName, type ExportFormat } from "@/close";
 import { closeErrorResponse } from "@/close/http";
+import { invalidateViews } from "@/lib/views/cache";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request, { params }: { params: Promise<{ period: string }> }) {
+async function handleGET(req: Request, { params }: { params: Promise<{ period: string }> }) {
   try {
     const { period } = await params;
     const format = (new URL(req.url).searchParams.get("format") || "xlsx").toLowerCase() as ExportFormat;
@@ -27,5 +28,14 @@ export async function GET(req: Request, { params }: { params: Promise<{ period: 
     });
   } catch (err) {
     return closeErrorResponse(err, "api/close/export");
+  }
+}
+
+/** Writes to the database, so cached view results are dropped afterwards. */
+export async function GET(...args: Parameters<typeof handleGET>) {
+  try {
+    return await handleGET(...args);
+  } finally {
+    invalidateViews();
   }
 }

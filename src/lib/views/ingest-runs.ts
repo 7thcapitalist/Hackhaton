@@ -14,6 +14,7 @@ import { getDb } from "@/db/client";
 import { ingestRuns, sources } from "@/db/schema";
 import type { IngestRunRow, IngestRunsView } from "./types";
 import { signedArchivePath } from "@/archive/link";
+import { cachedView } from "./cache";
 
 export interface IngestRunsQuery {
   sourceId?: string;
@@ -50,7 +51,7 @@ export function warningMessages(json: string | null, max = MAX_WARNINGS): string
   return out;
 }
 
-export async function getIngestRuns(q: IngestRunsQuery = {}): Promise<IngestRunsView> {
+async function getIngestRunsUncached(q: IngestRunsQuery = {}): Promise<IngestRunsView> {
   const db = getDb();
   const filters: SQL[] = [];
   if (q.sourceId) filters.push(eq(ingestRuns.sourceId, q.sourceId));
@@ -94,8 +95,15 @@ export async function getIngestRuns(q: IngestRunsQuery = {}): Promise<IngestRuns
       sourceName: sourceName ?? r.sourceId,
       warnings: warningMessages(warningsJson),
       isSynthetic: isSynthetic === 1,
-      archiveDownloadPath: r.archiveKey ? signedArchivePath(r.id) : null,
+      archiveDownloadPath: null, // signed per request in getIngestRuns (links expire)
     })),
     total: Number(totalRow[0]?.n ?? 0),
   };
+}
+
+const getIngestRunsCached = cachedView("getIngestRuns", getIngestRunsUncached);
+
+export async function getIngestRuns(q: IngestRunsQuery = {}): Promise<IngestRunsView> {
+  const view = await getIngestRunsCached(q);
+  return { ...view, rows: view.rows.map((r) => ({ ...r, archiveDownloadPath: r.archiveKey ? signedArchivePath(r.id) : null })) };
 }
