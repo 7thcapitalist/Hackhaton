@@ -11,7 +11,7 @@ import { addDays, businessDateOf, dateRange, daysBetween, periodBounds } from "@
 import { GROUP_MEMBERS } from "./channels";
 import { statsOf, weekdayOf, type PulseBaseline } from "../pulse/summary";
 import { formatDay, formatStamp } from "./format";
-import type { CategoryRow, ChannelId, Kpi, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
+import type { CategoryRow, ChannelId, DayStatus, Kpi, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
 
 // ---- Data range: which days and months have data ----
 
@@ -205,6 +205,15 @@ export async function getPulseBaseline(range: DataRange, view: PulseView, weeks 
     },
   };
 }
+
+/**
+ * Marketplaces reporting per day, from the first day with data through the latest completed close
+ * (the same per-row status as "4 of 4 marketplaces reporting"). For the date picker's dots.
+ */
+export const getPulseDayStatus = cache(async (range: DataRange): Promise<DayStatus[]> => {
+  const s = await getPulseSeries(range.earliestDate, range.completeDate);
+  return s.dates.map((date, i) => ({ date, reported: s.series.filter(x => x.revenueCents[i] != null).length, total: s.series.length }));
+});
 
 // ---- Daily Pulse: category mix and month-to-date pace ----
 
