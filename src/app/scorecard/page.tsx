@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PrintButton } from "@/components/PrintButton";
-import { AskDataButton } from "@/components/scorecard/AskDataButton";
 import { CategoriesTable } from "@/components/scorecard/CategoriesTable";
 import { ToggleAllSections } from "@/components/scorecard/CollapsibleCard";
 import { KeyKpiCards } from "@/components/scorecard/KeyKpiCards";
@@ -40,7 +39,6 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
             <span className="hidden text-[15px] font-semibold print:block">{label}</span>
             <span className="pl-1 text-[11.5px] text-ink-3">data through {formatDay(through, { month: "short", day: "numeric" })}, ET</span>
           </div>
-          <AskDataButton />
           <PrintButton />
         </div>
       </header>
