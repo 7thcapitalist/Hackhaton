@@ -12,7 +12,7 @@
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
-import { readArchived, type ArchiveBackend } from "@/archive";
+import { isMockApiKey, MOCK_API_NOT_STORED, readArchived, type ArchiveBackend } from "@/archive";
 import { verifyArchiveLink } from "@/archive/link";
 import { getDb } from "@/db/client";
 import { redactSecrets } from "@/db/env";
@@ -40,6 +40,9 @@ export async function GET(req: NextRequest) {
     if (!run) return notFound(`no ingest run ${runId}`);
     if (!run.archiveKey || !run.archiveBackend || run.archiveBackend === "none") {
       return notFound(`"${run.fileName}" (run ${run.id}) was not archived`);
+    }
+    if (isMockApiKey(run.archiveKey)) {
+      return notFound(`"${run.fileName}" (run ${run.id}): ${MOCK_API_NOT_STORED}`);
     }
     const file = await readArchived(run.archiveKey, run.archiveBackend as ArchiveBackend);
     if (!file) return notFound(`archived file ${run.archiveKey} (${run.archiveBackend}) is missing`);

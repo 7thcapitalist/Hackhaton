@@ -17,6 +17,9 @@
  *   or BLOB_STORE_ID (a store connected to the Vercel project; auth via OIDC).
  * - "local": data/archive/<key> on disk (dev; gitignored).
  * - "repo": seed fixtures, which are already versioned in the repo (key = path).
+ *   Seed-only mock API responses (JSON the mock connectors generate in memory)
+ *   use the marker key `mock-api:<source_id>/<file>`: deterministic and
+ *   regenerable from versioned code, so no bytes are stored.
  * - "none": archiving was skipped or failed. Archiving never fails an ingest.
  *
  * Privacy: raw files can contain marketplace buyer ids that ingest hashes and
@@ -35,6 +38,14 @@ export interface ArchiveResult {
   backend: ArchiveBackend;
   /** Why archiving was skipped or failed (backend "none"). */
   note?: string;
+}
+
+/** Key prefix of seed mock API responses (backend "repo", nothing stored). */
+export const MOCK_API_KEY_PREFIX = "mock-api:";
+export const MOCK_API_NOT_STORED = "regenerable mock API response, not stored";
+
+export function isMockApiKey(key: string | null | undefined): boolean {
+  return !!key?.startsWith(MOCK_API_KEY_PREFIX);
 }
 
 /** Root of the local archive (dev). Override with ARCHIVE_DIR. */
@@ -168,8 +179,12 @@ export interface ArchivedFile {
   fileName: string;
 }
 
-/** Read an archived file back (for /api/archive). Null when it is not there. */
+/**
+ * Read an archived file back (for /api/archive). Null when it is not there,
+ * and always null for a mock API key (MOCK_API_NOT_STORED).
+ */
 export async function readArchived(key: string, backend: ArchiveBackend): Promise<ArchivedFile | null> {
+  if (isMockApiKey(key)) return null; // MOCK_API_NOT_STORED
   const fileName = key.split("/").pop() || "file";
   if (backend === "blob") {
     const { get } = await import("@vercel/blob");
