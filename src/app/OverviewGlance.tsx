@@ -465,13 +465,19 @@ function MoverCard({ title, movers, vs, now, describeKey, driver = null, theme, 
               up a notch so the (now longer, round 9 in moverExplanation's own doc comment)
               why-text actually fills the box flex-1 already stretches to, instead of sitting as
               small type in a bigger container): this box's label/paragraph, and the headline
-              sentence and runner-up row above it, all sized up one step. */}
-          <div className="flex flex-1 items-center gap-2 rounded-[10px] border p-2.5" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
-            <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
+              sentence and runner-up row above it, all sized up one step.
+              Round 11 (2026-10-04, Ryan: make the "Why this happened" title bigger relative to
+              the body text, and raise it up): title is now the bigger line (15px vs. the body's
+              14.5px, was the other way around) with a touch more breathing room below it before
+              the explanation starts. Switched the icon row from items-center to items-start so
+              the icon badge aligns with the title's own line instead of the vertical center of
+              the whole (now 3-line) block, which is what was reading as the title sitting low. */}
+          <div className="flex flex-1 items-start gap-2 rounded-[10px] border p-2.5" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
+            <span aria-hidden className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden><path d={WHY_ICON} /></svg>
             </span>
             <p className="text-[14.5px] leading-snug text-ink-2">
-              <span className="block text-[13px] font-semibold tracking-wide text-ink">Why this happened</span>
+              <span className="mb-0.5 block text-[15px] font-semibold tracking-wide text-ink">Why this happened</span>
               {moverExplanation(mover, driver, label ?? String(mover.key), vs, now)}
             </p>
           </div>
