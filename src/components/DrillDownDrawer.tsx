@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { SourceOrder } from "@/app/_lib/types";
-import { formatClock, formatInt, formatMoney } from "@/app/_lib/format";
+import { formatInt, formatMoney } from "@/app/_lib/format";
 import { CheckIcon, CloseIcon, FileIcon, UploadIcon, WarnIcon } from "./icons";
 
 export type DrawerContent =
@@ -15,6 +15,7 @@ export type DrawerContent =
       fileMeta: string;       // "Imported 6:04 AM ET · 158 rows"
       orders: SourceOrder[];
       totalNetCents: number;  // must equal the pulse number
+      complete: boolean;      // false when the day has more rows than were loaded
       exportHref?: string;
     }
   | {
@@ -79,8 +80,7 @@ export function DrillDownDrawer({ content, dateLong, dateShort, onClose }: Drill
             </div>
             <dl className="grid grid-cols-[140px_1fr] gap-y-2.5 text-[13px]">
               <dt className="text-ink-3">Expected file</dt><dd className="font-mono text-[12.5px] break-all">{content.expectedFile}</dd>
-              <dt className="text-ink-3">Usually arrives</dt><dd>By 6:30 AM ET, next morning</dd>
-              <dt className="text-ink-3">Last received</dt><dd>{content.lastReceived}</dd>
+              <dt className="text-ink-3">Last day with data</dt><dd>{content.lastReceived}</dd>
               <dt className="text-ink-3">Feeds</dt><dd>{content.feeds}</dd>
             </dl>
             <div className="flex flex-col items-center gap-2 rounded-xl border-[1.5px] border-dashed border-line px-5 py-7.5 text-center">
@@ -119,10 +119,10 @@ function RowsBody({ content: c, showAll, onShowAll }: { content: Extract<DrawerC
             <span>Order</span><span>Category</span><span className="text-right">Gross</span><span className="text-right">Net</span><span>Source · row</span>
           </div>
           {rows.map(o => (
-            <div key={`${o.sourceFile}-${o.sourceRow}`} className={`${grid} h-[46px] border-b border-line-2 text-[13px] hover:bg-surface-2`}>
+            <div key={o.id} className={`${grid} h-[46px] border-b border-line-2 text-[13px] hover:bg-surface-2`}>
               <div className="flex min-w-0 flex-col">
                 <span className="truncate font-mono text-[12.5px]">{o.orderId}</span>
-                <span className="text-[11.5px] text-ink-3">{o.minute != null ? `${formatClock(o.minute)} ET · ` : ""}{o.channelLabel}</span>
+                <span className="text-[11.5px] text-ink-3">{o.channelLabel}{o.status !== "paid" && <span className="font-medium text-warn"> · {o.status}</span>}</span>
               </div>
               <span className="text-ink-2">{o.category}</span>
               <span className="text-right text-ink-3">{formatMoney(o.grossCents)}</span>
@@ -141,7 +141,9 @@ function RowsBody({ content: c, showAll, onShowAll }: { content: Extract<DrawerC
         </div>
       </div>
       <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-line bg-surface-2 px-4 py-3.5 sm:px-6.5">
-        {reconciled ? (
+        {!c.complete ? (
+          <span className="text-[13px] text-ink-2">Showing the first {formatInt(c.orders.length)} rows of this day.</span>
+        ) : reconciled ? (
           <span className="flex items-center gap-2 text-[13px]">
             <span className="grid size-5 shrink-0 place-items-center rounded-full bg-ok-soft text-ok"><CheckIcon /></span>
             <span><strong className="font-semibold">Reconciled.</strong> Net of {formatInt(c.orders.length)} rows = {formatMoney(sum)}, matches the pulse.</span>

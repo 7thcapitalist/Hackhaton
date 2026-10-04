@@ -14,7 +14,7 @@ type SourceTileProps = {
 
 export function SourceTile({ source: s, periodLabel, firstDayLabel, lastDayLabel, dueLabel, onUpload }: SourceTileProps) {
   const missing = s.status === "missing";
-  const got = s.days?.filter(d => d === "received").length ?? 0;
+  const got = s.days?.filter(d => d !== "missing").length ?? 0; // days with warnings still arrived
   const last = s.lastImportAt
     ? `${formatStamp(s.lastImportAt, { month: "short", day: "numeric" })}, ${formatStamp(s.lastImportAt, { hour: "numeric", minute: "2-digit" })} ET`
     : s.lastFileLabel ?? "—";
@@ -47,6 +47,11 @@ export function SourceTile({ source: s, periodLabel, firstDayLabel, lastDayLabel
         <dd className="text-right font-medium">{s.rowCount == null ? "—" : formatInt(s.rowCount)}</dd>
       </dl>
 
+      {s.formatUnconfirmed && (
+        <p className="text-[11.5px] text-pretty text-ink-3" title="The importer reads this file, but its column layout hasn't been checked against a real export yet.">
+          File format not yet confirmed with a real export
+        </p>
+      )}
       {s.status === "warnings" && (
         <a href="#issues" className="flex items-center justify-between gap-2 rounded-[7px] bg-warn-soft px-2.5 py-2 text-xs text-warn hover:brightness-95">
           <strong className="font-semibold">{s.openIssues} open issue{s.openIssues > 1 ? "s" : ""}</strong><span>Review →</span>

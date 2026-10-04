@@ -2,7 +2,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { ChannelId, PulseRow, PulseTotals } from "@/app/_lib/types";
-import { formatInt, formatMoney } from "@/app/_lib/format";
+import { formatInt, formatMoney, formatStamp } from "@/app/_lib/format";
 import { FileIcon, WarnIcon } from "./icons";
 
 export type PulseField = "revenue" | "customers" | "orders";
@@ -49,9 +49,12 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
               <Num label={`${r.label} revenue ${formatMoney(r.revenueCents!)}, show source rows`} onClick={() => onCellClick(r.channelId, "revenue")}>{formatMoney(r.revenueCents!)}</Num>
               <Num label={`${r.label} customers ${formatInt(r.customers!)}, show source rows`} onClick={() => onCellClick(r.channelId, "customers")}>{formatInt(r.customers!)}</Num>
               <Num label={`${r.label} orders ${formatInt(r.orders!)}, show source rows`} onClick={() => onCellClick(r.channelId, "orders")}>{formatInt(r.orders!)}</Num>
-              <div className="flex min-w-0 flex-col">
-                <span className="truncate font-mono text-xs text-ink-2">{r.sourceFile}</span>
-                <span className="text-xs text-ink-3">Imported {r.importedAt} ET · {formatInt(r.orders!)} rows</span>
+              <div className="flex min-w-0 flex-col" title={r.sourceFiles.join("\n")}>
+                <span className="flex min-w-0 items-baseline gap-1.5 font-mono text-xs text-ink-2">
+                  <span className="truncate">{r.sourceFiles[0] ?? "No orders"}</span>
+                  {r.sourceFiles.length > 1 && <span className="shrink-0 font-sans text-ink-3">+{r.sourceFiles.length - 1}</span>}
+                </span>
+                {r.importedAt && <span className="text-xs text-ink-3">Imported {formatStamp(r.importedAt, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET</span>}
               </div>
             </div>
           ) : (
@@ -65,8 +68,8 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
                 No file received for {dateLabel}
               </button>
               <div className="flex min-w-0 flex-col">
-                <span className="truncate font-mono text-xs text-ink-3">{r.sourceFile}</span>
-                <span className="text-xs text-ink-3">Usually arrives by 6:30 AM ET · <Link href="/sources" className="font-medium text-accent hover:text-ink">Upload file</Link></span>
+                <span className="truncate font-mono text-xs text-ink-3">{r.expectedFile ?? "No file yet"}</span>
+                <span className="text-xs text-ink-3">Not received yet · <Link href="/sources" className="font-medium text-accent hover:text-ink">Upload file</Link></span>
               </div>
             </div>
           ))}
@@ -77,7 +80,7 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
             <Num bold label={`Total revenue ${formatMoney(totals.revenueCents)}, show source rows`} onClick={() => onCellClick("total", "revenue")}>{formatMoney(totals.revenueCents)}</Num>
             <Num bold label={`Total customers ${formatInt(totals.customers)}, show source rows`} onClick={() => onCellClick("total", "customers")}>{formatInt(totals.customers)}</Num>
             <Num bold label={`Total orders ${formatInt(totals.orders)}, show source rows`} onClick={() => onCellClick("total", "orders")}>{formatInt(totals.orders)}</Num>
-            <span className="text-xs text-ink-3">{ok.length} files · reconciled</span>
+            <span className="text-xs text-ink-3">{new Set(ok.flatMap(r => r.sourceFiles)).size} files · {ok.length} of {rows.length} reporting</span>
           </div>
         </div>
       </div>
