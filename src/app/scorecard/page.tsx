@@ -26,7 +26,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="flex flex-col gap-0.5">
           <p className="text-[12.5px] font-medium text-ink-3">Monthly · {kpis.length} KPIs across {PILLARS.length} pillars · data through {formatDay(through, { month: "short", day: "numeric" })}, Eastern Time</p>
-          <h1 className="text-[28px] leading-[1.15] font-semibold tracking-[-0.02em]">COO Scorecard · {label}</h1>
+          <h1 className="font-display text-[34px] leading-[1.05] font-semibold text-balance sm:text-[38px]">COO Scorecard · {label}</h1>
         </div>
         <div className="flex flex-wrap items-center gap-4">
           <StatusLegend />
@@ -61,8 +61,8 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
           const on = ks.filter(k => trackStatus(k) === "on").length;
           return (
             <section key={p.id} className="grid gap-y-2.5 xl:row-span-4 xl:grid-rows-subgrid" aria-label={p.name}>
-              <header className="flex items-center justify-between gap-2 border-t-2 border-ink px-0.5 pt-1.5">
-                <h2 className="text-xs font-semibold tracking-[0.04em] whitespace-nowrap uppercase">{p.name}</h2>
+              <header className="flex items-center justify-between gap-2 border-t-[3px] border-brand px-0.5 pt-1.5">
+                <h2 className="text-xs font-bold tracking-[0.04em] whitespace-nowrap text-brand uppercase">{p.name}</h2>
                 {scored > 0 && <span className="text-[11.5px] whitespace-nowrap text-ink-3">{on}/{scored} on track</span>}
               </header>
               {ks.map(k => <KpiCard key={k.id} kpi={k} periodShort={periodShort(period)} />)}

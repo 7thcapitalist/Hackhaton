@@ -18,7 +18,7 @@ export function Tooltip({ text, children, align = "center", className = "" }: To
     <span className={`group/tip relative inline-flex ${className}`}>
       {children}
       <span aria-hidden
-        className={`pointer-events-none absolute bottom-full z-20 mb-1.5 w-max max-w-[220px] rounded-md bg-ink px-2 py-1 text-[11.5px] leading-snug font-medium text-surface opacity-0 shadow-[0_4px_12px_rgba(0,0,0,.15)] transition-opacity duration-100 group-hover/tip:opacity-100 group-has-[:focus-visible]/tip:opacity-100 ${ALIGN[align]}`}>
+        className={`pointer-events-none absolute bottom-full z-20 mb-1.5 w-max max-w-[220px] rounded-md bg-ink px-2 py-1 text-[11.5px] leading-snug font-medium text-surface opacity-0 shadow-pop transition-opacity duration-100 group-hover/tip:opacity-100 group-has-[:focus-visible]/tip:opacity-100 ${ALIGN[align]}`}>
         {text}
       </span>
     </span>

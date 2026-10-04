@@ -21,7 +21,7 @@ export default async function SourcesPage({ searchParams }: { searchParams: Prom
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="flex flex-col gap-0.5">
           <p className="text-[12.5px] font-medium text-ink-3">{src.total} sources · nightly and month-end files</p>
-          <h1 className="text-[28px] leading-[1.15] font-semibold tracking-[-0.02em]">Data Sources</h1>
+          <h1 className="font-display text-[34px] leading-[1.05] font-semibold sm:text-[38px]">Data Sources</h1>
         </div>
         <PeriodStepper label={label}
           prevHref={i > 0 ? `/sources?period=${range.periods[i - 1]}` : null}
@@ -31,7 +31,7 @@ export default async function SourcesPage({ searchParams }: { searchParams: Prom
 
       <div className="flex flex-col gap-4 rounded-xl border border-line bg-surface px-[22px] py-[18px] shadow-xs md:flex-row md:items-center md:gap-7">
         <p className="flex shrink-0 items-baseline gap-2.5">
-          <span className="text-4xl leading-none font-semibold tracking-[-0.03em]">{src.arrived} of {src.total}</span>
+          <span className="font-display text-[44px] leading-none font-semibold">{src.arrived} of {src.total}</span>
           <span className="text-sm text-ink-2">sources received for {month}</span>
         </p>
         <div className="flex flex-1 flex-col gap-2">

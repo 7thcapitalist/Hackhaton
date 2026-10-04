@@ -79,7 +79,7 @@ function AnchorCard({ kpi }: { kpi: Kpi }) {
       </header>
       {v ? (
         <p className="flex min-w-0 flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
-          <span className="text-4xl leading-none font-semibold tracking-[-0.035em]">{v.value}</span>
+          <span className="font-display text-[46px] leading-none font-semibold">{v.value}</span>
           {v.suffix && <span className="text-[13px] whitespace-nowrap text-ink-3">{v.suffix}</span>}
         </p>
       ) : (

@@ -74,7 +74,7 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-0.5">
             <p className="text-[12.5px] font-medium text-ink-3">Nightly close · all marketplaces</p>
-            <h1 className="text-[28px] leading-[1.15] font-semibold tracking-[-0.02em]">Daily Pulse</h1>
+            <h1 className="font-display text-[34px] leading-[1.05] font-semibold sm:text-[38px]">Daily Pulse</h1>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <PeriodStepper label={dateLong} minWidth="200px"

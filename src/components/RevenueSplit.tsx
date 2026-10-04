@@ -21,7 +21,7 @@ export function RevenueSplit({ rows, totalCents }: RevenueSplitProps) {
             <span className="flex items-center gap-2 text-[14px] text-ink-2">
               <span className="size-3 shrink-0 rounded-[3px]" style={{ background: marketplaceColor(r.channelId) }} />{r.label}
             </span>
-            <span className="text-[26px] font-semibold tracking-[-0.025em] tabular-nums sm:text-[30px]">{formatMoneyWhole(r.revenueCents ?? 0)}</span>
+            <span className="font-display text-[30px] leading-none font-semibold tabular-nums sm:text-[36px]">{formatMoneyWhole(r.revenueCents ?? 0)}</span>
             <span className="text-[13px] text-ink-3">{Math.round(share(r))}% of revenue</span>
           </li>
         ))}
