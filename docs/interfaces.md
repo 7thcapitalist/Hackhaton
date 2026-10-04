@@ -241,3 +241,69 @@ Denis builds on the same view functions. Nothing reads the database directly out
   generated file. Decide together.
 - Email: daily pulse (cron `0 11 * * *` UTC) with the export attached and a link to the
   dashboard; monthly scorecard on close. Resend; `CRON_SECRET` guards the cron route.
+
+## 4. Month-end close: `/close` page contract (Joao → whoever builds the page)
+
+Server code calls `getCloseView(period)` from `@/close`; client code uses the routes.
+Money is integer cents; journal amounts use BC sign (+ debit, − credit). Types live in
+`src/close/view.ts` (exported from `@/close`). Everything below is additive to the
+existing `CloseView` (period, status, approvedBy/At, sources, documents,
+totalsByAccount, invoice, exceptions, summary).
+
+| Route | Does |
+|---|---|
+| `GET /api/close/YYYY-MM` | `CloseView` (works before a close exists) |
+| `POST /api/close/YYYY-MM` JSON `{action:"generate", force?, by?}` | build journal + AR invoice, reconcile |
+| `{action:"reconcile", by?}` | re-run all checks (keeps resolved/waived decisions) |
+| `{action:"resolve_exception", exceptionId, status:"resolved"\|"waived", by, note?}` | owned decision on one exception; a `generated` close with nothing open becomes `reconciled` |
+| `{action:"approve", approvedBy, force?}` | approve (force waives open exceptions) |
+| `GET /api/close/YYYY-MM/export?format=xlsx\|csv` | BC General Journal file; marks the close `exported` |
+| `{action:"mark_imported", by, batch?}` | SIMULATED BC import (exported close only); validation failure → `ok:false`, posting status `failed` |
+| `{action:"mark_posted", by}` | SIMULATED BC posting (imported only); re-reconciles posted vs journal |
+| `POST` multipart: `action=import_workbook`, `file=<CSV>`, `by?` | replace the period's workbook baseline, re-reconcile |
+| `GET /api/close/YYYY-MM/evidence[?by=]` | evidence XLSX (`evidenceUrl`) |
+
+Errors: `{error, code}` with 400 / 404 (no close yet) / 409 (wrong status).
+
+```ts
+interface CloseView {
+  // ...existing fields...
+  steps: {                      // slide 40, always 6, in this order
+    key: "acquire" | "archive" | "enrich" | "rules" | "bc_output" | "post_reconcile";
+    label: string;              // "Acquire", "Archive", "Enrich", "Apply rules", "Create BC output", "Post + reconcile"
+    status: "done" | "warning" | "todo";
+    detail: string;             // one sentence for the UI
+  }[];
+  workbook: {
+    loaded: boolean;            // baseline rows exist for the period
+    rows: number;
+    differences: { sourceId: string; accountNo: string; ourCents: number; workbookCents: number; diffCents: number }[];
+                                // per source + account, diffCents = ours - workbook, only where |diff| >= $0.01
+  };
+  posting: {
+    status: "not_posted" | "imported" | "posted" | "failed";
+    batch: string | null;       // e.g. "ECOM-2609"
+    documentNos: string[];      // journal Document No.s + sales invoice no.
+    postedAt: string | null; postedBy: string | null;
+    importedAt: string | null; importedBy: string | null;   // extra
+    simulated: boolean;         // true today: show a "simulated BC" badge
+  };
+  evidenceUrl: string;          // "/api/close/2026-09/evidence"
+  auditTrail: { at: string; action: string; actor: string; detail?: string }[];  // extra, oldest first
+  can: { generate; approve; forceApprove; export; markImported: boolean; markPosted: boolean };
+}
+```
+
+Reconciliation (`src/close/tieout.ts`, `reconcile.ts`): per (source, account) the source
+facts (recomputed through the GL rules) → our journal / AR invoice → workbook baseline →
+posted totals. Differences of $0.01 or more become `reconcile_mismatch` exceptions, one per
+source, owned by the source's owner. Workbook CSV: `Source, Account No., Department, Amount`
+(`npm run workbook:import -- <file> --period YYYY-MM`); mock baselines in `data/workbook/`
+(2026-08 matches exactly; 2026-09 has a $43.18 FedEx refund-netting difference and a $0.01
+Goodwill Books rounding difference). `npm run seed` loads them.
+
+Business Central is **simulated**: `SimulatedBcAdapter` echoes what an import/post would
+report and every stored response says `simulated: true`. `BcApiAdapter` documents the real
+BC API v2.0 calls (journals/journalLines, salesInvoices, `Microsoft.NAV.post`) and the env
+names it would need (`BC_TENANT_ID`, `BC_ENVIRONMENT`, `BC_COMPANY_ID`, `BC_CLIENT_ID`,
+`BC_CLIENT_SECRET`); it is not wired up and no env var is required today.

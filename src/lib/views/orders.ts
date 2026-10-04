@@ -46,6 +46,8 @@ export async function getOrders(q: OrdersQuery = {}): Promise<OrdersView> {
         status: orders.status,
         ingestRunId: orders.ingestRunId,
         sourceRow: orders.sourceRow,
+        supplier: orders.supplier,
+        currency: orders.currency,
       })
       .from(orders)
       .where(where)

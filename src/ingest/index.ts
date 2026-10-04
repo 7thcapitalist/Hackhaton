@@ -1,5 +1,5 @@
 export { ingestFile, buyerKeyOf, dedupeKeyOf, headerSignature, sha256Hex } from "./ingest";
-export type { IngestInput, IngestStatus, IngestSummary } from "./ingest";
+export type { ArchiveMode, IngestInput, IngestStatus, IngestSummary } from "./ingest";
 export { readTable, SUPPORTED_EXTENSIONS } from "./read";
 export { checkCompleteness } from "./completeness";
 export type { CompletenessResult, CompletenessScope } from "./completeness";

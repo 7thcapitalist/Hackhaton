@@ -84,6 +84,7 @@ async function pullMock(req: PullRequest): Promise<PulledFile[]> {
   const out: PulledFile[] = [];
   for (const day of daysIn(req)) {
     const orders = await fixtureOrders("upright", uprightParser, day);
+    if (!orders.length) continue; // no fixture for the day: no page
     out.push(jsonFile(`pull_upright_api_order_items_${day}_p1.json`, orderItemsFromParsed(orders)));
   }
   return out;

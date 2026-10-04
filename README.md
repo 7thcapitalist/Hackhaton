@@ -48,12 +48,13 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run test:scorecard` | Tests for the scorecard status, targets with direction and change coloring (pure, no database) |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
-| `npm run seed [-- --direct\|--staged] [--no-golden]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that |
+| `npm run seed [-- --direct\|--staged] [--no-golden] [--archive]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that. Fixtures are not copied to the raw-file archive (runs point at `data/fixtures/...`, backend `repo`); `--archive` copies them |
 | `npm run demo:reset` | Restore the golden snapshot into the live tables (one write batch, no rows over the network). ~1.3-2.5 s on a local file. Fails if `npm run seed` never ran against this database |
 | `npm run mock:generate [-- --check]` | Render the deterministic mock truth (`scripts/mock/model.ts`: 2026-08-01..2026-10-03 nightly + 2025-08..10 monthly) into each platform's real export layout under `data/fixtures/<source_id>/` (~308 files, ~6.5 MB). `--check` fails if the committed files differ |
 | `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
 | `npm run ingest -- --check <YYYY-MM or YYYY-MM-DD>` | List sources with no file for that period/day and record `missing_source` exceptions |
-| `npm run close -- YYYY-MM [--approve <name> [--force]] [--export file.xlsx]` | Month-end close: generate + reconcile the Business Central journal and AR invoice, approve, export. Same as `GET/POST /api/close/YYYY-MM` and `GET /api/close/YYYY-MM/export?format=xlsx (or csv)` |
+| `npm run close -- YYYY-MM [--approve <name> [--force]] [--export file.xlsx]` | Month-end close: generate + reconcile the Business Central journal and AR invoice, approve, export. Same as `GET/POST /api/close/YYYY-MM` and `GET /api/close/YYYY-MM/export?format=xlsx (or csv)`. More flags: `--resolve-all <name> [--note ...]`, `--mark-imported <name>`, `--mark-posted <name>` (simulated Business Central), `--evidence file.xlsx` (reconciliation evidence package, also `GET /api/close/YYYY-MM/evidence`), `--no-generate`, `--json` |
+| `npm run workbook:import -- <file.csv> --period YYYY-MM` | Load the prior allocation workbook's journal output (`Source, Account No., Department, Amount`) as the baseline the close reconciles against. `--all` loads every `data/workbook/*.csv` (the seed does this); `--make-mock` rewrites the mock baselines |
 | `npm run pull -- --from YYYY-MM-DD [--to YYYY-MM-DD] [--mock] [--source id]` | Pull from the connectors (`src/connectors`) and ingest: Amazon SP-API Reports, eBay REST JSON, EasyPost JSON + Reports, drop folders `data/inbox/<source_id>/` for email/manual sources. `--mock` = deterministic responses in the real API shapes, no credentials. Same as `POST /api/connectors/pull` (Bearer `CRON_SECRET`). Status: `npm run pull -- --status` or `GET /api/connectors` |
 | `npm run check:parsers` / `check:parsers-other` / `check:parsers-api` / `check:parsers-ops` | Parser smoke checks on `src/sources/__samples__` (`-api`: JSON API parsers, JSON vs CSV twins, connector mocks; `-ops`: production tracking, Upright inventory, timekeeping, marketplace ratings, 1st Source bank) |
 
@@ -71,9 +72,10 @@ See `.env.example`.
 | `BUYER_KEY_SALT` | Salt for hashed buyer keys (privacy) |
 | `DEMO_RESET_SECRET` | Guards the "Reset demo data" route |
 | `ANTHROPIC_API_KEY` | Optional AI note on the scorecard |
-| `OPENAI_API_KEY` (optional `OPENAI_MODEL`, default `gpt-6.1-sol`) | Data chat, `POST /api/chat` (503 without the key) |
+| `OPENAI_API_KEY` (preferred; `OPEN_API_KEY` also accepted) (optional `OPENAI_MODEL`, default `gpt-6.1-sol`) | Data chat, `POST /api/chat` (503 without a key), `npm run chat`, `npm run eval:chat` |
 | `CHAT_DATABASE_URL`, `CHAT_DATABASE_AUTH_TOKEN` | Optional read-only Turso credentials for the chat's `run_sql` tool (falls back to the main DB client) |
 | `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
+| `CONNECTORS_MOCK_GENERATE` | Local dev only. `1` = mock pulls invent data for days with no fixture. Leave unset in Vercel: mock pulls then return only fixture days, nothing else |
 | `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_FEED` = `finances` (default) or `reports`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
 | `UPRIGHT_API_TOKEN` (optional `UPRIGHT_API_BASE`, `UPRIGHT_API_TIME_FORMAT=date`) | Real Upright Lister API pulls (without it: the email drop folder) |
@@ -81,6 +83,7 @@ See `.env.example`.
 | `PAYROLL_API_CLIENT_ID`, `PAYROLL_API_CLIENT_SECRET` | Future timekeeping API (not wired; leave empty: the drop folder is used) |
 | `MARKETPLACE_RATINGS_API_KEY` | Future marketplace ratings API (not wired; leave empty) |
 | `CONNECTOR_DATA_DIR` | Optional folder holding `inbox/` and `fixtures/` (default `./data`) |
+| `BLOB_READ_WRITE_TOKEN` or `BLOB_STORE_ID` (optional `ARCHIVE_DIR`) | Raw-file archive: every ingested file is kept under `Month End/<YYYY>/<MM>/<source_id>/<file>` in a private Vercel Blob store (set by connecting the store to the project). Unset: `data/archive/` on local disk (gitignored). Download: `GET /api/archive?run=<ingest run id>` |
 
 Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_URL`)
 are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts`
@@ -164,7 +167,7 @@ business dates in America/Indiana/Indianapolis. KPI formulas live in `src/kpis/`
 | `getSourceStatus(period)` | `/api/views/sources?period=YYYY-MM` (default this month) | `received` / `warnings` / `missing` per source, open exceptions |
 | `getOrders({channel,date,period,limit,offset})` | `/api/views/orders?…` | Drill-down rows with `ingestRunId` + `sourceRow` |
 | `getExceptions({status,sourceId,kind,period,limit,offset})` | `/api/views/exceptions?…` | Exceptions inbox + `countsByKind`; resolve with `PATCH /api/exceptions/:id` `{ status, note? }` |
-| `getIngestRuns({sourceId,period,limit,offset})` | `/api/views/ingest-runs?…` | Upload history with the first 20 warnings per file |
+| `getIngestRuns({sourceId,period,limit,offset})` | `/api/views/ingest-runs?…` | Upload history with the first 20 warnings per file, plus `archiveKey` / `archiveUrl` / `archiveBackend` / `archiveDownloadPath` (`/api/archive?run=<id>`, the original file) |
 
 **Reset demo data: seed once, reset from golden.** The full seed is slow (~1000 mock
 files through ingest, then ~75k rows copied to Turso), so it runs once from a laptop:
@@ -202,16 +205,19 @@ renamed columns, missing Supplier) are live-demo files in
 
 `POST /api/chat` answers questions with the OpenAI Responses API (model `OPENAI_MODEL`,
 default `gpt-6.1-sol`) and a function-calling loop over the same view functions the
-dashboard uses (`get_pulse`, `get_pulse_series`, `get_scorecard`, `get_source_status`,
+dashboard uses (`get_pulse`, `get_pulse_series`, `get_scorecard`, `get_costs`, `get_costed_margin`, `get_source_status`,
 `get_exceptions`, `get_orders`) plus `run_sql`, a guarded read-only SQL tool. Code:
-`src/ai/chat/` (agent loop, tools, system prompt, SQL guard).
+`src/ai/chat/` (agent loop, tools, system prompt, SQL guard, business context pack in `context.ts`).
+Cost tools: `get_costs` (P&L-style breakdown, = scorecard Net Margin %) and `get_costed_margin`
+(fully costed contribution by category or channel); definitions in
+[docs/kpi-definitions.md](docs/kpi-definitions.md) ("Costs").
 
 - Body: `{ messages: { role: "user" | "assistant", content: string }[] }` (plain-text
   history, last one is the user's question, max 20).
 - Response: `text/event-stream`, one `data: <json>\n\n` per event: `{type:"text",delta}`,
   `{type:"tool",name,label}`, `{type:"trace",items:[{tool,input,sql?,rowCount?}]}` (once,
   before done), `{type:"error",message}`, `{type:"done"}`.
-- 503 without `OPENAI_API_KEY`; 429 above 20 requests/min per IP (in memory); max 8 tool rounds.
+- 503 without `OPENAI_API_KEY` (or `OPEN_API_KEY`); 429 above 20 requests/min per IP (in memory); max 8 tool rounds.
 - `run_sql` safety: read-only client from `CHAT_DATABASE_URL`/`CHAT_DATABASE_AUTH_TOKEN`
   when set (create a read-only Turso token), one statement, SELECT/WITH only, no
   write/PRAGMA/ATTACH keywords, no `golden_*` tables, wrapped in `LIMIT 500`, 10 s timeout.
@@ -220,6 +226,10 @@ dashboard uses (`get_pulse`, `get_pulse_series`, `get_scorecard`, `get_source_st
 npm run chat -- "Which day of the week do we sell most?"   # streamed answer + trace + cost
 npm run chat -- --tools                                     # run every tool directly, no API key
 npm run check:chat-sql                                      # SQL guard unit check
+npm run check:costs [-- 2026-09]                            # cost breakdown + costed margins reconcile with the scorecard
+# Accuracy eval: 16 questions graded against ground truth computed from the same DB (~$0.15 per run)
+TURSO_DATABASE_URL=file:eval.db npm run db:push && TURSO_DATABASE_URL=file:eval.db npm run seed -- --no-golden
+TURSO_DATABASE_URL=file:eval.db npm run eval:chat [-- --only 5,13 --verbose]
 ```
 
 ## Where to read next

@@ -10,7 +10,7 @@
  *   { type: "trace", items }           once before done ("How I got this")
  *   { type: "error", message }
  *   { type: "done" }
- * 503 JSON when OPENAI_API_KEY is missing; 429 JSON when rate-limited.
+ * 503 JSON when OPENAI_API_KEY (or OPEN_API_KEY) is missing; 429 JSON when rate-limited.
  */
 import type { NextRequest } from "next/server";
 import { chatConfigured, MAX_HISTORY_MESSAGES, runChat, type ChatEvent, type ChatTurn } from "@/ai/chat/agent";
@@ -66,7 +66,7 @@ function parseMessages(body: unknown): ChatTurn[] | string {
 }
 
 export async function POST(req: NextRequest) {
-  if (!chatConfigured()) return json(503, { error: "Chat is not configured (OPENAI_API_KEY missing)" });
+  if (!chatConfigured()) return json(503, { error: "Chat is not configured (OPENAI_API_KEY or OPEN_API_KEY missing)" });
   if (rateLimited(clientIp(req))) return json(429, { error: "Too many requests. Try again in a minute." });
 
   let body: unknown;

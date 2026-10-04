@@ -45,14 +45,26 @@ export function grossMarginPct(f: PeriodFacts): number | null {
 }
 
 /**
- * net_margin_pct = (net revenue + net shipping cost lines − processing labor cost) / net revenue × 100.
- * Net revenue is already after marketplace fees and refunds. Shipping cost lines
- * are negative (labels) and positive (carrier refunds). Overhead is not included.
+ * Fully costed contribution in cents = net revenue + net shipping cost lines
+ * + other charges − processing labor cost. Shipping lines are negative (labels)
+ * and positive (carrier refunds); other charges are non-order marketplace /
+ * shipping-account charges (negative) and credits (positive). Overhead is not
+ * included. Same number as getCostBreakdown().contributionCents.
+ */
+export function contributionCents(f: PeriodFacts): number | null {
+  if (!f.orders || !f.shipping || f.shipping.lines === 0 || !f.labor) return null;
+  return f.orders.netCents + f.shipping.netShippingCents + (f.otherCharges?.netCents ?? 0) - f.labor.costCents;
+}
+
+/**
+ * net_margin_pct = (net revenue − net shipping label cost − other charges − processing labor cost)
+ * / net revenue × 100 = contribution / net revenue. Net revenue is already after
+ * per-order marketplace fees and refunds. Overhead is not included.
  * Needs the shipping sources and labor hours for the period, else null. 2027 anchor.
  */
 export function netMarginPct(f: PeriodFacts): number | null {
-  if (!f.orders || !f.shipping || f.shipping.lines === 0 || !f.labor) return null;
-  return pct(f.orders.netCents + f.shipping.netShippingCents - f.labor.costCents, f.orders.netCents);
+  const c = contributionCents(f);
+  return c === null ? null : pct(c, f.orders!.netCents);
 }
 
 /** revenue_per_labor_hour = total revenue / Σ labor_hours.hours (cents per hour). 2027 anchor. */
@@ -62,12 +74,13 @@ export function revenuePerLaborHour(f: PeriodFacts): number | null {
 }
 
 /**
- * profit_per_labor_hour = (net revenue − processing labor cost − net shipping cost) / Σ labor hours
- * (cents per hour). Net shipping cost = −(Σ shipping_label + shipping_refund lines).
+ * profit_per_labor_hour = contribution (net revenue − net shipping cost − other charges
+ * − processing labor cost) / Σ labor hours (cents per hour).
  */
 export function profitPerLaborHour(f: PeriodFacts): number | null {
-  if (!f.orders || !f.labor || f.labor.hours <= 0 || !f.shipping || f.shipping.lines === 0) return null;
-  return Math.round((f.orders.netCents - f.labor.costCents + f.shipping.netShippingCents) / f.labor.hours);
+  if (!f.labor || f.labor.hours <= 0) return null;
+  const c = contributionCents(f);
+  return c === null ? null : Math.round(c / f.labor.hours);
 }
 
 // ---- Productivity / listing & production -----------------------------------

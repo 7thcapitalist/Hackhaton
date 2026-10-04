@@ -17,14 +17,23 @@
  * Supplier; a row without one is demo upload 05 (jewelryNoSupplierFile).
  */
 import { csvRow, lines, monthName, usDay, usd } from "../format";
-import type { MockModel } from "../model";
+import { SUPPLIERS, type MockModel, type MockOrder } from "../model";
 import { DONE_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
 
 const HEADER = ["Sale Date", "Marketplace", "Order ID", "Item ID", "Description", "Category", "Sold Price", "Shipping", "Fees", "Supplier"];
 const EMPTY = HEADER.map(() => "");
-const SUPPLIERS = ["Store 04", "Store 07", "Store 12", "Outlet DC"];
 const FINE_JEWELRY_CENTS = 9_000;
+
+/** Is this marketplace order on the Jewelry Report (fine jewelry / watches sold on ShopGoodwill)? */
+export function isReportedJewelry(o: MockOrder): boolean {
+  return o.stream === "shopgoodwill" && o.status === "paid" && (o.category === "Jewelry" || o.category === "Watches") && o.grossCents >= FINE_JEWELRY_CENTS;
+}
+
+/** The Supplier the Co-Pivot step assigns to a marketplace jewelry order (same value in the Upright Supplier column). */
+export function jewelrySupplierOf(o: MockOrder): string {
+  return SUPPLIERS[o.seq % SUPPLIERS.length]!;
+}
 
 interface Row {
   date: string;
@@ -54,15 +63,11 @@ export function writeJewelry(model: MockModel): FixtureFile[] {
       .filter((j) => j.date.startsWith(period))
       .map((j) => ({ ...j, market: "Jewelry Counter" }));
     const onSgw: Row[] = model.orders
-      .filter(
-        (o) =>
-          o.stream === "shopgoodwill" && o.status === "paid" && o.businessDate.startsWith(period) &&
-          (o.category === "Jewelry" || o.category === "Watches") && o.grossCents >= FINE_JEWELRY_CENTS,
-      )
+      .filter((o) => o.businessDate.startsWith(period) && isReportedJewelry(o))
       .map((o) => ({
         date: o.businessDate, market: "ShopGoodwill", orderId: o.orderId, itemId: o.itemId, description: o.title,
         category: o.category, priceCents: o.grossCents, shippingCents: o.shippingCents, feeCents: o.feeCents,
-        supplier: SUPPLIERS[o.seq % SUPPLIERS.length]!,
+        supplier: jewelrySupplierOf(o),
       }));
     const rows = [...counter, ...onSgw].sort((a, b) => a.date.localeCompare(b.date) || a.orderId.localeCompare(b.orderId));
     const sum = (f: (j: Row) => number) => rows.reduce((s, j) => s + f(j), 0);
@@ -93,7 +98,7 @@ export function jewelryNoSupplierFile(model: MockModel, date: string): string {
   const file = writeJewelry(model).find((f) => f.path === `jewelry/jewelry_${date}.csv`);
   if (!file) throw new Error(`no jewelry file for ${date}`);
   const rows = file.content.split("\n");
-  const i = rows.findIndex((r, k) => k > 2 && /,Store \d+$|,Outlet DC$/.test(r));
+  const i = rows.findIndex((r, k) => k > 2 && SUPPLIERS.some((s) => r.endsWith(`,${s}`)));
   if (i < 0) throw new Error(`no jewelry row with a Supplier on ${date}`);
   rows[i] = rows[i]!.replace(/,[^,]*$/, ",");
   return rows.join("\n");

@@ -18,8 +18,9 @@
  *   Channel: a Marketplace / Channel / Site column if present; else inferred
  *   from the order id (SGW-… → shopgoodwill, 12-34567-89012 → ebay, 3-7-7
  *   digits → amazon); else other. Category is always "Jewelry".
- *   Supplier has no column in `orders`, so it is not stored (needed schema
- *   field: orders.supplier, or an enrichment table keyed by dedupe_key). Rows
+ *   Supplier → orders.supplier. Rows that dedupe drops (already loaded from
+ *   ShopGoodwill / eBay / Upright) ENRICH the kept order instead: ingest sets
+ *   its supplier (slide 41 WS2 "automate Jewelry Supplier enrichment"). Rows
  *   without a Supplier get ONE warning per file ("Co-Pivot not run?"); the raw
  *   report (no Supplier column at all) is accepted, with one warning.
  *
@@ -74,7 +75,7 @@ export function jewelryChannel(marketplace: string, orderId: string): ChannelId 
 
 export const jewelryParser: SourceParser = {
   sourceId: "jewelry",
-  version: "0.2.0",
+  version: "0.3.0",
 
   accepts(table: RawTable, fileName: string): boolean {
     const h = locateHeader(table);
@@ -161,6 +162,7 @@ export const jewelryParser: SourceParser = {
         taxCents: 0,
         netCents: grossCents + shippingCents - refundCents - feeCents,
         status,
+        supplier: cell(row, c.supplier) || null,
       });
     }
     if (missingSupplier > 0) {

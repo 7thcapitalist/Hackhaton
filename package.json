@@ -20,14 +20,18 @@
     "check:parsers-other": "tsx scripts/check-parsers-other.ts",
     "check:parsers": "tsx scripts/check-parsers.ts",
     "close": "tsx scripts/close.ts",
+    "workbook:import": "tsx scripts/workbook-baseline.ts",
     "check:parsers-api": "tsx scripts/check-parsers-api.ts",
     "check:parsers-ops": "tsx scripts/check-parsers-ops.ts",
     "pull": "tsx scripts/pull.ts",
     "chat": "tsx scripts/chat.ts",
-    "check:chat-sql": "tsx scripts/check-chat-sql.ts"
+    "check:chat-sql": "tsx scripts/check-chat-sql.ts",
+    "check:costs": "tsx scripts/check-costs.ts",
+    "eval:chat": "tsx scripts/eval-chat.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
+    "@vercel/blob": "^2.8.0",
     "drizzle-orm": "^0.45.3",
     "exceljs": "^4.4.0",
     "next": "^15.5.27",

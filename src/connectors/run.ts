@@ -12,7 +12,7 @@
  */
 import { getDb, type Db } from "@/db/client";
 import { redactSecrets } from "@/db/env";
-import { IngestError, ingestFile, type IngestStatus } from "@/ingest";
+import { IngestError, ingestFile, type ArchiveMode, type IngestStatus } from "@/ingest";
 import { connectors, getConnector } from "./registry";
 import type { Connector, ConnectorMode } from "./types";
 import { assertRange } from "./util";
@@ -26,6 +26,8 @@ export interface PullAndIngestOptions {
   db?: Db;
   /** ingest_runs.uploaded_at per pulled file (default: now). The seed uses the mock upload times. */
   uploadedAt?: (sourceId: string, fileName: string) => string | undefined;
+  /** Raw-file archive mode per pulled file (default "auto"). The seed points fixtures at their repo path. */
+  archive?: (sourceId: string, fileName: string) => ArchiveMode | undefined;
 }
 
 export interface PulledFileResult {
@@ -50,6 +52,10 @@ export interface ConnectorPullResult {
   sourceId: string;
   mode: ConnectorMode;
   used: "mock" | "real" | "skipped";
+  /** One-word result: files pulled, skipped for missing credentials, nothing for the range, or the pull failed. */
+  outcome: "pulled" | "skipped_no_credentials" | "no_data" | "error";
+  /** Human-readable outcome, e.g. "pulled 3 files" / "skipped (no credentials)" / "no data for this day". */
+  summary: string;
   reason?: string;
   files: PulledFileResult[];
   error?: string;
@@ -95,10 +101,21 @@ const emptyFile = (fileName: string): PulledFileResult => ({
 async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise<ConnectorPullResult> {
   const t0 = Date.now();
   const apiMode = c.mode === "api_report" || c.mode === "api_json";
-  const res: ConnectorPullResult = { sourceId: c.sourceId, mode: c.mode, used: opts.mock ? "mock" : "real", files: [], ms: 0 };
+  const res: ConnectorPullResult = {
+    sourceId: c.sourceId,
+    mode: c.mode,
+    used: opts.mock ? "mock" : "real",
+    outcome: "no_data",
+    summary: "",
+    files: [],
+    ms: 0,
+  };
+  const noData = opts.from === opts.to ? "no data for this day" : "no data for this range";
   if (!opts.mock && apiMode && !c.hasCredentials()) {
     res.used = "skipped";
     res.reason = `no credentials (set ${c.requiredEnvVars.join(", ")}) and mock is off`;
+    res.outcome = "skipped_no_credentials";
+    res.summary = "skipped (no credentials)";
     res.ms = Date.now() - t0;
     return res;
   }
@@ -108,10 +125,19 @@ async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise
     files = await c.pull({ from: opts.from, to: opts.to, mock: !!opts.mock });
   } catch (err) {
     res.error = message(err);
+    res.outcome = "error";
+    res.summary = `error: ${res.error}`;
     res.ms = Date.now() - t0;
     return res;
   }
-  if (files.length === 0) res.reason = "no files for this range";
+  if (files.length === 0) {
+    res.reason = "no files for this range";
+    res.outcome = "no_data";
+    res.summary = noData;
+  } else {
+    res.outcome = "pulled";
+    res.summary = `pulled ${files.length} file${files.length === 1 ? "" : "s"}`;
+  }
 
   for (const f of files) {
     const out = emptyFile(f.fileName);
@@ -126,6 +152,7 @@ async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise
         db,
         uploadedAt: opts.uploadedAt?.(c.sourceId, f.fileName),
         isSynthetic: !!opts.mock,
+        archive: opts.archive?.(c.sourceId, f.fileName),
       });
       Object.assign(out, {
         status: s.status,

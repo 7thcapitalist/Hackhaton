@@ -2,7 +2,7 @@
  * Local folders the connectors read:
  *  - data/inbox/<source_id>/    drop folder fed by scheduled emails or humans
  *  - data/fixtures/<source_id>/ mock data generated for the demo (another lane)
- *  - src/sources/__samples__/   parser samples (last-resort mock data)
+ *  - src/sources/__samples__/   parser samples (parser checks only; never pulled)
  *
  * Mock fixture set (useMockFixtures): the seed / demo reset hands the
  * connectors an in-memory set of fixture files (the committed data/fixtures,
@@ -63,9 +63,16 @@ export function useMockFixtures(files: MockFixtureFile[] | null): () => void {
   };
 }
 
-/** True while an in-memory fixture set is active: mocks must not invent data. */
+/**
+ * True when mocks must not invent data: they return only what the fixture set
+ * holds for the requested days, nothing for other days. This is the default,
+ * so a mock pull (e.g. the daily cron with CONNECTORS_MOCK=1) can never write
+ * generated rows or parser samples into a curated database. Generated mock
+ * data is opt-in for local dev with CONNECTORS_MOCK_GENERATE=1, and never
+ * while an in-memory fixture set (seed / demo reset) is active.
+ */
 export function fixturesOnly(): boolean {
-  return memSet !== null;
+  return memSet !== null || process.env.CONNECTORS_MOCK_GENERATE?.trim() !== "1";
 }
 
 /** Every fixture file of a source (in-memory set, else data/fixtures/<source_id>/). */
@@ -86,14 +93,6 @@ function tableOf(f: LocalFile): Promise<RawTable> {
     tableCache.set(f.path, t);
   }
   return t;
-}
-
-/** Parser samples whose file name starts with the source id (top level and other/). */
-export function sampleFiles(sourceId: string): LocalFile[] {
-  const root = join(process.cwd(), "src", "sources", "__samples__");
-  return [...listFiles(root), ...listFiles(join(root, "other"))]
-    .filter((f) => f.name.startsWith(`${sourceId}_`))
-    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /** Orders a file parser reads from fixture files covering `day` (empty when none). */
