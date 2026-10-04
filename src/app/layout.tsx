@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NoData } from "@/components/NoData";
 import { Sidebar } from "@/components/Sidebar";
+import { ChatBubble } from "@/components/chat/ChatBubble";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { getDataRange, getSourcesScreen, periodShort, summarizeSources } from "./_lib/data";
 import { formatDay, formatStamp } from "./_lib/format";
@@ -43,6 +44,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             {range ? children : <NoData />}
           </main>
         </div>
+        <ChatBubble />
       </body>
     </html>
   );
