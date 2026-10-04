@@ -349,16 +349,23 @@ const WHY_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 7.3v3.4M8
  *
  * Round 8 (Ryan: trim it to 5-6 lines): one sentence per branch, still naming the real cause and
  * the real numbers. Baseline is the typical same weekday (#64). The "barely changed" clauses are
- * only added when the other factor really moved less than 10%. */
+ * only added when the other factor really moved less than 10%.
+ *
+ * Round 9 (2026-10-04, Ryan: this card is the first thing judges see — the why-text reads too
+ * short/thin for that, make it a bit bigger): folded the headline swing's own percentage into
+ * each sentence (it was only ever shown above, in the headline, not inside the explanation
+ * itself) and added the dollar total to the "no previous orders" branch, so every branch now
+ * carries both a magnitude and a cause instead of cause alone. */
 function moverExplanation(mover: Mover, driver: Driver | null, label: string, vs: MoverVs, now: string): string {
   const upWord = mover.pct >= 0 ? "grew" : "dropped";
+  const pct = Math.abs(mover.pct).toFixed(1);
   if (driver) {
     const driverVerb = driver.deltaCents >= 0 ? "rose" : "fell";
-    return `${label} ${upWord} mainly because of ${driver.label}: its sales ${driverVerb} ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${vs.typical}, the biggest swing in the same direction.`;
+    return `${label} ${upWord} ${pct}% mainly because of ${driver.label}: its sales ${driverVerb} ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${vs.typical}, the biggest swing behind this move.`;
   }
   if (mover.previousOrders === 0) {
     const isOne = mover.currentOrders === 1;
-    return `${label} had no orders on ${vs.typical}, so all ${formatInt(mover.currentOrders)} order${isOne ? "" : "s"} ${now} ${isOne ? "is" : "are"} new activity.`;
+    return `${label} had no orders on ${vs.typical}, so all ${formatInt(mover.currentOrders)} order${isOne ? "" : "s"} ${now} ${isOne ? "is" : "are"} new activity, worth ${formatMoneyCompact(mover.currentCents)}.`;
   }
   const avgPrev = mover.previousCents / mover.previousOrders;
   const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
@@ -367,9 +374,9 @@ function moverExplanation(mover: Mover, driver: Driver | null, label: string, vs
   const steady = (a: number, b: number) => b > 0 && Math.abs(a - b) / b < 0.1; // the other factor barely moved
   if (Math.abs(ordersEffect) >= Math.abs(avgEffect)) {
     const more = mover.currentOrders >= mover.previousOrders ? "more" : "fewer";
-    return `${label} ${upWord} mainly because ${more} orders came in: ${formatAvg(mover.previousOrders)} on ${vs.typical}, ${formatInt(mover.currentOrders)} ${now}${steady(avgCur, avgPrev) ? ", while the typical order size barely changed" : ""}.`;
+    return `${label} ${upWord} ${pct}% mainly because ${more} orders came in: ${formatAvg(mover.previousOrders)} on ${vs.typical}, ${formatInt(mover.currentOrders)} ${now}${steady(avgCur, avgPrev) ? ", while the typical order size barely changed" : ""}.`;
   }
-  return `${label} ${upWord} mainly because of order size: the typical order went from ${formatMoney(avgPrev)} on ${vs.typical} to ${formatMoney(avgCur)} ${now}${steady(mover.currentOrders, mover.previousOrders) ? ", while order volume held steady" : ""}.`;
+  return `${label} ${upWord} ${pct}% mainly because of order size: the typical order went from ${formatMoney(avgPrev)} on ${vs.typical} to ${formatMoney(avgCur)} ${now}${steady(mover.currentOrders, mover.previousOrders) ? ", while order volume held steady" : ""}.`;
 }
 
 /** How the mover cards name their baseline: `short` in the headline sentence, `typical` inside the "why" text. */

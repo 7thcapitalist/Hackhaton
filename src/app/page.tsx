@@ -1,7 +1,7 @@
 import { getOrders, ORDERS_MAX_LIMIT, type OrdersView } from "@/lib/views";
 import { addDays, previousPeriod } from "@/lib/views/dates";
 import { ButtonLink } from "@/components/Button";
-import { BarsIcon, CheckIcon, DatabaseIcon, PulseIcon } from "@/components/icons";
+import { BarsIcon, CheckIcon, DatabaseIcon, FileIcon, PulseIcon } from "@/components/icons";
 import { SourceStrip } from "@/components/SourceStrip";
 import { customerKeyOf, getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
 import { formatStampFull } from "./_lib/format";
@@ -36,19 +36,6 @@ function rawOrderLike(o: OrdersView["rows"][number]): OrderLike {
   };
 }
 
-/** Every order in a period, ungrouped — for the Overview hero's Daily/Monthly toggle. A full
- * month runs several thousand rows (getOrders caps at ORDERS_MAX_LIMIT=1000 per call), so this
- * pages through it rather than silently truncating to the first page: fetch page 1, read the
- * real total off it, then fetch whatever's left in parallel. */
-async function getAllOrdersForPeriod(period: string): Promise<OrdersView["rows"]> {
-  const first = await getOrders({ period, limit: ORDERS_MAX_LIMIT, offset: 0 });
-  const offsets: number[] = [];
-  for (let offset = ORDERS_MAX_LIMIT; offset < first.total; offset += ORDERS_MAX_LIMIT) offsets.push(offset);
-  if (offsets.length === 0) return first.rows;
-  const rest = await Promise.all(offsets.map(offset => getOrders({ period, limit: ORDERS_MAX_LIMIT, offset })));
-  return [first.rows, ...rest.map(r => r.rows)].flat();
-}
-
 export default async function OverviewPage() {
   const range = (await getDataRange())!; // the layout shows NoData when null
   const latest = range.completeDate;
@@ -67,17 +54,21 @@ export default async function OverviewPage() {
   // the first of those is one week back, which cmpOrders reuses so a filtered view can still
   // show the hero's "vs last week" comparison.
   // Monthly overview toggle (OverviewHero.tsx): the same card language as Daily, but over
-  // `period` (the last complete month) vs. the month before it — getAllOrdersForPeriod pages
-  // through the full month rather than capping at ORDERS_MAX_LIMIT like the single-day fetches
-  // below can get away with.
+  // `period` (the last complete month) vs. the month before it. 2026-10-04 (code review on
+  // #67, Joao): the first version fetched both full months here and shipped every row to the
+  // client on every Overview visit — ~11k rows, 320KB -> 2.9MB, 0.17s -> ~1s locally plus ~12
+  // extra Turso round-trips in production, paid on every load whether or not anyone ever opens
+  // Monthly. Fixed by loading Monthly on demand instead: only the period strings go down here
+  // (string formatting, no DB cost); OverviewHero fetches the actual rows client-side, through
+  // the existing GET /api/views/orders?period=... route, the first time someone switches to
+  // Monthly — so Daily's cost on every load is back to exactly what it was before this toggle
+  // existed.
   const monthPeriod = period;
   const monthPrevPeriod = previousPeriod(period);
 
   const weekdayDates = [1, 2, 3, 4].map(k => addDays(latest, -7 * k)).filter(d => d >= range.earliestDate);
-  const [ordersRaw, monthRaw, monthPrevRaw, ...earlierRaw] = await Promise.all([
+  const [ordersRaw, ...earlierRaw] = await Promise.all([
     getOrders({ date: latest, limit: ORDERS_MAX_LIMIT }),
-    getAllOrdersForPeriod(monthPeriod),
-    getAllOrdersForPeriod(monthPrevPeriod),
     ...weekdayDates.map(d => getOrders({ date: d, limit: ORDERS_MAX_LIMIT })),
   ]);
   const orders: OrderLike[] = ordersRaw.rows.map(rawOrderLike);
@@ -85,11 +76,7 @@ export default async function OverviewPage() {
   const cmpOrders: OrderLike[] | null = cmpOrdersRaw ? cmpOrdersRaw.rows.map(rawOrderLike) : null;
   // A day with no orders at all is a day with no files (a missing day is not a $0 day), so it's left out of the average.
   const moverBaseline = earlierRaw.filter(v => v.rows.length > 0).map(v => v.rows.map(rawOrderLike));
-  const monthOrders: OrderLike[] = monthRaw.map(rawOrderLike);
-  const monthPrevOrders: OrderLike[] = monthPrevRaw.map(rawOrderLike);
-  // Union of today's and this month's marketplaces, so switching to Monthly never hides an
-  // option that only shows up over the month, not today.
-  const presentKeys = new Set([...ordersRaw.rows, ...monthRaw].map(marketKeyOf));
+  const presentKeys = new Set(ordersRaw.rows.map(marketKeyOf));
   const channelOptions = MARKET_ORDER.filter(id => presentKeys.has(id)).map(id => ({ id, label: MARKET_THEME[id].label }));
 
   const SOURCES = sourcesData.sources;
@@ -128,8 +115,8 @@ export default async function OverviewPage() {
         cmpOrders={cmpOrders}
         moverBaseline={moverBaseline}
         weekday={weekdayOf(latest)}
-        monthOrders={monthOrders}
-        monthPrevOrders={monthPrevOrders}
+        monthPeriod={monthPeriod}
+        monthPrevPeriod={monthPrevPeriod}
         monthLabel={periodLabel(monthPeriod)}
         monthPrevLabel={periodLabel(monthPrevPeriod)}
       />
@@ -140,6 +127,7 @@ export default async function OverviewPage() {
           <ButtonLink href="/pulse" variant="secondary" icon={<PulseIcon className="size-3.5" />}>Daily Pulse</ButtonLink>
           <ButtonLink href="/scorecard" variant="secondary" icon={<BarsIcon className="size-3.5" />}>Monthly report</ButtonLink>
           <ButtonLink href="/sources" variant="secondary" icon={<DatabaseIcon className="size-3.5" />}>Data Sources</ButtonLink>
+          <ButtonLink href="/close" variant="secondary" icon={<FileIcon className="size-3.5" />}>Month-end Close</ButtonLink>
         </div>
       </nav>
     </div>
