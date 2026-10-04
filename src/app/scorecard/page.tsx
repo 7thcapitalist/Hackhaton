@@ -11,6 +11,7 @@ import { RepeatBuyersChart } from "@/components/scorecard/RepeatBuyersChart";
 import { RevenuePaceChart } from "@/components/scorecard/RevenuePaceChart";
 import { ScorecardTable } from "@/components/scorecard/ScorecardTable";
 import { getScorecardCharts } from "../_lib/scorecard-charts";
+import { KEY_KPI_IDS } from "./kpiFormat";
 import { getDataRange, getScorecardScreen, getSourcesScreen, periodLabel, periodShort, resolvePeriod, summarizeSources } from "../_lib/data";
 import { formatDay, formatStampFull } from "../_lib/format";
 import { periodBounds, previousPeriod } from "@/lib/views/dates";
@@ -25,7 +26,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
   const [{ kpis, rows, categories, marketplaceMetrics, totalRevenueCents }, sourcesData, charts] = await Promise.all([
     screen, getSourcesScreen(range, period), getScorecardCharts(range, period, screen.then(s => s.kpis)),
   ]);
-  const anchors = kpis.filter(k => k.anchor2027);
+  const keyKpis = KEY_KPI_IDS.map(id => kpis.find(k => k.id === id)).filter(k => k != null);
   const src = summarizeSources(sourcesData.sources);
   const i = range.periods.indexOf(period);
   const through = [periodBounds(period).end, range.latestDate].sort()[0];
@@ -54,7 +55,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
         </div>
       </header>
 
-      <KeyKpiCards kpis={anchors} prevMonth={prevMonth} />
+      <KeyKpiCards kpis={keyKpis} prevMonth={prevMonth} />
 
       <section aria-labelledby="pillars-title" className="flex flex-col gap-2.5">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">

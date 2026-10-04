@@ -22,8 +22,8 @@ export interface KpiDefinition {
   pillar: Kpi["pillar"];
   unit: Kpi["unit"];
   group: Kpi["group"];
-  /** Slide where Goodwill lists the KPI. */
-  slide: 33 | 34 | 35;
+  /** Slide where Goodwill lists the KPI (absent for KPIs the team added that aren't on the slides). */
+  slide?: 33 | 34 | 35;
   anchor2027: boolean;
   /** Which way is good: true = a higher value is better, false = lower is better (days, backlog). Required so no KPI is colored the wrong way. */
   higherIsBetter: boolean;
@@ -150,6 +150,9 @@ export const KPI_DEFINITIONS: KpiDefinition[] = [
   { id: "csat", label: "Customer Satisfaction Rating", pillar: "category_customer", unit: "ratio", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.csat(f), note: "Average across channels (weighted by sample size when known); per channel in marketplaceMetrics[]." },
   { id: "nps", label: "Net Promoter Score", pillar: "category_customer", unit: "ratio", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.nps(f), note: "−100 to 100. Average across channels; per channel in marketplaceMetrics[]." },
   { id: "marketplace_conversion", label: "Marketplace Conversion", pillar: "category_customer", unit: "percent", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.marketplaceConversion(f), note: "Average across channels; per channel in marketplaceMetrics[]." },
+
+  // ---- Not on the slides: a key card on the Monthly report ------------------
+  { id: "total_orders", label: "Total Orders", pillar: "sales", unit: "count", group: "extended", anchor2027: false, higherIsBetter: true, dataBasis: "orders", compute: (f) => F.totalOrders(f), note: "Non-cancelled orders in the period." },
 ];
 
 /** The three 2027 plan anchors (slide 36). */

@@ -20,6 +20,11 @@ export function totalRevenue(f: PeriodFacts): number | null {
   return f.orders ? f.orders.netCents : null;
 }
 
+/** total_orders = non-cancelled order lines in the period (the Daily Pulse "Orders" count, summed over the month). */
+export function totalOrders(f: PeriodFacts): number | null {
+  return f.orders ? f.orders.orderCount : null;
+}
+
 /**
  * revenue_growth_pct (slide 33 asks YoY):
  * - YoY when the same month last year has orders:

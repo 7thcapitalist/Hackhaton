@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Kpi, Pillar } from "@/app/_lib/types";
 import { formatKpiShort } from "@/app/_lib/format";
-import { CHANGE_TONE, PILLARS, STATUS_META, countsLabel, formatTarget, formatValue, kpiChange, kpiStatus, statusCounts, type StatusCounts } from "@/app/scorecard/kpiFormat";
+import { CHANGE_TONE, KEY_KPI_IDS, PILLARS, STATUS_META, countsLabel, formatTarget, formatValue, kpiChange, kpiStatus, statusCounts, type StatusCounts } from "@/app/scorecard/kpiFormat";
 import { Tooltip } from "../Tooltip";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { EstMarker } from "./EstMarker";
@@ -14,7 +14,8 @@ type ScorecardTableProps = {
   charts?: Partial<Record<Pillar, ReactNode>>;
 };
 
-export const KEY_KPI_HINT = "One of the three KPIs Goodwill's 2027 plan is built around.";
+export const KEY_KPI_HINT = "One of the three key KPIs at the top of this report.";
+const KEY_IDS = new Set<string>(KEY_KPI_IDS);
 export const TEAM_LEVEL_NOTE = "Team-level, for capacity planning.";
 
 // Desktop: one table per pillar with the same fixed column widths, so columns line up across cards.
@@ -100,7 +101,7 @@ function KpiRow({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
       <th scope="row" className={`${cell} text-left font-normal max-sm:row-start-1`}>
         <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-0.5">
           <span className="font-medium text-ink">{k.label}</span>
-          {k.anchor2027 && <span className="rounded-[4px] bg-accent-soft px-1.5 text-[11px] leading-[17px] font-semibold whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
+          {KEY_IDS.has(k.id) && <span className="rounded-[4px] bg-accent-soft px-1.5 text-[11px] leading-[17px] font-semibold whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
           {note && <InfoTip text={note} label={k.label} />}
         </span>
       </th>
