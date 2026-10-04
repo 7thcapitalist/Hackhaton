@@ -394,9 +394,9 @@ function MoverCard({ title, movers, comparedTo, describeKey, driver = null, them
     <div className="flex flex-col gap-1.5 rounded-[14px] border border-line bg-surface p-3.5" style={active ? { borderColor: theme.line } : undefined}>
       <CardTitle icon={<PulseIcon className="size-3.5" />} theme={theme}>{title}</CardTitle>
       {!mover ? (
-        <div className="flex flex-1 items-center gap-2.5 rounded-[12px] border border-line bg-muted-soft p-3 text-[13.5px] text-ink-2">
-          <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-full bg-surface text-ink-3">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
+        <div className="flex flex-1 items-center gap-2 rounded-[10px] border border-line bg-muted-soft p-2.5 text-[13.5px] text-ink-2">
+          <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full bg-surface text-ink-3">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden><path d={WHY_ICON} /></svg>
           </span>
           <p>Not enough data yet to compare — there&apos;s no prior period to measure this slice against.</p>
         </div>
@@ -427,9 +427,15 @@ function MoverCard({ title, movers, comparedTo, describeKey, driver = null, them
               })}
             </ul>
           )}
-          <div className="flex flex-1 items-center gap-2.5 rounded-[12px] border p-3" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
-            <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
+          {/* Round 9 (Ryan: the box, not the text, reads too big): tighter padding and a
+              smaller icon badge — same text size as before, just less box around it. flex-1
+              still does the structural no-blank-space work (round 7b/8); it just has less
+              leftover row-height to fill now that RankCard/StatCard are trimmed down near
+              MoverCard's own natural height (round 8), so it rarely has to grow far past this
+              tighter natural size in the first place. */}
+          <div className="flex flex-1 items-center gap-2 rounded-[10px] border p-2.5" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
+            <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden><path d={WHY_ICON} /></svg>
             </span>
             <p className="text-[13.5px] leading-snug text-ink-2">
               <span className="block text-[12px] font-semibold tracking-wide text-ink">Why this happened</span>
