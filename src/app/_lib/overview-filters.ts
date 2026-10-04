@@ -33,6 +33,15 @@ export function bucketBy(rows: OrderLike[], keyOf: (o: OrderLike) => string): Bu
     .sort((a, b) => b.revenueCents - a.revenueCents);
 }
 
+/** The typical day across several earlier days (2026-10-04: the mover card compares against
+ * the same weekday over the last 4 weeks, like Daily Pulse, instead of one day a week back):
+ * each key's revenue and live orders summed over all `days`, divided by the day count, so a
+ * key with no sales on one of those days counts that day as $0. */
+export function averageBuckets(days: OrderLike[][], keyOf: (o: OrderLike) => string): Bucket[] {
+  const n = Math.max(1, days.length);
+  return bucketBy(days.flat(), keyOf).map(b => ({ key: b.key, revenueCents: b.revenueCents / n, orders: b.orders / n }));
+}
+
 // previousCents/currentOrders/previousOrders ride alongside pct/currentCents so a mover card
 // can explain *why* a number moved, not just restate the percentage — see biggestDriver below
 // and MoverCard's order-count-vs-order-value fallback (round 7, Ryan: the explainer box was
@@ -76,13 +85,14 @@ export type Driver = { label: string; deltaCents: number };
  * break down by (fewer than 2 sub-buckets across both periods, or no comparison data at all) —
  * callers fall back to an orders-vs-order-value explanation in that case. */
 export function biggestDriver(
-  current: OrderLike[], previous: OrderLike[] | null,
+  current: OrderLike[], previousDays: OrderLike[][],
   filterKey: (o: OrderLike) => string, filterValue: string,
   breakdownKey: (o: OrderLike) => string,
+  direction: 1 | -1 = 1, // sign of the headline swing: only a sub-bucket moving the same way can explain it
 ): Driver | null {
-  if (!previous) return null;
+  if (previousDays.length === 0) return null;
   const curBuckets = bucketBy(current.filter(o => filterKey(o) === filterValue), breakdownKey);
-  const prevBuckets = bucketBy(previous.filter(o => filterKey(o) === filterValue), breakdownKey);
+  const prevBuckets = averageBuckets(previousDays.map(day => day.filter(o => filterKey(o) === filterValue)), breakdownKey);
   const allKeys = new Set([...curBuckets.map(b => b.key), ...prevBuckets.map(b => b.key)]);
   if (allKeys.size < 2) return null;
   const curByKey = new Map(curBuckets.map(b => [b.key, b.revenueCents]));
@@ -90,6 +100,7 @@ export function biggestDriver(
   let best: Driver | null = null;
   for (const key of allKeys) {
     const deltaCents = (curByKey.get(key) ?? 0) - (prevByKey.get(key) ?? 0);
+    if (deltaCents * direction <= 0) continue;
     if (!best || Math.abs(deltaCents) > Math.abs(best.deltaCents)) best = { label: key, deltaCents };
   }
   return best;
