@@ -59,16 +59,17 @@ export function kpiChange(k: Pick<Kpi, "unit" | "value" | "previous" | "higherIs
   const d = value - previous;
   let amount: number, unitText: string;
   if (unit === "percent") { amount = d; unitText = " pts"; }
+  else if (unit === "score") { amount = d; unitText = ""; } // CSAT / NPS move in their own units
   else if (previous === 0) return null;
   else { amount = (d / Math.abs(previous)) * 100; unitText = "%"; }
-  const shown = Math.abs(amount).toFixed(1);
-  if (shown === "0.0") return { text: "flat", tone: "flat", spoken: "flat vs prior month" };
+  const shown = Math.abs(amount).toFixed(unit === "score" ? 2 : 1);
+  if (Number(shown) === 0) return { text: "flat", tone: "flat", spoken: "flat vs prior month" };
   const up = d > 0;
   const tone = up === higher(k) ? "good" : "bad";
   return {
     text: `${up ? "↑" : "↓"} ${shown}${unitText}`,
     tone,
-    spoken: `${up ? "up" : "down"} ${shown}${unitText === "%" ? " percent" : " points"} vs prior month, ${tone === "good" ? "an improvement" : "a decline"}`,
+    spoken: `${up ? "up" : "down"} ${shown}${unitText === "%" ? " percent" : unitText ? " points" : ""} vs prior month, ${tone === "good" ? "an improvement" : "a decline"}`,
   };
 }
 
