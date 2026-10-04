@@ -18,7 +18,7 @@ export function StatusBadge({ status, count, label, size = "md" }: { status: Bad
   const text = label ?? (status === "warnings" && count ? `${count} warning${count > 1 ? "s" : ""}` : c.label);
   const sizing = size === "sm" ? "gap-[5px] py-px pr-[7px] pl-1.5 text-[11px]" : "gap-1.5 py-0.5 pr-2 pl-1.5 text-[11.5px]";
   return (
-    <span className={`inline-flex shrink-0 items-center rounded-[4px] font-medium whitespace-nowrap ${sizing} ${c.tone}`}>
+    <span className={`inline-flex shrink-0 items-center rounded-full font-semibold whitespace-nowrap ${sizing} ${c.tone}`}>
       {c.mark}
       {text}
     </span>

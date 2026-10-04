@@ -22,7 +22,7 @@ export function WorkbookUpload({ period, workbook, disabled }: { period: string;
   };
 
   return (
-    <div data-print-hide className="flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-lg border-[1.5px] border-dashed border-ink-4 bg-surface px-4 py-3">
+    <div data-print-hide className="flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-xl border-[1.5px] border-dashed border-ink-4 bg-surface px-4 py-3">
       <span className="grid size-8 shrink-0 place-items-center rounded-lg border border-line bg-surface text-accent"><UploadIcon className="size-4" /></span>
       <div className="flex min-w-0 flex-1 flex-col">
         <p className="text-[13px] font-semibold">Load last month&apos;s allocation workbook</p>

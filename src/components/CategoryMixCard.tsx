@@ -10,7 +10,7 @@ export function CategoryMixCard({ mix, dateLabel }: { mix: CategoryMix; dateLabe
   const max = Math.max(...shown.flatMap(r => [r.sharePct, r.typicalSharePct ?? 0]), 1) * 1.1;
   const usual = mix.baselineDays > 0 ? `the last ${mix.baselineDays} ${mix.weekday}s` : null;
   return (
-    <section aria-labelledby="mix-title" className="flex min-w-0 flex-col gap-3 rounded-lg border border-line bg-surface px-5 py-4 sm:px-6">
+    <section aria-labelledby="mix-title" className="flex min-w-0 flex-col gap-3 rounded-xl border border-line bg-surface px-5.5 py-5 shadow-xs">
       <header className="flex flex-col gap-0.5">
         <h2 id="mix-title" className="text-[15px] font-semibold">Category mix · {dateLabel}</h2>
         <p className="text-[12.5px] text-ink-3">
@@ -38,11 +38,11 @@ function MixRow({ row: r, max, muted = false, as: Tag = "li" }: { row: CategoryM
     // Phones: name and numbers on one line, the bar full width under them. Wider: one line.
     <Tag className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1.5 text-[13px] sm:grid-cols-[minmax(0,140px)_minmax(0,1fr)_auto]">
       <span className={`col-start-1 row-start-1 min-w-0 font-medium text-pretty ${muted ? "text-ink-2" : "text-ink"}`}>{r.category}</span>
-      <span className="relative col-span-2 row-start-2 h-1.5 rounded-[1px] bg-surface-2 sm:col-span-1 sm:col-start-2 sm:row-start-1" role="img"
+      <span className="relative col-span-2 row-start-2 h-2 rounded-full bg-surface-2 sm:col-span-1 sm:col-start-2 sm:row-start-1" role="img"
         aria-label={`${Math.round(r.sharePct)}% of revenue${r.typicalSharePct != null ? `, usually ${Math.round(r.typicalSharePct)}%` : ""}`}>
-        <span className="absolute inset-y-0 left-0 rounded-[1px]" style={{ width: `${(Math.max(0, r.sharePct) / max) * 100}%`, background: muted ? "var(--ink4)" : "var(--accent)" }} />
+        <span className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${(Math.max(0, r.sharePct) / max) * 100}%`, background: muted ? "var(--ink4)" : "var(--accent)" }} />
         {r.typicalSharePct != null && (
-          <span aria-hidden className="absolute -top-1 -bottom-1 w-0.5 bg-ink" style={{ left: `calc(${(r.typicalSharePct / max) * 100}% - 1px)` }} />
+          <span aria-hidden className="absolute -top-1 -bottom-1 w-0.5 rounded-full bg-ink" style={{ left: `calc(${(r.typicalSharePct / max) * 100}% - 1px)` }} />
         )}
       </span>
       <span className="col-start-2 row-start-1 flex items-baseline justify-end gap-2 whitespace-nowrap tabular-nums sm:col-start-3">

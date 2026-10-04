@@ -79,7 +79,6 @@ export function biggestDriver(
   current: OrderLike[], previous: OrderLike[] | null,
   filterKey: (o: OrderLike) => string, filterValue: string,
   breakdownKey: (o: OrderLike) => string,
-  direction: 1 | -1 = 1, // sign of the headline swing: only a sub-bucket moving the same way can explain it
 ): Driver | null {
   if (!previous) return null;
   const curBuckets = bucketBy(current.filter(o => filterKey(o) === filterValue), breakdownKey);
@@ -91,7 +90,6 @@ export function biggestDriver(
   let best: Driver | null = null;
   for (const key of allKeys) {
     const deltaCents = (curByKey.get(key) ?? 0) - (prevByKey.get(key) ?? 0);
-    if (deltaCents * direction <= 0) continue;
     if (!best || Math.abs(deltaCents) > Math.abs(best.deltaCents)) best = { label: key, deltaCents };
   }
   return best;

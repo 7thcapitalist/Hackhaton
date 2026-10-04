@@ -1,47 +1,48 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* White and Goodwill Blue (docs/design/goodwill-theme.md). Token names are shared with other
-   lanes: keep them, change values. One accent (Goodwill Blue #01529C), cool neutral grays,
-   status colors only for status. Structure comes from hairlines, not shadows. */
+/* Goodwill Michiana theme (docs/design/goodwill-theme.md). Token names are shared with other
+   lanes, keep them; values follow goodwill-ni.org: Goodwill Blue #01529C, yellow #F4D152,
+   pale blue-gray #ECF1F5. */
 :root {
-  --bg: #ffffff; --surface: #ffffff; --surface2: #f6f8fa; --line: #e3e7ec; --line2: #eef1f4;
-  --ink: #0e1726; --ink2: #3d4756; --ink3: #5b6574; --ink4: #a3abb6;
-  --accent: #01529c; --accent-ink: #ffffff; --accent-soft: #eef4fb; --accent-line: #c3d6ec;
-  --ok: #1d7148; --ok-soft: #ecf6f0; --warn: #8a5300; --warn-icon: #b86e00; --warn-soft: #fbf3e4;
-  --bad: #b42318; --bad-soft: #fcefee; --muted: #5b6574; --muted-soft: #f1f3f6;
-  --s1: #01529c; --s2: #5b8cc4; --s3: #a9c3e2; --s4: #dfe6ee;
-  /* Marketplace series. ShopGoodwill wears Goodwill Blue. Validated with the dataviz
-     validator, all pairs, on #ffffff: band, CVD (worst protan 11.8) and normal-vision (15.9)
-     pass; "Other" is a deliberate neutral (fails chroma on purpose, it should recede). */
-  --mk-shopgoodwill: #01529c; --mk-amazon: #e08a2e; --mk-ebay: #15876a; --mk-other: #9aa0a8; --mk-books: #8a63d2;
-  /* --brand is the accent; --brand-yellow is retired (kept as a name, mapped to blue).
-     --rail* now describe a near-white sidebar with a hairline edge, not a blue band. */
-  --brand: #01529c; --brand-yellow: #01529c;
-  --rail: #fafbfc; --rail-ink: #0e1726; --rail-ink2: #3d4756; --rail-ink3: #5b6574;
-  --rail-hover: #eff2f5; --rail-line: #e3e7ec; --rail-ok: #1d7148;
-  --shadow: 0 0 #0000; --shadow-pop: 0 1px 2px rgba(14, 23, 38, 0.06), 0 8px 24px rgba(14, 23, 38, 0.1); --scrim: rgba(14, 23, 38, 0.32);
+  --bg: #f1f4f8; --surface: #ffffff; --surface2: #ecf1f5; --line: #d8e0e9; --line2: #e6ecf2;
+  --ink: #0e1a28; --ink2: #3a4859; --ink3: #556375; --ink4: #9aa7b6;
+  --accent: #01529c; --accent-ink: #ffffff; --accent-soft: #e3edf7; --accent-line: #b3cbe5;
+  --ok: #1b6b45; --ok-soft: #e3f1e9; --warn: #8a4b00; --warn-icon: #c2650a; --warn-soft: #fceedd;
+  --bad: #b42318; --bad-soft: #fdeceb; --muted: #556375; --muted-soft: #ebeff4;
+  --s1: #01529c; --s2: #4c86c4; --s3: #9dbfe3; --s4: #d3dce6;
+  /* Marketplace hues (Daily Pulse chart + table dots, Overview filter). ShopGoodwill wears
+     Goodwill Blue. Validated with the dataviz validator, all pairs, light + dark: CVD and
+     normal-vision floors pass; "Other" is a deliberate neutral (fails chroma on purpose). */
+  --mk-shopgoodwill: #01529c; --mk-amazon: #eea055; --mk-ebay: #1d7a5c; --mk-other: #9a958e; --mk-books: #9b5a7a;
+  /* Brand moments: the blue rail (sidebar / mobile header) and the yellow marker. */
+  --brand: #01529c; --brand-yellow: #f4d152;
+  --rail: #01529c; --rail-ink: #ffffff; --rail-ink2: #e4edf7; --rail-ink3: #dce7f3;
+  --rail-hover: rgba(255, 255, 255, 0.1); --rail-line: rgba(255, 255, 255, 0.2); --rail-ok: #9fe0bb;
+  --shadow: 0 1px 2px rgba(1, 40, 80, 0.06); --shadow-pop: 0 8px 24px rgba(1, 30, 60, 0.14); --scrim: rgba(8, 24, 44, 0.36);
   color-scheme: light;
 }
 .dark {
-  --bg: #0f1114; --surface: #15181d; --surface2: #1c2026; --line: #2a2f37; --line2: #22262d;
-  --ink: #e6e9ed; --ink2: #b8bfc8; --ink3: #8b94a0; --ink4: #59616c;
-  --accent: #6ea8ea; --accent-ink: #0f1114; --accent-soft: #172537; --accent-line: #29496f;
-  --ok: #5fcf95; --ok-soft: #12271d; --warn: #f0ae6a; --warn-icon: #f0ae6a; --warn-soft: #2a2015;
-  --bad: #f2918a; --bad-soft: #2c1817; --muted: #a2aab5; --muted-soft: #1f232a;
-  --s1: #6ea8ea; --s2: #4a7fbf; --s3: #2d5283; --s4: #2c333d;
-  /* Dark series, validated on #15181d (all pairs): band, CVD (worst 8.3) and normal-vision
-     (15.9) pass; "Other" is the deliberate neutral again. */
-  --mk-shopgoodwill: #2773c0; --mk-amazon: #c87a30; --mk-ebay: #3ca17b; --mk-other: #6b655e; --mk-books: #9d7fe3;
-  --brand: #6ea8ea; --brand-yellow: #6ea8ea;
-  --rail: #121418; --rail-ink: #e6e9ed; --rail-ink2: #b8bfc8; --rail-ink3: #8b94a0;
-  --rail-hover: #1c2026; --rail-line: #2a2f37; --rail-ok: #5fcf95;
-  --shadow: 0 0 #0000; --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.5); --scrim: rgba(0, 0, 0, 0.6);
+  --bg: #0b1420; --surface: #111c2a; --surface2: #172434; --line: #243447; --line2: #1b2a3b;
+  --ink: #e8eef5; --ink2: #b4c1d0; --ink3: #8e9db0; --ink4: #5a6a7e;
+  --accent: #7db4ee; --accent-ink: #0b1420; --accent-soft: #13304f; --accent-line: #24507f;
+  --ok: #6dd29c; --ok-soft: #11291d; --warn: #f0ae6a; --warn-icon: #f0ae6a; --warn-soft: #2e1f10;
+  --bad: #f2918a; --bad-soft: #2d1615; --muted: #a3afbe; --muted-soft: #1e2b3b;
+  --s1: #7db4ee; --s2: #4a84c6; --s3: #2a5487; --s4: #2c3a4b;
+  --mk-shopgoodwill: #2773c0; --mk-amazon: #c87a30; --mk-ebay: #3ca17b; --mk-other: #68625c; --mk-books: #c084a2;
+  --brand: #7db4ee;
+  --rail: #0f2b4a; --rail-ink: #ffffff; --rail-ink2: #d3deeb; --rail-ink3: #a9bcd3;
+  --rail-hover: rgba(255, 255, 255, 0.08); --rail-line: rgba(255, 255, 255, 0.12); --rail-ok: #6dd29c;
+  --shadow: none; --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.45); --scrim: rgba(0, 0, 0, 0.6);
   color-scheme: dark;
 }
 
-/* Sidebar / mobile header: a quiet near-white panel with a hairline edge. */
+/* The rail re-scopes the shared tokens, so Sidebar/ThemeToggle markup stays token-driven:
+   white ink on Goodwill Blue, translucent hover, yellow focus ring. */
 .rail {
+  --ink: var(--rail-ink); --ink2: var(--rail-ink2); --ink3: var(--rail-ink3);
+  --surface: var(--rail); --surface2: var(--rail-hover); --line: var(--rail-line);
+  --ok: var(--rail-ok); --accent: var(--brand-yellow);
   background-color: var(--rail);
   color: var(--rail-ink);
 }
@@ -58,9 +59,8 @@
   --color-s1: var(--s1); --color-s2: var(--s2); --color-s3: var(--s3); --color-s4: var(--s4);
   --color-brand: var(--brand); --color-brand-yellow: var(--brand-yellow);
   --shadow-xs: var(--shadow); --shadow-pop: var(--shadow-pop);
-  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
-  /* One family for everything; --font-display stays as a name so old classes keep working. */
-  --font-display: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), var(--font-figtree), ui-sans-serif, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
@@ -71,9 +71,9 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Condensed display face (stand-in for Goodwill's Atrament): page titles and hero numbers only. */
 @layer base {
-  h1 { font-weight: 600; letter-spacing: -0.015em; }
-  h2, h3 { letter-spacing: -0.005em; }
+  h1 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.005em; }
 }
 
 ::selection { background: var(--accent-soft); color: var(--ink); }
@@ -90,19 +90,25 @@ body {
 @media print {
   [data-print-hide] { display: none !important; }
   @page { size: landscape; margin: 10mm; }
-  /* Always print on white, even from dark mode: the light values. */
+  /* Always print on white, even from dark mode: same tokens as :root. */
   .dark {
-    --bg: #ffffff; --surface: #ffffff; --surface2: #f6f8fa; --line: #e3e7ec; --line2: #eef1f4;
-    --ink: #0e1726; --ink2: #3d4756; --ink3: #5b6574; --ink4: #a3abb6;
-    --accent: #01529c; --accent-ink: #ffffff; --accent-soft: #eef4fb; --accent-line: #c3d6ec;
-    --ok: #1d7148; --ok-soft: #ecf6f0; --warn: #8a5300; --warn-icon: #b86e00; --warn-soft: #fbf3e4;
-    --bad: #b42318; --bad-soft: #fcefee; --muted: #5b6574; --muted-soft: #f1f3f6;
-    --s1: #01529c; --s2: #5b8cc4; --s3: #a9c3e2; --s4: #dfe6ee;
-    --mk-shopgoodwill: #01529c; --mk-amazon: #e08a2e; --mk-ebay: #15876a; --mk-other: #9aa0a8; --mk-books: #8a63d2;
-    --brand: #01529c; --brand-yellow: #01529c;
-    --shadow: 0 0 #0000; --scrim: rgba(14, 23, 38, 0.32);
-    color-scheme: light;
-  }
+  --bg: #f1f4f8; --surface: #ffffff; --surface2: #ecf1f5; --line: #d8e0e9; --line2: #e6ecf2;
+  --ink: #0e1a28; --ink2: #3a4859; --ink3: #556375; --ink4: #9aa7b6;
+  --accent: #01529c; --accent-ink: #ffffff; --accent-soft: #e3edf7; --accent-line: #b3cbe5;
+  --ok: #1b6b45; --ok-soft: #e3f1e9; --warn: #8a4b00; --warn-icon: #c2650a; --warn-soft: #fceedd;
+  --bad: #b42318; --bad-soft: #fdeceb; --muted: #556375; --muted-soft: #ebeff4;
+  --s1: #01529c; --s2: #4c86c4; --s3: #9dbfe3; --s4: #d3dce6;
+  /* Marketplace hues (Daily Pulse chart + table dots, Overview filter). ShopGoodwill wears
+     Goodwill Blue. Validated with the dataviz validator, all pairs, light + dark: CVD and
+     normal-vision floors pass; "Other" is a deliberate neutral (fails chroma on purpose). */
+  --mk-shopgoodwill: #01529c; --mk-amazon: #eea055; --mk-ebay: #1d7a5c; --mk-other: #9a958e; --mk-books: #9b5a7a;
+  /* Brand moments: the blue rail (sidebar / mobile header) and the yellow marker. */
+  --brand: #01529c; --brand-yellow: #f4d152;
+  --rail: #01529c; --rail-ink: #ffffff; --rail-ink2: #e4edf7; --rail-ink3: #dce7f3;
+  --rail-hover: rgba(255, 255, 255, 0.1); --rail-line: rgba(255, 255, 255, 0.2); --rail-ok: #9fe0bb;
+  --shadow: 0 1px 2px rgba(1, 40, 80, 0.06); --shadow-pop: 0 8px 24px rgba(1, 30, 60, 0.14); --scrim: rgba(8, 24, 44, 0.36);
+  color-scheme: light;
+}
   :root, .dark { --bg: #ffffff; }
   body { background: #fff; }
 }

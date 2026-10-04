@@ -41,9 +41,9 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
   const ok = rows.filter(r => r.status === "ok").sort((a, b) => (b.revenueCents ?? 0) - (a.revenueCents ?? 0));
   const missing = rows.filter(r => r.status === "missing");
   return (
-    <section className="overflow-hidden rounded-lg border border-line bg-surface">
+    <section className="overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
       <header className="border-b border-line px-4 py-4 sm:px-5.5">
-        <h2 className="text-[14px] font-semibold">By marketplace</h2>
+        <h2 className="text-[15px] font-semibold">By marketplace</h2>
       </header>
       <div className="overflow-x-auto">
         <div className="min-w-[720px]" role="table" aria-label={`Pulse by marketplace, ${dateLabel}`}>
@@ -93,7 +93,7 @@ function Label({ row, missing }: { row: PulseRow; missing?: boolean }) {
     <div className="flex min-w-0 items-center gap-3">
       <span className={`size-3 shrink-0 rounded-[3px] ${missing ? "border-[1.5px] border-dashed border-ink-4" : ""}`}
         style={missing ? undefined : { background: marketplaceColor(row.channelId) }} />
-      <span className={`text-[14px] font-medium text-pretty ${missing ? "text-ink-2" : "text-ink"}`}>{row.label}</span>
+      <span className={`text-[16px] font-semibold tracking-[-0.01em] text-pretty ${missing ? "text-ink-2" : "text-ink"}`}>{row.label}</span>
     </div>
   );
 }
@@ -102,7 +102,7 @@ function Share({ pct, color }: { pct: number; color: string }) {
   return (
     <div className="flex items-center gap-2.5 pl-3">
       <span className="w-9 shrink-0 text-[12.5px] text-ink-2 tabular-nums">{Math.round(pct)}%</span>
-      <div className="h-1 flex-1"><div className="h-full rounded-[1px]" style={{ width: `${Math.max(0, pct)}%`, background: color }} /></div>
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full" style={{ width: `${Math.max(0, pct)}%`, background: color }} /></div>
     </div>
   );
 }

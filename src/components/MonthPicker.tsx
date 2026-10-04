@@ -34,7 +34,7 @@ export function MonthPicker({ label, value, months, latest, hrefPrefix }: MonthP
     <div className="relative flex">
       <button ref={trigger} type="button" aria-haspopup="dialog" aria-expanded={open} aria-label={`${label}. Choose a month`}
         onClick={() => { if (open) return setOpen(false); setYear(Number(value.slice(0, 4))); setFocused(value); setOpen(true); }}
-        className="flex w-full items-center gap-2 px-3 text-[13px] font-medium whitespace-nowrap hover:bg-surface-2 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent">
+        className="flex w-full items-center gap-2 px-3.5 text-sm font-semibold whitespace-nowrap hover:bg-surface-2 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent">
         <CalendarIcon className="size-[15px] text-ink-3" />
         <span>{label}</span>
       </button>
