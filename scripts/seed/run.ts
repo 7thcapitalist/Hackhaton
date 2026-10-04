@@ -33,6 +33,7 @@ import type { Client, InArgs, InStatement } from "@libsql/client";
 import type { Db } from "../../src/db/client";
 import * as schema from "../../src/db/schema";
 import { pullAndIngest, type PulledFileResult } from "../../src/connectors";
+import { MOCK_API_KEY_PREFIX } from "../../src/archive";
 import { useMockFixtures } from "../../src/connectors/fixtures";
 import { checkCompleteness, type ArchiveMode } from "../../src/ingest";
 import { dateRange } from "../../src/lib/views/dates";
@@ -217,13 +218,17 @@ function uploadTimes(fixtures: SeedFixture[]) {
   };
 }
 
-/** Archive mode per pulled file: the fixture's repo path unless --archive. */
+/**
+ * Archive mode per pulled file, unless --archive: the fixture's repo path, or,
+ * for a mock API response the connector generated in memory (deterministic,
+ * reproducible from versioned code), the marker key `mock-api:<source>/<file>`.
+ */
 function archiveModes(fixtures: SeedFixture[], copy: boolean) {
   const byName = new Map(fixtures.map((f) => [fileNameOf(f.path), f.path]));
-  return (_sourceId: string, fileName: string): ArchiveMode => {
+  return (sourceId: string, fileName: string): ArchiveMode => {
     if (copy) return "auto";
     const path = byName.get(fileName.replace(/^pull_/, ""));
-    return path ? { backend: "repo", key: `data/fixtures/${path}` } : "skip";
+    return { backend: "repo", key: path ? `data/fixtures/${path}` : `${MOCK_API_KEY_PREFIX}${sourceId}/${fileName}` };
   };
 }
 

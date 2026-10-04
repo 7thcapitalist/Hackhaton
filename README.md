@@ -45,6 +45,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test:exports` | Tests for report exports, without a database or email delivery |
 | `npm run test:pulse` | Tests for the Daily Pulse summary sentence and same-weekday baseline (pure, no database) |
+| `npm run test:scorecard` | Tests for the scorecard status, targets with direction and change coloring (pure, no database) |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
 | `npm run seed [-- --direct\|--staged] [--no-golden] [--archive]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that. Fixtures are not copied to the raw-file archive (runs point at `data/fixtures/...`, backend `repo`); `--archive` copies them |
@@ -74,6 +75,7 @@ See `.env.example`.
 | `OPENAI_API_KEY` (preferred; `OPEN_API_KEY` also accepted) (optional `OPENAI_MODEL`, default `gpt-6.1-sol`) | Data chat, `POST /api/chat` (503 without a key), `npm run chat`, `npm run eval:chat` |
 | `CHAT_DATABASE_URL`, `CHAT_DATABASE_AUTH_TOKEN` | Optional read-only Turso credentials for the chat's `run_sql` tool (falls back to the main DB client) |
 | `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
+| `CONNECTORS_MOCK_GENERATE` | Local dev only. `1` = mock pulls invent data for days with no fixture. Leave unset in Vercel: mock pulls then return only fixture days, nothing else |
 | `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_FEED` = `finances` (default) or `reports`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
 | `UPRIGHT_API_TOKEN` (optional `UPRIGHT_API_BASE`, `UPRIGHT_API_TIME_FORMAT=date`) | Real Upright Lister API pulls (without it: the email drop folder) |

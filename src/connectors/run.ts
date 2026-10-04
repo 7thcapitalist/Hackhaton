@@ -52,6 +52,10 @@ export interface ConnectorPullResult {
   sourceId: string;
   mode: ConnectorMode;
   used: "mock" | "real" | "skipped";
+  /** One-word result: files pulled, skipped for missing credentials, nothing for the range, or the pull failed. */
+  outcome: "pulled" | "skipped_no_credentials" | "no_data" | "error";
+  /** Human-readable outcome, e.g. "pulled 3 files" / "skipped (no credentials)" / "no data for this day". */
+  summary: string;
   reason?: string;
   files: PulledFileResult[];
   error?: string;
@@ -97,10 +101,21 @@ const emptyFile = (fileName: string): PulledFileResult => ({
 async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise<ConnectorPullResult> {
   const t0 = Date.now();
   const apiMode = c.mode === "api_report" || c.mode === "api_json";
-  const res: ConnectorPullResult = { sourceId: c.sourceId, mode: c.mode, used: opts.mock ? "mock" : "real", files: [], ms: 0 };
+  const res: ConnectorPullResult = {
+    sourceId: c.sourceId,
+    mode: c.mode,
+    used: opts.mock ? "mock" : "real",
+    outcome: "no_data",
+    summary: "",
+    files: [],
+    ms: 0,
+  };
+  const noData = opts.from === opts.to ? "no data for this day" : "no data for this range";
   if (!opts.mock && apiMode && !c.hasCredentials()) {
     res.used = "skipped";
     res.reason = `no credentials (set ${c.requiredEnvVars.join(", ")}) and mock is off`;
+    res.outcome = "skipped_no_credentials";
+    res.summary = "skipped (no credentials)";
     res.ms = Date.now() - t0;
     return res;
   }
@@ -110,10 +125,19 @@ async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise
     files = await c.pull({ from: opts.from, to: opts.to, mock: !!opts.mock });
   } catch (err) {
     res.error = message(err);
+    res.outcome = "error";
+    res.summary = `error: ${res.error}`;
     res.ms = Date.now() - t0;
     return res;
   }
-  if (files.length === 0) res.reason = "no files for this range";
+  if (files.length === 0) {
+    res.reason = "no files for this range";
+    res.outcome = "no_data";
+    res.summary = noData;
+  } else {
+    res.outcome = "pulled";
+    res.summary = `pulled ${files.length} file${files.length === 1 ? "" : "s"}`;
+  }
 
   for (const f of files) {
     const out = emptyFile(f.fileName);

@@ -102,7 +102,7 @@ export function CloseActions({ period, stage, can, openExceptions, defaultBatch 
           <div className="flex flex-wrap items-end gap-2">
             <label htmlFor={nameId} className="flex min-w-[180px] flex-1 flex-col gap-1 text-xs font-medium text-ink-2">
               {askLabel}
-              <input id={nameId} required autoFocus value={name} onChange={e => setName(e.target.value)} placeholder="Your name" autoComplete="name"
+              <input id={nameId} required autoFocus value={name} onChange={e => setName(e.target.value)} onFocus={e => e.currentTarget.select()} placeholder="Your name" autoComplete="name"
                 className="h-9 rounded-lg border border-line bg-surface px-2.5 text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-accent" />
             </label>
             {ask === "imported" && (

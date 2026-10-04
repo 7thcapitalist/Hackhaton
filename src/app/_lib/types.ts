@@ -27,11 +27,17 @@ export type KpiStatus = ViewKpi["status"];
 export type Pillar = ViewKpi["pillar"];
 
 export type Kpi = ViewKpi & {
-  lowerIsBetter?: boolean;
   teamLevel?: boolean;
-  history?: number[]; // oldest → newest
-  breakdown?: { label: string; value: number }[]; // Top 10 bars (same unit as the KPI)
-  displaySuffix?: string; // overrides the unit suffix, e.g. "56% of total"
+  valueNote?: string; // shown after the value, e.g. "58% of revenue"
+};
+
+/** One row of the scorecard's Categories table: the union of the two Top-10 lists. */
+export type CategoryRow = {
+  category: string;
+  revenueCents: number;
+  marginCents: number;
+  inRevenueTop10: boolean;
+  inMarginTop10: boolean;
 };
 
 export type SourceStatus = "received" | "warnings" | "missing" | "not_due";

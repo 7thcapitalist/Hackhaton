@@ -8,7 +8,7 @@ import { ThemeToggle } from "./ThemeToggle";
 type SidebarProps = {
   pulseLabel: string;     // "Oct 2"
   scorecardLabel: string; // "Sep"
-  sourcesLabel: string;   // "Sep 7/9": sources that sent data for the Scorecard month
+  sourcesLabel: string;   // "Sep 7/9": sources that sent data for the Monthly report month
   sourcesHint?: string;   // "7 of 9 data sources sent September data"
   importLabel: string | null; // newest file of any day, "Sat, Oct 3 · 11:56 AM ET"; null before the first import
 };
@@ -21,7 +21,7 @@ function Brand() {
       <span className="grid size-[26px] shrink-0 place-items-center rounded-[7px] bg-ink"><span className="size-2 rounded-full border-2 border-surface" /></span>
       <span className="flex flex-col gap-px">
         <span className="text-sm font-semibold tracking-[-0.01em]">Mission Control</span>
-        <span className="text-[11.5px] text-ink-3">Michiana e-commerce</span>
+        <span className="text-[11.5px] whitespace-nowrap text-ink-3">Michiana e-commerce</span>
       </span>
     </Link>
   );
@@ -32,7 +32,7 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
   const items: NavItem[] = [
     { href: "/", label: "Overview", icon: <GridIcon /> },
     { href: "/pulse", label: "Daily Pulse", icon: <PulseIcon />, meta: <span className="text-[11px] text-ink-3">{pulseLabel}</span> },
-    { href: "/scorecard", label: "Scorecard", icon: <BarsIcon />, meta: <span className="text-[11px] text-ink-3">{scorecardLabel}</span> },
+    { href: "/scorecard", label: "Monthly report", icon: <BarsIcon />, meta: <span className="text-[11px] text-ink-3">{scorecardLabel}</span> },
     {
       href: "/sources", label: "Sources", icon: <DatabaseIcon />,
       meta: (
@@ -49,7 +49,8 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
     <>
       {/* Desktop */}
       <aside data-print-hide className="sticky top-0 hidden h-screen w-[232px] shrink-0 flex-col gap-[22px] border-r border-line bg-surface px-3.5 py-[18px] lg:flex">
-        <Brand />
+        {/* Theme toggle sits at the top, as on mobile (the bottom corner belongs to the dev indicator). */}
+        <div className="flex items-center justify-between gap-2"><Brand /><ThemeToggle compact /></div>
         <nav className="flex flex-col gap-0.5" aria-label="Main">
           {items.map(it => {
             const active = isActive(it.href);
@@ -70,7 +71,6 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
               <p className="text-[11.5px] leading-normal text-ink-3">{importLabel}</p>
             </div>
           )}
-          <ThemeToggle />
         </div>
       </aside>
 

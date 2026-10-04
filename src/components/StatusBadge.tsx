@@ -24,14 +24,3 @@ export function StatusBadge({ status, count, label, size = "md" }: { status: Bad
     </span>
   );
 }
-
-/** The Live / Simulated / Awaiting legend shown on the scorecard header. */
-export function StatusLegend() {
-  return (
-    <div className="flex items-center gap-3 text-xs text-ink-3">
-      <span className="flex items-center gap-[5px]"><span className="size-[7px] rounded-full bg-ok" />Live</span>
-      <span className="flex items-center gap-[5px]"><span className="size-1.5 rotate-45 bg-warn-icon" />Simulated</span>
-      <span className="flex items-center gap-[5px]"><span className="size-[7px] rounded-full border-[1.5px] border-muted" />Awaiting data</span>
-    </div>
-  );
-}

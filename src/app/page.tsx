@@ -94,7 +94,7 @@ export default async function OverviewPage() {
         <span className="text-[12px] font-medium text-ink-3">More detail</span>
         <div className="flex flex-wrap items-center justify-center gap-2.5">
           <ButtonLink href="/pulse" variant="secondary" icon={<PulseIcon className="size-3.5" />}>Daily Pulse</ButtonLink>
-          <ButtonLink href="/scorecard" variant="secondary" icon={<BarsIcon className="size-3.5" />}>COO Scorecard</ButtonLink>
+          <ButtonLink href="/scorecard" variant="secondary" icon={<BarsIcon className="size-3.5" />}>Monthly report</ButtonLink>
           <ButtonLink href="/sources" variant="secondary" icon={<DatabaseIcon className="size-3.5" />}>Data Sources</ButtonLink>
         </div>
       </nav>

@@ -507,13 +507,22 @@ async function finish(
   // Archive columns come from another lane; read them only if they exist.
   const archiveCol = runs.length ? await hasColumn(db, "ingest_runs", "archive_key") : false;
   let archived = 0;
+  let mockApi = 0; // seed mock API responses: marker key, regenerable, nothing stored
   if (archiveCol) {
     const r = await db.$client.execute({
-      sql: "select count(*) as n from ingest_runs where (period = ? or business_date like ?) and archive_key is not null and archive_key <> ''",
+      sql: "select count(*) as n, sum(case when archive_key like 'mock-api:%' then 1 else 0 end) as mock from ingest_runs where (period = ? or business_date like ?) and archive_key is not null and archive_key <> ''",
       args: [period, `${period}-%`],
     });
-    archived = Number((r.rows[0] as unknown as { n: number }).n ?? 0);
+    const row = r.rows[0] as unknown as { n: number; mock: number | null };
+    archived = Number(row.n ?? 0);
+    mockApi = Number(row.mock ?? 0);
   }
+  const stored = archived - mockApi;
+  const archivedDetail = !archiveCol
+    ? ""
+    : `; ${archived}/${runs.length} file(s) archived` +
+      // mock-api keys only come from the seed, whose other files are repo fixtures.
+      (mockApi ? ` (${stored} stored in the repo, ${mockApi} regenerable mock API responses)` : "");
   const failedRuns = runs.filter((r) => r.status === "failed").length;
   step(
     "archive",
@@ -521,7 +530,7 @@ async function finish(
     runs.length === 0
       ? "Nothing to archive yet."
       : `${runs.length} file(s) fingerprinted (SHA-256) with run history` +
-          (archiveCol ? `, ${archived}/${runs.length} archived` : "") +
+          archivedDetail +
           (failedRuns ? `; ${failedRuns} failed to parse.` : "."),
   );
 
