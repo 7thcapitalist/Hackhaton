@@ -17,6 +17,7 @@
 export const DEFAULT_KPI_TARGETS: Readonly<Record<string, number>> = {
   // ---- COO 15 (slide 35) ----
   total_revenue: 14_500_000, // cents = $145k/month
+  total_orders: 5_900, // key card on the Monthly report; Aug 5,846, Sep 5,776
   revenue_growth_pct: 3,
   net_margin_pct: 55, // net of processing labor (labor hours × $18/h)
   listings_created: 5_000,
