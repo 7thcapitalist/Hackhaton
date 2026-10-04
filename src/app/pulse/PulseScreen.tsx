@@ -1,56 +1,39 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { buttonClass } from "@/components/Button";
 import { DrillDownDrawer, type DrawerContent } from "@/components/DrillDownDrawer";
 import { HeroStat } from "@/components/HeroStat";
-import { DownloadIcon, MailIcon, WarnIcon } from "@/components/icons";
+import { ClockIcon, DownloadIcon, MailIcon, WarnIcon } from "@/components/icons";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PulseChart } from "@/components/PulseChart";
 import { PulseTable, type PulseField } from "@/components/PulseTable";
-import { CHANNEL_LABEL, CHANNELS, GROUP_MEMBERS, sourcesForRow } from "../_lib/channels";
-import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyCompact, formatStampFull, pctChange } from "../_lib/format";
-import type { ChannelId, PulseSeries, PulseTotals, PulseView, SourceOrder } from "../_lib/types";
+import type { PulseScreenData } from "../_lib/data";
+import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyCompact, formatStamp } from "../_lib/format";
+import type { ChannelId, PulseSeries, PulseView, SourceOrder } from "../_lib/types";
 
-type PulseScreenProps = {
-  view: PulseView;
-  compare: { date: string; totals: PulseTotals | null }; // same weekday last week, same channels
-  series: PulseSeries;
-  prevDate: string | null;
-  nextDate: string | null;
-  latestDate: string;
-};
+type PulseScreenProps = PulseScreenData & { latestDate: string }; // last complete day
 
 type DrawerState = { channel: ChannelId | "total"; field: PulseField } | { channel: ChannelId; missing: true } | null;
 
 const FIELD_NAME: Record<PulseField, string> = { revenue: "Revenue", customers: "Customers", orders: "Orders" };
 const href = (date: string) => `/pulse?date=${date}`;
 
-export function PulseScreen({ view, compare, series, prevDate, nextDate, latestDate }: PulseScreenProps) {
+export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDate, nextDate, isPartial, latestDate }: PulseScreenProps) {
   const router = useRouter();
   const [drawer, setDrawer] = useState<DrawerState>(null);
-  const [drawerContent, setDrawerContent] = useState<DrawerContent | null>(null);
-  const close = useCallback(() => { setDrawer(null); setDrawerContent(null); }, []);
+  const close = useCallback(() => setDrawer(null), []);
   const date = view.businessDate;
   const dateLong = formatDayLong(date);
   const dateShort = formatDay(date);
   const reporting = view.rows.filter(r => r.status === "ok");
   const missing = view.rows.filter(r => r.status === "missing");
   const T = view.totals;
-  const C = compare.totals;
+  const cmpLabel = compare ? formatDay(compare.date) : "prior week";
+  const files = new Set(reporting.flatMap(r => r.sourceFiles)).size;
 
-  // Every number here comes from the real database through the /api/views/* JSON
-  // routes (docs/interfaces.md §2: client components fetch, they don't import the
-  // server-only view functions directly).
-  const requestId = useRef(0);
-  useEffect(() => {
-    if (!drawer) return;
-    const id = ++requestId.current;
-    setDrawerContent(null);
-    buildDrawer(drawer, view).then(content => { if (requestId.current === id) setDrawerContent(content); });
-  }, [drawer, view]);
-
+  const drawerContent = useMemo(() => drawer && buildDrawer(drawer, view, orders, ordersTotal, series), [drawer, view, orders, ordersTotal, series]);
   const openCell = (channel: ChannelId | "total", field: PulseField) => setDrawer({ channel, field });
 
   const emailPulse = () => {
@@ -72,7 +55,7 @@ export function PulseScreen({ view, compare, series, prevDate, nextDate, latestD
               prevHref={prevDate && href(prevDate)} nextHref={nextDate && href(nextDate)}
               prevLabel="Previous day" nextLabel="Next day" />
             <span className="text-[12.5px] text-ink-3">Eastern Time (Indianapolis)</span>
-            {date !== latestDate && <Link href={href(latestDate)} className="text-[12.5px] font-medium text-accent hover:text-ink">Jump to latest →</Link>}
+            {date < latestDate && <Link href={href(latestDate)} className="text-[12.5px] font-medium text-accent hover:text-ink">Jump to latest →</Link>}
           </div>
         </div>
         <div data-print-hide className="flex flex-wrap items-center gap-2">
@@ -84,13 +67,20 @@ export function PulseScreen({ view, compare, series, prevDate, nextDate, latestD
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <HeroStat label="E-commerce revenue" value={formatMoneyCompact(T.revenueCents)} traceLabel={`${reporting.length} files`}
-          changePct={C ? pctChange(T.revenueCents, C.revenueCents) : null} comparedTo={C ? formatDay(compare.date) : "prior week"} onOpen={() => openCell("total", "revenue")} />
-        <HeroStat label="Customers" value={formatInt(T.customers)} traceLabel="unique buyers"
-          changePct={C ? pctChange(T.customers, C.customers) : null} comparedTo={C ? formatDay(compare.date) : "prior week"} onOpen={() => openCell("total", "customers")} />
-        <HeroStat label="Orders" value={formatInt(T.orders)} traceLabel={`${formatInt(T.orders)} rows`}
-          changePct={C ? pctChange(T.orders, C.orders) : null} comparedTo={C ? formatDay(compare.date) : "prior week"} onOpen={() => openCell("total", "orders")} />
+        <HeroStat label="E-commerce revenue" value={formatMoneyCompact(T.revenueCents)} traceLabel={`${files} file${files === 1 ? "" : "s"}`}
+          changePct={compare?.changes.revenue ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "revenue")} />
+        <HeroStat label="Customers" value={formatInt(T.customers)} traceLabel="1 per transaction"
+          changePct={compare?.changes.customers ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "customers")} />
+        <HeroStat label="Orders" value={formatInt(T.orders)} traceLabel={`${formatInt(ordersTotal)} rows`}
+          changePct={compare?.changes.orders ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "orders")} />
       </div>
+
+      {isPartial && (
+        <div role="status" className="flex items-center gap-2.5 rounded-[10px] border border-line bg-surface px-3.5 py-2.5 text-[13px] text-ink-2">
+          <span className="grid size-[22px] shrink-0 place-items-center rounded-md bg-muted-soft text-muted"><ClockIcon className="size-3.5" /></span>
+          <span><strong className="font-semibold text-ink">Partial day.</strong> These files arrived before the day ended, so the numbers will grow after tonight&apos;s import.</span>
+        </div>
+      )}
 
       {missing.length > 0 && (
         <div role="status" className="flex items-center gap-2.5 rounded-[10px] border border-line bg-surface px-3.5 py-2.5 text-[13px] text-ink-2">
@@ -111,67 +101,34 @@ export function PulseScreen({ view, compare, series, prevDate, nextDate, latestD
   );
 }
 
-// Minimal shapes for the two /api/views/* routes this drawer reads (full types
-// in src/lib/views/types.ts; client components can't import that server module).
-type RealOrderRow = {
-  channel: string; sourceId: string; externalOrderId: string; category: string | null;
-  grossCents: number; netCents: number; ingestRunId: string; sourceRow: number;
-};
-type RealIngestRun = { id: string; sourceId: string; businessDate: string | null; fileName: string; uploadedAt: string };
-
-async function fetchJson<T>(url: string): Promise<T | null> {
-  try {
-    const res = await fetch(url);
-    return res.ok ? ((await res.json()) as T) : null;
-  } catch {
-    return null;
-  }
-}
-
-async function buildDrawer(state: NonNullable<DrawerState>, view: PulseView): Promise<DrawerContent> {
-  const date = view.businessDate;
-  const period = date.slice(0, 7);
-
+function buildDrawer(state: NonNullable<DrawerState>, view: PulseView, orders: SourceOrder[], ordersTotal: number, series: PulseSeries): DrawerContent {
   if ("missing" in state) {
-    const c = CHANNELS.find(x => x.id === state.channel)!;
     const row = view.rows.find(r => r.channelId === state.channel)!;
-    const ids = sourcesForRow(state.channel);
-    const sourcesView = await fetchJson<{ sources: { sourceId: string; lastIngestAt: string | null }[] }>(`/api/views/sources?period=${period}`);
-    const at = (sourcesView?.sources ?? []).filter(s => ids.includes(s.sourceId) && s.lastIngestAt).map(s => s.lastIngestAt!);
+    const s = series.series.find(x => x.channelId === state.channel);
+    const i = series.dates.findLastIndex((d, k) => d < view.businessDate && s?.revenueCents[k] != null);
     return {
-      kind: "missing", title: `${c.label} · no file yet`, expectedFile: row.sourceFile, feeds: c.sublabel,
-      lastReceived: at.length ? formatStampFull(at.sort().at(-1)!) : "—",
+      kind: "missing", title: `${row.label} · no file yet`, expectedFile: row.expectedFile ?? "A file for this day", feeds: row.sublabel,
+      lastReceived: i >= 0 ? formatDay(series.dates[i]) : "—",
     };
   }
-
   const rows = view.rows.filter(r => r.status === "ok" && (state.channel === "total" || r.channelId === state.channel));
-  const members = rows.flatMap(r => GROUP_MEMBERS[r.channelId] ?? [r.channelId]);
-  const [orderResults, runsView] = await Promise.all([
-    Promise.all(members.map(c => fetchJson<{ rows: RealOrderRow[] }>(`/api/views/orders?channel=${c}&date=${date}&limit=1000`))),
-    fetchJson<{ rows: RealIngestRun[] }>(`/api/views/ingest-runs?period=${period}&limit=500`),
-  ]);
-  const fileById = new Map((runsView?.rows ?? []).map(r => [r.id, r.fileName]));
-  const orders: SourceOrder[] = orderResults.flatMap(v => (v?.rows ?? []).map(o => ({
-    orderId: o.externalOrderId,
-    channelLabel: CHANNEL_LABEL[o.channel as ChannelId] ?? o.channel,
-    category: o.category ?? "Uncategorized",
-    grossCents: o.grossCents,
-    netCents: o.netCents,
-    sourceFile: fileById.get(o.ingestRunId) ?? `${o.sourceId}.csv`,
-    sourceRow: o.sourceRow,
-  })));
-
+  const labels = new Set(rows.map(r => r.label));
+  const mine = orders.filter(o => labels.has(o.channelLabel));
   const rev = rows.reduce((a, r) => a + (r.revenueCents ?? 0), 0);
   const ords = rows.reduce((a, r) => a + (r.orders ?? 0), 0);
   const custs = rows.reduce((a, r) => a + (r.customers ?? 0), 0);
   const one = state.channel === "total" ? null : rows[0];
+  const files = [...new Set(rows.flatMap(r => r.sourceFiles))];
+  const imported = rows.map(r => r.importedAt).filter((x): x is string => !!x).sort().pop();
   return {
     kind: "rows",
     title: `${one ? one.label : "Total e-commerce"} · ${FIELD_NAME[state.field]}`,
     value: state.field === "revenue" ? formatMoney(rev) : state.field === "customers" ? formatInt(custs) : formatInt(ords),
-    caption: state.field === "customers" ? `${formatInt(custs)} unique buyers across ${formatInt(ords)} orders` : `${formatInt(ords)} orders · net of marketplace fees`,
-    fileLabel: one ? one.sourceFile : `${rows.length} source files`,
-    fileMeta: one ? `Imported ${one.importedAt} ET · ${formatInt(ords)} rows` : rows.map(r => r.label).join(" · "),
-    orders, totalNetCents: rev,
+    caption: state.field === "customers" ? `${formatInt(custs)} customers (one per transaction) across ${formatInt(ords)} orders` : `${formatInt(ords)} orders · net of marketplace fees`,
+    fileLabel: files.length === 1 ? files[0] : `${files.length} source files`,
+    fileMeta: imported ? `Imported ${formatStamp(imported, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET · ${formatInt(mine.length)} rows` : `${formatInt(mine.length)} rows`,
+    orders: mine,
+    totalNetCents: rev,
+    complete: orders.length >= ordersTotal,
   };
 }

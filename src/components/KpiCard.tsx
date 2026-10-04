@@ -26,7 +26,7 @@ function CompactCard({ kpi, periodShort }: { kpi: Kpi; periodShort: string }) {
   return (
     <article className="flex min-w-0 flex-col gap-1.5 rounded-[10px] border border-line bg-surface px-3.5 py-3 shadow-xs">
       <header className="flex items-start justify-between gap-2">
-        <h3 className="text-[12.5px] leading-[1.3] font-medium text-pretty text-ink-2">{kpi.label}</h3>
+        <h3 className="text-[12.5px] leading-[1.3] font-medium text-pretty text-ink-2" title={kpi.note}>{kpi.label}</h3>
         <StatusBadge size="sm" status={kpi.status} label={kpi.status === "awaiting_data" ? "Awaiting" : undefined} />
       </header>
 
@@ -73,7 +73,7 @@ function AnchorCard({ kpi }: { kpi: Kpi }) {
       <header className="flex flex-col gap-1">
         <span className="text-[10.5px] font-semibold tracking-[0.04em] text-accent uppercase">2027 anchor</span>
         <div className="flex items-start justify-between gap-2">
-          <h3 className="min-w-0 text-[13.5px] font-semibold">{kpi.label}</h3>
+          <h3 className="min-w-0 text-[13.5px] font-semibold" title={kpi.note}>{kpi.label}</h3>
           <TrackPill kpi={kpi} />
         </div>
       </header>
