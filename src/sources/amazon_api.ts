@@ -300,7 +300,7 @@ export const amazonApiParser = jsonSourceParser({
           reference: orderId || null,
           memo: "Refund for an order not in this file",
         });
-        warn(`Refund for order ${orderId} not found in this file; recorded as a refund money line.`);
+        // No warning: a refund of an earlier day's order is normal with daily pulls.
       }
     }
 

@@ -35,9 +35,9 @@ export function SourceTile({ source: s, periodLabel, firstDayLabel, lastDayLabel
           <p className="flex justify-between text-[11px] text-ink-3"><span>{firstDayLabel}</span><span>{got} of {s.days.length} days</span><span>{lastDayLabel}</span></p>
         </div>
       ) : (
-        <p className={`flex min-h-[37px] flex-wrap items-center gap-x-2.5 gap-y-0.5 rounded-[7px] px-2.5 py-1.5 text-xs ${missing ? "border-[1.5px] border-dashed border-line text-ink-3" : "bg-ok-soft text-ok"}`}>
+        <p className={`flex min-h-[37px] flex-wrap items-center gap-x-2.5 gap-y-0.5 rounded-[7px] px-2.5 py-1.5 text-xs ${missing || s.status === "not_due" ? "border-[1.5px] border-dashed border-line text-ink-3" : "bg-ok-soft text-ok"}`}>
           <strong className="font-semibold whitespace-nowrap">Monthly file</strong>
-          <span className="whitespace-nowrap">{missing ? `Not received · due ${dueLabel}` : `${periodLabel} received`}</span>
+          <span className="whitespace-nowrap">{s.status === "not_due" ? "Not due yet" : missing ? `Not received · due ${dueLabel}` : `${periodLabel} received`}</span>
         </p>
       )}
 

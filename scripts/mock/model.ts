@@ -22,14 +22,18 @@
  * - Refunds (~3%) and cancellations (~1%, never on Amazon: a cancelled Amazon
  *   order is never charged, so it is not in the transaction report).
  * - Amazon money events: settlement transfers every 14 days, subscription and
- *   advertising fees, adjustments, one unknown "Liquidations" row.
+ *   advertising fees, adjustments.
  * - Cash Monkey bulk orders (weekdays), jewelry sales (monthly report),
  *   Goodwill Books statement adjustments.
  * - One shipment (label) per shipped order, bought through EasyPost, Pitney
  *   Bowes, OSM or FedEx, with label voids/credits and FedEx surcharges.
  *
- * Deliberate cases (kept in sync with the writers):
- * - 2026-10-02: no Amazon file (the writer skips it; the truth still has sales).
+ * The baseline is CLEAN: every file that is due is present, nothing warns, no
+ * exception stays open. The messy cases (duplicate upload, unknown Amazon
+ * type, renamed columns, missing Supplier, Upright overlap) live in
+ * data/demo-uploads/ and are uploaded live on stage (see its README).
+ *
+ * Normal real-life cases kept in the baseline (they do not warn):
  * - 2026-10-03 is today: data through 11:30 AM local only.
  * - Late-night orders at 11:45 PM local (Eastern) on 2026-09-30 (ShopGoodwill)
  *   and 2026-10-01 (eBay, Amazon).
@@ -46,8 +50,6 @@ export const START_DATE = "2026-08-01";
 export const END_DATE = "2026-10-03";
 /** Months whose month-end files exist (October is not closed yet). */
 export const CLOSED_PERIODS = ["2026-08", "2026-09"] as const;
-/** The deliberate gap: no Amazon file for this business date. */
-export const MISSING_AMAZON_DATE = "2026-10-02";
 /** An Amazon refund whose order is in an earlier daily file. */
 export const LATE_REFUND_DATE = "2026-09-29";
 /**
@@ -160,7 +162,7 @@ export interface JewelrySale {
 export interface AmazonEvent {
   ts: Date;
   businessDate: string;
-  type: "Transfer" | "Service Fee" | "Adjustment" | "Liquidations";
+  type: "Transfer" | "Service Fee" | "Adjustment";
   description: string;
   /** "other" column for fees/adjustments; total for transfers. Signed as in the report. */
   amountCents: number;
@@ -350,7 +352,8 @@ export function buildModel(): MockModel {
       service = rng.chance(0.25) ? "Priority" : "GroundAdvantage";
       tracking = `94001${pad(counters.ep, 17)}`;
       const r = rng.float();
-      refund = r < 0.015 ? "refunded" : r < 0.018 ? "submitted" : null;
+      // A refund "submitted" but not granted yet would warn: not in the clean baseline.
+      refund = r < 0.015 ? "refunded" : null;
     } else if (tool === "pitney_bowes") {
       counters.pb++;
       service = rng.chance(0.3) ? "Priority Mail" : "Ground Advantage";
@@ -659,10 +662,9 @@ export function buildModel(): MockModel {
       jewelry.push(sale);
     }
   }
-  // September: one row where the Co-Pivot step did not fill Supplier, and one return.
+  // September: one return. Every row has its Supplier (a row without one is a demo upload).
   {
     const sep = jewelry.filter((j) => j.date.startsWith("2026-09"));
-    sep[3]!.supplier = "";
     const src = sep[1]!;
     const returnDate = addDays(src.date, 7) <= "2026-09-30" ? addDays(src.date, 7) : "2026-09-30";
     jewelry.push({
@@ -681,7 +683,7 @@ export function buildModel(): MockModel {
   // ---- Amazon money events -----------------------------------------------------
   const amazonEvents: AmazonEvent[] = [];
   const ev = (date: string, sec: number, type: AmazonEvent["type"], description: string, amountCents: number) => {
-    if (date === MISSING_AMAZON_DATE || date > END_DATE) return;
+    if (date > END_DATE) return;
     if (date === END_DATE && sec > TODAY_CUTOFF_SECONDS) return;
     amazonEvents.push({ ts: localToUtc(date, sec), businessDate: date, type, description, amountCents });
   };
@@ -692,7 +694,6 @@ export function buildModel(): MockModel {
   }
   ev("2026-08-20", 14 * 3600 + 15 * 60, "Adjustment", "SAFE-T reimbursement", 1_250);
   ev("2026-09-20", 14 * 3600 + 15 * 60, "Adjustment", "SAFE-T reimbursement", 500);
-  ev("2026-09-24", 17 * 3600 + 45 * 60, "Liquidations", "Liquidation proceeds", 310);
   // Settlement transfers every 14 days: everything since the previous transfer.
   for (const [rangeStart, firstTransfer, rangeEnd] of [
     [PY_START, "2025-08-08", PY_END],

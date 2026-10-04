@@ -183,12 +183,16 @@ demo data itself changes (new fixtures, parser changes); that refreshes the snap
 The `golden_*` tables are not in the Drizzle schema; `drizzle.config.ts` excludes them
 with `tablesFilter: ["!golden_*"]` so `npm run db:push` never offers to drop them.
 
-Bad dates or periods return 400. Demo cases in the fixtures: no Amazon file for
-2026-10-02 (pulse `"missing"`); Upright re-reports some eBay/ShopGoodwill orders every day
-(`duplicate_order`, Upright kept); `ebay_2026-09-14_reupload.csv` is an exact duplicate
-upload; `ebay_2026-09-15.csv` has renamed columns; an unknown Amazon "Liquidations" row
-(2026-09-24); an Amazon refund for an earlier file's order (2026-09-29); 11:45 PM Eastern
-orders; month-end sources have no October files yet; 2025-08..10 exist for year-over-year.
+Bad dates or periods return 400. The seeded baseline is clean: every source is pulled at its
+highest cadence (daily except OSM invoices weekly and Goodwill Books monthly; see
+[docs/sources/README.md](docs/sources/README.md)), every due file is there, zero warnings and
+zero open exceptions (the seed fails otherwise). Normal cases it keeps: Upright re-reports some
+eBay/ShopGoodwill orders every day (`duplicate_order`, Upright kept, auto-resolved); an Amazon
+refund for an earlier file's order (2026-09-29); 11:45 PM Eastern orders; Goodwill Books has
+no October statement yet (status `not_due`); 2025-08..10 exist (monthly files) for
+year-over-year. The messy cases (duplicate upload, unknown Amazon type, Upright overlap,
+renamed columns, missing Supplier) are live-demo files in
+[data/demo-uploads/](data/demo-uploads/README.md).
 
 ## Where to read next
 

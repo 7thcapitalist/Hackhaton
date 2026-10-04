@@ -1,0 +1,8 @@
+1st Source Bank - Account Activity,,,,,,
+Account: BUSINESS CHECKING ****0101,,,,,,
+Statement period: 08/03/2026 - 08/03/2026,,,,,,
+,,,,,,
+Posting Date,Description,Transaction Type,Debit,Credit,Balance,Reference
+08/03/2026,EASYPOST POSTAGE REFILL,POS DEBIT,800.00,,199616.68,40066
+08/03/2026,FEDEX ACH PAYMENT,ACH DEBIT,367.64,,199249.04,40067
+08/03/2026,PITNEY BOWES POSTAGE BY PHONE,ACH DEBIT,500.00,,198749.04,40068

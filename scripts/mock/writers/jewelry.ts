@@ -1,6 +1,7 @@
 /**
  * "Jewelry Report" (after the Co-Pivot step fills Supplier), one file per
- * closed month: data/fixtures/jewelry/jewelry_YYYY-MM.csv
+ * finished day: data/fixtures/jewelry/jewelry_YYYY-MM-DD.csv (prior year:
+ * one per month, jewelry_YYYY-MM.csv).
  *
  * Layout (guess, docs/sources/jewelry.md): a title line, an empty line, the
  * header, one row per item sold, an empty line and a "Grand Total" row
@@ -12,12 +13,12 @@
  * (dedupe drops them); plus the jewelry counter's own sales (model.jewelry,
  * Marketplace "Jewelry Counter" → channel other), which no other file has.
  *
- * Messy cases (September): one row without Supplier (Co-Pivot not run for it)
- * and one return (negative price).
+ * Normal case (September): one return (negative price). Every row has its
+ * Supplier; a row without one is demo upload 05 (jewelryNoSupplierFile).
  */
-import { csvRow, lines, monthName, usd } from "../format";
+import { csvRow, lines, monthName, usDay, usd } from "../format";
 import type { MockModel } from "../model";
-import { MONTHLY_PERIODS, monthlyUpload } from "../schedule";
+import { DONE_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
 
 const HEADER = ["Sale Date", "Marketplace", "Order ID", "Item ID", "Description", "Category", "Sold Price", "Shipping", "Fees", "Supplier"];
@@ -38,8 +39,17 @@ interface Row {
   supplier: string;
 }
 
+/**
+ * Prior year: one file per month. Current year: the internal report can be
+ * run for any range, so it is pulled DAILY (one file per finished day; the
+ * title line names the day).
+ */
 export function writeJewelry(model: MockModel): FixtureFile[] {
-  return MONTHLY_PERIODS.map((period) => {
+  const specs = [
+    ...PRIOR_YEAR_PERIODS.map((p) => ({ key: p, title: `${monthName(p)} ${p.slice(0, 4)}`, upload: monthlyUpload(p, 5) })),
+    ...DONE_DATES.map((d) => ({ key: d, title: usDay(d), upload: dailyUpload(d, 5) })),
+  ];
+  return specs.map(({ key: period, title, upload }) => {
     const counter: Row[] = model.jewelry
       .filter((j) => j.date.startsWith(period))
       .map((j) => ({ ...j, market: "Jewelry Counter" }));
@@ -57,7 +67,7 @@ export function writeJewelry(model: MockModel): FixtureFile[] {
     const rows = [...counter, ...onSgw].sort((a, b) => a.date.localeCompare(b.date) || a.orderId.localeCompare(b.orderId));
     const sum = (f: (j: Row) => number) => rows.reduce((s, j) => s + f(j), 0);
     const body = [
-      csvRow([`Jewelry Report - ${monthName(period)} ${period.slice(0, 4)}`, ...EMPTY.slice(1)]),
+      csvRow([`Jewelry Report - ${title}`, ...EMPTY.slice(1)]),
       csvRow(EMPTY),
       csvRow(HEADER),
       ...rows.map((j) =>
@@ -73,10 +83,18 @@ export function writeJewelry(model: MockModel): FixtureFile[] {
       sourceId: "jewelry",
       path: `jewelry/jewelry_${period}.csv`,
       content: lines(body, "\n"),
-      uploadedAt: monthlyUpload(period, 5),
-      ...(period === "2026-09"
-        ? { note: `${onSgw.length} ShopGoodwill items already in the ShopGoodwill files (dedupe, no new revenue); one row without Supplier; one return` }
-        : {}),
+      uploadedAt: upload,
     };
   });
+}
+
+/** A one-day report where one row lost its Supplier (demo upload 05; not in the baseline). */
+export function jewelryNoSupplierFile(model: MockModel, date: string): string {
+  const file = writeJewelry(model).find((f) => f.path === `jewelry/jewelry_${date}.csv`);
+  if (!file) throw new Error(`no jewelry file for ${date}`);
+  const rows = file.content.split("\n");
+  const i = rows.findIndex((r, k) => k > 2 && /,Store \d+$|,Outlet DC$/.test(r));
+  if (i < 0) throw new Error(`no jewelry row with a Supplier on ${date}`);
+  rows[i] = rows[i]!.replace(/,[^,]*$/, ",");
+  return rows.join("\n");
 }

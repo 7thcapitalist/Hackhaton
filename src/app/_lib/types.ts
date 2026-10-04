@@ -34,7 +34,7 @@ export type Kpi = ViewKpi & {
   displaySuffix?: string; // overrides the unit suffix, e.g. "56% of total"
 };
 
-export type SourceStatus = "received" | "warnings" | "missing";
+export type SourceStatus = "received" | "warnings" | "missing" | "not_due";
 export type Source = {
   id: string;
   name: string;

@@ -122,7 +122,8 @@ export const goodwillBooksParser: SourceParser = {
     const header = table[headerRowIndex];
     result.header = header.map(normalizeHeader);
     const c = columnIndex(header, COLS);
-    result.warnings.push({ message: "Goodwill Books: statement layout is a guess; confirm with a real attachment." });
+    // Developer note (not a parse warning): the statement layout is a guess
+    // until we see a real attachment (docs/sources/goodwill_books.md).
 
     const preamblePeriod = periodFromPreamble(table.slice(0, headerRowIndex));
     const lines: ParsedMoneyLine[] = [];

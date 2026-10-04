@@ -1,0 +1,7 @@
+1st Source Bank - Account Activity,,,,,,
+Account: BUSINESS CHECKING ****0101,,,,,,
+Statement period: 09/10/2026 - 09/10/2026,,,,,,
+,,,,,,
+Posting Date,Description,Transaction Type,Debit,Credit,Balance,Reference
+09/10/2026,BNKDEPOSIT FEDEX REFUND,BNKDEPOSIT,,20.46,182528.65,40085
+09/10/2026,OSM WORLDWIDE INVOICE ACH,ACH DEBIT,3531.82,,178996.83,40070

@@ -281,7 +281,10 @@ async function main() {
       lines += res.moneyLines.length;
       warnings += res.warnings.length;
       for (const w of res.warnings) fail(`${f.fileName}: warning ${w.message}`);
-      if (!res.orders.length && !res.moneyLines.length) fail(`${f.fileName}: no rows`);
+      // A daily EasyPost payment log can hold only label service_fee rows, which the
+      // parser leaves to the shipment pages (counted once): no money lines is fine there.
+      const labelOnlyPaylog = /pay.?log/i.test(f.fileName) && t.length > 1;
+      if (!res.orders.length && !res.moneyLines.length && !labelOnlyPaylog) fail(`${f.fileName}: no rows`);
     }
     console.log(`   ${c.sourceId.padEnd(26)} ${files.length} files, ${orders} orders, ${lines} money lines, ${warnings} warnings`);
   }

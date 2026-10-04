@@ -707,8 +707,8 @@ created_at,id,status,source_type,target_type,charge_type,amount,balance,descript
 2025-10-12T14:04:23Z,paylog_004296,complete,user,easypost_bank,service_fee,$3.81000,$321.86000,,9400100000000000004248
 2025-10-12T14:09:31Z,paylog_004297,complete,user,easypost_bank,service_fee,$3.71000,$318.15000,,9400100000000000004232
 2025-10-12T14:29:13Z,paylog_004298,complete,user,easypost_bank,service_fee,$5.74000,$312.41000,,9400100000000000004237
-2025-10-12T14:39:14Z,paylog_004299,complete,user,easypost_bank,service_fee,$11.55000,$300.86000,,9400100000000000004210
 2025-10-12T14:38:42Z,paylog_004300,complete,bank_account,user,recharge,$1000.00000,$1300.86000,,
+2025-10-12T14:39:14Z,paylog_004299,complete,user,easypost_bank,service_fee,$11.55000,$300.86000,,9400100000000000004210
 2025-10-12T14:39:42Z,paylog_004301,complete,user,easypost_bank,service_fee,$3.90000,$1296.96000,,9400100000000000004243
 2025-10-12T14:44:04Z,paylog_004302,complete,user,easypost_bank,service_fee,$3.35000,$1293.61000,,9400100000000000004246
 2025-10-12T14:44:18Z,paylog_004303,complete,user,easypost_bank,service_fee,$5.55000,$1288.06000,,9400100000000000004177
@@ -1162,8 +1162,8 @@ created_at,id,status,source_type,target_type,charge_type,amount,balance,descript
 2025-10-19T14:52:15Z,paylog_004751,complete,user,easypost_bank,service_fee,$13.15000,$326.06000,,9400100000000000004582
 2025-10-19T15:14:45Z,paylog_004752,complete,user,easypost_bank,service_fee,$3.88000,$322.18000,,9400100000000000004658
 2025-10-19T15:27:00Z,paylog_004753,complete,user,easypost_bank,service_fee,$15.56000,$306.62000,,9400100000000000004646
-2025-10-19T15:27:48Z,paylog_004754,complete,user,easypost_bank,service_fee,$5.93000,$300.69000,,9400100000000000004700
 2025-10-19T15:27:23Z,paylog_004755,complete,bank_account,user,recharge,$1000.00000,$1300.69000,,
+2025-10-19T15:27:48Z,paylog_004754,complete,user,easypost_bank,service_fee,$5.93000,$300.69000,,9400100000000000004700
 2025-10-19T15:28:23Z,paylog_004756,complete,user,easypost_bank,service_fee,$5.59000,$1295.10000,,9400100000000000004668
 2025-10-19T15:36:35Z,paylog_004757,complete,user,easypost_bank,service_fee,$7.66000,$1287.44000,,9400100000000000004641
 2025-10-19T15:44:32Z,paylog_004758,complete,user,easypost_bank,service_fee,$3.29000,$1284.15000,,9400100000000000004662
@@ -1632,8 +1632,8 @@ created_at,id,status,source_type,target_type,charge_type,amount,balance,descript
 2025-10-27T13:33:26Z,paylog_005221,complete,user,easypost_bank,service_fee,$10.29000,$320.27000,,9400100000000000005139
 2025-10-27T13:33:43Z,paylog_005222,complete,user,easypost_bank,service_fee,$3.85000,$316.42000,,9400100000000000005153
 2025-10-27T13:34:29Z,paylog_005223,complete,user,easypost_bank,service_fee,$11.35000,$305.07000,,9400100000000000005051
-2025-10-27T13:35:01Z,paylog_005224,complete,user,easypost_bank,service_fee,$3.58000,$301.49000,,9400100000000000005157
 2025-10-27T13:34:58Z,paylog_005225,complete,bank_account,user,recharge,$1000.00000,$1301.49000,,
+2025-10-27T13:35:01Z,paylog_005224,complete,user,easypost_bank,service_fee,$3.58000,$301.49000,,9400100000000000005157
 2025-10-27T13:35:58Z,paylog_005226,complete,user,easypost_bank,service_fee,$6.37000,$1295.12000,,9400100000000000004990
 2025-10-27T13:45:22Z,paylog_005227,complete,user,easypost_bank,service_fee,$3.89000,$1291.23000,,9400100000000000005108
 2025-10-27T13:58:35Z,paylog_005228,complete,user,easypost_bank,service_fee,$5.52000,$1285.71000,,9400100000000000005148
