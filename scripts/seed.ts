@@ -4,7 +4,9 @@
  * Wipes the facts, upserts config + KPI targets, then pulls every mock export
  * in data/fixtures through the mock connectors (pullAndIngest, mock mode) into
  * ingestFile(), exactly like a real pull. Nothing but config and KPI targets
- * is inserted directly. Close tables are untouched. See scripts/seed/run.ts.
+ * is inserted directly. Close tables are untouched. Then the mock allocation
+ * workbook baselines in data/workbook are loaded (workbook_baseline, config:
+ * a demo reset leaves them in place). See scripts/seed/run.ts.
  *
  * Mode: by default the ingest runs in a scratch SQLite file and is copied to
  * the target in one transaction ("staged"); --direct ingests into the target.
