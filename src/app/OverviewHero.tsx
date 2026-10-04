@@ -58,6 +58,8 @@ type OverviewHeroProps = {
   compareChanges: BaseChanges | null;
   orders: OrderLike[];
   cmpOrders: OrderLike[] | null;
+  moverBaseline: OrderLike[][]; // the same weekday over the previous 4 weeks (days with data only), for the mover card
+  weekday: string;
 };
 
 /** feesCents is gross minus net (fees + refunds + any other deduction already reflected in
@@ -82,7 +84,7 @@ const CUSTOMERS_ICON = "M8 8a2.6 2.6 0 1 0 0-5.2A2.6 2.6 0 0 0 8 8z M3 13.3c0-2.
 const ORDERS_ICON = "M2.5 5.3 8 2.8l5.5 2.5v6L8 13.8l-5.5-2.5z M2.5 5.3 8 7.8l5.5-2.5M8 7.8v6";
 const FEES_ICON = "M4 2h8v12l-1.5-1-1.5 1-1.5-1-1.5 1-1.5-1-1.5 1z M6 5h4M6 7.5h4M6 10h2";
 
-export function OverviewHero({ date, cmpDate, channelOptions, totals, compareChanges, orders, cmpOrders }: OverviewHeroProps) {
+export function OverviewHero({ date, cmpDate, channelOptions, totals, compareChanges, orders, cmpOrders, moverBaseline, weekday }: OverviewHeroProps) {
   const [channel, setChannel] = useState<MarketKey | "all">("all");
   const [category, setCategory] = useState<string>("all");
 
@@ -178,7 +180,7 @@ export function OverviewHero({ date, cmpDate, channelOptions, totals, compareCha
 
       {noData
         ? <p className="text-[12.5px] text-ink-3">No orders in this slice on {formatDay(date)}.</p>
-        : <OverviewGlance orders={orders} cmpOrders={cmpOrders} channel={channel} channelLabel={channelLabel} category={category} comparedTo={comparedTo} />}
+        : <OverviewGlance orders={orders} cmpOrders={cmpOrders} moverBaseline={moverBaseline} weekday={weekday} channel={channel} channelLabel={channelLabel} category={category} comparedTo={comparedTo} />}
     </div>
   );
 }
