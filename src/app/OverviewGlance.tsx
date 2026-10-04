@@ -433,7 +433,7 @@ function MoverCard({ title, movers, vs, now, describeKey, driver = null, theme, 
           <span className={`font-display text-[36px] leading-none font-semibold ${up ? "text-ok" : "text-bad"}`}>
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
           </span>
-          <p className="text-[13px] text-ink-2">
+          <p className="text-[14px] text-ink-2">
             <strong className="font-semibold text-ink">{label}</strong>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {vs.short} — {formatMoneyCompact(mover.currentCents)} {now}.
           </p>
           {runners.length > 0 && (
@@ -444,7 +444,7 @@ function MoverCard({ title, movers, vs, now, describeKey, driver = null, theme, 
                 const h = typeof d === "string" ? null : d.hint;
                 const rowUp = m.pct >= 0;
                 return (
-                  <li key={m.key} className="flex items-center justify-between gap-2 text-[12.5px]">
+                  <li key={m.key} className="flex items-center justify-between gap-2 text-[13.5px]">
                     <span className="flex min-w-0 items-baseline gap-1.5">
                       <span className="truncate font-medium text-ink">{l}</span>
                       {h && <span className="shrink-0 text-ink-3">({h})</span>}
@@ -460,13 +460,18 @@ function MoverCard({ title, movers, vs, now, describeKey, driver = null, theme, 
               still does the structural no-blank-space work (round 7b/8); it just has less
               leftover row-height to fill now that RankCard/StatCard are trimmed down near
               MoverCard's own natural height (round 8), so it rarely has to grow far past this
-              tighter natural size in the first place. */}
+              tighter natural size in the first place.
+              Round 10 (2026-10-04, Ryan: now the opposite — bump every text size in this card
+              up a notch so the (now longer, round 9 in moverExplanation's own doc comment)
+              why-text actually fills the box flex-1 already stretches to, instead of sitting as
+              small type in a bigger container): this box's label/paragraph, and the headline
+              sentence and runner-up row above it, all sized up one step. */}
           <div className="flex flex-1 items-center gap-2 rounded-[10px] border p-2.5" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
             <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden><path d={WHY_ICON} /></svg>
             </span>
-            <p className="text-[13.5px] leading-snug text-ink-2">
-              <span className="block text-[12px] font-semibold tracking-wide text-ink">Why this happened</span>
+            <p className="text-[14.5px] leading-snug text-ink-2">
+              <span className="block text-[13px] font-semibold tracking-wide text-ink">Why this happened</span>
               {moverExplanation(mover, driver, label ?? String(mover.key), vs, now)}
             </p>
           </div>
