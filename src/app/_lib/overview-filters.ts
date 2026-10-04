@@ -33,7 +33,11 @@ export function bucketBy(rows: OrderLike[], keyOf: (o: OrderLike) => string): Bu
     .sort((a, b) => b.revenueCents - a.revenueCents);
 }
 
-export type Mover = { key: string; pct: number; currentCents: number };
+// previousCents/currentOrders/previousOrders ride alongside pct/currentCents so a mover card
+// can explain *why* a number moved, not just restate the percentage — see biggestDriver below
+// and MoverCard's order-count-vs-order-value fallback (round 7, Ryan: the explainer box was
+// reciting its own methodology instead of saying what actually happened).
+export type Mover = { key: string; pct: number; currentCents: number; previousCents: number; currentOrders: number; previousOrders: number };
 
 /** Every bucket's revenue swing (up or down) between two bucket lists for the same keys,
  * ranked by magnitude — index 0 is the single biggest mover, the rest are runners-up (so
@@ -41,16 +45,54 @@ export type Mover = { key: string; pct: number; currentCents: number };
  * nothing else in the card). Keys with no comparable prior value are skipped (pctChange
  * already guards a zero or missing base). */
 export function rankMovers(current: Bucket[], previous: Bucket[]): Mover[] {
-  const prevByKey = new Map(previous.map(b => [b.key, b.revenueCents]));
+  const prevByKey = new Map(previous.map(b => [b.key, b]));
   return current
-    .map(b => ({ key: b.key, pct: pctChange(b.revenueCents, prevByKey.get(b.key) ?? null), currentCents: b.revenueCents }))
-    .filter((m): m is Mover => m.pct != null)
+    .map(b => {
+      const prev = prevByKey.get(b.key) ?? null;
+      const pct = pctChange(b.revenueCents, prev?.revenueCents ?? null);
+      return pct == null ? null : {
+        key: b.key, pct, currentCents: b.revenueCents,
+        previousCents: prev?.revenueCents ?? 0, currentOrders: b.orders, previousOrders: prev?.orders ?? 0,
+      };
+    })
+    .filter((m): m is Mover => m != null)
     .sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct));
 }
 
 /** The single biggest mover — rankMovers()[0]. */
 export function biggestMover(current: Bucket[], previous: Bucket[]): Mover | null {
   return rankMovers(current, previous)[0] ?? null;
+}
+
+export type Driver = { label: string; deltaCents: number };
+
+/** For one mover (a bucket's revenue swing along one dimension — a category, say), finds
+ * which single sub-bucket along a *different* dimension (that category's revenue broken down
+ * by marketplace) explains most of the swing, in dollar terms — so "Books fell 22%" can name
+ * Amazon as the cause instead of just repeating the percentage (round 7, Ryan: "this was
+ * mainly caused by a reduction in sales in Amazon" was the example he wanted, not a methodology
+ * sentence). Ranked by raw cents delta, not pct — a tiny sub-bucket swinging 100% on a $4 base
+ * isn't the real driver of a multi-hundred-dollar move. Returns null when there's nothing to
+ * break down by (fewer than 2 sub-buckets across both periods, or no comparison data at all) —
+ * callers fall back to an orders-vs-order-value explanation in that case. */
+export function biggestDriver(
+  current: OrderLike[], previous: OrderLike[] | null,
+  filterKey: (o: OrderLike) => string, filterValue: string,
+  breakdownKey: (o: OrderLike) => string,
+): Driver | null {
+  if (!previous) return null;
+  const curBuckets = bucketBy(current.filter(o => filterKey(o) === filterValue), breakdownKey);
+  const prevBuckets = bucketBy(previous.filter(o => filterKey(o) === filterValue), breakdownKey);
+  const allKeys = new Set([...curBuckets.map(b => b.key), ...prevBuckets.map(b => b.key)]);
+  if (allKeys.size < 2) return null;
+  const curByKey = new Map(curBuckets.map(b => [b.key, b.revenueCents]));
+  const prevByKey = new Map(prevBuckets.map(b => [b.key, b.revenueCents]));
+  let best: Driver | null = null;
+  for (const key of allKeys) {
+    const deltaCents = (curByKey.get(key) ?? 0) - (prevByKey.get(key) ?? 0);
+    if (!best || Math.abs(deltaCents) > Math.abs(best.deltaCents)) best = { label: key, deltaCents };
+  }
+  return best;
 }
 
 export function sliceStats(rows: OrderLike[]) {

@@ -199,7 +199,7 @@ function HeroNumber({ icon, label, value, changePct, comparedTo, theme, active }
       <span className="font-display text-[52px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-ink-3">
         {changePct == null ? <span className="rounded-full bg-muted-soft px-[7px] py-0.5 font-semibold">—</span> : (
-          <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-muted-soft text-ink-2"}`}>
+          <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>
             {up ? "↑" : "↓"} {Math.abs(changePct).toFixed(1)}%
           </span>
         )}
