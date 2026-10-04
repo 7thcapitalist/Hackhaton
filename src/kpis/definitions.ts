@@ -70,7 +70,7 @@ const growthNote = (f: PeriodFacts) => {
   return f.priorYear ? `YoY vs ${f.priorYear.period}.` : "MoM: no prior-year data.";
 };
 
-const catNote = "Breakdown per category in categories[].";
+const catNote = "Per-category breakdown in the categories table.";
 
 export const KPI_DEFINITIONS: KpiDefinition[] = [
   // ---- Slide 35: the 15 COO KPIs ------------------------------------------
@@ -147,9 +147,9 @@ export const KPI_DEFINITIONS: KpiDefinition[] = [
   // ---- Slide 34: customer & marketplace -------------------------------------
   { id: "number_of_buyers", label: "Number of Buyers", pillar: "category_customer", unit: "count", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "orders", compute: (f) => F.numberOfBuyers(f), note: "Distinct buyers; a buyer is tracked per channel.", dynamicNote: buyerNote },
   { id: "new_buyers", label: "New Buyers", pillar: "category_customer", unit: "count", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "orders", compute: (f) => F.newBuyers(f), note: "Buyers whose first transaction on record is in this period.", dynamicNote: buyerNote },
-  { id: "csat", label: "Customer Satisfaction Rating", pillar: "category_customer", unit: "ratio", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.csat(f), note: "Average across channels (weighted by sample size when known); per channel in marketplaceMetrics[]." },
-  { id: "nps", label: "Net Promoter Score", pillar: "category_customer", unit: "ratio", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.nps(f), note: "−100 to 100. Average across channels; per channel in marketplaceMetrics[]." },
-  { id: "marketplace_conversion", label: "Marketplace Conversion", pillar: "category_customer", unit: "percent", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.marketplaceConversion(f), note: "Average across channels; per channel in marketplaceMetrics[]." },
+  { id: "csat", label: "Customer Satisfaction Rating", pillar: "category_customer", unit: "ratio", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.csat(f), note: "Average across channels (weighted by sample size when known); per marketplace in the By marketplace table." },
+  { id: "nps", label: "Net Promoter Score", pillar: "category_customer", unit: "ratio", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.nps(f), note: "−100 to 100. Average across channels; per marketplace in the By marketplace table." },
+  { id: "marketplace_conversion", label: "Marketplace Conversion", pillar: "category_customer", unit: "percent", group: "extended", slide: 34, anchor2027: false, higherIsBetter: true, dataBasis: "marketplace", compute: (f) => F.marketplaceConversion(f), note: "Average across channels; per marketplace in the By marketplace table." },
 ];
 
 /** The three 2027 plan anchors (slide 36). */
