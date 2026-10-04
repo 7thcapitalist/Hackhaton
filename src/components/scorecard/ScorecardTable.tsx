@@ -12,16 +12,10 @@ type ScorecardTableProps = {
   prevMonth: string; // "Aug"
   /** Optional charts shown above a pillar's KPI rows when its section is open. */
   charts?: Partial<Record<Pillar, ReactNode>>;
-  /** Prefix for the cards' ids, so two tables can share a page (default "pillar"). */
-  idPrefix?: string;
 };
 
 export const KEY_KPI_HINT = "One of the three KPIs Goodwill's 2027 plan is built around.";
 export const TEAM_LEVEL_NOTE = "Team-level, for capacity planning.";
-const CATEGORY_KPIS = new Set([
-  "top10_categories_revenue", "top10_categories_margin",
-  "sales_by_category", "margin_by_category", "units_by_category", "sell_through_by_category", "asp_by_category",
-]);
 
 // Desktop: one table per pillar with the same fixed column widths, so columns line up across cards.
 // Phones: each KPI is a two-line grid (status · name · value · target, then the change).
@@ -30,16 +24,20 @@ const cell = "px-3 py-3 align-middle max-sm:p-0";
 const num = "text-right tabular-nums whitespace-nowrap";
 const head = "px-3 pt-2.5 pb-1.5 font-normal";
 
-/** KPIs (the COO 15, or the extended set) as one collapsible card per pillar. */
-export function ScorecardTable({ kpis, prevMonth, charts, idPrefix = "pillar" }: ScorecardTableProps) {
+/**
+ * Every KPI as one collapsible card per pillar: the COO 15 first, then the rest of slides 33-34
+ * under a quiet sub-header in the same card. The card's status count covers every row with a target.
+ */
+export function ScorecardTable({ kpis, prevMonth, charts }: ScorecardTableProps) {
   return (
     <div className="flex flex-col gap-3">
       {PILLARS.map(p => {
         const ks = kpis.filter(k => k.pillar === p.id);
         if (ks.length === 0) return null;
+        const coo = ks.filter(k => k.group !== "extended"), more = ks.filter(k => k.group === "extended");
         const c = statusCounts(ks);
         return (
-          <CollapsibleCard key={p.id} id={`${idPrefix}-${p.id}`} title={p.name}
+          <CollapsibleCard key={p.id} id={`pillar-${p.id}`} title={p.name}
             meta={c.scored > 0 ? <><StatusBar counts={c} /><span>{countsLabel(c, true)}</span></> : <span>No targets</span>}>
             {charts?.[p.id] && <div className="flex flex-col gap-7 border-b border-line-2 px-4 pt-4 pb-5 sm:px-5">{charts[p.id]}</div>}
             <table className="w-full table-fixed border-collapse text-[13.5px] max-sm:block" aria-label={`${p.name} KPIs`}>
@@ -56,7 +54,15 @@ export function ScorecardTable({ kpis, prevMonth, charts, idPrefix = "pillar" }:
                 </tr>
               </thead>
               <tbody className="max-sm:block">
-                {ks.map(k => <KpiRow key={k.id} kpi={k} prevMonth={prevMonth} />)}
+                {coo.map(k => <KpiRow key={k.id} kpi={k} prevMonth={prevMonth} />)}
+                {more.length > 0 && (
+                  <tr className="border-t border-line-2 max-sm:block">
+                    <th scope="colgroup" colSpan={5} className="bg-surface-2/50 px-3 pt-2 pb-1.5 text-left text-[11.5px] font-normal text-ink-3 sm:pl-5 max-sm:block max-sm:px-4">
+                      More KPIs (slides 33–34)
+                    </th>
+                  </tr>
+                )}
+                {more.map(k => <KpiRow key={k.id} kpi={k} prevMonth={prevMonth} />)}
               </tbody>
             </table>
           </CollapsibleCard>
@@ -93,9 +99,7 @@ function KpiRow({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
       </td>
       <th scope="row" className={`${cell} text-left font-normal max-sm:row-start-1`}>
         <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-0.5">
-          {CATEGORY_KPIS.has(k.id)
-            ? <a href="#categories" className="font-medium text-ink underline decoration-ink-4 decoration-dotted underline-offset-4 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-accent">{k.label}</a>
-            : <span className="font-medium text-ink">{k.label}</span>}
+          <span className="font-medium text-ink">{k.label}</span>
           {k.anchor2027 && <span className="rounded-[4px] bg-accent-soft px-1.5 text-[11px] leading-[17px] font-semibold whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
           {note && <InfoTip text={note} label={k.label} />}
         </span>

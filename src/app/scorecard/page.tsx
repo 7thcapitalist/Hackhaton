@@ -6,6 +6,7 @@ import { CategoriesTable } from "@/components/scorecard/CategoriesTable";
 import { ToggleAllSections } from "@/components/scorecard/CollapsibleCard";
 import { KeyKpiCards } from "@/components/scorecard/KeyKpiCards";
 import { MarketplaceMetricsTable } from "@/components/scorecard/MarketplaceMetricsTable";
+import { MonthlyKpiBarsChart } from "@/components/scorecard/MonthlyKpiBarsChart";
 import { CategoryBarsChart } from "@/components/scorecard/CategoryBarsChart";
 import { RepeatBuyersChart } from "@/components/scorecard/RepeatBuyersChart";
 import { RevenuePaceChart } from "@/components/scorecard/RevenuePaceChart";
@@ -17,14 +18,14 @@ import { periodBounds, previousPeriod } from "@/lib/views/dates";
 
 export const metadata: Metadata = { title: "Monthly report – Mission Control" };
 
-/** Shown in the Categories table at the bottom, so not repeated as KPI rows. */
-const IN_CATEGORIES_TABLE = new Set(["top10_categories_revenue", "top10_categories_margin"]);
-
 export default async function ScorecardPage({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
   const range = (await getDataRange())!; // the layout shows NoData when null
   const period = resolvePeriod(range, (await searchParams).period);
-  const [{ kpis, extendedKpis, categories, marketplaceMetrics, totalRevenueCents }, sourcesData] = await Promise.all([getScorecardScreen(period), getSourcesScreen(range, period)]);
-  const charts = await getScorecardCharts(range, period, kpis);
+  const screen = getScorecardScreen(period);
+  // The charts start loading right away; they only need the KPIs (targets) at the end.
+  const [{ kpis, rows, categories, marketplaceMetrics, totalRevenueCents }, sourcesData, charts] = await Promise.all([
+    screen, getSourcesScreen(range, period), getScorecardCharts(range, period, screen.then(s => s.kpis)),
+  ]);
   const anchors = kpis.filter(k => k.anchor2027);
   const src = summarizeSources(sourcesData.sources);
   const i = range.periods.indexOf(period);
@@ -61,24 +62,19 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
           <h2 id="pillars-title" className="text-[15px] font-semibold">All KPIs by pillar</h2>
           <ToggleAllSections />
         </div>
-        <ScorecardTable kpis={kpis.filter(k => !IN_CATEGORIES_TABLE.has(k.id))} prevMonth={prevMonth} charts={{
+        <ScorecardTable kpis={rows} prevMonth={prevMonth} charts={{
           financial: charts.revenuePace && <RevenuePaceChart data={charts.revenuePace} />,
+          productivity: charts.productivity && <MonthlyKpiBarsChart data={charts.productivity} title="Listings created per month"
+            subtitle="New listings each month, last 6 months, against the monthly target." />,
+          inventory: charts.inventory && <MonthlyKpiBarsChart data={charts.inventory} title="Unlisted backlog at month end"
+            subtitle="Items sent to e-commerce but not yet listed, last 6 months, against the backlog ceiling." />,
           sales: charts.categories && <CategoryBarsChart data={charts.categories} />,
-          category_customer: charts.repeatBuyers && <RepeatBuyersChart data={charts.repeatBuyers} />,
+          category_customer: (charts.repeatBuyers || marketplaceMetrics.length > 0) && <>
+            {charts.repeatBuyers && <RepeatBuyersChart data={charts.repeatBuyers} />}
+            {marketplaceMetrics.length > 0 && <MarketplaceMetricsTable rows={marketplaceMetrics} />}
+          </>,
         }} />
       </section>
-
-      {extendedKpis.length > 0 && (
-        <section aria-labelledby="more-kpis-title" className="flex flex-col gap-2.5">
-          <div className="flex flex-col gap-0.5">
-            <h2 id="more-kpis-title" className="text-[14px] font-semibold">More KPIs</h2>
-            <p className="text-[12.5px] text-ink-3">The rest of the KPI list (slides 33–34), beyond the COO scorecard above.</p>
-          </div>
-          <ScorecardTable kpis={extendedKpis} prevMonth={prevMonth} idPrefix="more" charts={{
-            category_customer: marketplaceMetrics.length > 0 && <MarketplaceMetricsTable rows={marketplaceMetrics} />,
-          }} />
-        </section>
-      )}
 
       <CategoriesTable rows={categories} totalRevenueCents={totalRevenueCents} monthLabel={month} />
 

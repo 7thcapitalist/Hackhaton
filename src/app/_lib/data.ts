@@ -3,7 +3,7 @@
 import { cache } from "react";
 import {
   INGEST_RUNS_MAX_LIMIT, ORDERS_MAX_LIMIT,
-  getExceptions, getIngestRuns, getOrders, getPulse, getPulseSeries, getScorecard, getSourceStatus,
+  getExceptions, getIngestRuns, getOrders, getPulse, getPulseSeries, getScorecard, getScorecardHistory, getSourceStatus, loadPeriodFacts,
   isValidDate, isValidPeriod,
   type ExceptionRow, type IngestRunRow, type OrdersView, type PulseView as ViewPulse,
 } from "@/lib/views";
@@ -298,22 +298,38 @@ export { PILLARS } from "../scorecard/kpiFormat";
 
 const TEAM_LEVEL = new Set(["listings_per_employee", "sales_per_employee"]);
 const DISPLAY_UNIT: Record<string, DisplayUnit> = { csat: "score", nps: "score", listings_per_day: "per_day" };
+/** A period's facts, loaded once per request and shared by the scorecard view and its charts. */
+export const getPeriodFacts = cache((period: string) => loadPeriodFacts(period));
 /** The scorecard view for a period, once per request (the screen and its charts share it). */
-export const getScorecardView = cache((period: string) => getScorecard(period));
+export const getScorecardView = cache((period: string) => getScorecard(period, getPeriodFacts));
+/** Months of history behind the monthly Productivity and Inventory charts. */
+export const TREND_MONTHS = 6;
+/** Every KPI over the TREND_MONTHS months ending at the period, once per request. */
+export const getScorecardHistoryView = cache((period: string) => getScorecardHistory(period, TREND_MONTHS, getPeriodFacts));
+
+/**
+ * Shown elsewhere on the page, so not repeated as KPI rows: the Top-10 totals and the
+ * per-category totals are columns of the Categories table. Still computed and exported.
+ */
+const IN_CATEGORIES_TABLE = new Set([
+  "top10_categories_revenue", "top10_categories_margin",
+  "sales_by_category", "margin_by_category", "units_by_category", "sell_through_by_category", "asp_by_category",
+]);
 
 export const getScorecardScreen = cache(async (period: string) => {
   const view = await getScorecardView(period);
 
   const total = view.kpis.find(k => k.id === "total_revenue")?.value ?? null;
-  const kpis: Kpi[] = view.kpis.filter(k => k.group === "coo15").map(k => {
+  // Every KPI: the COO 15 first, then the rest of slides 33-34 (group "extended").
+  // Extended "ratio" KPIs read as a score or a daily rate, not "per person".
+  const kpis: Kpi[] = view.kpis.map(k => {
     const extra: Partial<Kpi> = { teamLevel: TEAM_LEVEL.has(k.id) };
     if (k.id === "top10_categories_revenue" && k.value != null && total) extra.valueNote = `${Math.round((k.value / total) * 100)}% of revenue`;
     if (k.id === "top10_categories_margin" && k.value != null) extra.valueNote = "margin";
-    return { ...k, ...extra };
+    return { ...k, unit: DISPLAY_UNIT[k.id] ?? k.unit, ...extra };
   });
-
-  // The rest of slides 33-34. Their "ratio" KPIs read as a score or a daily rate, not "per person".
-  const extendedKpis: Kpi[] = view.kpis.filter(k => k.group === "extended").map(k => ({ ...k, unit: DISPLAY_UNIT[k.id] ?? k.unit }));
+  /** The rows of the pillar cards. */
+  const rows = kpis.filter(k => !IN_CATEGORIES_TABLE.has(k.id));
 
   // Categories: the union of the two Top-10 lists, with which list(s) each one is in.
   const inRev = new Set(view.topCategoriesByRevenue.map(c => c.category));
@@ -328,7 +344,7 @@ export const getScorecardScreen = cache(async (period: string) => {
   const marketplaceMetrics: MarketplaceMetricRow[] = view.marketplaceMetrics.map(m => ({ ...m, label: CHANNEL_LABEL[m.channel as ChannelId] ?? m.channel }));
 
   return {
-    period, kpis, extendedKpis, categories, marketplaceMetrics, totalRevenueCents: total,
+    period, kpis, rows, categories, marketplaceMetrics, totalRevenueCents: total,
   };
 });
 
