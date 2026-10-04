@@ -13,6 +13,8 @@ import { z } from "zod";
 import {
   EXCEPTION_KINDS,
   EXCEPTION_STATUSES,
+  getCostBreakdown,
+  getCostedMargin,
   getExceptions,
   getOrders,
   getPulse,
@@ -59,6 +61,24 @@ function tool<S extends z.ZodObject>(t: ChatTool<S>): ChatTool<S> {
 }
 
 const fail = (message: string): ToolOutput => ({ result: { error: message }, isError: true });
+
+/**
+ * Recursively turns every `xxxCents` number into `xxxUsd` dollars (2 decimals)
+ * and `cents` into `usd`, so the model never has to convert cost figures.
+ */
+export function toDollars(v: unknown): unknown {
+  if (Array.isArray(v)) return v.map(toDollars);
+  if (!v || typeof v !== "object") return v;
+  const out: Record<string, unknown> = {};
+  for (const [k, x] of Object.entries(v as Record<string, unknown>)) {
+    if (typeof x === "number" && (k === "cents" || k.endsWith("Cents"))) {
+      out[k === "cents" ? "usd" : `${k.slice(0, -5)}Usd`] = Math.round(x) / 100;
+    } else if (typeof x === "number" && k === "rateCentsPerHour") {
+      out.rateUsdPerHour = x / 100;
+    } else out[k] = toDollars(x);
+  }
+  return out;
+}
 
 export const CHAT_TOOLS = [
   tool({
@@ -142,6 +162,28 @@ export const CHAT_TOOLS = [
         limit: i.limit ?? 50,
       });
       return { result: v, rowCount: v.rows.length };
+    },
+  }),
+  tool({
+    name: "get_costs",
+    description:
+      "P&L-style cost breakdown for a month, amounts in US DOLLARS (keys ending in Usd): gross sales, shipping charged, refunds, per-order marketplace fees, net revenue; shipping label cost (net of carrier refunds) by carrier; processing labor (SIMULATED hours × assumed rate); other marketplace/shipping-account charges (ads, subscriptions, service fees, adjustments); contribution and contribution % (= the scorecard's Net Margin %); plus excluded items (tax collected, cash movements such as postage top-ups, payouts and bank lines, with the reason). Optional channel: revenue is actual, shipping/labor are allocated. USE THIS for any cost, margin, profit, shipping-cost or labor-cost question.",
+    schema: z.object({ period, channel: z.enum(CHANNELS).optional() }),
+    label: (i) => `Breaking down costs for ${i.period}${i.channel ? ` on ${i.channel}` : ""}`,
+    run: async (i) => {
+      const v = await getCostBreakdown({ period: i.period, channel: (i.channel as ChannelId | undefined) ?? null });
+      return { result: toDollars(v), rowCount: v.shippingLabels.byCarrier.length + v.otherCharges.lines.length };
+    },
+  }),
+  tool({
+    name: "get_costed_margin",
+    description:
+      "Fully costed contribution margin per category or per channel for a month, amounts in US DOLLARS: net revenue, shipping label cost (linked to the order when the label references it, else allocated by share of paid order lines), labor allocated by share of items listed (SIMULATED), other charges, contribution and contribution %. Sorted by contribution, highest first; totals equal get_costs. Includes the allocation method: state it in the answer. USE THIS for 'best/worst category or channel', 'most profitable', 'margin by category/channel'.",
+    schema: z.object({ period, by: z.enum(["category", "channel"]) }),
+    label: (i) => `Computing costed margin by ${i.by} for ${i.period}`,
+    run: async (i) => {
+      const v = await getCostedMargin({ period: i.period, by: i.by });
+      return { result: toDollars(v), rowCount: v.groups.length };
     },
   }),
   tool({

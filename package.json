@@ -22,7 +22,9 @@
     "check:parsers-ops": "tsx scripts/check-parsers-ops.ts",
     "pull": "tsx scripts/pull.ts",
     "chat": "tsx scripts/chat.ts",
-    "check:chat-sql": "tsx scripts/check-chat-sql.ts"
+    "check:chat-sql": "tsx scripts/check-chat-sql.ts",
+    "check:costs": "tsx scripts/check-costs.ts",
+    "eval:chat": "tsx scripts/eval-chat.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",

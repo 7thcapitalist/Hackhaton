@@ -5,7 +5,7 @@
  *   npm run chat -- --tools          # run every chat tool directly (no model, no API key)
  *
  * Prints the streamed answer, the tools used ("How I got this") and token usage.
- * Uses OPENAI_API_KEY (+ optional OPENAI_MODEL) and TURSO_DATABASE_URL
+ * Uses OPENAI_API_KEY (or OPEN_API_KEY) (+ optional OPENAI_MODEL) and TURSO_DATABASE_URL
  * (default file:local.db) from .env.local / .env.
  */
 import { config } from "dotenv";
@@ -53,7 +53,7 @@ async function exerciseTools() {
 async function ask(question: string) {
   const { chatConfigured, runChat } = await import("../src/ai/chat/agent");
   if (!chatConfigured()) {
-    console.error("OPENAI_API_KEY is not set. Put it in .env.local (or run `npm run chat -- --tools`).");
+    console.error("OPENAI_API_KEY (or OPEN_API_KEY) is not set. Put it in .env.local (or run `npm run chat -- --tools`).");
     process.exit(1);
   }
   let trace: unknown[] = [];

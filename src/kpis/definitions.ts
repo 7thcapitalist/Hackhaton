@@ -55,7 +55,7 @@ export const KPI_DEFINITIONS: KpiDefinition[] = [
   { id: "revenue_growth_pct", label: "Revenue Growth %", pillar: "financial", unit: "percent", group: "coo15", slide: 35, anchor2027: false, dataBasis: "orders", compute: F.revenueGrowthPct, dynamicNote: growthNote },
   {
     id: "net_margin_pct", label: "Net Margin %", pillar: "financial", unit: "percent", group: "coo15", slide: 35, anchor2027: true, dataBasis: "synthetic", compute: (f) => F.netMarginPct(f),
-    note: "Net revenue (after fees and refunds) minus shipping labels and processing labor; overhead not included.",
+    note: "Fully costed contribution margin: net revenue (after per-order fees and refunds) minus shipping labels, other marketplace/shipping-account charges and processing labor; overhead not included. Same basis as the cost breakdown.",
     dynamicNote: laborNote,
   },
   { id: "listings_created", label: "Listings Created", pillar: "productivity", unit: "count", group: "coo15", slide: 35, anchor2027: false, dataBasis: "synthetic", compute: (f) => F.listingsCreated(f) },

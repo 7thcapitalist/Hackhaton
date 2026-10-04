@@ -7,6 +7,7 @@ export * from "./types";
 export { getPulse, getPulseSeries } from "./pulse";
 export { getScorecard, laborRateCentsPerHour, loadPeriodFacts } from "./scorecard";
 export { getSourceStatus } from "./sources";
+export { getCostBreakdown, getCostedMargin, allocate } from "./costs";
 export { getOrders, ORDERS_DEFAULT_LIMIT, ORDERS_MAX_LIMIT, type OrdersQuery } from "./orders";
 export { BUSINESS_TZ, isValidDate, isValidPeriod } from "./dates";
 export {
