@@ -9,5 +9,5 @@ export default async function PulsePage({ searchParams }: { searchParams: Promis
   const date = resolveDate(range, (await searchParams).date);
   const data = await getPulseScreen(range, date);
   const baseline = await getPulseBaseline(range, data.view);
-  return <PulseScreen {...data} baseline={baseline} latestDate={range.completeDate} />;
+  return <PulseScreen {...data} baseline={baseline} latestDate={range.completeDate} firstDate={range.earliestDate} lastDate={range.latestDate} />;
 }
