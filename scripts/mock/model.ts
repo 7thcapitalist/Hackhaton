@@ -305,7 +305,8 @@ const BUYER_POOLS: Record<Stream, { offset: number; size: number; skew: number }
 };
 
 const LISTERS = ["lister_A", "lister_B", "lister_C", "lister_D", "lister_E", "lister_F"];
-const SUPPLIERS = ["Store 04", "Store 07", "Store 12", "Outlet DC"];
+/** Fake suppliers (who sourced the jewelry); also used by the jewelry and Upright writers. */
+export const SUPPLIERS = ["Michiana Estate Jewelry", "Store 104 Donations", "Elkhart Consignment", "Outlet DC Donations"];
 const JEWELRY_KINDS: [string, string][] = [
   ["Rings", "Sterling silver ring"], ["Necklaces", "Gold-tone necklace lot"], ["Brooches", "Vintage brooch"],
   ["Chains", "10k gold chain 18in"], ["Watches", "Watch lot (5)"], ["Earrings", "Pearl earrings"],

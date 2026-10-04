@@ -23,6 +23,7 @@ import { csvRow, dec, lines, PACIFIC, uprightDate } from "../format";
 import type { MockModel, MockOrder } from "../model";
 import { ALL_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
+import { isReportedJewelry, jewelrySupplierOf } from "./jewelry";
 
 const HEADER = [
   "Channel", "Channel Item ID", "Channel Order ID", "Upright Order ID", "Upright Product ID", "Quantity",
@@ -33,7 +34,6 @@ const HEADER = [
   "Order Payment Processing Fee", "Refund Amount", "Poster", "Product Weight", "Channel Buyer ID",
   "Secondary Channel Order ID", "Currency Code", "Order Channel Fee Or Credit Amount",
 ];
-const SUPPLIER = "Michiana E-Com (test)";
 const HANDLING = 200; // ShopGoodwill handling, same split as the ShopGoodwill writer
 
 /** An order as Upright prints it: one or more items sharing order-level money. */
@@ -65,7 +65,7 @@ function render(orders: UprightOrder[]): string {
       rows.push(
         csvRow([
           o.uprightChannel, o.itemId, head.orderId, head.uprightOrderId, o.uprightProductId, String(o.quantity),
-          `BIN-${String(o.seq % 400).padStart(3, "0")}`, o.sku, o.title, `${o.category}`, SUPPLIER,
+          `BIN-${String(o.seq % 400).padStart(3, "0")}`, o.sku, o.title, `${o.category}`, isReportedJewelry(o) ? jewelrySupplierOf(o) : "",
           o.shipment ? o.shipment.carrier : "", method, dec(o.unitCents), dec(o.grossCents), t(head.ts), t(head.ts),
           shipped, "", head.channel === "ebay" ? `PAY-${head.seq}` : "", head.channel === "ebay" ? "eBay Managed Payments" : "Stripe",
           dec(subtotal + shipping + handling + tax), dec(subtotal), dec(shipping), dec(handling), dec(fvf), dec(processing),

@@ -1,5 +1,5 @@
 /**
- * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged] [--no-golden]
+ * Demo seed through the real pipeline. Run: npm run seed [-- --direct | --staged] [--no-golden] [--archive]
  *
  * Wipes the facts, upserts config + KPI targets, then pulls every mock export
  * in data/fixtures through the mock connectors (pullAndIngest, mock mode) into
@@ -16,6 +16,8 @@
  * Ends by saving the golden snapshot (src/lib/demo/golden.ts) that
  * `npm run demo:reset` and POST /api/demo/reset restore from in one batch.
  * --no-golden skips it (an existing snapshot is left as it was).
+ * --archive copies every fixture into the raw-file archive (Vercel Blob or
+ * data/archive/); by default runs only point at the versioned fixture path.
  */
 import { config } from "dotenv";
 
@@ -39,7 +41,7 @@ async function main() {
 
   let r;
   try {
-    r = await runSeed(getDb(), { fixtures, mode, log: (l) => console.log(l) });
+    r = await runSeed(getDb(), { fixtures, mode, log: (l) => console.log(l), archive: argv.includes("--archive") });
   } catch (err) {
     const root = err instanceof Error && err.cause instanceof Error ? err.cause : err;
     throw new Error(redactSecrets(root instanceof Error ? root.message : String(root)));

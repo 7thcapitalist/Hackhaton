@@ -124,6 +124,14 @@ export const ingestRuns = sqliteTable(
     /** 1 = synthetic data (item pipeline, labor hours); scorecard shows "simulated". */
     isSynthetic: integer("is_synthetic").notNull().default(0),
     uploadedAt: text("uploaded_at").notNull(),
+    /**
+     * Raw file archive (slide 40 step 02): `Month End/<YYYY>/<MM>/<source_id>/<file>`
+     * in Vercel Blob ("blob"), data/archive/ ("local"), the versioned fixture path
+     * ("repo", seed), or null with "none" when archiving was skipped or failed.
+     */
+    archiveKey: text("archive_key"),
+    archiveUrl: text("archive_url"),
+    archiveBackend: text("archive_backend", { enum: ["blob", "local", "repo", "none"] }),
   },
   (t) => [
     index("ingest_runs_source_idx").on(t.sourceId),
@@ -172,6 +180,8 @@ export const orders = sqliteTable(
     /** gross + shipping - refund - fee (research §6.3). */
     netCents: integer("net_cents").notNull().default(0),
     status: text("status", { enum: ["paid", "refunded", "cancelled"] }).notNull(),
+    /** Who sourced the item (store / consignor / vendor): Jewelry Report or an Upright Supplier column (slide 40 step 03). */
+    supplier: text("supplier"),
   },
   (t) => [
     uniqueIndex("orders_dedupe_key_uq").on(t.dedupeKey),

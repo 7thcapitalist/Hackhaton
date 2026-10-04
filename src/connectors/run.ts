@@ -12,7 +12,7 @@
  */
 import { getDb, type Db } from "@/db/client";
 import { redactSecrets } from "@/db/env";
-import { IngestError, ingestFile, type IngestStatus } from "@/ingest";
+import { IngestError, ingestFile, type ArchiveMode, type IngestStatus } from "@/ingest";
 import { connectors, getConnector } from "./registry";
 import type { Connector, ConnectorMode } from "./types";
 import { assertRange } from "./util";
@@ -26,6 +26,8 @@ export interface PullAndIngestOptions {
   db?: Db;
   /** ingest_runs.uploaded_at per pulled file (default: now). The seed uses the mock upload times. */
   uploadedAt?: (sourceId: string, fileName: string) => string | undefined;
+  /** Raw-file archive mode per pulled file (default "auto"). The seed points fixtures at their repo path. */
+  archive?: (sourceId: string, fileName: string) => ArchiveMode | undefined;
 }
 
 export interface PulledFileResult {
@@ -126,6 +128,7 @@ async function runOne(c: Connector, opts: PullAndIngestOptions, db: Db): Promise
         db,
         uploadedAt: opts.uploadedAt?.(c.sourceId, f.fileName),
         isSynthetic: !!opts.mock,
+        archive: opts.archive?.(c.sourceId, f.fileName),
       });
       Object.assign(out, {
         status: s.status,
