@@ -200,3 +200,138 @@ orders; month-end sources have no October files yet; 2025-08..10 exist for year-
 - [docs/data-contract.md](docs/data-contract.md): database schema and data shapes
 - [docs/weekend-plan.md](docs/weekend-plan.md): timeline, milestones, tasks
 - [docs/research.md](docs/research.md): source file formats and platform notes
+
+## Monthly PDF + Excel review package (Denis)
+
+The monthly output now uses one immutable `MonthlyData` input for both documents:
+`monthlyPackage(data)` creates a real PDF and the same Excel generator used by
+`scorecardXlsx(data)`. The period, generation timestamp and content hash identify
+both files. The hash excludes the timestamp so unchanged data has the same version.
+
+- PDF: `/api/export/monthly?period=YYYY-MM&format=pdf` (default). Three reading
+  stages: overview, observed changes, and the 15 core indicators. The renderer uses
+  the existing HTML template, embedded official logo and inline SVG charts. It
+  rejects PDFs above five pages. `format=html` remains available as a preview.
+- Detailed Excel: `/api/export/scorecard?period=YYYY-MM&format=xlsx`. It uses the
+  same workbook generator as the monthly attachment, with all supplied measures,
+  categories, rankings, marketplace values, normalized order lines and file
+  references. Missing values remain blank. Core and supporting indicators share
+  one filterable scorecard; essential interpretation notes stay beside the measures.
+  Available order lines link to their file references. Aggregate-only examples are
+  labeled explicitly and never presented as raw transactions. The existing
+  monthly CSV and all daily exports remain separate.
+- **Access handoff:** the detailed Excel requires server bearer authorization with
+  the existing `CRON_SECRET`; missing configuration fails closed. Do not put that
+  secret in a browser, query string or frontend code. Joao/Gabriel must supply the
+  employee authentication/download integration before enabling a staff-facing
+  detailed export. No new unprotected raw-data route was added.
+- **Monthly collection:** Denis's `monthly-provider.ts` composes the existing view
+  functions and paginates every order and ingest file,
+  checks counts/duplicate IDs, reconciles line net revenue with the scorecard, and
+  compares scorecard/file references before and after collection. A changed or
+  incomplete collection fails explicitly. These checks are provisional, **not an
+  atomic database snapshot**. Joao is not building a separate monthly snapshot.
+  Shared view files remain in his lane. Cost detail must use
+  `getCostBreakdown({ period })` from his updated backend (now on origin/main),
+  never a calculation in the report. No business formula or DB schema was changed. Rating scales,
+  source cadence and target approval are not inferred.
+- **Existing demo API:** `createMonthlyApiProvider(origin)` reads the existing
+  `/api/views/scorecard`, `/orders`, `/ingest-runs` and `/sources` JSON endpoints.
+  It reuses the server collector and all pagination/reconciliation checks, with
+  GET requests only. It never triggers connector pulls, ingestion or demo resets.
+  API currency, cadence and availability dates are retained when supplied; buyer
+  keys and customer details are excluded. Expiring archive links are excluded from
+  the report input so they cannot make an unchanged collection fail comparison.
+  Local examples can use this adapter without configuring a local database.
+  App exports continue to call the shared server views directly, against the same
+  configured database; no remote URL is hardcoded into the application.
+- **Excel navigation:** the workbook opens on `Scorecard`: the 15 COO indicators
+  come first, with five groups and three 2027 priorities labeled, followed by the
+  other supplied indicators. Filter `Indicator set` to select Core or Supporting.
+  Populated data areas use native Excel tables and filters.
+  All sheets open in one normal scrolling viewport, without split or frozen panes.
+  Category rankings use the category rank columns when every source entry matches
+  exactly; different amounts or repeated entries retain an independent rankings tab.
+  Category revenue coverage remains explicit. No Start Here, duplicate source-scale
+  indicator table, or duplicate PDF-comparison table is generated. Sources contains
+  the supplied file/source records or a short source list when they are absent,
+  currency confirmation and the official Goodwill requirements (slides 33-36).
+  Transactions appears only with supplied order lines. Important assumptions,
+  buyer exclusions and incomplete periods stay in the Scorecard reading notes.
+  Annual improvement directions are not monthly targets.
+  JSZip 3.10 (already used by ExcelJS, now declared directly) normalizes ExcelJS
+  4.4's incorrect totals-row metadata so the last record remains a data row.
+- **Currency:** Joao Carvalho confirmed on October 3, 2026 that current shared
+  monetary amounts are USD cents. Newer order views also return currency per
+  record, which the collector verifies. Older views retain the project-level
+  confirmation and its limitation. A supplied snapshot without
+  confirmation is rendered without a dollar sign or assumed currency.
+- **Targets and history:** example targets from the seed are illustrative, not
+  approved Goodwill targets. The saved September view already contains margin
+  52.5% (August 53.5%). Its earlier 42.7%/44.2% values predate the layout revision;
+  the cause still needs Joao's revenue/labor/net-shipping inputs for both versions.
+  The live demo API read on October 4 returns 52.4% (August 53.4%); its margin
+  note now includes other marketplace/shipping-account charges. The report keeps
+  that supplied value and reflects its stated cost basis, without recalculating
+  costs. The exact earlier-version reconciliation still belongs to Joao.
+  Rendering retains the supplied values and does not correct formulas silently.
+
+`monthlyEmailPreview(package, env)` prepares a Resend-compatible subject, short
+body, separate PDF/XLSX attachments and `/scorecard?period=YYYY-MM` dashboard link.
+It reuses the existing trusted report-origin resolver. It has no sender/recipient
+selection, provider call, cron route or monthly scheduling. The daily email is
+unchanged. Encoded preview payloads are capped at 38 MB to leave headroom below
+[Resend's 40 MB message limit](https://resend.com/docs/api-reference/emails/send-email).
+Oversized packages fail; records are never silently truncated. Approval of the
+files and agreement with Joao are required before implementing monthly sending.
+
+PDF dependencies: `puppeteer-core` 25.11 + `@sparticuz/chromium` 153 (Linux/Vercel),
+and `pdf-lib` for the real page-count guard. Windows development uses installed
+Chrome or Edge; macOS uses installed Chrome. No browser download occurs during a
+request. The Next config keeps these packages external and traces Chromium assets
+for the PDF route; this shared config change needs Joao's review. Actual Vercel
+execution and employee access remain unverified until an authorized preview deploy.
+
+Validation: `node --import tsx --test src/report/monthly.test.ts
+src/export/formats.test.ts src/export/pulse.test.ts src/emails/pulse.test.ts`, then
+`npm run typecheck` and `npm run build`. These tests use injected synthetic readers,
+including more than 1,000 lines, and never send mail or touch a production database.
+Example documents can also be rendered from the saved scorecard without live DB
+access, but that input lacks orders/files: the workbook states that limitation.
+
+Daily and monthly profile demonstrations reuse the approved report templates.
+See [profile report configuration and review](src/report/PROFILE-REPORTS.md) for
+the five proposed profiles, read-only demo command, shared export/attachment
+generator, isolated tests and employee-authorization dependencies. This adds no
+recipients, schedules, production routes or real email sending.
+
+### Approved demo downloads
+
+Daily Pulse and Scorecard PDF/XLSX downloads now use `exportProfilePackage`, the
+same CEO profile, PDF renderer and workbook generator used for the approved Gmail
+demonstrations. The selected date/month is preserved. Scorecard's former browser
+print button downloads the real PDF; both screens also offer the matching Excel.
+CSV exports and the accounting-close/Business Central export are unchanged.
+
+For the **synthetic demonstration only**, Joao must set
+`DEMO_REPORT_EXPORTS_ENABLED=true` in the Vercel environment that runs the demo.
+With the flag off, detailed report routes require existing server authorization;
+no secret is passed to a browser. Even with the flag on, every exported order must
+reference a confirmed synthetic ingest file. Real/unknown provenance fails closed.
+This is not employee authentication or a monthly email scheduler.
+
+Supported routes: `/api/export/pulse?date=YYYY-MM-DD&format=pdf|xlsx`,
+`/api/export/scorecard?period=YYYY-MM&format=pdf|xlsx`, and
+`/api/export/monthly?period=YYYY-MM&format=pdf|xlsx|html`. Only date/month and format
+are accepted for these reports; unsupported scope filters are rejected.
+Each download identifies its data version and generation time. New downloads use
+current shared data; an older Gmail attachment remains its original snapshot.
+When preparing a new email, retain and attach the returned package bytes instead
+of querying again. No separate email-specific document template exists.
+
+Validation: `node --import tsx --test src/report/profile.test.ts
+src/report/monthly.test.ts src/export/*.test.ts src/emails/*.test.ts`,
+`npm run typecheck`, and `npm run build`. Tests are isolated and never send mail.
+Integration touches only export links in Gabriel's Pulse/Scorecard screens and
+PrintButton, plus Chromium tracing for all three routes; these need his/Joao's
+review before merge. No deployed change is implied by local validation.

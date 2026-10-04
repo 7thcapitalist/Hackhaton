@@ -36,7 +36,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
               nextHref={i < range.periods.length - 1 ? `/scorecard?period=${range.periods[i + 1]}` : null}
               prevLabel="Previous month" nextLabel="Next month" />
           </div>
-          <PrintButton />
+          <PrintButton period={period} />
         </div>
       </div>
 

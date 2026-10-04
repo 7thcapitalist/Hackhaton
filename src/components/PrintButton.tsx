@@ -1,11 +1,11 @@
-"use client";
-import { Button } from "./Button";
-import { PrintIcon } from "./icons";
+import { buttonClass } from "./Button";
+import { DownloadIcon } from "./icons";
 
-export function PrintButton() {
+export function PrintButton({ period }: { period: string }) {
   return (
-    <Button data-print-hide variant="primary" className="px-[15px]" icon={<PrintIcon />} onClick={() => window.print()}>
-      Print / PDF
-    </Button>
+    <div data-print-hide className="flex flex-wrap gap-2">
+      <a href={`/api/export/scorecard?period=${encodeURIComponent(period)}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
+      <a href={`/api/export/monthly?period=${encodeURIComponent(period)}&format=pdf`} className={buttonClass("primary")}><DownloadIcon />Export PDF</a>
+    </div>
   );
 }

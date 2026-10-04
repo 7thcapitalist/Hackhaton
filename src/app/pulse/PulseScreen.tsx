@@ -62,6 +62,7 @@ export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDa
           {/* Export routes are Denis's lane (docs/interfaces.md §3). */}
           <a href={`/api/export/pulse?date=${date}&format=csv`} className={buttonClass("secondary")}><DownloadIcon />Export CSV</a>
           <a href={`/api/export/pulse?date=${date}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
+          <a href={`/api/export/pulse?date=${date}&format=pdf`} className={buttonClass("primary")}><DownloadIcon />Export PDF</a>
           <button type="button" onClick={emailPulse} className={buttonClass("primary", "px-[15px]")}><MailIcon />Email this pulse</button>
         </div>
       </div>
