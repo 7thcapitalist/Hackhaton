@@ -11,6 +11,32 @@ Each item: **what** is wrong, the **evidence**, the **impact**, a suggested **fi
 - **P1**: a number on screen is wrong or misleading. Fix or say it out loud in the pitch.
 - **P2**: cleanup, gaps and nice-to-haves.
 
+## Status update: Sat 2026-10-03 night (data lane)
+
+What the PRs merged since this list was written changed, for the items owned by or shared with Joao:
+
+| # | Status now | Where |
+|---|---|---|
+| 1 | Fixed: production Turso seeded with the real salt, workbook baselines and golden snapshot | #24, #28, #36 |
+| 4 | Partly: `BUYER_KEY_SALT`, `DEMO_RESET_SECRET` and `OPEN_API_KEY` are set; use a random reset secret before the demo, and check `CRON_SECRET` and the Blob variables | Vercel |
+| 5 | By design: revenue = net (gross + shipping charged − refunds − fees); shipping label costs are subtracted in the contribution margin | #34 |
+| 6 | Still true: Amazon and eBay order reports carry no category, so ~46% of revenue is "Uncategorized" (flagged in costed margins and the chatbot) | — |
+| 7 | Fixed: unknown Amazon types become money lines; the Liquidations case moved to `data/demo-uploads/` | #24, #28 |
+| 8 | Fixed: the missing-Supplier row moved to `data/demo-uploads/`; the baseline has 0 warnings | #28 |
+| 9 | Decided: "Unique customers" = unique buyers per marketplace (one per transaction when there is no buyer id) | #33 |
+| 10 | By design: Amazon's reports have no buyer id, so Amazon is excluded from buyer KPIs and the KPI note says so | #24 |
+| 11 | Fixed: no KPI is "simulated" any more (items and labor arrive through sources); targets are still demo values | #38 |
+| 12, 13 | Fixed: completeness is per day for daily sources, per period for monthly ones; status `not_due` | #28 |
+| 14 | Fixed: rule-handled duplicates are auto-resolved; 0 open exceptions on the baseline | #28 |
+| 15 | Fixed: Upright no longer warns for known "other" channels | #24 |
+| 16 | Partly: parsers rebuilt to the researched real layouts (docs/sources); ShopGoodwill, Goodwill Books and Jewelry headers still need one real file | #24 |
+| 18 | Fixed: `orders.supplier` filled from the Jewelry report | #36 |
+| 20 | Improved: Aug–Oct 2025 and Aug–Oct 2026 are loaded (YoY works) | #21 |
+| 21 | Fixed: marketplace ratings source (CSAT, NPS, conversion) | #24 |
+| 22 | Fixed: daily pulse email (#20); daily pull cron in progress | #20 |
+| 24, 26 | Fixed: `/close` page with owned exceptions (resolve/waive), upload history via `getIngestRuns` | #36 |
+| 29 | Measured: production seed ~35 s; demo reset ~3 s from the golden snapshot | #28, #36 |
+
 ## Summary
 
 | # | Problem | Priority | Owner |
