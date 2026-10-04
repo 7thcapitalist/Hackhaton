@@ -1,4 +1,5 @@
-import type { Kpi } from "@/app/_lib/types";
+import type { ReactNode } from "react";
+import type { Kpi, Pillar } from "@/app/_lib/types";
 import { formatKpiShort } from "@/app/_lib/format";
 import { CHANGE_TONE, PILLARS, STATUS_META, countsLabel, formatTarget, formatValue, kpiChange, kpiStatus, statusCounts, type StatusCounts } from "@/app/scorecard/kpiFormat";
 import { Tooltip } from "../Tooltip";
@@ -6,7 +7,12 @@ import { CollapsibleCard } from "./CollapsibleCard";
 import { EstMarker } from "./EstMarker";
 import { InfoTip } from "./InfoTip";
 
-type ScorecardTableProps = { kpis: Kpi[]; prevMonth: string /* "Aug" */ };
+type ScorecardTableProps = {
+  kpis: Kpi[];
+  prevMonth: string; // "Aug"
+  /** Optional charts shown above a pillar's KPI rows when its section is open. */
+  charts?: Partial<Record<Pillar, ReactNode>>;
+};
 
 export const KEY_KPI_HINT = "One of the three KPIs Goodwill's 2027 plan is built around.";
 export const TEAM_LEVEL_NOTE = "Team-level, for capacity planning.";
@@ -20,7 +26,7 @@ const num = "text-right tabular-nums whitespace-nowrap";
 const head = "px-3 pt-2.5 pb-1.5 font-normal";
 
 /** The 15 KPIs as one collapsible card per pillar. */
-export function ScorecardTable({ kpis, prevMonth }: ScorecardTableProps) {
+export function ScorecardTable({ kpis, prevMonth, charts }: ScorecardTableProps) {
   return (
     <div className="flex flex-col gap-3">
       {PILLARS.map(p => {
@@ -30,6 +36,7 @@ export function ScorecardTable({ kpis, prevMonth }: ScorecardTableProps) {
         return (
           <CollapsibleCard key={p.id} id={`pillar-${p.id}`} title={p.name}
             meta={c.scored > 0 ? <><StatusBar counts={c} /><span>{countsLabel(c, true)}</span></> : <span>No targets</span>}>
+            {charts?.[p.id] && <div className="flex flex-col gap-7 border-b border-line-2 px-4 pt-4 pb-5 sm:px-5">{charts[p.id]}</div>}
             <table className="w-full table-fixed border-collapse text-[13.5px] max-sm:block" aria-label={`${p.name} KPIs`}>
               <colgroup>
                 <col className="w-[132px]" /><col /><col className="w-[220px]" /><col className="w-[130px]" /><col className="w-[116px]" />
