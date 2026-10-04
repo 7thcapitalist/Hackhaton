@@ -22,7 +22,7 @@ export function SourcesBoard({ sources, issues, openIssues, periodLabel, firstDa
         ))}
       </div>
 
-        <section id="issues" className="flex scroll-mt-4 flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
+        <section id="issues" className="flex scroll-mt-4 flex-col overflow-hidden rounded-lg border border-line bg-surface">
           <header className="flex items-center justify-between border-b border-line px-4 py-3.5">
             <h2 className="text-sm font-semibold">Open issues</h2>
             <span className="text-xs text-ink-3">{openIssues} open</span>
