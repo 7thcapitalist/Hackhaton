@@ -17,6 +17,9 @@ import { periodBounds, previousPeriod } from "@/lib/views/dates";
 
 export const metadata: Metadata = { title: "Monthly report – Mission Control" };
 
+/** Shown in the Categories table at the bottom, so not repeated as KPI rows. */
+const IN_CATEGORIES_TABLE = new Set(["top10_categories_revenue", "top10_categories_margin"]);
+
 export default async function ScorecardPage({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
   const range = (await getDataRange())!; // the layout shows NoData when null
   const period = resolvePeriod(range, (await searchParams).period);
@@ -58,7 +61,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
           <h2 id="pillars-title" className="text-[15px] font-semibold">All KPIs by pillar</h2>
           <ToggleAllSections />
         </div>
-        <ScorecardTable kpis={kpis} prevMonth={prevMonth} charts={{
+        <ScorecardTable kpis={kpis.filter(k => !IN_CATEGORIES_TABLE.has(k.id))} prevMonth={prevMonth} charts={{
           financial: charts.revenuePace && <RevenuePaceChart data={charts.revenuePace} />,
           sales: charts.categories && <CategoryBarsChart data={charts.categories} />,
           category_customer: charts.repeatBuyers && <RepeatBuyersChart data={charts.repeatBuyers} />,
