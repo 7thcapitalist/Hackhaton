@@ -87,16 +87,21 @@ body {
   @page { size: landscape; margin: 10mm; }
   /* Always print on white, even from dark mode: same tokens as :root. */
   .dark {
-  --bg: #f7f8fa; --surface: #ffffff; --surface2: #f2f3f6; --line: #e3e5ea; --line2: #eef0f3;
-  --ink: #14161b; --ink2: #454a55; --ink3: #646976; --ink4: #a3a7b2;
-  --accent: #4651c4; --accent-ink: #ffffff; --accent-soft: #eceefb; --accent-line: #c9cdf3;
-  --ok: #1c7444; --ok-soft: #e5f3ea; --warn: #8a5700; --warn-icon: #b97d0c; --warn-soft: #fcf1dc;
-  --bad: #b42318; --bad-soft: #fdeceb; --muted: #5d6270; --muted-soft: #eff0f3;
-  --s1: #4651c4; --s2: #8189e3; --s3: #b7bcef; --s4: #d3d6de;
-  /* Marketplace hues (Daily Pulse chart + table dots): muted on purpose, "Other" is a warm gray.
-     Validated light and dark (dataviz validator, stack order): neighbors CVD-safe; low chroma is intended. */
-  --mk-shopgoodwill: #4f7db1; --mk-amazon: #cf8c6a; --mk-ebay: #147874; --mk-other: #a49d94;
-  --shadow: 0 1px 2px rgba(20, 22, 27, 0.05); --scrim: rgba(20, 22, 27, 0.32);
+  --bg: #f1f4f8; --surface: #ffffff; --surface2: #ecf1f5; --line: #d8e0e9; --line2: #e6ecf2;
+  --ink: #0e1a28; --ink2: #3a4859; --ink3: #556375; --ink4: #9aa7b6;
+  --accent: #01529c; --accent-ink: #ffffff; --accent-soft: #e3edf7; --accent-line: #b3cbe5;
+  --ok: #1b6b45; --ok-soft: #e3f1e9; --warn: #8a4b00; --warn-icon: #c2650a; --warn-soft: #fceedd;
+  --bad: #b42318; --bad-soft: #fdeceb; --muted: #556375; --muted-soft: #ebeff4;
+  --s1: #01529c; --s2: #4c86c4; --s3: #9dbfe3; --s4: #d3dce6;
+  /* Marketplace hues (Daily Pulse chart + table dots, Overview filter). ShopGoodwill wears
+     Goodwill Blue. Validated with the dataviz validator, all pairs, light + dark: CVD and
+     normal-vision floors pass; "Other" is a deliberate neutral (fails chroma on purpose). */
+  --mk-shopgoodwill: #01529c; --mk-amazon: #eea055; --mk-ebay: #1d7a5c; --mk-other: #9a958e; --mk-books: #9b5a7a;
+  /* Brand moments: the blue rail (sidebar / mobile header) and the yellow marker. */
+  --brand: #01529c; --brand-yellow: #f4d152;
+  --rail: #01529c; --rail-ink: #ffffff; --rail-ink2: #e4edf7; --rail-ink3: #dce7f3;
+  --rail-hover: rgba(255, 255, 255, 0.1); --rail-line: rgba(255, 255, 255, 0.2); --rail-ok: #9fe0bb;
+  --shadow: 0 1px 2px rgba(1, 40, 80, 0.06); --shadow-pop: 0 8px 24px rgba(1, 30, 60, 0.14); --scrim: rgba(8, 24, 44, 0.36);
   color-scheme: light;
 }
   :root, .dark { --bg: #ffffff; }
