@@ -1,6 +1,6 @@
 // UI-side shapes: the view contract from src/lib/views (docs/interfaces.md §2) plus the
 // display extras each screen needs. Built on the server in data.ts.
-import type { ChannelId, Kpi as ViewKpi, KpiUnit, PulseRow as ViewPulseRow, PulseSeriesView } from "@/lib/views/types";
+import type { ChannelId, Kpi as ViewKpi, KpiUnit, MarketplaceMetricsRow, PulseRow as ViewPulseRow, PulseSeriesView } from "@/lib/views/types";
 
 export type { ChannelId, KpiUnit } from "@/lib/views/types";
 
@@ -48,7 +48,13 @@ export type CategoryRow = {
   marginCents: number;
   inRevenueTop10: boolean;
   inMarginTop10: boolean;
+  units: number;                 // paid units sold
+  sellThroughPct: number | null; // items sold / items available × 100
+  aspCents: number | null;       // paid gross / paid units
 };
+
+/** Per-channel marketplace metrics (CSAT, NPS, conversion) behind the averaged KPIs. */
+export type MarketplaceMetricRow = MarketplaceMetricsRow & { label: string };
 
 export type SourceStatus = "received" | "warnings" | "missing" | "not_due";
 export type Source = {

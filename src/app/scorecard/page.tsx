@@ -5,6 +5,7 @@ import { PrintButton } from "@/components/PrintButton";
 import { CategoriesTable } from "@/components/scorecard/CategoriesTable";
 import { ToggleAllSections } from "@/components/scorecard/CollapsibleCard";
 import { KeyKpiCards } from "@/components/scorecard/KeyKpiCards";
+import { MarketplaceMetricsTable } from "@/components/scorecard/MarketplaceMetricsTable";
 import { CategoryBarsChart } from "@/components/scorecard/CategoryBarsChart";
 import { RepeatBuyersChart } from "@/components/scorecard/RepeatBuyersChart";
 import { RevenuePaceChart } from "@/components/scorecard/RevenuePaceChart";
@@ -19,7 +20,7 @@ export const metadata: Metadata = { title: "Monthly report – Mission Control" 
 export default async function ScorecardPage({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
   const range = (await getDataRange())!; // the layout shows NoData when null
   const period = resolvePeriod(range, (await searchParams).period);
-  const [{ kpis, categories, totalRevenueCents }, sourcesData] = await Promise.all([getScorecardScreen(period), getSourcesScreen(range, period)]);
+  const [{ kpis, extendedKpis, categories, marketplaceMetrics, totalRevenueCents }, sourcesData] = await Promise.all([getScorecardScreen(period), getSourcesScreen(range, period)]);
   const charts = await getScorecardCharts(range, period, kpis);
   const anchors = kpis.filter(k => k.anchor2027);
   const src = summarizeSources(sourcesData.sources);
@@ -63,6 +64,18 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
           category_customer: charts.repeatBuyers && <RepeatBuyersChart data={charts.repeatBuyers} />,
         }} />
       </section>
+
+      {extendedKpis.length > 0 && (
+        <section aria-labelledby="more-kpis-title" className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-0.5">
+            <h2 id="more-kpis-title" className="text-[14px] font-semibold">More KPIs</h2>
+            <p className="text-[12.5px] text-ink-3">The rest of the KPI list (slides 33–34), beyond the COO scorecard above.</p>
+          </div>
+          <ScorecardTable kpis={extendedKpis} prevMonth={prevMonth} idPrefix="more" charts={{
+            category_customer: marketplaceMetrics.length > 0 && <MarketplaceMetricsTable rows={marketplaceMetrics} />,
+          }} />
+        </section>
+      )}
 
       <CategoriesTable rows={categories} totalRevenueCents={totalRevenueCents} monthLabel={month} />
 
