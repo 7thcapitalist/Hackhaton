@@ -39,9 +39,9 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
   const missing = rows.filter(r => r.status === "missing");
   const fallback = ok.filter(r => NO_BUYER_ID[r.channelId]);
   return (
-    <section className="overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
+    <section className="overflow-hidden rounded-lg border border-line bg-surface">
       <header className="border-b border-line px-4 py-4 sm:px-5.5">
-        <h2 className="text-[15px] font-semibold">By marketplace</h2>
+        <h2 className="text-[14px] font-semibold">By marketplace</h2>
       </header>
       <div className="overflow-x-auto">
         <div className="min-w-[660px]" role="table" aria-label={`Pulse by marketplace, ${dateLabel}`}>
@@ -107,7 +107,7 @@ function Share({ pct, color }: { pct: number; color: string }) {
   return (
     <div className="flex items-center gap-2.5">
       <span className="w-9 shrink-0 text-right text-[12.5px] text-ink-2 tabular-nums">{Math.round(pct)}%</span>
-      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full" style={{ width: `${Math.max(0, pct)}%`, background: color }} /></div>
+      <div className="h-1 flex-1"><div className="h-full rounded-[1px]" style={{ width: `${Math.max(0, pct)}%`, background: color }} /></div>
     </div>
   );
 }

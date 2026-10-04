@@ -69,12 +69,12 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
   };
 
   return (
-    <div className={`flex flex-col px-4 pt-7 pb-12 sm:px-8 ${advanced ? "gap-5" : "gap-6"}`}>
-      <div className="flex flex-wrap items-end justify-between gap-6">
+    <div className={`flex flex-col px-4 pt-6 pb-12 sm:px-8 sm:pt-8 ${advanced ? "gap-5" : "gap-6"}`}>
+      <header className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4 border-b border-line pb-5">
         <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[12.5px] font-medium text-ink-3">Nightly close · all marketplaces</p>
-            <h1 className="font-display text-[34px] leading-[1.05] font-semibold sm:text-[38px]">Daily Pulse</h1>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-[22px] leading-tight sm:text-[24px]">Daily Pulse</h1>
+            <p className="text-[13px] text-ink-3">Nightly close, all marketplaces</p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <PeriodStepper label={dateLong} minWidth="200px"
@@ -82,16 +82,16 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
               prevLabel="Previous day" nextLabel="Next day" />
             {advanced && (
               <span className="text-[12.5px] text-ink-3">
-                Eastern Time{dataAsOf && <> · Data as of {formatStamp(dataAsOf, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET ({files} file{files === 1 ? "" : "s"})</>}
+                Eastern Time{dataAsOf && <>. Data as of {formatStamp(dataAsOf, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET ({files} file{files === 1 ? "" : "s"})</>}
               </span>
             )}
-            {date < latestDate && <Link href={href(latestDate)} className="text-[12.5px] font-medium text-accent hover:text-ink">Jump to latest →</Link>}
+            {date < latestDate && <Link href={href(latestDate)} className="rounded-sm text-[13px] font-medium text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent">Jump to latest</Link>}
           </div>
         </div>
         <div data-print-hide className="flex flex-wrap items-center gap-2">
-          <label className="flex h-9 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-[13px] font-medium text-ink-2 select-none hover:bg-surface-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent">
+          <label className="flex h-8 cursor-pointer items-center gap-2 rounded-md px-2 text-[13px] text-ink-2 select-none hover:bg-surface-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent">
             <input type="checkbox" checked={advanced} onChange={e => setAdvanced(e.target.checked)} aria-describedby="advanced-hint"
-              className="size-4 cursor-pointer accent-[var(--accent)] focus-visible:outline-none" />
+              className="size-3.5 cursor-pointer accent-[var(--accent)] focus-visible:outline-none" />
             Advanced
             <span id="advanced-hint" className="sr-only">Show exports, data sources, the full marketplace table and the 30-day chart</span>
           </label>
@@ -100,13 +100,13 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
             <a href={`/api/export/pulse?date=${date}&format=csv`} className={buttonClass("secondary")}><DownloadIcon />Export CSV</a>
             <a href={`/api/export/pulse?date=${date}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
           </>}
-          <button type="button" onClick={emailPulse} className={buttonClass("primary", "px-[15px]")}><MailIcon />Email this pulse</button>
+          <button type="button" onClick={emailPulse} className={buttonClass("primary")}><MailIcon />Email this pulse</button>
         </div>
-      </div>
+      </header>
 
-      <p className={`max-w-[920px] leading-[1.5] font-medium text-pretty text-ink ${advanced ? "text-[17px]" : "text-[19px] sm:text-[21px]"}`}>{summary}</p>
+      <p className={`max-w-[72ch] leading-[1.55] text-pretty text-ink ${advanced ? "text-[15px]" : "text-[16px]"}`}>{summary}</p>
 
-      <div className={`grid grid-cols-1 md:grid-cols-3 ${advanced ? "gap-4" : "gap-5"}`}>
+      <div className="grid grid-cols-1 divide-y divide-line overflow-hidden rounded-lg border border-line bg-surface md:grid-cols-3 md:divide-x md:divide-y-0">
         <HeroStat label="E-commerce revenue" value={formatMoneyWhole(T.revenueCents)}
           change={change("revenue", T.revenueCents)} comparedTo={comparedTo("revenue", formatMoneyWhole)} onOpen={() => openCell("total", "revenue")} large={!advanced} />
         <HeroStat label="Unique customers" value={formatInt(T.customers)}
@@ -116,15 +116,15 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
       </div>
 
       {isPartial && (
-        <div role="status" className="flex items-center gap-2.5 rounded-[10px] border border-line bg-surface px-3.5 py-2.5 text-[13px] text-ink-2">
-          <span className="grid size-[22px] shrink-0 place-items-center rounded-md bg-muted-soft text-muted"><ClockIcon className="size-3.5" /></span>
+        <div role="status" className="flex items-start gap-2.5 rounded-md border border-line bg-surface-2 px-3.5 py-2.5 text-[13px] text-ink-2">
+          <ClockIcon className="mt-px size-4 shrink-0 text-muted" />
           <span><strong className="font-semibold text-ink">Partial day.</strong> These files arrived before the day ended, so the numbers will grow after tonight&apos;s import.</span>
         </div>
       )}
 
       {missing.length > 0 && (
-        <div role="status" className="flex items-center gap-2.5 rounded-[10px] border border-line bg-surface px-3.5 py-2.5 text-[13px] text-ink-2">
-          <span className="grid size-[22px] shrink-0 place-items-center rounded-md bg-warn-soft text-warn-icon"><WarnIcon /></span>
+        <div role="status" className="flex items-start gap-2.5 rounded-md border border-warn-icon/30 bg-warn-soft px-3.5 py-2.5 text-[13px] text-ink-2">
+          <WarnIcon className="mt-0.5 size-3.5 shrink-0 text-warn-icon" />
           <span>
             <strong className="font-semibold text-ink">Totals cover {reporting.length} of {view.rows.length} marketplaces.</strong>{" "}
             {missing.map(r => r.label).join(", ")} {missing.length > 1 ? "are" : "is"} awaiting data and {missing.length > 1 ? "are" : "is"} not counted as $0. Comparisons use the same marketplaces.
