@@ -82,6 +82,11 @@ body {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }
 
+/* Calendar/month popovers: the one open animation (fade + slight scale from the trigger). */
+@keyframes popover-in { from { opacity: 0; transform: translateY(-4px) scale(0.97); } }
+.popover-in { animation: popover-in 120ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .popover-in { animation: none; } }
+
 @media print {
   [data-print-hide] { display: none !important; }
   @page { size: landscape; margin: 10mm; }

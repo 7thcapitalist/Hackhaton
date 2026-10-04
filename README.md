@@ -45,6 +45,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test:exports` | Tests for report exports, without a database or email delivery |
 | `npm run test:pulse` | Tests for the Daily Pulse summary sentence and same-weekday baseline (pure, no database) |
+| `npm run test:calendar` | Tests for the date picker's calendar math (month weeks, keyboard moves, range clamping) |
 | `npm run test:scorecard` | Tests for the scorecard status, targets with direction and change coloring (pure, no database) |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
