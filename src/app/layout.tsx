@@ -5,7 +5,7 @@ import "./globals.css";
 import { NoData } from "@/components/NoData";
 import { Sidebar } from "@/components/Sidebar";
 import { themeInitScript } from "@/components/ThemeToggle";
-import { getDataRange, getSourcesScreen, periodShort, summarizeSources } from "./_lib/data";
+import { getDataRange, getSourcesScreen, periodLabel, periodShort, summarizeSources } from "./_lib/data";
 import { formatDay, formatStamp } from "./_lib/format";
 
 // Every page reads the database, so render on request (never at build time).
@@ -32,7 +32,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <Sidebar
             pulseLabel={range ? formatDay(range.completeDate, { month: "short", day: "numeric" }) : ""}
             scorecardLabel={range ? periodShort(range.defaultPeriod) : ""}
-            sourcesLabel={sources ? `${sources.arrived}/${sources.total}` : "–"}
+            sourcesLabel={sources ? `${periodShort(range!.defaultPeriod)} ${sources.arrived}/${sources.total}` : "–"}
+            sourcesHint={sources ? `${sources.arrived} of ${sources.total} data sources sent ${periodLabel(range!.defaultPeriod)} data` : undefined}
             importLabel={range ? `${formatStamp(range.lastImportAt, { weekday: "short", month: "short", day: "numeric" })} · ${formatStamp(range.lastImportAt, { hour: "numeric", minute: "2-digit" })} ET` : null}
           />
           <main className="flex min-w-0 flex-1 flex-col">
