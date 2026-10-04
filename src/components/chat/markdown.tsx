@@ -105,7 +105,7 @@ function renderBlocks(src: string): ReactNode[] {
           <div key={k} className="overflow-x-auto rounded-lg border border-line">
             <table className="w-full border-collapse text-[12.5px]">
               {head && (
-                <thead className="bg-surface-2 text-[11px] font-medium tracking-[0.03em] text-ink-3 uppercase">
+                <thead className="bg-surface-2 text-[11.5px] font-medium text-ink-3">
                   <tr>{head.map((c, j) => {
                     const right = body.length > 0 && body.every(r => !r[j] || numeric(r[j]));
                     return <th key={j} scope="col" className={`px-2.5 py-1.5 font-medium whitespace-nowrap ${right ? "text-right" : "text-left"}`}>{inline(c)}</th>;

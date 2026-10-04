@@ -65,7 +65,7 @@ export function ScorecardTable({ kpis, prevMonth, charts }: ScorecardTableProps)
 function StatusBar({ counts: c }: { counts: StatusCounts }) {
   const seg = (n: number, color: string) => n > 0 && <span className="h-full" style={{ width: `${(n / c.scored) * 100}%`, background: color }} />;
   return (
-    <span aria-hidden className="flex h-1.5 w-20 gap-px overflow-hidden rounded-full bg-surface-2 max-sm:hidden">
+    <span aria-hidden className="flex h-1 w-16 gap-px overflow-hidden bg-line-2 max-sm:hidden">
       {seg(c.on, "var(--ok)")}{seg(c.near, "var(--warn-icon)")}{seg(c.off, "var(--bad)")}
     </span>
   );
@@ -91,7 +91,7 @@ function KpiRow({ kpi: k, prevMonth }: { kpi: Kpi; prevMonth: string }) {
           {CATEGORY_KPIS.has(k.id)
             ? <a href="#categories" className="font-medium text-ink underline decoration-ink-4 decoration-dotted underline-offset-4 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-accent">{k.label}</a>
             : <span className="font-medium text-ink">{k.label}</span>}
-          {k.anchor2027 && <span className="rounded-[4px] bg-accent-soft px-1.5 text-[11px] leading-[17px] font-semibold whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
+          {k.anchor2027 && <span className="rounded-[4px] border border-accent-line px-1 text-[11px] leading-[16px] font-medium whitespace-nowrap text-accent" title={KEY_KPI_HINT}>Key KPI</span>}
           {note && <InfoTip text={note} label={k.label} />}
         </span>
       </th>

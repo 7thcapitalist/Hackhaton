@@ -1,111 +1,145 @@
-# Goodwill Michiana theme for Mission Control
+# Mission Control design plan: white and Goodwill Blue
 
-Visual-only restyle. Same routes, data, copy and behavior; new tokens, fonts and a few
-layout refinements so the app reads as a Goodwill Michiana tool instead of a generic
-analytics template.
+Visual-only. Same routes, data, copy meaning and behavior as before. This replaces the
+earlier "Goodwill Michiana theme" (blue rail, yellow markers, pale blue-gray canvas,
+Figtree + Barlow Condensed), which read as a template with a brand coat of paint.
 
-## Sources
+**Design read:** an internal finance and operations tool for a nonprofit's COO and finance
+team, in the restrained register of Stripe's dashboard, Mercury, Ramp and Linear. Trust and
+legibility first. Dials: variance 3, motion 2, density 6.
 
-- goodwill-ni.org stylesheet: Goodwill Blue `#01529C` (main), yellow `#F4D152`
-  (secondary), sage `#4D7C68` (tertiary), pale blue-gray `#ECF1F5` (surfaces).
-- Goodwill logo standard: Goodwill Blue (PANTONE 294, `#0053A0`) + black. We do **not**
-  use the "smiling G" mark (trademark); the brand shows up as a text wordmark.
-- Their fonts (Filson Pro, Atrament) are licensed, so we use free stand-ins.
+## Principles
+
+1. **White and one blue.** Surfaces are white; Goodwill Blue is the only accent and means
+   "interactive or selected": primary buttons, links, active nav, focus rings, selected
+   options, the ShopGoodwill series. It is never used as decoration or as a large fill.
+2. **Structure from type and hairlines, not from boxes.** Hierarchy comes from size, weight
+   and gray level. Groups are separated by 1px lines. Shadows exist only on things that
+   float (menus, tooltips, the drawer, the chat panel).
+3. **Numbers are for reading.** One family for text and numbers, tabular figures everywhere,
+   no condensed display face, no oversized hero numbers. The biggest number on any page is
+   30-40px.
+4. **Fewer containers.** Related numbers share one surface split by hairlines (a "stat
+   strip") instead of three floating cards. Rankings are small tables, not card lists.
+5. **Color only where it carries meaning.** Status colors only for status (always with an
+   icon or text). Series colors only on chart marks and the small swatch that names them.
+   Text is always ink, never a series color.
 
 ## Palette
 
-Every existing token name is kept (other lanes reference them). New tokens: `--brand`,
-`--brand-yellow`, `--rail*` (sidebar), `--mk-books`, `--shadow-pop`.
+Every existing token name is kept (other lanes reference them). Values changed.
 
 | Token | Role | Light | Dark |
 |---|---|---|---|
-| `--bg` | page canvas (blue-gray tint) | `#F1F4F8` | `#0B1420` |
-| `--surface` | cards, tables | `#FFFFFF` | `#111C2A` |
-| `--surface2` | wells, hover, segmented controls | `#ECF1F5` | `#172434` |
-| `--line` / `--line2` | borders / inner dividers | `#D8E0E9` / `#E6ECF2` | `#243447` / `#1B2A3B` |
-| `--ink` | primary text (navy-black, never #000) | `#0E1A28` | `#E8EEF5` |
-| `--ink2` | secondary text | `#3A4859` | `#B4C1D0` |
-| `--ink3` | muted text (AA on bg and surface2) | `#556375` | `#8E9DB0` |
-| `--ink4` | decorative only (rings, empty marks) | `#9AA7B6` | `#5A6A7E` |
-| `--accent` | Goodwill Blue: buttons, links, active states | `#01529C` | `#7DB4EE` |
-| `--accent-ink` | text on accent | `#FFFFFF` | `#0B1420` |
-| `--accent-soft` / `--accent-line` | tints | `#E3EDF7` / `#B3CBE5` | `#13304F` / `#24507F` |
-| `--brand` | brand blue for headings/rules (Overview title, pillar rules) | `#01529C` | `#7DB4EE` |
-| `--rail` | sidebar / mobile header band | `#01529C` | `#0F2B4A` |
-| `--brand-yellow` | marker only: active nav bar, focus on blue | `#F4D152` | `#F4D152` |
-| `--ok` / `--ok-soft` | on track / received | `#1B6B45` / `#E3F1E9` | `#6DD29C` / `#11291D` |
-| `--warn` / `--warn-icon` / `--warn-soft` | near target / warnings (burnt ochre, clearly not brand yellow) | `#8A4B00` / `#C2650A` / `#FCEEDD` | `#F0AE6A` / `#F0AE6A` / `#2E1F10` |
-| `--bad` / `--bad-soft` | off track | `#B42318` / `#FDECEB` | `#F2918A` / `#2D1615` |
-| `--muted` / `--muted-soft` | awaiting / not due | `#556375` / `#EBEFF4` | `#A3AFBE` / `#1E2B3B` |
-| `--s1..--s4` | single-hue blue sequence (category bars, ranks) | `#01529C` `#4C86C4` `#9DBFE3` `#D3DCE6` | `#7DB4EE` `#4A84C6` `#2A5487` `#2C3A4B` |
-
-Status colors stay semantic. Warn is a dark ochre/orange with a diamond or triangle shape
-plus a label; brand yellow only ever appears as a 3px marker or focus ring on the blue
-rail, never as text or as a status.
+| `--bg` | page | `#FFFFFF` | `#0F1114` |
+| `--surface` | panels, tables | `#FFFFFF` | `#15181D` |
+| `--surface2` | table headers, hover, wells, segmented controls | `#F6F8FA` | `#1C2026` |
+| `--line` / `--line2` | borders / row dividers | `#E3E7EC` / `#EEF1F4` | `#2A2F37` / `#22262D` |
+| `--ink` | primary text (17.9:1 on white) | `#0E1726` | `#E6E9ED` |
+| `--ink2` | secondary text | `#3D4756` | `#B8BFC8` |
+| `--ink3` | muted text (5.9:1 on white, 5.5:1 on surface2) | `#5B6574` | `#8B94A0` |
+| `--ink4` | decorative only (empty marks, dashed rings) | `#A3ABB6` | `#59616C` |
+| `--accent` | Goodwill Blue (7.8:1 on white); dark is lightened (7.2:1 on dark surface) | `#01529C` | `#6EA8EA` |
+| `--accent-ink` | text on accent | `#FFFFFF` | `#0F1114` |
+| `--accent-soft` / `--accent-line` | active nav fill, selection, focus-adjacent tints | `#EEF4FB` / `#C3D6EC` | `#172537` / `#29496F` |
+| `--brand` | same as accent (kept as a name) | `#01529C` | `#6EA8EA` |
+| `--brand-yellow` | **retired**; mapped to the blue so old references stay harmless | `#01529C` | `#6EA8EA` |
+| `--rail` | sidebar / mobile header (near-white, hairline edge) | `#FAFBFC` | `#121418` |
+| `--rail-ink*`, `--rail-hover`, `--rail-line`, `--rail-ok` | sidebar text, hover, edge | ink scale, `#EFF2F5`, `#E3E7EC` | ink scale, `#1C2026`, `#2A2F37` |
+| `--ok` / `--ok-soft` | on track, received | `#1D7148` / `#ECF6F0` | `#5FCF95` / `#12271D` |
+| `--warn` / `--warn-icon` / `--warn-soft` | near target, warnings (ochre, text 6.3:1) | `#8A5300` / `#B86E00` / `#FBF3E4` | `#F0AE6A` / `#F0AE6A` / `#2A2015` |
+| `--bad` / `--bad-soft` | off track | `#B42318` / `#FCEFEE` | `#F2918A` / `#2C1817` |
+| `--muted` / `--muted-soft` | awaiting, not due | `#5B6574` / `#F1F3F6` | `#A2AAB5` / `#1F232A` |
+| `--s1..--s4` | single-hue blue sequence (category bars) | `#01529C` `#5B8CC4` `#A9C3E2` `#DFE6EE` | `#6EA8EA` `#4A7FBF` `#2D5283` `#2C333D` |
+| `--shadow` | card shadow: none | `0 0 #0000` | `0 0 #0000` |
+| `--shadow-pop` | floating layers only | `0 1px 2px / 0 8px 24px` ink at 6% / 10% | `0 8px 24px` black at 50% |
 
 ### Marketplace series (`--mk-*`)
 
-ShopGoodwill is Goodwill's own marketplace, so it wears Goodwill Blue. Validated with the
-dataviz skill's `validate_palette.js`, `--pairs all` (every pair, not just neighbors,
-because the stack order changes day to day):
+ShopGoodwill is Goodwill's own marketplace, so it wears Goodwill Blue. Checked with the
+dataviz skill's `validate_palette.js --pairs all` (every pair, since stack order changes):
 
-| Series | Light (on `#FFFFFF`) | Dark (on `#111C2A`) |
+| Series | Light (on `#FFFFFF`) | Dark (on `#15181D`) |
 |---|---|---|
 | ShopGoodwill | `#01529C` | `#2773C0` |
-| eBay | `#1D7A5C` | `#3CA17B` |
-| Amazon | `#EEA055` | `#C87A30` |
-| Other e-comm | `#9A958E` | `#68625C` |
-| Goodwill Books (Overview filter only) | `#9B5A7A` | `#C084A2` |
+| Amazon | `#E08A2E` | `#C87A30` |
+| eBay | `#15876A` | `#3CA17B` |
+| Other e-comm | `#9AA0A8` | `#6B655E` |
+| Goodwill Books (Overview filter only) | `#8A63D2` | `#9D7FE3` |
 
-Light: lightness band PASS, CVD PASS (worst all-pairs protan dE 11.5), normal-vision
-PASS (15.3). Dark: band PASS, CVD PASS (9.7), normal-vision PASS (16.0). The only
-FAIL is the chroma floor on "Other", which is a deliberate neutral (the catch-all bucket
-should recede). Amazon/Other sit under 3:1 contrast on white, which the validator allows
-with relief: every chart already has a legend, direct labels or a table view, and fills
-are separated by 2px surface gaps.
+Light: lightness band PASS, CVD PASS (worst protan dE 11.8), normal vision PASS (15.9).
+Dark: band PASS, CVD PASS (8.3), normal vision PASS (15.9), contrast PASS. The only FAIL in
+both is the chroma floor on "Other", a deliberate neutral so the catch-all bucket recedes.
+Amazon and Other are under 3:1 on white; every chart has a legend, a table view and 2px
+surface gaps, which is the validator's required relief. The old plum for Books collided
+with eBay's green under deuteranopia (dE 4.4), so Books moved to violet.
 
 ## Type
 
-- **UI / body: Figtree** (next/font/google). Geometric-humanist like Filson Pro: round
-  bowls, open apertures, friendly but plain. Legible at 12-14px and has tabular figures,
-  which this app needs everywhere (`font-variant-numeric: tabular-nums` on body).
-- **Display: Barlow Condensed** (600), standing in for Atrament's condensed signage feel.
-  Used only for page titles (`h1`) and the hero numbers (Daily Pulse cards, Overview
-  hero, drawer value). Nothing else.
-- **Mono: Geist Mono** kept for ids, file names, batch numbers.
+**Public Sans** (USWDS, via `next/font/google`, self-hosted at build) for everything: UI,
+headings and numbers. **Geist Mono** only for ids, file names, batch and document numbers.
 
-Scale (px): 11 / 12 / 13 / 14 (body) / 15 / 17 / 20 / page title 34-40 condensed /
-hero numbers 48-72 condensed. Condensed type runs narrow, so titles go up ~6px versus the
-old 28px semibold sans to keep the same visual weight.
+Why Public Sans:
+
+- It is the US Web Design System's typeface, drawn for civic and public-interest
+  interfaces. Goodwill is a nonprofit social enterprise; the tool should read as
+  institutional and trustworthy, not as a startup landing page.
+- Neutral grotesque with slightly wide proportions and open apertures: very legible at
+  12-14px, which is where most of this app lives.
+- Real tabular figures (`tnum`, verified in the built woff2) and clear 1/l/I and 0/O,
+  which matter in ledgers and KPI tables.
+- Not one of the AI-default faces (Inter, Roboto, Poppins, Montserrat, Open Sans), and not
+  Geist, which is Next.js's out-of-the-box face and reads as "default Vercel app".
+
+Considered and passed on: IBM Plex Sans (good figures, but strongly IBM-branded),
+Instrument Sans and Hanken Grotesk (nice, but more "product marketing"), Onest and
+Schibsted Grotesk (more personality than a ledger needs).
+
+Scale (px): 11.5 / 12 / 12.5 / 13 / 13.5 / 14 (body) / 16 (narrative summary) / 22-24
+(page title, weight 600, tracking -0.015em) / 24-40 (key numbers, weight 600, tracking
+-0.02em). `font-variant-numeric: tabular-nums` on `body`. No uppercase tracked labels.
 
 ## Shape and depth
 
-- Radius: 12px cards (`rounded-xl`, unchanged), 8px controls, 6px chips. Kept as is.
-- Shadow: one blue-tinted hairline shadow `0 1px 2px rgba(1,40,80,.06)` in light, none in
-  dark. Popovers use a blue-tinted `rgba(1,30,60,.14)` instead of neutral black.
+- Radius: 8px panels and drawers (`rounded-lg`), 6px controls (`rounded-md`), 4px tags and
+  status badges, 2px bars and swatches. No pills except the round chat launcher and true
+  status dots.
+- Borders: 1px `--line` around panels, `--line2` between rows.
+- Shadow: none on panels; `--shadow-pop` only on menus, tooltips, drawer and chat.
+- Buttons 32px tall; primary is solid blue, secondary is white with a hairline, ghost is
+  blue text. One primary action per page header.
+- Motion: color and opacity transitions only (150ms), a 1px press on buttons; all of it
+  collapses under `prefers-reduced-motion`.
 
 ## Per screen
 
-- **Shell / sidebar:** the one large brand moment. The desktop rail and the mobile
-  header are Goodwill Blue (deep navy in dark mode) with white text, a yellow 3px marker
-  on the active item, and a text wordmark "Goodwill Michiana · Mission Control". Done by
-  re-scoping the ink/surface tokens inside `.rail`, so Sidebar and ThemeToggle keep their
-  markup.
-- **Demo banner:** pale brand tint instead of gray, ochre dot (warn semantics: synthetic).
-- **Overview:** condensed title, brand-blue eyebrow, condensed hero numbers; marketplace
-  bars pick up the new `--mk-*`.
-- **Daily Pulse:** condensed hero numbers, chart/split in the new marketplace colors,
-  blue-tinted selection band.
-- **Scorecard:** pillar rules in brand blue, condensed title, sparklines in Goodwill Blue.
-- **Sources / Close:** condensed title; tables and checklists inherit the token swap.
-- **Chat bubble / drawer:** brand-blue launcher, blue-tinted scrims and shadows.
-- **Print:** rail hidden as before; tokens fall back to light.
+- **Shell:** near-white sidebar with a hairline edge; active item is blue text on a pale
+  blue fill with a 2px blue bar at the edge. Mobile: white header, tab row with a 2px blue
+  underline. The demo banner is one quiet gray line ("Demo: synthetic data. No real
+  customer data.") above every page. Content is capped at 1320px.
+- **Overview:** left-aligned title and one-line description, update stamp on the right.
+  Filters are plain bordered buttons ("Marketplace  All marketplaces"); a picked
+  marketplace shows as its series swatch. The three numbers are one stat strip. The glance
+  row is one surface with three columns: two small ranked tables (name, orders, revenue,
+  share, trackless bar) and the biggest mover as a number plus one sentence.
+- **Daily Pulse:** title, subtitle, date stepper; the summary sentence at 16px; the three
+  numbers as a clickable stat strip (each column opens the drill-down); change shown as
+  colored text, not pills; notices as flat tinted lines. Split bar is 10px with square
+  ends and 2px gaps.
+- **Monthly report:** key KPIs as a stat strip with a thin progress line and target tick;
+  pillar sections as flat collapsible rows; categories table drops to three columns on
+  phones (share and margin % under their dollar values), so nothing scrolls sideways.
+- **Data Sources:** title, then a plain "14 of 14 sources received" line with the strip;
+  tiles keep their day grid, with received days at 60% green so the page is not a wall of
+  saturated color.
+- **Month-end Close:** same header pattern; square tags for stage, documents and
+  exceptions; Print is secondary so the close step is the only primary button.
+- **Chat:** same panel, 8px radius, square-cornered suggestions and message bubbles.
+- **Print:** chrome hidden; dark mode prints with the light values on white.
 
-## Generic version vs ours
+## Not done on purpose
 
-The generic version of this dashboard is what it was: indigo accent `#4651C4`, neutral
-gray canvas, Geist everywhere, a white sidebar with a black square logo. It could be any
-SaaS. Ours: the canvas is Goodwill's own pale blue-gray, the rail is Goodwill Blue with
-the yellow marker their site uses, titles and big numbers are set in a condensed face that
-echoes Goodwill's store signage, and ShopGoodwill is literally the brand color in every
-chart. Everything else stays quiet: no gradients, no glass, no emoji, flat cards.
+- Icons stay the existing in-repo 16px line set (consistent stroke, used only in nav,
+  buttons and status). Swapping to Phosphor would add a dependency for no visible gain.
+- Empty numeric cells keep the ledger convention of an em dash; a hyphen would read as a
+  minus sign. Em dashes were removed from labels and sentences.

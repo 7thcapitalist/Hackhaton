@@ -36,10 +36,15 @@
 // - When a single-marketplace filter makes unique customers and orders the same count, the
 //   customers slot swaps to "Daily fees & refunds" (gross minus net — the only other
 //   already-fetched number for that slice) instead of repeating the orders figure.
+//
+// White-and-blue redesign (docs/design/goodwill-theme.md): same numbers and filters, quieter
+// form. The three numbers share one hairline-divided surface (no accent strips, no icon
+// badges, no recolored numbers); a selected marketplace shows up as its series-color swatch
+// next to the filter value and each label, so the identity carries without painting the page.
 import { useEffect, useRef, useState } from "react";
-import { OverviewGlance } from "./OverviewGlance";
+import { ChangeText, OverviewGlance } from "./OverviewGlance";
 import { matches, type OrderLike } from "./_lib/overview-filters";
-import { ALL_CATEGORIES_ICON, categoryIcon, MARKET_ICON, MARKET_ORDER, MARKET_THEME, type MarketKey, type MarketTheme } from "./_lib/overview-theme";
+import { MARKET_ORDER, MARKET_THEME, type MarketKey, type MarketTheme } from "./_lib/overview-theme";
 import { formatDay, formatInt, formatMoneyCompact, pctChange } from "./_lib/format";
 import type { PulseTotals } from "./_lib/types";
 
@@ -76,11 +81,6 @@ function aggregateTotals(rows: OrderLike[], channelLabel: string | "all", catego
     feesCents: Math.max(0, grossCents - revenueCents),
   };
 }
-
-const SALES_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 4.5v7M6.2 10.2c.3.5.9.8 1.8.8 1.1 0 1.8-.5 1.8-1.3 0-.9-.7-1.1-1.8-1.4-1.1-.3-1.8-.6-1.8-1.4 0-.8.7-1.3 1.8-1.3.8 0 1.4.3 1.7.7";
-const CUSTOMERS_ICON = "M8 8a2.6 2.6 0 1 0 0-5.2A2.6 2.6 0 0 0 8 8z M3 13.3c0-2.4 2.2-3.9 5-3.9s5 1.5 5 3.9";
-const ORDERS_ICON = "M2.5 5.3 8 2.8l5.5 2.5v6L8 13.8l-5.5-2.5z M2.5 5.3 8 7.8l5.5-2.5M8 7.8v6";
-const FEES_ICON = "M4 2h8v12l-1.5-1-1.5 1-1.5-1-1.5 1-1.5-1-1.5 1z M6 5h4M6 7.5h4M6 10h2";
 
 export function OverviewHero({ date, cmpDate, channelOptions, totals, compareChanges, orders, cmpOrders }: OverviewHeroProps) {
   const [channel, setChannel] = useState<MarketKey | "all">("all");
@@ -120,103 +120,91 @@ export function OverviewHero({ date, cmpDate, channelOptions, totals, compareCha
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <DropdownPill
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <FilterButton
             ariaLabel="Filter by marketplace"
-            iconD={MARKET_ICON}
-            label={`Marketplace: ${theme.label}`}
+            name="Marketplace"
+            value={theme.label}
+            swatch={marketActive ? theme.accent : undefined}
             active={marketActive}
-            fg={theme.accent}
-            bg={marketActive ? theme.soft : undefined}
-            border={marketActive ? theme.line : undefined}
           >
             {(close) => (
               <>
-                <DropdownOption onClick={() => { setChannel("all"); close(); }} selected={channel === "all"} dot={MARKET_THEME.all.accent}>
+                <FilterOption onClick={() => { setChannel("all"); close(); }} selected={channel === "all"}>
                   {MARKET_THEME.all.label}
-                </DropdownOption>
+                </FilterOption>
                 {MARKET_ORDER.filter(id => channelOptions.some(c => c.id === id)).map(id => (
-                  <DropdownOption key={id} onClick={() => { setChannel(id); close(); }} selected={channel === id} dot={MARKET_THEME[id].accent}>
+                  <FilterOption key={id} onClick={() => { setChannel(id); close(); }} selected={channel === id} swatch={MARKET_THEME[id].accent}>
                     {MARKET_THEME[id].label}
-                  </DropdownOption>
+                  </FilterOption>
                 ))}
               </>
             )}
-          </DropdownPill>
+          </FilterButton>
 
-          <DropdownPill ariaLabel="Filter by category" iconD={category === "all" ? ALL_CATEGORIES_ICON : categoryIcon(category)} label={`Category: ${category === "all" ? "All categories" : category}`} active={category !== "all"}>
+          <FilterButton ariaLabel="Filter by category" name="Category" value={category === "all" ? "All categories" : category} active={category !== "all"}>
             {(close) => (
               <>
-                <DropdownOption onClick={() => { setCategory("all"); close(); }} selected={category === "all"} iconD={ALL_CATEGORIES_ICON}>
+                <FilterOption onClick={() => { setCategory("all"); close(); }} selected={category === "all"}>
                   All categories
-                </DropdownOption>
+                </FilterOption>
                 {categories.map(c => (
-                  <DropdownOption key={c} onClick={() => { setCategory(c); close(); }} selected={category === c} iconD={categoryIcon(c)}>
+                  <FilterOption key={c} onClick={() => { setCategory(c); close(); }} selected={category === c}>
                     {c}
-                  </DropdownOption>
+                  </FilterOption>
                 ))}
               </>
             )}
-          </DropdownPill>
+          </FilterButton>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <HeroNumber icon={SALES_ICON} label={suffix ? `Daily sales — ${suffix}` : "Daily sales"} value={formatMoneyCompact(current.revenueCents)}
-            changePct={changes?.revenue ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
+        {/* One surface split by hairlines, not three floating cards. */}
+        <div className="grid grid-cols-1 divide-y divide-line rounded-lg border border-line bg-surface sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <HeroNumber label={suffix ? `Daily sales (${suffix})` : "Daily sales"} value={formatMoneyCompact(current.revenueCents)}
+            changePct={changes?.revenue ?? null} comparedTo={comparedTo} swatch={marketActive ? theme.accent : undefined} />
           {showFees ? (
-            <HeroNumber icon={FEES_ICON} label={suffix ? `Daily fees & refunds — ${suffix}` : "Daily fees & refunds"} value={formatMoneyCompact(filteredTotals!.feesCents)}
-              changePct={changes?.fees ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
+            <HeroNumber label={suffix ? `Daily fees & refunds (${suffix})` : "Daily fees & refunds"} value={formatMoneyCompact(filteredTotals!.feesCents)}
+              changePct={changes?.fees ?? null} comparedTo={comparedTo} swatch={marketActive ? theme.accent : undefined} />
           ) : (
-            <HeroNumber icon={CUSTOMERS_ICON} label={suffix ? `Daily unique customers — ${suffix}` : "Daily unique customers"} value={formatInt(current.customers)}
-              changePct={changes?.customers ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
+            <HeroNumber label={suffix ? `Daily unique customers (${suffix})` : "Daily unique customers"} value={formatInt(current.customers)}
+              changePct={changes?.customers ?? null} comparedTo={comparedTo} swatch={marketActive ? theme.accent : undefined} />
           )}
-          <HeroNumber icon={ORDERS_ICON} label={suffix ? `Daily orders — ${suffix}` : "Daily orders"} value={formatInt(current.orders)}
-            changePct={changes?.orders ?? null} comparedTo={comparedTo} theme={theme} active={marketActive} />
+          <HeroNumber label={suffix ? `Daily orders (${suffix})` : "Daily orders"} value={formatInt(current.orders)}
+            changePct={changes?.orders ?? null} comparedTo={comparedTo} swatch={marketActive ? theme.accent : undefined} />
         </div>
       </div>
 
       {noData
-        ? <p className="text-[12.5px] text-ink-3">No orders in this slice on {formatDay(date)}.</p>
+        ? <p className="text-[13px] text-ink-3">No orders in this slice on {formatDay(date)}.</p>
         : <OverviewGlance orders={orders} cmpOrders={cmpOrders} channel={channel} channelLabel={channelLabel} category={category} comparedTo={comparedTo} />}
     </div>
   );
 }
 
-function HeroNumber({ icon, label, value, changePct, comparedTo, theme, active }: {
-  icon: string; label: string; value: string; changePct: number | null; comparedTo: string; theme: MarketTheme; active: boolean;
+function HeroNumber({ label, value, changePct, comparedTo, swatch }: {
+  label: string; value: string; changePct: number | null; comparedTo: string; swatch?: string;
 }) {
-  const up = (changePct ?? 0) >= 0;
   return (
-    <div className="relative flex flex-col gap-2.5 overflow-hidden rounded-[16px] border border-line bg-surface p-5 pt-[18px]" style={active ? { borderColor: theme.line } : undefined}>
-      <span aria-hidden className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: theme.accent }} />
-      <div className="flex items-center gap-2">
-        <span aria-hidden className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.soft, color: theme.accent }}>
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden><path d={icon} /></svg>
-        </span>
-        <span className="text-[13px] font-medium text-ink-3">{label}</span>
-      </div>
-      <span className="font-display text-[52px] leading-none font-semibold text-ink" style={active ? { color: theme.accent } : undefined}>{value}</span>
-      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-ink-3">
-        {changePct == null ? <span className="rounded-full bg-muted-soft px-[7px] py-0.5 font-semibold">—</span> : (
-          <span className={`rounded-full px-[7px] py-0.5 font-semibold ${up ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>
-            {up ? "↑" : "↓"} {Math.abs(changePct).toFixed(1)}%
-          </span>
-        )}
+    <div className="flex min-w-0 flex-col gap-1.5 px-4 py-3 sm:px-5 sm:py-4">
+      <span className="flex items-center gap-2 text-[13px] text-ink-2">
+        {swatch && <span aria-hidden className="size-2 shrink-0 rounded-[2px]" style={{ backgroundColor: swatch }} />}
+        <span className="truncate">{label}</span>
+      </span>
+      <span className="text-[26px] leading-none font-semibold tracking-[-0.02em] text-ink sm:text-[30px]">{value}</span>
+      <span className="flex flex-wrap items-center gap-x-1.5 text-[12.5px] text-ink-3">
+        <ChangeText pct={changePct} />
         <span>vs {comparedTo}</span>
       </span>
     </div>
   );
 }
 
-/** A filter rendered as a bordered, icon-led pill button that opens a small listbox below
- * it — replacing the earlier dotted-underline sentence style, which tested as too easy to
- * miss as interactive. `fg`/`bg`/`border` let the marketplace pill carry that marketplace's
- * own color once one is selected (see MARKET_THEME); the category pill stays neutral and
- * differentiates by icon instead (categories have no brand color to borrow). */
-function DropdownPill({ ariaLabel, iconD, label, active, fg, bg, border, children }: {
-  ariaLabel: string; iconD: string; label: string; active: boolean;
-  fg?: string; bg?: string; border?: string;
+/** A filter as a quiet bordered button ("Marketplace  All marketplaces") that opens a small
+ * listbox below it. A selected marketplace shows its series color as a small swatch, the same
+ * color its bar uses in the breakdown below; categories have no color and show text only. */
+function FilterButton({ ariaLabel, name, value, swatch, active, children }: {
+  ariaLabel: string; name: string; value: string; swatch?: string; active: boolean;
   children: (close: () => void) => React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -232,16 +220,16 @@ function DropdownPill({ ariaLabel, iconD, label, active, fg, bg, border, childre
   }, [open]);
 
   return (
-    <span ref={ref} className="relative inline-block">
-      <button type="button" aria-label={ariaLabel} aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen(o => !o)}
-        style={active ? { color: fg, backgroundColor: bg, borderColor: border } : undefined}
-        className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2.5 text-[13.5px] font-semibold text-ink-2 shadow-xs transition-colors hover:border-accent-line">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-[15px] shrink-0" aria-hidden><path d={iconD} /></svg>
-        {label}
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="size-2.5 shrink-0 text-ink-3" aria-hidden><path d="M4 6l4 4 4-4" /></svg>
+    <span ref={ref} className="relative inline-block max-w-full">
+      <button type="button" aria-label={`${ariaLabel}: ${value}`} aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen(o => !o)}
+        className={`inline-flex h-8 max-w-full items-center gap-2 rounded-md border bg-surface px-2.5 text-[13px] transition-colors hover:border-ink-4 focus-visible:outline-2 focus-visible:outline-accent ${active ? "border-accent-line" : "border-line"}`}>
+        <span className="text-ink-3">{name}</span>
+        {swatch && <span aria-hidden className="size-2 shrink-0 rounded-[2px]" style={{ backgroundColor: swatch }} />}
+        <span className="truncate font-medium text-ink">{value}</span>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className="size-3 shrink-0 text-ink-3" aria-hidden><path d="M4 6l4 4 4-4" /></svg>
       </button>
       {open && (
-        <ul role="listbox" aria-label={ariaLabel} className="absolute left-0 top-[calc(100%+6px)] z-10 min-w-[200px] overflow-hidden rounded-[10px] border border-line bg-surface py-1 shadow-md">
+        <ul role="listbox" aria-label={ariaLabel} className="absolute left-0 top-[calc(100%+4px)] z-10 max-h-[320px] min-w-[200px] overflow-auto rounded-md border border-line bg-surface py-1 shadow-pop">
           {children(() => setOpen(false))}
         </ul>
       )}
@@ -249,17 +237,14 @@ function DropdownPill({ ariaLabel, iconD, label, active, fg, bg, border, childre
   );
 }
 
-function DropdownOption({ onClick, selected, dot, iconD, children }: {
-  onClick: () => void; selected: boolean; dot?: string; iconD?: string; children: React.ReactNode;
+function FilterOption({ onClick, selected, swatch, children }: {
+  onClick: () => void; selected: boolean; swatch?: string; children: React.ReactNode;
 }) {
   return (
     <li>
       <button type="button" role="option" aria-selected={selected} onClick={onClick}
-        className={`flex w-full items-center gap-2.5 px-3 py-[7px] text-left text-[13.5px] transition-colors hover:bg-surface-2 ${selected ? "font-semibold text-ink" : "text-ink-2"}`}>
-        {dot && <span className="size-[7px] shrink-0 rounded-full" style={{ backgroundColor: dot }} />}
-        {iconD && (
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3.5 shrink-0 text-ink-3" aria-hidden><path d={iconD} /></svg>
-        )}
+        className={`flex w-full items-center gap-2.5 px-3 py-1.5 text-left text-[13px] transition-colors hover:bg-surface-2 ${selected ? "font-medium text-accent" : "text-ink-2"}`}>
+        <span aria-hidden className="size-2 shrink-0 rounded-[2px]" style={{ backgroundColor: swatch ?? "transparent" }} />
         <span className="flex-1">{children}</span>
         {selected && <span aria-hidden className="text-accent">✓</span>}
       </button>

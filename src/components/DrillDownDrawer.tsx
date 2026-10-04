@@ -70,8 +70,8 @@ export function DrillDownDrawer({ content, dateLong, dateShort, onClose }: Drill
 
         {content.kind === "missing" ? (
           <div className="flex flex-col gap-5 overflow-y-auto p-4 sm:p-6.5">
-            <div className="flex gap-3.5 rounded-xl border border-line bg-surface-2 p-4.5">
-              <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-warn-soft text-warn-icon"><WarnIcon className="size-4.5" /></span>
+            <div className="flex gap-3.5 rounded-lg border border-line bg-surface-2 p-4.5">
+              <WarnIcon className="mt-0.5 size-4 shrink-0 text-warn-icon" />
               <div className="flex flex-col gap-1">
                 <p className="text-[15px] font-semibold">Awaiting data</p>
                 <p className="text-[13.5px] text-pretty text-ink-2">No file has arrived for {dateShort}. These numbers are left out of today&apos;s totals rather than shown as $0. They fill in automatically after the next nightly import that includes this file.</p>
@@ -99,10 +99,10 @@ function RowsBody({ content: c, showAll, onShowAll }: { content: Extract<DrawerC
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex flex-col gap-4 px-4 py-4.5 sm:px-6.5">
         <div className="flex flex-col gap-1">
-          <p className="font-display text-[48px] leading-none font-semibold">{c.value}</p>
+          <p className="text-[28px] leading-none font-semibold tracking-[-0.02em]">{c.value}</p>
           <p className="text-[13px] text-pretty text-ink-2">{c.caption}</p>
         </div>
-        <div className="flex flex-col gap-1.5 rounded-[10px] border border-line bg-surface-2 px-3.5 py-3">
+        <div className="flex flex-col gap-1.5 rounded-lg border border-line bg-surface-2 px-3.5 py-3">
           <p className="flex items-center gap-1.5 text-xs font-medium text-ink-2">
             <FileIcon className="size-3" />{c.files.length === 1 ? "Source file" : `${c.files.length} source files`}
           </p>
@@ -116,7 +116,7 @@ function RowsBody({ content: c, showAll, onShowAll }: { content: Extract<DrawerC
       </div>
       <div className="flex-1 overflow-auto">
         <div className="min-w-[560px]">
-          <div className={`${grid} sticky top-0 h-8 border-y border-line bg-surface-2 text-[11px] font-medium tracking-[0.03em] text-ink-3 uppercase`}>
+          <div className={`${grid} sticky top-0 h-8 border-y border-line bg-surface-2 text-[11.5px] font-normal text-ink-3`}>
             <span>Order</span><span>Category</span><span className="text-right">Gross</span><span className="text-right">Net</span><span>Source · row</span>
           </div>
           {rows.map(o => (

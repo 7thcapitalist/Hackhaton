@@ -36,7 +36,7 @@ export function EvidencePanel({ view, period, batch }: { view: UiCloseView; peri
 
   return (
     <section aria-labelledby="ev-h" className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-      <div className="flex flex-col gap-3 rounded-xl border border-line bg-surface px-4 py-3.5 shadow-xs">
+      <div className="flex flex-col gap-3 rounded-lg border border-line bg-surface px-4 py-3.5">
         <header className="flex flex-wrap items-center justify-between gap-2">
           <h2 id="ev-h" className="text-sm font-semibold">Evidence and audit trail</h2>
           {view.evidenceUrl ? (
@@ -69,11 +69,11 @@ export function EvidencePanel({ view, period, batch }: { view: UiCloseView; peri
         </ol>
       </div>
 
-      <div className="flex flex-col gap-3 rounded-xl border border-line bg-surface px-4 py-3.5 shadow-xs">
+      <div className="flex flex-col gap-3 rounded-lg border border-line bg-surface px-4 py-3.5">
         <header className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-semibold">Business Central posting</h3>
           {p?.simulated !== false && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-warn-soft py-0.5 pr-2 pl-1.5 text-[11.5px] font-semibold text-warn">
+            <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-warn-soft py-0.5 pr-2 pl-1.5 text-[11.5px] font-medium text-warn">
               <span className="size-1.5 rotate-45 rounded-[1px] bg-warn-icon" />Simulated
             </span>
           )}

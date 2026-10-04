@@ -15,7 +15,7 @@ export function SourceChecklist({ sources, exceptions, period }: Props) {
   const received = due.filter(s => s.status !== "missing").length;
 
   return (
-    <section aria-labelledby="pkg-h" className="flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
+    <section aria-labelledby="pkg-h" className="flex flex-col overflow-hidden rounded-lg border border-line bg-surface">
       <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line px-4 py-3.5">
         <h2 id="pkg-h" className="text-sm font-semibold">Source package</h2>
         <span className="text-xs text-ink-3">{received} of {due.length} due sources received{sources.length > due.length ? ` · ${sources.length - due.length} not due yet` : ""}</span>

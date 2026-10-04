@@ -40,15 +40,19 @@ export function CategoriesTable({ rows, totalRevenueCents, monthLabel }: Categor
   return (
     <CollapsibleCard id="categories" title={`Categories, ${monthLabel}`}
       meta={<span>{listsDiffer ? "Top-10 lists differ; tags show which list" : `Same ${rows.length} lead by revenue and margin`}</span>}>
-      <div className="overflow-x-auto px-2 pb-1 sm:px-2.5">
-        <table className="w-full min-w-[620px] border-collapse text-[13.5px]">
+      {/* Phones: three columns (share and margin % move under their dollar values), so the
+          table fits a 390px screen without sideways scrolling. Wider screens: all five. */}
+      <div className="px-1 pb-1 sm:overflow-x-auto sm:px-2.5">
+        <table className="w-full table-fixed border-collapse text-[13px] sm:table-auto sm:min-w-[620px] sm:text-[13.5px]">
+          <colgroup className="sm:hidden"><col /><col className="w-[92px]" /><col className="w-[100px]" /></colgroup>
           <thead>
             <tr className="text-[12px] text-ink-3">
               {COLUMNS.map(c => {
                 const active = sort.key === c.key;
+                const phoneHidden = c.key === "share" || c.key === "marginPct";
                 return (
                   <th key={c.key} scope="col" aria-sort={active ? (sort.desc ? "descending" : "ascending") : "none"}
-                    className={`px-2.5 py-2 font-normal ${c.numeric ? "text-right" : "text-left"}`}>
+                    className={`px-2.5 py-2 font-normal ${c.numeric ? "text-right" : "text-left"} ${phoneHidden ? "max-sm:hidden" : ""}`}>
                     <button type="button" onClick={() => toggle(c.key)}
                       className={`inline-flex items-center gap-1 rounded-sm hover:text-ink focus-visible:outline-2 focus-visible:outline-accent ${active ? "font-medium text-ink" : ""}`}>
                       {c.label}<span aria-hidden className="w-2.5 text-[10px]">{active ? (sort.desc ? "▼" : "▲") : ""}</span>
@@ -60,18 +64,24 @@ export function CategoriesTable({ rows, totalRevenueCents, monthLabel }: Categor
           </thead>
           <tbody>
             {sorted.map(r => (
-              <tr key={r.category} className="border-t border-line-2">
+              <tr key={r.category} className="border-t border-line-2 align-top sm:align-middle">
                 <th scope="row" className="px-2.5 py-2 text-left font-medium text-ink">
-                  <span className="inline-flex flex-wrap items-center gap-x-2">
-                    {r.category}
+                  <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="min-w-0 break-words">{r.category}</span>
                     {listsDiffer && r.inRevenueTop10 && <Tag>Revenue top 10</Tag>}
                     {listsDiffer && r.inMarginTop10 && <Tag>Margin top 10</Tag>}
                   </span>
                 </th>
-                <td className="px-2.5 py-2"><BarValue value={r.revenueCents} max={maxRev} /></td>
-                <td className="px-2.5 py-2 text-right text-ink-2 tabular-nums">{r.share == null ? "—" : `${r.share.toFixed(1)}%`}</td>
-                <td className="px-2.5 py-2"><BarValue value={r.marginCents} max={maxMargin} /></td>
-                <td className="px-2.5 py-2 text-right text-ink-2 tabular-nums">{r.marginPct == null ? "—" : `${r.marginPct.toFixed(1)}%`}</td>
+                <td className="px-2.5 py-2">
+                  <BarValue value={r.revenueCents} max={maxRev} />
+                  <span className="block text-right text-[12px] whitespace-nowrap text-ink-3 tabular-nums sm:hidden">{r.share == null ? "—" : `${r.share.toFixed(1)}% share`}</span>
+                </td>
+                <td className="px-2.5 py-2 text-right text-ink-2 tabular-nums max-sm:hidden">{r.share == null ? "—" : `${r.share.toFixed(1)}%`}</td>
+                <td className="px-2.5 py-2">
+                  <BarValue value={r.marginCents} max={maxMargin} />
+                  <span className="block text-right text-[12px] whitespace-nowrap text-ink-3 tabular-nums sm:hidden">{r.marginPct == null ? "—" : `${r.marginPct.toFixed(1)}% margin`}</span>
+                </td>
+                <td className="px-2.5 py-2 text-right text-ink-2 tabular-nums max-sm:hidden">{r.marginPct == null ? "—" : `${r.marginPct.toFixed(1)}%`}</td>
               </tr>
             ))}
           </tbody>
@@ -84,14 +94,15 @@ export function CategoriesTable({ rows, totalRevenueCents, monthLabel }: Categor
 function BarValue({ value, max }: { value: number; max: number }) {
   return (
     <span className="flex items-center justify-end gap-2.5">
-      <span aria-hidden className="h-1.5 w-[clamp(48px,10vw,120px)] overflow-hidden rounded-full bg-surface-2">
-        <span className="block h-full rounded-full bg-s2" style={{ width: `${Math.max(0, (value / max) * 100)}%` }} />
+      {/* No background track: the bar length is the comparison. Hidden on phones. */}
+      <span aria-hidden className="hidden h-1 w-[clamp(48px,10vw,120px)] sm:flex sm:justify-end">
+        <span className="block h-full rounded-[1px] bg-s2" style={{ width: `${Math.max(0, (value / max) * 100)}%` }} />
       </span>
-      <span className="w-[72px] text-right font-medium text-ink tabular-nums">{formatMoneyWhole(value)}</span>
+      <span className="text-right font-medium text-ink tabular-nums sm:w-[72px]">{formatMoneyWhole(value)}</span>
     </span>
   );
 }
 
 const Tag = ({ children }: { children: string }) => (
-  <span className="rounded-[4px] bg-surface-2 px-1.5 text-[11px] leading-[17px] font-normal whitespace-nowrap text-ink-2">{children}</span>
+  <span className="rounded-[4px] border border-line px-1 text-[11px] leading-[16px] font-normal whitespace-nowrap text-ink-2">{children}</span>
 );
