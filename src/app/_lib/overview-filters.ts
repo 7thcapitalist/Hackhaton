@@ -64,5 +64,13 @@ export function sliceStats(rows: OrderLike[]) {
     avgCents: orders ? Math.round(revenueCents / orders) : 0,
     cancelled,
     cancelRate: rows.length ? cancelled / rows.length : 0,
+    // Real numbers already sitting in the fetched rows, unused until round 6: the single-
+    // marketplace/single-category stat card (OverviewGlance's "Average order in X") was
+    // consistently the shortest card in its row — it's a fixed ~4 lines next to a ranking or
+    // mover card whose length varies with the day's data, so the grid's stretch left it
+    // visibly empty in every filtered state, not just one. These give it two more real lines
+    // instead of padding.
+    customers: new Set(live.map(o => o.customerKey)).size,
+    maxCents: live.reduce((a, o) => Math.max(a, o.netCents), 0),
   };
 }
