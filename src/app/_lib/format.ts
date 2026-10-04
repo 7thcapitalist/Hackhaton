@@ -1,4 +1,4 @@
-import type { Kpi, KpiUnit } from "./types";
+import type { KpiUnit } from "./types";
 
 export const TZ = "America/Indiana/Indianapolis";
 
@@ -62,33 +62,6 @@ export function formatKpiShort(unit: KpiUnit, v: number | null): string {
   const f = formatKpiValue(unit, v);
   return unit === "days" ? `${f.value} days` : unit === "cents_per_hour" ? `${f.value}/hr` : f.value;
 }
-
-/** Percent KPIs change in points; everything else in %. */
-export function formatChange(kpi: Pick<Kpi, "unit" | "value" | "previous">): string | null {
-  const { unit, value, previous } = kpi;
-  if (value == null || previous == null) return null;
-  const d = value - previous;
-  const arrow = d >= 0 ? "↑" : "↓";
-  if (unit === "percent") return `${arrow} ${Math.abs(d).toFixed(1)} pts`;
-  if (previous === 0) return null;
-  return `${arrow} ${Math.abs((d / previous) * 100).toFixed(1)}%`;
-}
-
-export type Track = "on" | "near" | "off" | "none" | "awaiting";
-export function trackStatus(kpi: Pick<Kpi, "value" | "target" | "lowerIsBetter">, nearBand = 0.05): Track {
-  if (kpi.value == null) return "awaiting";
-  if (kpi.target == null) return "none";
-  const r = kpi.lowerIsBetter ? kpi.target / kpi.value : kpi.value / kpi.target;
-  return r >= 1 ? "on" : r >= 1 - nearBand ? "near" : "off";
-}
-
-export const TRACK: Record<Track, { label: string; short: string; fg: string; bg: string }> = {
-  on: { label: "✓ On track", short: "on track", fg: "text-ok", bg: "bg-ok-soft" },
-  near: { label: "◐ Near target", short: "near", fg: "text-warn", bg: "bg-warn-soft" },
-  off: { label: "↓ Off track", short: "off track", fg: "text-bad", bg: "bg-bad-soft" },
-  none: { label: "No target", short: "no target", fg: "text-ink-3", bg: "bg-muted-soft" },
-  awaiting: { label: "—", short: "awaiting", fg: "text-ink-3", bg: "bg-muted-soft" },
-};
 
 export function pctChange(curr: number, prev: number | null): number | null {
   return prev ? ((curr - prev) / prev) * 100 : null;

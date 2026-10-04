@@ -85,4 +85,20 @@ body {
 @media print {
   [data-print-hide] { display: none !important; }
   @page { size: landscape; margin: 10mm; }
+  /* Always print on white, even from dark mode: same tokens as :root. */
+  .dark {
+  --bg: #f7f8fa; --surface: #ffffff; --surface2: #f2f3f6; --line: #e3e5ea; --line2: #eef0f3;
+  --ink: #14161b; --ink2: #454a55; --ink3: #646976; --ink4: #a3a7b2;
+  --accent: #4651c4; --accent-ink: #ffffff; --accent-soft: #eceefb; --accent-line: #c9cdf3;
+  --ok: #1c7444; --ok-soft: #e5f3ea; --warn: #8a5700; --warn-icon: #b97d0c; --warn-soft: #fcf1dc;
+  --bad: #b42318; --bad-soft: #fdeceb; --muted: #5d6270; --muted-soft: #eff0f3;
+  --s1: #4651c4; --s2: #8189e3; --s3: #b7bcef; --s4: #d3d6de;
+  /* Marketplace hues (Daily Pulse chart + table dots): muted on purpose, "Other" is a warm gray.
+     Validated light and dark (dataviz validator, stack order): neighbors CVD-safe; low chroma is intended. */
+  --mk-shopgoodwill: #4f7db1; --mk-amazon: #cf8c6a; --mk-ebay: #147874; --mk-other: #a49d94;
+  --shadow: 0 1px 2px rgba(20, 22, 27, 0.05); --scrim: rgba(20, 22, 27, 0.32);
+  color-scheme: light;
+}
+  :root, .dark { --bg: #ffffff; }
+  body { background: #fff; }
 }

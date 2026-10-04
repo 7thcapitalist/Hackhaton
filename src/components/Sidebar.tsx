@@ -8,7 +8,7 @@ import { ThemeToggle } from "./ThemeToggle";
 type SidebarProps = {
   pulseLabel: string;     // "Oct 2"
   scorecardLabel: string; // "Sep"
-  sourcesLabel: string;   // "Sep 7/9": sources that sent data for the Scorecard month
+  sourcesLabel: string;   // "Sep 7/9": sources that sent data for the Monthly report month
   sourcesHint?: string;   // "7 of 9 data sources sent September data"
   importLabel: string | null; // newest file of any day, "Sat, Oct 3 · 11:56 AM ET"; null before the first import
 };
@@ -19,8 +19,8 @@ function Brand() {
   // Text wordmark only: the Goodwill "smiling G" is a trademark, so it is not reproduced here.
   return (
     <Link href="/" className="flex flex-col gap-0.5 rounded-lg px-2 py-1 text-ink focus-visible:outline-2 focus-visible:outline-accent">
-      <span className="text-[15px] leading-tight font-bold tracking-[-0.01em]">Goodwill<span className="font-medium text-ink-2"> Michiana</span></span>
-      <span className="flex items-center gap-1.5 text-[11.5px] font-medium text-ink-3">
+      <span className="text-[15px] leading-tight font-bold whitespace-nowrap tracking-[-0.01em]">Goodwill<span className="font-medium text-ink-2"> Michiana</span></span>
+      <span className="flex items-center gap-1.5 text-[11.5px] font-medium whitespace-nowrap text-ink-3">
         <span aria-hidden className="h-[3px] w-3 rounded-full bg-brand-yellow" />Mission Control
       </span>
     </Link>
@@ -32,7 +32,7 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
   const items: NavItem[] = [
     { href: "/", label: "Overview", icon: <GridIcon /> },
     { href: "/pulse", label: "Daily Pulse", icon: <PulseIcon />, meta: <span className="text-[11px] text-ink-3 tabular-nums">{pulseLabel}</span> },
-    { href: "/scorecard", label: "Scorecard", icon: <BarsIcon />, meta: <span className="text-[11px] text-ink-3 tabular-nums">{scorecardLabel}</span> },
+    { href: "/scorecard", label: "Monthly report", icon: <BarsIcon />, meta: <span className="text-[11px] text-ink-3 tabular-nums">{scorecardLabel}</span> },
     {
       href: "/sources", label: "Sources", icon: <DatabaseIcon />,
       meta: (
@@ -49,7 +49,8 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
     <>
       {/* Desktop */}
       <aside data-print-hide className="rail sticky top-0 hidden h-screen w-[232px] shrink-0 flex-col gap-6 px-3.5 py-5 lg:flex">
-        <Brand />
+        {/* Theme toggle sits at the top, as on mobile (the bottom corner belongs to the dev indicator). */}
+        <div className="flex items-center justify-between gap-2"><Brand /><ThemeToggle compact /></div>
         <nav className="flex flex-col gap-0.5" aria-label="Main">
           {items.map(it => {
             const active = isActive(it.href);
@@ -70,7 +71,6 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
               <p className="text-[11.5px] leading-normal text-ink-3">{importLabel}</p>
             </div>
           )}
-          <ThemeToggle />
         </div>
       </aside>
 
