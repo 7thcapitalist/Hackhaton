@@ -44,7 +44,7 @@ export function CategoriesTable({ rows, totalRevenueCents, monthLabel }: Categor
           table fits a 390px screen without sideways scrolling. Wider screens: all five. */}
       <div className="px-1 pb-1 sm:overflow-x-auto sm:px-2.5">
         <table className="w-full table-fixed border-collapse text-[13px] sm:table-auto sm:min-w-[620px] sm:text-[13.5px]">
-          <colgroup className="sm:hidden"><col /><col className="w-[96px]" /><col className="w-[96px]" /></colgroup>
+          <colgroup className="sm:hidden"><col /><col className="w-[92px]" /><col className="w-[100px]" /></colgroup>
           <thead>
             <tr className="text-[12px] text-ink-3">
               {COLUMNS.map(c => {
@@ -74,12 +74,12 @@ export function CategoriesTable({ rows, totalRevenueCents, monthLabel }: Categor
                 </th>
                 <td className="px-2.5 py-2">
                   <BarValue value={r.revenueCents} max={maxRev} />
-                  <span className="block text-right text-[12px] text-ink-3 tabular-nums sm:hidden">{r.share == null ? "—" : `${r.share.toFixed(1)}% share`}</span>
+                  <span className="block text-right text-[12px] whitespace-nowrap text-ink-3 tabular-nums sm:hidden">{r.share == null ? "—" : `${r.share.toFixed(1)}% share`}</span>
                 </td>
                 <td className="px-2.5 py-2 text-right text-ink-2 tabular-nums max-sm:hidden">{r.share == null ? "—" : `${r.share.toFixed(1)}%`}</td>
                 <td className="px-2.5 py-2">
                   <BarValue value={r.marginCents} max={maxMargin} />
-                  <span className="block text-right text-[12px] text-ink-3 tabular-nums sm:hidden">{r.marginPct == null ? "—" : `${r.marginPct.toFixed(1)}% margin`}</span>
+                  <span className="block text-right text-[12px] whitespace-nowrap text-ink-3 tabular-nums sm:hidden">{r.marginPct == null ? "—" : `${r.marginPct.toFixed(1)}% margin`}</span>
                 </td>
                 <td className="px-2.5 py-2 text-right text-ink-2 tabular-nums max-sm:hidden">{r.marginPct == null ? "—" : `${r.marginPct.toFixed(1)}%`}</td>
               </tr>

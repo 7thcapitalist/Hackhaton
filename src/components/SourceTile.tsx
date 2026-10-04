@@ -27,7 +27,7 @@ export function SourceTile({ source: s, periodLabel, firstDayLabel, lastDayLabel
         <div className="flex flex-col gap-[5px]">
           <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${s.days.length}, minmax(0, 1fr))` }} role="img" aria-label={`${got} of ${s.days.length} days received`}>
             {s.days.map((d, i) => (
-              <span key={i} className={`h-4 rounded-[2px] ${d === "received" ? "bg-ok" : d === "warning" ? "border border-warn-icon bg-warn-soft" : "border border-dashed border-ink-4"}`} />
+              <span key={i} className={`h-3 rounded-[1px] ${d === "received" ? "bg-ok/60" : d === "warning" ? "border border-warn-icon bg-warn-soft" : "border border-dashed border-ink-4"}`} />
             ))}
           </div>
           <p className="flex justify-between text-[11px] text-ink-3"><span>{firstDayLabel}</span><span>{got} of {s.days.length} days</span><span>{lastDayLabel}</span></p>

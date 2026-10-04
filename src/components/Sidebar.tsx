@@ -73,7 +73,7 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, sourcesHint,
       {/* Mobile and tablet */}
       <header data-print-hide className="rail sticky top-0 z-30 flex flex-col gap-1 border-b border-line px-4 pt-2.5 lg:hidden">
         <div className="flex items-center justify-between gap-3"><Brand /><ThemeToggle compact /></div>
-        <nav className="-mx-1 flex gap-1 overflow-x-auto" aria-label="Main">
+        <nav className="-mx-1 flex gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Main">
           {items.map(it => {
             const active = isActive(it.href);
             return (

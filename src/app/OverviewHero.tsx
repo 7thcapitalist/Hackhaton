@@ -186,12 +186,12 @@ function HeroNumber({ label, value, changePct, comparedTo, swatch }: {
   label: string; value: string; changePct: number | null; comparedTo: string; swatch?: string;
 }) {
   return (
-    <div className="flex min-w-0 flex-col gap-1.5 px-5 py-4">
+    <div className="flex min-w-0 flex-col gap-1.5 px-4 py-3 sm:px-5 sm:py-4">
       <span className="flex items-center gap-2 text-[13px] text-ink-2">
         {swatch && <span aria-hidden className="size-2 shrink-0 rounded-[2px]" style={{ backgroundColor: swatch }} />}
         <span className="truncate">{label}</span>
       </span>
-      <span className="text-[30px] leading-none font-semibold tracking-[-0.02em] text-ink">{value}</span>
+      <span className="text-[26px] leading-none font-semibold tracking-[-0.02em] text-ink sm:text-[30px]">{value}</span>
       <span className="flex flex-wrap items-center gap-x-1.5 text-[12.5px] text-ink-3">
         <ChangeText pct={changePct} />
         <span>vs {comparedTo}</span>
