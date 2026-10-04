@@ -327,23 +327,31 @@ const WHY_ICON = "M8 2.3a5.7 5.7 0 1 0 0 11.4 5.7 5.7 0 0 0 0-11.4z M8 7.3v3.4M8
  *   on, so there's no second dimension left to break down by): decomposes the swing into
  *   order-volume vs. order-value, using the real order counts/averages on the mover itself,
  *   and names whichever one actually accounts for most of the dollar change.
- * Never a static sentence — every branch is computed from this mover's own numbers. */
-function moverExplanation(mover: Mover, driver: Driver | null, comparedTo: string): string {
+ * Never a static sentence — every branch is computed from this mover's own numbers.
+ *
+ * Round 7b (Ryan: still didn't understand it, make it bigger and easier to read): rewritten
+ * as a full plain-language sentence or two — names what happened, then explains the "why" in
+ * words a non-technical reader parses on one pass (no bare arrows, no colon-separated
+ * shorthand), instead of a terse data-label sentence. */
+function moverExplanation(mover: Mover, driver: Driver | null, label: string, comparedTo: string): string {
+  const upWord = mover.pct >= 0 ? "grew" : "dropped";
   if (driver) {
-    const verb = driver.deltaCents >= 0 ? "a jump" : "a drop";
-    const sign = driver.deltaCents >= 0 ? "+" : "−";
-    return `Mainly caused by ${verb} in ${driver.label} (${sign}${formatMoneyCompact(Math.abs(driver.deltaCents))} vs ${comparedTo}).`;
+    const driverVerb = driver.deltaCents >= 0 ? "rose" : "fell";
+    return `${label} ${upWord} mostly because of ${driver.label}. Its sales ${driverVerb} by ${formatMoneyCompact(Math.abs(driver.deltaCents))} compared to ${comparedTo} — more than any other marketplace or category in this slice, making it the main reason behind the change.`;
   }
   if (mover.previousOrders === 0) {
-    return `New vs ${comparedTo} — ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} with no prior data to compare against.`;
+    return `${label} had no sales on ${comparedTo}, so this is all new activity — ${formatInt(mover.currentOrders)} order${mover.currentOrders === 1 ? "" : "s"} with nothing from last time to compare it to.`;
   }
   const avgPrev = mover.previousCents / mover.previousOrders;
   const avgCur = mover.currentOrders ? mover.currentCents / mover.currentOrders : 0;
   const ordersEffect = (mover.currentOrders - mover.previousOrders) * avgPrev;
   const avgEffect = (avgCur - avgPrev) * mover.currentOrders;
-  return Math.abs(ordersEffect) >= Math.abs(avgEffect)
-    ? `Mainly driven by order volume: ${formatInt(mover.previousOrders)} → ${formatInt(mover.currentOrders)} orders vs ${comparedTo}.`
-    : `Mainly driven by order value: avg order ${formatMoney(avgPrev)} → ${formatMoney(avgCur)} vs ${comparedTo}.`;
+  if (Math.abs(ordersEffect) >= Math.abs(avgEffect)) {
+    const orderWord = mover.currentOrders >= mover.previousOrders ? "More people bought" : "Fewer people bought";
+    return `${label} ${upWord} mainly because of how many orders came in, not how much each one was worth. ${orderWord} — ${formatInt(mover.previousOrders)} orders compared to ${comparedTo}, now ${formatInt(mover.currentOrders)} — while the typical order stayed close to the same size.`;
+  }
+  const valueWord = avgCur >= avgPrev ? "customers simply spent more per order" : "customers simply spent less per order";
+  return `${label} ${upWord} mainly because of order size, not how many orders came in. On average, ${valueWord}: the typical order went from ${formatMoney(avgPrev)} to ${formatMoney(avgCur)} compared to ${comparedTo}, while the number of orders held steady.`;
 }
 
 /** Headline mover (movers[0]) — a number, then a sentence — with up to 3 runners-up listed
@@ -377,7 +385,14 @@ function MoverCard({ title, movers, comparedTo, describeKey, driver = null, them
   return (
     <div className="flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5" style={active ? { borderColor: theme.line } : undefined}>
       <CardTitle icon={<PulseIcon className="size-3.5" />} theme={theme}>{title}</CardTitle>
-      {!mover ? <p className="text-[13px] text-ink-3">Not enough data yet to compare.</p> : (
+      {!mover ? (
+        <div className="flex flex-1 items-center gap-3 rounded-[12px] border border-line bg-muted-soft p-4 text-[14px] text-ink-2">
+          <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full bg-surface text-ink-3">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
+          </span>
+          <p>Not enough data yet to compare — there&apos;s no prior period to measure this slice against.</p>
+        </div>
+      ) : (
         <>
           <span className={`font-display text-[44px] leading-none font-semibold ${up ? "text-ok" : "text-bad"}`}>
             {up ? "↑" : "↓"} {Math.abs(mover.pct).toFixed(1)}%
@@ -404,11 +419,14 @@ function MoverCard({ title, movers, comparedTo, describeKey, driver = null, them
               })}
             </ul>
           )}
-          <div className="mt-auto flex items-start gap-2.5 rounded-[10px] border p-3 text-[12.5px] text-ink-2" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
-            <span aria-hidden className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-3" aria-hidden><path d={WHY_ICON} /></svg>
+          <div className="flex flex-1 items-center gap-3 rounded-[12px] border p-4" style={{ backgroundColor: theme.soft, borderColor: theme.line }}>
+            <span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: theme.accent, color: "var(--surface)" }}>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden><path d={WHY_ICON} /></svg>
             </span>
-            <p><span className="font-semibold text-ink">Why: </span>{moverExplanation(mover, driver, comparedTo)}</p>
+            <p className="text-[14px] leading-snug text-ink-2">
+              <span className="block text-[12px] font-semibold tracking-wide text-ink">Why this happened</span>
+              {moverExplanation(mover, driver, label ?? String(mover.key), comparedTo)}
+            </p>
           </div>
         </>
       )}
