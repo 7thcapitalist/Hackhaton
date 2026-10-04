@@ -27,16 +27,16 @@ export function CollapsibleCard({ id, title, meta, children, defaultOpen = false
     return () => { window.removeEventListener(TOGGLE_ALL, on); window.removeEventListener("hashchange", onHash); };
   }, [id]);
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24 rounded-xl border border-line bg-surface shadow-xs break-inside-avoid">
+    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24 rounded-lg border border-line bg-surface break-inside-avoid">
       <h2 id={`${id}-title`} className="m-0">
         <button type="button" aria-expanded={open} aria-controls={`${id}-body`} onClick={() => setOpen(o => !o)}
-          className="flex w-full flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-surface-2/60 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:px-5">
+          className="flex w-full flex-wrap items-center gap-x-4 gap-y-1.5 rounded-lg px-4 py-3 text-left transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent sm:px-5">
           <span className="flex items-center gap-2.5">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden data-print-hide
-              className={`size-3.5 shrink-0 text-accent transition-transform duration-150 ${open ? "rotate-90" : ""}`}>
+              className={`size-3.5 shrink-0 text-ink-3 transition-transform duration-150 ${open ? "rotate-90" : ""}`}>
               <path d="m6 3 5 5-5 5" />
             </svg>
-            <span className="text-[15px] font-semibold text-ink">{title}</span>
+            <span className="text-[14px] font-semibold text-ink">{title}</span>
           </span>
           {meta && <span className="ml-auto flex items-center gap-3 text-[12.5px] font-normal text-ink-3">{meta}</span>}
         </button>
