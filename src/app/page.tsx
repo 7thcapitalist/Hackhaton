@@ -1,11 +1,10 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { getOrders, ORDERS_MAX_LIMIT } from "@/lib/views";
-import { CheckIcon, ClockIcon, WarnIcon } from "@/components/icons";
+import { CheckIcon } from "@/components/icons";
 import { SourceStrip } from "@/components/SourceStrip";
 import { CHANNELS, GROUP_MEMBERS } from "./_lib/channels";
-import { getDataRange, getPulseScreen, getScorecardScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
-import { formatDay, formatKpiShort, formatStampFull, TRACK, trackStatus } from "./_lib/format";
+import { getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
+import { formatStampFull } from "./_lib/format";
 import { OverviewHero, type OrderLike } from "./OverviewHero";
 import type { ChannelId } from "./_lib/types";
 
@@ -20,14 +19,11 @@ export default async function OverviewPage() {
   const range = (await getDataRange())!; // the layout shows NoData when null
   const latest = range.completeDate;
   const period = range.defaultPeriod;
-  const [pulseData, { kpis }, sourcesData] = await Promise.all([
-    getPulseScreen(range, latest), getScorecardScreen(period), getSourcesScreen(range, period),
+  const [pulseData, sourcesData] = await Promise.all([
+    getPulseScreen(range, latest), getSourcesScreen(range, period),
   ]);
   const pulse = pulseData.view;
   const cmpDate = pulseData.compare?.date ?? null;
-  const series = pulseData.series;
-  const dailyTotals = series.dates.map((_, i) => series.series.reduce((a, s) => a + (s.revenueCents[i] ?? 0), 0));
-  const missingLabels = pulse.rows.filter(r => r.status === "missing").map(r => r.label);
 
   // For the hero's marketplace/category filter (Overview-only; see OverviewHero.tsx). Reuses
   // pulseData.orders already fetched above; the one extra fetch is cmpDate's orders, needed
@@ -37,14 +33,6 @@ export default async function OverviewPage() {
   const cmpOrders: OrderLike[] | null = cmpOrdersRaw
     ? cmpOrdersRaw.rows.map(o => ({ channelLabel: groupLabel(o.channel), category: o.category ?? "Uncategorized", netCents: o.netCents, status: o.status, orderId: o.externalOrderId }))
     : null;
-
-  // Missing marketplace files in the last 7 days (before the latest day, which is covered above).
-  const recentGaps = series.dates.flatMap((d, i) => (d < latest && i >= series.dates.length - 8)
-    ? series.series.filter(s => s.revenueCents[i] == null).map(s => ({ date: d, label: s.label })) : []);
-
-  const anchors = kpis.filter(k => k.anchor2027);
-  const anchorsBehind = anchors.filter(k => ["near", "off"].includes(trackStatus(k)));
-  const awaitingKpis = kpis.filter(k => k.value == null);
 
   const SOURCES = sourcesData.sources;
   const src = summarizeSources(SOURCES);
@@ -75,8 +63,6 @@ export default async function OverviewPage() {
         compareChanges={pulseData.compare?.changes ?? null}
         orders={pulseData.orders}
         cmpOrders={cmpOrders}
-        allDailyTotals={dailyTotals}
-        channelSeries={series.series}
       />
 
       <nav aria-label="More views" className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4 text-[13px]">
@@ -85,54 +71,6 @@ export default async function OverviewPage() {
         <Link href="/scorecard" className="font-medium text-ink-2 underline-offset-4 transition-colors hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-accent">COO Scorecard →</Link>
         <Link href="/sources" className="font-medium text-ink-2 underline-offset-4 transition-colors hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-accent">Data Sources →</Link>
       </nav>
-
-      <section className="flex flex-col overflow-hidden rounded-[14px] border border-line bg-surface shadow-xs" aria-labelledby="attention">
-        <h2 id="attention" className="border-b border-line px-[22px] py-3.5 text-sm font-semibold">Needs attention</h2>
-        <ul>
-          {missingLabels.map(label => (
-            <AttentionRow key={label} href="/pulse" where="Daily Pulse" icon={<WarnIcon className="size-[15px] text-warn-icon" />}>
-              <strong className="font-semibold">{label}</strong> file for {formatDay(latest)} hasn&apos;t arrived. Totals exclude it.
-            </AttentionRow>
-          ))}
-          {recentGaps.map(g => (
-            <AttentionRow key={`${g.date}-${g.label}`} href={`/pulse?date=${g.date}`} where="Daily Pulse" icon={<WarnIcon className="size-[15px] text-warn-icon" />}>
-              <strong className="font-semibold">{g.label}</strong> file for {formatDay(g.date)} never arrived. That day&apos;s totals exclude it.
-            </AttentionRow>
-          ))}
-          {sourcesData.issues.slice(0, 4).map(i => (
-            <AttentionRow key={`${i.source}-${i.text}`} href="/sources#issues" where="Data Sources" icon={<WarnIcon className="size-[15px] text-warn-icon" />}>
-              <strong className="font-semibold">{i.source}</strong>: {i.text}
-            </AttentionRow>
-          ))}
-          {sourcesData.issues.length > 4 && (
-            <AttentionRow href="/sources#issues" where="Data Sources" icon={<WarnIcon className="size-[15px] text-warn-icon" />}>
-              {sourcesData.issues.length - 4} more open issues on Data Sources.
-            </AttentionRow>
-          )}
-          {anchorsBehind.map(k => (
-            <AttentionRow key={k.id} href="/scorecard" where="Scorecard" icon={<ClockIcon className="size-[15px] text-muted" />}>
-              <strong className="font-semibold">{k.label}</strong> is {formatKpiShort(k.unit, k.value)} vs a {formatKpiShort(k.unit, k.target)} target ({TRACK[trackStatus(k)].short}).
-            </AttentionRow>
-          ))}
-          {awaitingKpis.map(k => (
-            <AttentionRow key={k.id} href="/scorecard" where="Scorecard" icon={<ClockIcon className="size-[15px] text-muted" />}>
-              <strong className="font-semibold">{k.label}</strong> is awaiting data.
-            </AttentionRow>
-          ))}
-        </ul>
-      </section>
     </div>
-  );
-}
-
-function AttentionRow({ href, where, icon, children }: { href: string; where: string; icon: ReactNode; children: ReactNode }) {
-  return (
-    <li className="border-b border-line-2 last:border-b-0">
-      <Link href={href} className="grid grid-cols-[24px_1fr_auto] items-center gap-3 px-[22px] py-[13px] text-ink transition-colors hover:bg-surface-2">
-        {icon}
-        <span className="text-[13.5px]">{children}</span>
-        <span className="hidden text-[12.5px] text-ink-3 sm:inline">{where}</span>
-      </Link>
-    </li>
   );
 }
