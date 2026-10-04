@@ -38,7 +38,8 @@
  * Until then real pulls produce files the current parser will not recognize.
  *
  * Mock path: the Date Range Transaction CSVs from data/fixtures/amazon/ when
- * files cover the range, else generated per day. With the finances feed
+ * files cover the range, else nothing (generated per day only with
+ * CONNECTORS_MOCK_GENERATE=1, see fixturesOnly()). With the finances feed
  * (default) each CSV is re-emitted as a listTransactions JSON response, one
  * transaction per CSV row (./mock/amazon_finances.ts), so JSON and CSV carry
  * the same dedupe keys and amounts. With AMAZON_SP_FEED=reports the CSVs are
