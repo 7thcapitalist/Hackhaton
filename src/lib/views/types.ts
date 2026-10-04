@@ -222,7 +222,7 @@ export interface CostBreakdownView {
     paidOrderLines: number;
   };
   shippingLabels: {
-    /** Labels bought − carrier label refunds. */
+    /** Labels bought − carrier label refunds. For a channel view: the allocated net cost (labels carry no channel), byCarrier empty. */
     costCents: number;
     labelsCents: number;
     carrierRefundsCents: number;
@@ -260,6 +260,12 @@ export interface CostedMarginRow {
   netRevenueCents: number;
   paidOrderLines: number;
   itemsListed: number;
+  /** Items sold in the period (SIMULATED items data). */
+  itemsSold: number;
+  /** Mean days from listing to sale for items sold in the period (SIMULATED); null when none. */
+  avgDaysToSell: number | null;
+  /** Caveat for pseudo-groups ("Uncategorized", "Unallocated"). */
+  note?: string;
   shippingLinkedCents: number;
   shippingAllocatedCents: number;
   shippingCostCents: number;

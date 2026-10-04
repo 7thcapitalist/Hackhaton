@@ -115,6 +115,9 @@ interface CostingFacts {
   /** Channels whose order reports mostly carry no category. */
   uncategorizedChannels: string[];
   itemsByChannel: Map<string, number>;
+  /** Items sold in the period (simulated): count and Σ days listed→sold, by category and by channel. */
+  soldCategory: Map<string, { n: number; days: number }>;
+  soldChannel: Map<string, { n: number; days: number }>;
   missing: string[];
 }
 
@@ -127,7 +130,7 @@ async function loadCostingFacts(period: string): Promise<CostingFacts> {
     "trim(case when instr(m.reference, ' / ') > 0 then substr(m.reference, 1, instr(m.reference, ' / ') - 1) else m.reference end)",
   );
 
-  const [orders, shippingGroups, linkedRaw, other, excluded, labor, itemsCat, itemsCh] = await Promise.all([
+  const [orders, shippingGroups, linkedRaw, other, excluded, labor, itemsCat, itemsCh, itemsSold] = await Promise.all([
     db.all<OrderAgg>(sql`
       select channel, coalesce(category, ${UNCATEGORIZED}) as category,
              coalesce(sum(gross_cents), 0) as gross, coalesce(sum(shipping_cents), 0) as shipping,
@@ -175,7 +178,24 @@ async function loadCostingFacts(period: string): Promise<CostingFacts> {
     db.all<{ k: string | null; c: number }>(sql`
       select channel_source_id as k, count(*) as c from items
       where listed_at >= ${startUtc} and listed_at < ${endUtc} group by 1`),
+    db.all<{ k: string; ch: string | null; c: number; days: number }>(sql`
+      select coalesce(category, ${UNCATEGORIZED}) as k, channel_source_id as ch, count(*) as c,
+             sum(julianday(sold_at) - julianday(listed_at)) as days
+      from items
+      where sold_at >= ${startUtc} and sold_at < ${endUtc} and listed_at is not null group by 1, 2`),
   ]);
+  const soldCategory = new Map<string, { n: number; days: number }>();
+  const soldChannel = new Map<string, { n: number; days: number }>();
+  for (const r of itemsSold) {
+    const put = (m: Map<string, { n: number; days: number }>, k: string) => {
+      const e = m.get(k) ?? { n: 0, days: 0 };
+      e.n += n(r.c);
+      e.days += n(r.days);
+      m.set(k, e);
+    };
+    put(soldCategory, r.k);
+    if (r.ch && (CHANNEL_IDS as string[]).includes(r.ch)) put(soldChannel, r.ch);
+  }
 
   // Split each linked label line's cost evenly over its matched order lines.
   const byLine = new Map<string, { amount: number; rows: { channel: string; category: string }[] }>();
@@ -225,6 +245,8 @@ async function loadCostingFacts(period: string): Promise<CostingFacts> {
     laborCost: Math.round(hours * rate),
     itemsByCategory,
     uncategorizedChannels,
+    soldCategory,
+    soldChannel,
     itemsByChannel: new Map(
       itemsCh.filter((r) => r.k && (CHANNEL_IDS as string[]).includes(r.k)).map((r) => [r.k as string, n(r.c)]),
     ),
@@ -281,6 +303,7 @@ function computeGroups(f: CostingFacts, by: CostedMarginBy) {
 
   // Labor.
   const items = by === "channel" ? f.itemsByChannel : f.itemsByCategory;
+  const sold = by === "channel" ? f.soldChannel : f.soldCategory;
   const laborWeights = [...items.values()].some((v) => v > 0) ? items : paid;
   const labor = allocate(f.laborCost, laborWeights);
 
@@ -307,6 +330,8 @@ function computeGroups(f: CostingFacts, by: CostedMarginBy) {
       netRevenueCents,
       paidOrderLines: paid.get(group) ?? 0,
       itemsListed: items.get(group) ?? 0,
+      itemsSold: sold.get(group)?.n ?? 0,
+      avgDaysToSell: sold.get(group)?.n ? round1(sold.get(group)!.days / sold.get(group)!.n) : null,
       shippingLinkedCents,
       shippingAllocatedCents,
       shippingCostCents,
@@ -314,6 +339,11 @@ function computeGroups(f: CostingFacts, by: CostedMarginBy) {
       otherChargesCents,
       contributionCents,
       contributionPct: pct(contributionCents, netRevenueCents),
+      ...(group === UNCATEGORIZED && by === "category"
+        ? { note: `Not a category: order lines with no category (the ${f.uncategorizedChannels.join(", ") || "marketplace"} reports carry none). Leave it out of category rankings.` }
+        : group === UNALLOCATED
+          ? { note: "Cost that could not be allocated (no listings or paid orders to weight it by)." }
+          : {}),
     };
   });
   rows.sort((a, b) => b.contributionCents - a.contributionCents || a.group.localeCompare(b.group));
@@ -334,10 +364,13 @@ function computeGroups(f: CostingFacts, by: CostedMarginBy) {
     {
       group: "Total", netRevenueCents: 0, paidOrderLines: 0, itemsListed: 0, shippingLinkedCents: 0,
       shippingAllocatedCents: 0, shippingCostCents: 0, laborAllocatedCents: 0, otherChargesCents: 0,
-      contributionCents: 0, contributionPct: null,
+      contributionCents: 0, contributionPct: null, itemsSold: 0, avgDaysToSell: null,
     },
   );
   totals.contributionPct = pct(totals.contributionCents, totals.netRevenueCents);
+  const allSold = [...sold.values()].reduce((s, e) => ({ n: s.n + e.n, days: s.days + e.days }), { n: 0, days: 0 });
+  totals.itemsSold = allSold.n;
+  totals.avgDaysToSell = allSold.n ? round1(allSold.days / allSold.n) : null;
   return { rows, totals };
 }
 
@@ -417,9 +450,9 @@ export async function getCostBreakdown(opts: { period: string; channel?: Channel
     const row = rows.find((r) => r.group === channel);
     shipping = {
       costCents: row?.shippingCostCents ?? 0,
-      labelsCents,
-      carrierRefundsCents,
-      byCarrier,
+      labelsCents: row?.shippingCostCents ?? 0,
+      carrierRefundsCents: 0,
+      byCarrier: [],
       linkedCents: row?.shippingLinkedCents ?? 0,
       allocatedCents: row?.shippingAllocatedCents ?? 0,
     };
@@ -451,7 +484,7 @@ export async function getCostBreakdown(opts: { period: string; channel?: Channel
   const scopeNote =
     channel === null
       ? "All channels: shipping, labor and other charges are actual totals (no allocation)."
-      : `Channel ${channel}: revenue is actual; shipping label cost, labor and charges with no channel are ALLOCATED (byCarrier shows the all-channel carrier totals). ${methodFor("channel", f)}`;
+      : `Channel ${channel}: revenue is actual; shipping label cost, labor and charges with no channel are ALLOCATED (labels are not tagged by channel, so no carrier split and labels are shown net of refunds). ${methodFor("channel", f)}`;
 
   return {
     period: opts.period,
