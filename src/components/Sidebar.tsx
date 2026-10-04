@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { BarsIcon, CheckIcon, DatabaseIcon, GridIcon, PulseIcon } from "./icons";
+import { BarsIcon, CheckIcon, DatabaseIcon, FileIcon, GridIcon, PulseIcon } from "./icons";
 import { ThemeToggle } from "./ThemeToggle";
 
 type SidebarProps = {
@@ -36,6 +36,7 @@ export function Sidebar({ pulseLabel, scorecardLabel, sourcesLabel, importLabel 
       href: "/sources", label: "Sources", icon: <DatabaseIcon />,
       meta: <span className="rounded-[5px] border border-line bg-surface-2 px-[5px] text-[11px] leading-[17px] font-medium text-ink-2">{sourcesLabel}</span>,
     },
+    { href: "/close", label: "Month-end Close", icon: <FileIcon className="size-4" />, meta: <span className="text-[11px] text-ink-3">{scorecardLabel}</span> },
   ];
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
