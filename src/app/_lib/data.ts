@@ -8,10 +8,10 @@ import {
   type ExceptionRow, type IngestRunRow, type OrdersView, type PulseView as ViewPulse,
 } from "@/lib/views";
 import { addDays, businessDateOf, dateRange, daysBetween, periodBounds } from "@/lib/views/dates";
-import { GROUP_MEMBERS } from "./channels";
+import { CHANNEL_LABEL, GROUP_MEMBERS } from "./channels";
 import { statsOf, weekdayOf, type PulseBaseline } from "../pulse/summary";
 import { formatDay, formatStamp } from "./format";
-import type { CategoryRow, ChannelId, DayStatus, Kpi, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
+import type { CategoryRow, ChannelId, DayStatus, DisplayUnit, Kpi, MarketplaceMetricRow, PulseRow, PulseTotals, PulseView, Source, SourceIssue, SourceOrder } from "./types";
 
 // ---- Data range: which days and months have data ----
 
@@ -297,6 +297,7 @@ export async function getMonthPace(range: DataRange, date: string): Promise<Mont
 export { PILLARS } from "../scorecard/kpiFormat";
 
 const TEAM_LEVEL = new Set(["listings_per_employee", "sales_per_employee"]);
+const DISPLAY_UNIT: Record<string, DisplayUnit> = { csat: "score", nps: "score", listings_per_day: "per_day" };
 /** The scorecard view for a period, once per request (the screen and its charts share it). */
 export const getScorecardView = cache((period: string) => getScorecard(period));
 
@@ -311,15 +312,23 @@ export const getScorecardScreen = cache(async (period: string) => {
     return { ...k, ...extra };
   });
 
+  // The rest of slides 33-34. Their "ratio" KPIs read as a score or a daily rate, not "per person".
+  const extendedKpis: Kpi[] = view.kpis.filter(k => k.group === "extended").map(k => ({ ...k, unit: DISPLAY_UNIT[k.id] ?? k.unit }));
+
   // Categories: the union of the two Top-10 lists, with which list(s) each one is in.
   const inRev = new Set(view.topCategoriesByRevenue.map(c => c.category));
   const inMargin = new Set(view.topCategoriesByMargin.map(c => c.category));
   const categories: CategoryRow[] = view.categories
     .filter(c => inRev.has(c.category) || inMargin.has(c.category))
-    .map(c => ({ category: c.category, revenueCents: c.revenueCents, marginCents: c.marginCents, inRevenueTop10: inRev.has(c.category), inMarginTop10: inMargin.has(c.category) }));
+    .map(c => ({
+      category: c.category, revenueCents: c.revenueCents, marginCents: c.marginCents, inRevenueTop10: inRev.has(c.category), inMarginTop10: inMargin.has(c.category),
+      units: c.units, sellThroughPct: c.sellThroughPct, aspCents: c.aspCents,
+    }));
+
+  const marketplaceMetrics: MarketplaceMetricRow[] = view.marketplaceMetrics.map(m => ({ ...m, label: CHANNEL_LABEL[m.channel as ChannelId] ?? m.channel }));
 
   return {
-    period, kpis, categories, totalRevenueCents: total,
+    period, kpis, extendedKpis, categories, marketplaceMetrics, totalRevenueCents: total,
   };
 });
 

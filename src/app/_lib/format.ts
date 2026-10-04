@@ -1,4 +1,4 @@
-import type { KpiUnit } from "./types";
+import type { DisplayUnit } from "./types";
 
 export const TZ = "America/Indiana/Indianapolis";
 
@@ -46,7 +46,7 @@ export function shiftDay(isoDate: string, days: number) {
   return new Date(Date.parse(`${isoDate}T00:00:00Z`) + days * 864e5).toISOString().slice(0, 10);
 }
 
-export function formatKpiValue(unit: KpiUnit, v: number): { value: string; suffix: string } {
+export function formatKpiValue(unit: DisplayUnit, v: number): { value: string; suffix: string } {
   switch (unit) {
     case "percent": return { value: `${v.toFixed(1)}%`, suffix: "" };
     case "cents": return { value: v >= 100_000 ? formatMoneyCompact(v) : formatMoney(v), suffix: "" };
@@ -54,13 +54,15 @@ export function formatKpiValue(unit: KpiUnit, v: number): { value: string; suffi
     case "days": return { value: v.toFixed(1), suffix: "days" };
     case "ratio": return { value: formatInt(v), suffix: "per person" };
     case "count": return { value: formatInt(v), suffix: "" };
+    case "score": return { value: v.toFixed(Math.abs(v) < 10 ? 2 : 1), suffix: "" };
+    case "per_day": return { value: v.toFixed(1), suffix: "per day" };
   }
 }
 
-export function formatKpiShort(unit: KpiUnit, v: number | null): string {
+export function formatKpiShort(unit: DisplayUnit, v: number | null): string {
   if (v == null) return "—";
   const f = formatKpiValue(unit, v);
-  return unit === "days" ? `${f.value} days` : unit === "cents_per_hour" ? `${f.value}/hr` : f.value;
+  return unit === "days" ? `${f.value} days` : unit === "cents_per_hour" ? `${f.value}/hr` : unit === "per_day" ? `${f.value}/day` : f.value;
 }
 
 export function pctChange(curr: number, prev: number | null): number | null {
