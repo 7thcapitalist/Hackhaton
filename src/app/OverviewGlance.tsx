@@ -21,9 +21,18 @@
 //   so there's a second real number in the card, and surface cancelled orders.
 // - The mover card leads with the number, then one plain-language sentence explaining it,
 //   instead of a label line and a caption line.
+//
+// 2026-10-04, round 5 (Ryan, pointing at this exact card: most of it was blank). The grid
+// row stretches every card to match its tallest sibling (CSS grid's default
+// align-items:stretch) — the mover card's content (an icon, one big number, one sentence)
+// is much shorter than "Top marketplaces today"'s 6-row ranking next to it, so the gap was
+// genuine empty space below real content, not a color/icon problem. Fixed at the source: the
+// mover card now shows its runners-up too (rankMovers' full ranked list, not just index 0),
+// the same "more real numbers" fix as everywhere else on this page — it fills the card
+// because there's more to say, not because of padding or decoration.
 import type { ReactNode } from "react";
 import { FileIcon, PulseIcon } from "@/components/icons";
-import { bucketBy, biggestMover, matches, sliceStats, type Bucket, type Mover, type OrderLike } from "./_lib/overview-filters";
+import { bucketBy, matches, rankMovers, sliceStats, type Bucket, type Mover, type OrderLike } from "./_lib/overview-filters";
 import { categoryIcon, MARKET_ICON, MARKET_THEME, type MarketKey, type MarketTheme } from "./_lib/overview-theme";
 import { formatInt, formatMoney, formatMoneyCompact, pctChange } from "./_lib/format";
 
@@ -45,17 +54,17 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
   if (channel === "all" && category === "all") {
     const byChannel = bucketBy(current, o => o.channelLabel);
     const byCategory = bucketBy(current, o => o.category);
-    const mover = previous
-      ? biggestMover(
+    const movers = previous
+      ? rankMovers(
           [...tag(byChannel, "m:"), ...tag(byCategory, "c:")],
           [...tag(bucketBy(previous, o => o.channelLabel), "m:"), ...tag(bucketBy(previous, o => o.category), "c:")],
         )
-      : null;
+      : [];
     return (
       <Row>
         <RankCard icon={<MarketIcon />} title="Top marketplaces today" rows={byChannel} barColor={marketBarColor} rowIcon={undefined} theme={theme} active={active} />
         <RankCard icon={<CategoryGlyph category="" />} title="Top categories today" rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />} theme={theme} active={active} />
-        <MoverCard title="Biggest mover" mover={mover} comparedTo={comparedTo} describeKey={describeTaggedKey} theme={theme} active={active} />
+        <MoverCard title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey} theme={theme} active={active} />
       </Row>
     );
   }
@@ -64,7 +73,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const byCategory = bucketBy(current, o => o.category);
     const stats = sliceStats(current);
     const prevStats = previous ? sliceStats(previous) : null;
-    const mover = previous ? biggestMover(bucketBy(current, o => o.category), bucketBy(previous, o => o.category)) : null;
+    const movers = previous ? rankMovers(bucketBy(current, o => o.category), bucketBy(previous, o => o.category)) : [];
     return (
       <Row>
         <RankCard icon={<CategoryGlyph category="" />} title={`Top categories in ${channelLabel}`} rows={byCategory} limit={4} rowIcon={r => <CategoryGlyph category={r.key} />} theme={theme} active={active} />
@@ -72,7 +81,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
-        <MoverCard title={`Biggest mover in ${channelLabel}`} mover={mover} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
+        <MoverCard title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
@@ -81,7 +90,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const byChannel = bucketBy(current, o => o.channelLabel);
     const stats = sliceStats(current);
     const prevStats = previous ? sliceStats(previous) : null;
-    const mover = previous ? biggestMover(bucketBy(current, o => o.channelLabel), bucketBy(previous, o => o.channelLabel)) : null;
+    const movers = previous ? rankMovers(bucketBy(current, o => o.channelLabel), bucketBy(previous, o => o.channelLabel)) : [];
     return (
       <Row>
         <RankCard icon={<MarketIcon />} title={`Top marketplaces selling ${category}`} rows={byChannel} barColor={marketBarColor} rowIcon={undefined} theme={theme} active={active} />
@@ -89,12 +98,13 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? ` · ${formatInt(stats.cancelled)} cancelled` : ""}`} theme={theme} active={active} />
-        <MoverCard title={`Biggest mover for ${category}`} mover={mover} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
+        <MoverCard title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} theme={theme} active={active} />
       </Row>
     );
   }
 
-  // Both filters set: a single slice, nothing left to rank.
+  // Both filters set: a single slice, nothing left to rank — the mover card can only ever
+  // show the one number (no runners-up exist when there's nothing left to compare against).
   const stats = sliceStats(current);
   const prevStats = previous ? sliceStats(previous) : null;
   const revenueChangePct = pctChange(stats.revenueCents, prevStats?.revenueCents ?? null);
@@ -107,7 +117,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
       <StatCard icon={<CategoryGlyph category={category} className="size-3.5" />} title="Cancelled orders" value={formatInt(stats.cancelled)}
         changePct={null} comparedTo={comparedTo} caption={stats.cancelled ? `${(stats.cancelRate * 100).toFixed(1)}% of this slice` : "none in this slice"} theme={theme} active={active} />
       <MoverCard title="Change vs comparison day" comparedTo={comparedTo} describeKey={() => `${channelLabel} · ${category}`}
-        mover={revenueChangePct == null ? null : { key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents }} theme={theme} active={active} />
+        movers={revenueChangePct == null ? [] : [{ key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents }]} theme={theme} active={active} />
     </Row>
   );
 }
@@ -217,14 +227,20 @@ function StatCard({ icon, title, value, changePct, comparedTo, caption, secondar
   );
 }
 
-function MoverCard({ title, mover, comparedTo, describeKey, theme, active }: {
+/** Headline mover (movers[0]) rendered the same as before — a number, then a sentence —
+ * with up to 3 runners-up listed below as compact rows (mirroring RankCard's row style) so
+ * the card earns its height with more real swings instead of sitting mostly blank next to a
+ * taller ranking card in the same grid row (see this file's header note, round 5). */
+function MoverCard({ title, movers, comparedTo, describeKey, theme, active }: {
   title: string;
-  mover: Mover | null;
+  movers: Mover[];
   comparedTo: string;
   describeKey: (key: string) => string | { label: string; hint: string };
   theme: MarketTheme;
   active: boolean;
 }) {
+  const mover = movers[0] ?? null;
+  const runners = movers.slice(1, 4);
   const described = mover ? describeKey(mover.key) : null;
   const label = described == null ? null : typeof described === "string" ? described : described.label;
   const hint = described == null || typeof described === "string" ? null : described.hint;
@@ -241,6 +257,25 @@ function MoverCard({ title, mover, comparedTo, describeKey, theme, active }: {
           <p className="text-[13px] text-ink-2">
             <strong className="font-semibold text-ink">{label}</strong>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {comparedTo} — {formatMoneyCompact(mover.currentCents)} today.
           </p>
+          {runners.length > 0 && (
+            <ul className="mt-1 flex flex-col gap-2 border-t border-line pt-3">
+              {runners.map(m => {
+                const d = describeKey(m.key);
+                const l = typeof d === "string" ? d : d.label;
+                const h = typeof d === "string" ? null : d.hint;
+                const rowUp = m.pct >= 0;
+                return (
+                  <li key={m.key} className="flex items-center justify-between gap-2 text-[12.5px]">
+                    <span className="flex min-w-0 items-baseline gap-1.5">
+                      <span className="truncate font-medium text-ink">{l}</span>
+                      {h && <span className="shrink-0 text-ink-3">({h})</span>}
+                    </span>
+                    <span className={`shrink-0 font-semibold ${rowUp ? "text-ok" : "text-ink-3"}`}>{rowUp ? "↑" : "↓"} {Math.abs(m.pct).toFixed(1)}%</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </>
       )}
     </div>
