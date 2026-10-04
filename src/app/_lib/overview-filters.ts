@@ -35,16 +35,22 @@ export function bucketBy(rows: OrderLike[], keyOf: (o: OrderLike) => string): Bu
 
 export type Mover = { key: string; pct: number; currentCents: number };
 
-/** The bucket whose revenue swung most (up or down, by magnitude) between two
- * bucket lists for the same keys. Keys with no comparable prior value are
- * skipped (pctChange already guards a zero or missing base). */
-export function biggestMover(current: Bucket[], previous: Bucket[]): Mover | null {
+/** Every bucket's revenue swing (up or down) between two bucket lists for the same keys,
+ * ranked by magnitude — index 0 is the single biggest mover, the rest are runners-up (so
+ * the "biggest mover" card can show more than one swing instead of a single sentence with
+ * nothing else in the card). Keys with no comparable prior value are skipped (pctChange
+ * already guards a zero or missing base). */
+export function rankMovers(current: Bucket[], previous: Bucket[]): Mover[] {
   const prevByKey = new Map(previous.map(b => [b.key, b.revenueCents]));
-  const moves = current
+  return current
     .map(b => ({ key: b.key, pct: pctChange(b.revenueCents, prevByKey.get(b.key) ?? null), currentCents: b.revenueCents }))
-    .filter((m): m is Mover => m.pct != null);
-  if (!moves.length) return null;
-  return moves.reduce((a, b) => (Math.abs(b.pct) > Math.abs(a.pct) ? b : a));
+    .filter((m): m is Mover => m.pct != null)
+    .sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct));
+}
+
+/** The single biggest mover — rankMovers()[0]. */
+export function biggestMover(current: Bucket[], previous: Bucket[]): Mover | null {
+  return rankMovers(current, previous)[0] ?? null;
 }
 
 export function sliceStats(rows: OrderLike[]) {
