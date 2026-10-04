@@ -4,13 +4,13 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "reac
 type Variant = "primary" | "secondary" | "ghost";
 
 const styles: Record<Variant, string> = {
-  primary: "bg-accent text-accent-ink border border-accent font-medium hover:brightness-110",
-  secondary: "bg-surface text-ink border border-line font-medium hover:bg-surface-2 hover:border-ink-4",
-  ghost: "text-accent font-medium hover:bg-accent-soft px-2",
+  primary: "bg-accent text-accent-ink border border-accent font-semibold hover:brightness-110",
+  secondary: "bg-surface text-ink border border-line shadow-xs font-medium hover:bg-surface-2",
+  ghost: "text-accent font-medium hover:text-ink px-2",
 };
 
 export const buttonClass = (variant: Variant = "secondary", className = "") =>
-  `inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-[13px] whitespace-nowrap transition-colors active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-45 disabled:active:translate-y-0 ${styles[variant]} ${className}`;
+  `inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-[13px] whitespace-nowrap transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-45 ${styles[variant]} ${className}`;
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant; icon?: ReactNode };
 

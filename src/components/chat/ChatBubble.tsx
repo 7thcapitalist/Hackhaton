@@ -233,12 +233,12 @@ export function ChatBubble() {
       {!open && !inlineLauncher && (
         <div className="group fixed right-4 bottom-4 z-40 sm:right-6 sm:bottom-6">
           <span role="tooltip" id={`${titleId}-tip`}
-            className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 rounded-md border border-line bg-surface px-2 py-1 text-xs font-medium whitespace-nowrap text-ink opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+            className="pointer-events-none absolute right-full top-1/2 mr-2.5 -translate-y-1/2 rounded-md border border-line bg-surface px-2 py-1 text-xs font-medium whitespace-nowrap text-ink opacity-0 shadow-xs transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
             Ask the data
           </span>
           <button ref={bubbleRef} type="button" onClick={() => setOpen(true)} aria-label="Ask the data" aria-describedby={`${titleId}-tip`}
             aria-haspopup="dialog" aria-expanded={false}
-            className="grid size-12 place-items-center rounded-full bg-accent text-accent-ink shadow-pop transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+            className="grid size-12 place-items-center rounded-full bg-accent text-accent-ink shadow-[0_6px_20px_rgba(1,40,80,.28)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
             <ChatIcon />
             {messages.length > 0 && <span className="absolute top-0.5 right-0.5 size-2.5 rounded-full border-2 border-accent bg-accent-ink" aria-hidden />}
           </button>
@@ -247,10 +247,10 @@ export function ChatBubble() {
 
       {open && (
         <div ref={panelRef} role="dialog" aria-modal="true" aria-labelledby={titleId}
-          className="fixed inset-0 z-50 flex flex-col bg-surface sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[min(600px,calc(100dvh-48px))] sm:w-[400px] sm:overflow-hidden sm:rounded-lg sm:border sm:border-line sm:shadow-pop">
+          className="fixed inset-0 z-50 flex flex-col bg-surface sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[min(600px,calc(100dvh-48px))] sm:w-[400px] sm:overflow-hidden sm:rounded-2xl sm:border sm:border-line sm:shadow-pop">
           <header className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
             <div className="flex min-w-0 items-center gap-2.5">
-              <ChatIcon className="size-4 shrink-0 text-ink-3" />
+              <span className="grid size-7 shrink-0 place-items-center rounded-[8px] bg-accent-soft text-accent"><ChatIcon className="size-4" /></span>
               <div className="flex min-w-0 flex-col">
                 <h2 id={titleId} className="text-sm font-semibold tracking-[-0.01em]">Ask the data</h2>
                 <span className="truncate text-[11.5px] text-ink-3">Queried from the live database</span>
@@ -281,7 +281,7 @@ export function ChatBubble() {
           </div>
 
           <form className="border-t border-line px-3 pt-3 pb-[max(10px,env(safe-area-inset-bottom))]" onSubmit={e => { e.preventDefault(); void send(input); }}>
-            <div className="flex items-end gap-2 rounded-lg border border-line bg-surface px-3 py-2 focus-within:border-accent-line focus-within:ring-2 focus-within:ring-accent-soft">
+            <div className="flex items-end gap-2 rounded-xl border border-line bg-surface px-3 py-2 focus-within:border-accent-line focus-within:ring-2 focus-within:ring-accent-soft">
               <label htmlFor={`${titleId}-input`} className="sr-only">Your question</label>
               <textarea id={`${titleId}-input`} ref={inputRef} rows={1} value={input} disabled={streaming}
                 onChange={e => { setInput(e.target.value); autosize(e.target); }} onKeyDown={onInputKey}
@@ -314,7 +314,7 @@ function EmptyState({ onPick }: { onPick: (q: string) => void }) {
       <div className="flex flex-col items-start gap-2">
         {SUGGESTIONS.map(q => (
           <button key={q} type="button" onClick={() => onPick(q)}
-            className="rounded-md border border-line bg-surface px-3 py-1.5 text-left text-[12.5px] text-ink-2 transition-colors hover:border-accent-line hover:bg-accent-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-accent">
+            className="rounded-full border border-line bg-surface px-3 py-1.5 text-left text-[12.5px] font-medium text-ink-2 shadow-xs transition-colors hover:border-accent-line hover:bg-accent-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-accent">
             {q}
           </button>
         ))}
@@ -327,7 +327,7 @@ function MessageView({ msg, live, status }: { msg: Msg; live: boolean; status: s
   if (msg.role === "user") {
     return (
       <div className="flex justify-end">
-        <p className="max-w-[85%] rounded-lg bg-accent-soft px-3.5 py-2 text-[13.5px] whitespace-pre-wrap text-ink">{msg.content}</p>
+        <p className="max-w-[85%] rounded-2xl rounded-br-md bg-accent-soft px-3.5 py-2 text-[13.5px] whitespace-pre-wrap text-ink">{msg.content}</p>
       </div>
     );
   }
