@@ -25,6 +25,28 @@ orders Upright doesn't list), and **every transaction counts as a different cust
 The five ops sources carry no revenue (`revenue_authority` 0). Items and labor come from mock files,
 so KPIs that use them stay **simulated**; CSAT / NPS / conversion compute from `marketplace_ratings`.
 
+## Pull cadence as implemented (Joao, 2026-10-03: "least time possible")
+
+Each source is pulled at the highest frequency its real system supports. Declared in
+`src/ingest/config.ts` `SOURCE_CADENCE` and `sources.config_json.cadence`; the mock data
+(`scripts/mock/**`) delivers files at that cadence for 2026-08-01..2026-10-03 (the prior year
+2025-08..10 stays one monthly file per source, for speed). Status: a weekly/monthly file of the
+running month is `not_due`; a daily source is `missing` only for finished days without a file.
+
+| Cadence | Sources | Why |
+|---|---|---|
+| daily | `upright`, `shopgoodwill`, `ebay`, `amazon` | report/API takes any date range |
+| daily | `cashmonkey` | Orders report takes any date range |
+| daily | `shipping_osm_pb_easypost` (EasyPost API + payment log, Pitney Bowes history) | daily files / API |
+| weekly | OSM Worldwide invoices (inside `shipping_osm_pb_easypost`, `config_json.feeds.osm`) | weekly invoice cycle |
+| daily | `fedex` | FedEx Billing Online can invoice daily |
+| daily | `jewelry` | internal report, can run daily |
+| daily | `production_tracking`, `upright_inventory` | scheduled exports; first day is a full export, then daily changes (merged by item id) |
+| daily | `timekeeping` | daily timecards |
+| daily | `bank_1st_source` | previous-day (BAI-style) statement |
+| daily | `marketplace_ratings` | rolling month-to-date snapshot; each day upserts the month's row per channel + metric |
+| monthly | `goodwill_books` | the payment statement only exists monthly; its sales arrive daily through Upright |
+
 ## Top parser gaps found (details in each doc, §4)
 
 - **upright:** real headers are `Order Item Price` / `Order Item Subtotal` and `Order Ordered

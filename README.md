@@ -44,6 +44,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run dev` / `build` / `start` | Next.js dev server, production build, production server |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test:exports` | Tests for report exports, without a database or email delivery |
+| `npm run test:pulse` | Tests for the Daily Pulse summary sentence and same-weekday baseline (pure, no database) |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
 | `npm run seed [-- --direct\|--staged] [--no-golden]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that |
@@ -69,6 +70,8 @@ See `.env.example`.
 | `BUYER_KEY_SALT` | Salt for hashed buyer keys (privacy) |
 | `DEMO_RESET_SECRET` | Guards the "Reset demo data" route |
 | `ANTHROPIC_API_KEY` | Optional AI note on the scorecard |
+| `OPENAI_API_KEY` (optional `OPENAI_MODEL`, default `gpt-6.1-sol`) | Data chat, `POST /api/chat` (503 without the key) |
+| `CHAT_DATABASE_URL`, `CHAT_DATABASE_AUTH_TOKEN` | Optional read-only Turso credentials for the chat's `run_sql` tool (falls back to the main DB client) |
 | `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
 | `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_FEED` = `finances` (default) or `reports`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REFRESH_TOKEN` (optional `EBAY_ENV=sandbox`, `EBAY_MARKETPLACE_ID`) | Real eBay API pulls |
@@ -183,13 +186,40 @@ demo data itself changes (new fixtures, parser changes); that refreshes the snap
 The `golden_*` tables are not in the Drizzle schema; `drizzle.config.ts` excludes them
 with `tablesFilter: ["!golden_*"]` so `npm run db:push` never offers to drop them.
 
-Bad dates or periods return 400. Demo cases in the fixtures: every day has all its
-files (the Amazon gap on 2026-10-02 is off; set `MISSING_AMAZON_DATE` in
-`scripts/mock/model.ts` and run `npm run mock:generate` to bring it back); Upright re-reports some eBay/ShopGoodwill orders every day
-(`duplicate_order`, Upright kept); `ebay_2026-09-14_reupload.csv` is an exact duplicate
-upload; `ebay_2026-09-15.csv` has renamed columns; an unknown Amazon "Liquidations" row
-(2026-09-24); an Amazon refund for an earlier file's order (2026-09-29); 11:45 PM Eastern
-orders; month-end sources have no October files yet; 2025-08..10 exist for year-over-year.
+Bad dates or periods return 400. The seeded baseline is clean: every source is pulled at its
+highest cadence (daily except OSM invoices weekly and Goodwill Books monthly; see
+[docs/sources/README.md](docs/sources/README.md)), every due file is there, zero warnings and
+zero open exceptions (the seed fails otherwise). Normal cases it keeps: Upright re-reports some
+eBay/ShopGoodwill orders every day (`duplicate_order`, Upright kept, auto-resolved); an Amazon
+refund for an earlier file's order (2026-09-29); 11:45 PM Eastern orders; Goodwill Books has
+no October statement yet (status `not_due`); 2025-08..10 exist (monthly files) for
+year-over-year. The messy cases (duplicate upload, unknown Amazon type, Upright overlap,
+renamed columns, missing Supplier) are live-demo files in
+[data/demo-uploads/](data/demo-uploads/README.md).
+
+## Data chat ("ask anything about the data")
+
+`POST /api/chat` answers questions with the OpenAI Responses API (model `OPENAI_MODEL`,
+default `gpt-6.1-sol`) and a function-calling loop over the same view functions the
+dashboard uses (`get_pulse`, `get_pulse_series`, `get_scorecard`, `get_source_status`,
+`get_exceptions`, `get_orders`) plus `run_sql`, a guarded read-only SQL tool. Code:
+`src/ai/chat/` (agent loop, tools, system prompt, SQL guard).
+
+- Body: `{ messages: { role: "user" | "assistant", content: string }[] }` (plain-text
+  history, last one is the user's question, max 20).
+- Response: `text/event-stream`, one `data: <json>\n\n` per event: `{type:"text",delta}`,
+  `{type:"tool",name,label}`, `{type:"trace",items:[{tool,input,sql?,rowCount?}]}` (once,
+  before done), `{type:"error",message}`, `{type:"done"}`.
+- 503 without `OPENAI_API_KEY`; 429 above 20 requests/min per IP (in memory); max 8 tool rounds.
+- `run_sql` safety: read-only client from `CHAT_DATABASE_URL`/`CHAT_DATABASE_AUTH_TOKEN`
+  when set (create a read-only Turso token), one statement, SELECT/WITH only, no
+  write/PRAGMA/ATTACH keywords, no `golden_*` tables, wrapped in `LIMIT 500`, 10 s timeout.
+
+```bash
+npm run chat -- "Which day of the week do we sell most?"   # streamed answer + trace + cost
+npm run chat -- --tools                                     # run every tool directly, no API key
+npm run check:chat-sql                                      # SQL guard unit check
+```
 
 ## Where to read next
 

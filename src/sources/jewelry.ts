@@ -103,7 +103,7 @@ export const jewelryParser: SourceParser = {
     const header = table[headerRowIndex];
     result.header = header.map(normalizeHeader);
     const c = columnIndex(header, COLS);
-    if (c.supplier < 0) result.warnings.push({ message: "Jewelry: no Supplier column (raw report). Was the Co-Pivot step run?" });
+    if (c.supplier < 0) result.warnings.push({ message: "Jewelry: no Supplier column (raw report, Supplier not filled yet)." });
 
     const dates: string[] = [];
     let missingSupplier = 0;
@@ -164,7 +164,7 @@ export const jewelryParser: SourceParser = {
       });
     }
     if (missingSupplier > 0) {
-      result.warnings.push({ message: `Jewelry: ${missingSupplier} row(s) have no Supplier. Was the Co-Pivot step run?` });
+      result.warnings.push({ message: `Jewelry: ${missingSupplier} row(s) have no Supplier.` });
     }
     result.period = choosePeriod(result, dominantPeriod(dates), ctx.period);
     return result;

@@ -105,7 +105,10 @@ async function mockShipments(day: string): Promise<MockShipment[]> {
 
 async function pullMock(req: PullRequest): Promise<PulledFile[]> {
   const out: PulledFile[] = [];
-  const paylogFixtures = fixtureFiles(SOURCE, req).filter((f) => /pay.?log/i.test(f.name));
+  // Kind of a fixture file from the part of its name after the source id
+  // (the source id itself contains "_osm_" and "_pb_").
+  const kind = (name: string) => name.replace(/^shipping_osm_pb_easypost/i, "");
+  const paylogFixtures = fixtureFiles(SOURCE, req).filter((f) => /pay.?log/i.test(kind(f.name)));
   for (const day of daysIn(req)) {
     const shipments = await mockShipments(day);
     out.push(jsonFile(`pull_easypost_api_shipments_${day}_p1.json`, shipmentsPage(shipments)));
@@ -116,7 +119,10 @@ async function pullMock(req: PullRequest): Promise<PulledFile[]> {
   out.push(...paylogFixtures.map((f) => readLocal(f, "pull_")));
   // Pitney Bowes and OSM are not EasyPost: their exports arrive by email/portal
   // (same source id). In mock mode their fixture files ride along with this pull.
-  out.push(...fixtureFiles(SOURCE, req).filter((f) => /_(pb|osm)_/i.test(f.name)).map((f) => readLocal(f, "pull_")));
+  // Only those: the EasyPost shipment CSV is already in the JSON pages above and
+  // the payment log was added once (matching "_osm_"/"_pb_" in the full name
+  // used to re-ingest both, double-counting EasyPost labels).
+  out.push(...fixtureFiles(SOURCE, req).filter((f) => /^_(pb|pb-refills|pb-refunds|osm)_/i.test(kind(f.name))).map((f) => readLocal(f, "pull_")));
   return out;
 }
 

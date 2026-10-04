@@ -1,6 +1,7 @@
 /**
- * Cash Monkey (PeriScope) "Orders Report", one file per closed month:
- * data/fixtures/cashmonkey/cashmonkey_YYYY-MM.csv
+ * Cash Monkey (PeriScope) "Orders Report", one file per finished day
+ * (data/fixtures/cashmonkey/cashmonkey_YYYY-MM-DD.csv; prior year: one per
+ * month, cashmonkey_YYYY-MM.csv).
  *
  * Layout (guess, see docs/sources/cashmonkey.md): header on row 1, ONE ROW
  * PER ITEM (book) with the marketplace it sold on and its ISBN, rows of the
@@ -16,7 +17,7 @@
  */
 import { csvRow, dec, lines, usDay, usDayTime } from "../format";
 import type { CashMonkeyOrder, MockModel } from "../model";
-import { MONTHLY_PERIODS, monthlyUpload } from "../schedule";
+import { DONE_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
 
 const HEADER = [
@@ -56,22 +57,45 @@ function itemRows(o: CashMonkeyOrder, firstOfMonth: boolean): string[] {
   return rows;
 }
 
+function render(orders: CashMonkeyOrder[], firstOfMonth: Set<string>, preamble: string[]): string {
+  const gross = orders.reduce((t, c) => t + c.grossCents, 0);
+  const fees = orders.reduce((t, c) => t + c.feeCents, 0);
+  const blank = HEADER.slice(1).map(() => "");
+  const body = [
+    ...preamble.map((p) => csvRow([p, ...blank])),
+    csvRow(HEADER),
+    ...orders.flatMap((c) => itemRows(c, firstOfMonth.has(c.orderId))),
+    csvRow(["Total", "", "", "", "", "", "", String(orders.reduce((t, c) => t + c.itemCount, 0)), dec(gross), "0.00", "0.00", dec(fees), dec(gross - fees), ""]),
+  ];
+  return lines(body, "\n");
+}
+
+/**
+ * Prior year: one full-month file per month. Current year: the Orders report
+ * takes any date range, so it is pulled DAILY (yesterday's orders, one file
+ * per finished day, with the report's date-range line on top).
+ */
 export function writeCashmonkey(model: MockModel): FixtureFile[] {
-  return MONTHLY_PERIODS.map((period) => {
-    const orders = model.cashMonkey.filter((c) => c.date.startsWith(period));
-    const gross = orders.reduce((t, c) => t + c.grossCents, 0);
-    const fees = orders.reduce((t, c) => t + c.feeCents, 0);
-    const body = [
-      csvRow(HEADER),
-      ...orders.flatMap((c, i) => itemRows(c, i === 0)),
-      csvRow(["Total", "", "", "", "", "", "", String(orders.reduce((t, c) => t + c.itemCount, 0)), dec(gross), "0.00", "0.00", dec(fees), dec(gross - fees), ""]),
-    ];
-    return {
-      sourceId: "cashmonkey",
-      path: `cashmonkey/cashmonkey_${period}.csv`,
-      content: lines(body, "\n"),
-      uploadedAt: monthlyUpload(period, 0),
-      ...(period === "2026-09" ? { note: "per-item rows; a book titled \"Total Recall\" must not be read as the footer" } : {}),
-    };
-  });
+  const firstOfMonth = new Set<string>();
+  const seen = new Set<string>();
+  for (const c of model.cashMonkey) {
+    const m = c.date.slice(0, 7);
+    if (!seen.has(m)) {
+      seen.add(m);
+      firstOfMonth.add(c.orderId);
+    }
+  }
+  const monthly = PRIOR_YEAR_PERIODS.map((period) => ({
+    sourceId: "cashmonkey",
+    path: `cashmonkey/cashmonkey_${period}.csv`,
+    content: render(model.cashMonkey.filter((c) => c.date.startsWith(period)), firstOfMonth, []),
+    uploadedAt: monthlyUpload(period, 0),
+  }));
+  const daily = DONE_DATES.map((date) => ({
+    sourceId: "cashmonkey",
+    path: `cashmonkey/cashmonkey_${date}.csv`,
+    content: render(model.cashMonkey.filter((c) => c.date === date), firstOfMonth, [`Orders Report: ${usDay(date)} - ${usDay(date)}`]),
+    uploadedAt: dailyUpload(date, 0),
+  }));
+  return [...monthly, ...daily];
 }

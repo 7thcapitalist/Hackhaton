@@ -259,10 +259,8 @@ export const amazonParser: SourceParser = {
           reference: orderId || null,
           memo: "Refund for an order not in this file",
         });
-        result.warnings.push({
-          row: sourceRow,
-          message: `Refund for order ${orderId} not found in this file; recorded as a refund money line.`,
-        });
+        // No warning: with daily files a refund often lands in a later file
+        // than its order. That is normal, and the money line keeps it.
       }
     }
 

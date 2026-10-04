@@ -1,6 +1,7 @@
 /**
  * FedEx Billing Online invoice download ("All Columns", CSV), one file per
- * closed month (shipments by ship date): data/fixtures/fedex/fedex_YYYY-MM.csv
+ * finished day (daily invoicing): data/fixtures/fedex/fedex_YYYY-MM-DD.csv;
+ * prior year one file per month (shipments by ship date), fedex_YYYY-MM.csv.
  *
  * Layout = FedEx's data dictionary (docs/sources/fedex.md §1): header on row
  * 1, one row per tracking id per weekly invoice, ~150 columns, dates
@@ -13,8 +14,8 @@
  */
 import { addDays } from "../../../src/lib/views/dates";
 import { csvRow, dec, lines } from "../format";
-import type { MockModel, Shipment } from "../model";
-import { MONTHLY_PERIODS, monthlyUpload } from "../schedule";
+import { START_DATE, type MockModel, type Shipment } from "../model";
+import { DONE_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
 
 const pairs = (n: number, a: string, b: string) => Array.from({ length: n }, () => [a, b]).flat();
@@ -133,8 +134,40 @@ export function renderFedex(rows: FedexRow[]): string {
   return lines([csvRow(FEDEX_ALL_COLUMNS), ...rows.map((r, i) => csvRow(fedexRow(r, totals.get(r.invoiceNo)!, i)))], "\n");
 }
 
+/**
+ * Current year: FedEx Billing Online invoices DAILY. The file of business day
+ * D holds the labels shipped on D (invoice dated D+1) plus the credits and
+ * surcharges for labels shipped a week earlier (invoice dated D+1 too).
+ * Written for finished days only (today's invoice is not out yet).
+ */
+function writeFedexDaily(model: MockModel): FixtureFile[] {
+  const ships = model.shipments.filter((s) => s.tool === "fedex").sort((a, b) => a.ts.getTime() - b.ts.getTime());
+  return DONE_DATES.map((date) => {
+    const inv = addDays(date, 1);
+    const rows: (FedexRow & { t: number })[] = [];
+    const base = (s: Shipment) => ({
+      invoiceDate: inv, invoiceNo: invoiceNo(inv), tracking: s.tracking, shipDate: s.shipDate, service: s.service,
+      weightLb: s.weightLb, reference: s.ref, t: s.ts.getTime(),
+    });
+    for (const s of ships) {
+      if (s.shipDate === date) rows.push({ ...base(s), netCents: s.costCents, charges: chargesOf(s.service, s.costCents) });
+      if (s.shipDate === addDays(date, -7) && s.shipDate >= START_DATE) {
+        if (s.refund === "refunded") rows.push({ ...base(s), netCents: -s.costCents, charges: [["Service Failure Credit (GSR)", -s.costCents]] });
+        if (s.surchargeCents) rows.push({ ...base(s), netCents: s.surchargeCents, charges: [["Address Correction", s.surchargeCents]] });
+      }
+    }
+    rows.sort((a, b) => a.t - b.t);
+    return { sourceId: "fedex", path: `fedex/fedex_${date}.csv`, content: renderFedex(rows), uploadedAt: dailyUpload(date, 15) };
+  });
+}
+
 export function writeFedex(model: MockModel): FixtureFile[] {
-  return MONTHLY_PERIODS.map((period) => {
+  return [...writeFedexMonthly(model), ...writeFedexDaily(model)];
+}
+
+/** Prior year: one file per month (shipments by ship date). */
+function writeFedexMonthly(model: MockModel): FixtureFile[] {
+  return PRIOR_YEAR_PERIODS.map((period) => {
     const ships = model.shipments
       .filter((s) => s.tool === "fedex" && s.shipDate.startsWith(period))
       .sort((a, b) => a.ts.getTime() - b.ts.getTime());

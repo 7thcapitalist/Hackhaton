@@ -1,0 +1,12 @@
+Orders Report: 08/07/2026 - 08/07/2026,,,,,,,,,,,,,
+Order Date,Marketplace,Order ID,SKU,ISBN,Title,Condition,Qty,Price,Shipping,Tax,Marketplace Fee,Net,Status
+08/07/2026,Alibris,CM-100062,CM-B-100062-001,9780013108122,Pride and Prejudice,Acceptable,1,2.38,0.00,0.00,0.36,2.02,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-002,9780013116041,The Great Gatsby,Like New,1,2.38,0.00,0.00,0.36,2.02,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-003,9780013123960,Moby-Dick,Good,1,2.38,0.00,0.00,0.36,2.02,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-004,9780013131879,Organic Chemistry 8e,Very Good,1,2.38,0.00,0.00,0.36,2.02,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-005,9780013139798,Gardening Basics,Acceptable,1,2.38,0.00,0.00,0.36,2.02,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-006,9780013147717,Lonely Planet USA,Like New,1,2.38,0.00,0.00,0.36,2.02,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-007,9780013155636,The Odyssey,Good,1,2.38,0.00,0.00,0.35,2.03,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-008,9780013163555,Field Guide to Birds,Very Good,1,2.38,0.00,0.00,0.35,2.03,Completed
+08/07/2026,Alibris,CM-100062,CM-B-100062-009,9780013171474,Joy of Cooking,Acceptable,1,2.38,0.00,0.00,0.35,2.03,Completed
+Total,,,,,,,9,21.42,0.00,0.00,3.21,18.21,

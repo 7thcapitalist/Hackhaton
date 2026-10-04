@@ -45,7 +45,7 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-08.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-09-03T14:20:00.000Z",
-    "bytes": 753984
+    "bytes": 753963
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-08.csv",
@@ -141,7 +141,7 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-09.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-10-03T14:20:00.000Z",
-    "bytes": 761081
+    "bytes": 761054
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-09.csv",
@@ -237,7 +237,7 @@
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2025-10.csv",
     "sourceId": "shipping_osm_pb_easypost",
     "uploadedAt": "2025-11-03T14:20:00.000Z",
-    "bytes": 811841
+    "bytes": 811807
   },
   {
     "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2025-10.csv",
@@ -288,6 +288,12 @@
     "bytes": 1738
   },
   {
+    "path": "cashmonkey/cashmonkey_2026-08-01.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-02T10:30:00.000Z",
+    "bytes": 199
+  },
+  {
     "path": "shopgoodwill/shopgoodwill_2026-08-01.csv",
     "sourceId": "shopgoodwill",
     "uploadedAt": "2026-08-02T10:30:00.000Z",
@@ -306,10 +312,76 @@
     "bytes": 9298
   },
   {
+    "path": "jewelry/jewelry_2026-08-01.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-02T10:35:00.000Z",
+    "bytes": 297
+  },
+  {
+    "path": "fedex/fedex_2026-08-01.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-02T10:45:00.000Z",
+    "bytes": 8494
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-02T10:50:00.000Z",
+    "bytes": 24209
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-02T10:51:00.000Z",
+    "bytes": 6341
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-02T10:52:00.000Z",
+    "bytes": 2123
+  },
+  {
     "path": "upright/upright_2026-08-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-02T11:00:00.000Z",
     "bytes": 6955
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-01.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-02T11:03:00.000Z",
+    "bytes": 727
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-01.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-02T11:04:00.000Z",
+    "bytes": 462908
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-01.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-02T11:05:00.000Z",
+    "bytes": 495803
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-01.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-02T11:06:00.000Z",
+    "bytes": 326
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-01.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-02T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-02.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-03T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-02.csv",
@@ -330,10 +402,82 @@
     "bytes": 9593
   },
   {
+    "path": "jewelry/jewelry_2026-08-02.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-03T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-02.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-03T10:45:00.000Z",
+    "bytes": 14587
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-03T10:50:00.000Z",
+    "bytes": 28015
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-03T10:51:00.000Z",
+    "bytes": 7941
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-03T10:52:00.000Z",
+    "bytes": 3812
+  },
+  {
     "path": "upright/upright_2026-08-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-03T11:00:00.000Z",
     "bytes": 7082
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-02.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-03T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-02.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-03T11:04:00.000Z",
+    "bytes": 19543
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-02.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-03T11:05:00.000Z",
+    "bytes": 50605
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-02.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-03T11:06:00.000Z",
+    "bytes": 333
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-02.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-03T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-03T14:23:00.000Z",
+    "bytes": 3214
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-03.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-04T10:30:00.000Z",
+    "bytes": 3393
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-03.csv",
@@ -354,10 +498,82 @@
     "bytes": 8354
   },
   {
+    "path": "jewelry/jewelry_2026-08-03.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-04T10:35:00.000Z",
+    "bytes": 620
+  },
+  {
+    "path": "fedex/fedex_2026-08-03.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-04T10:45:00.000Z",
+    "bytes": 15968
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-04T10:50:00.000Z",
+    "bytes": 22410
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-04T10:51:00.000Z",
+    "bytes": 6722
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-04T10:52:00.000Z",
+    "bytes": 3549
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-04T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-08-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-04T11:00:00.000Z",
     "bytes": 8005
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-03.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-04T11:03:00.000Z",
+    "bytes": 1534
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-03.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-04T11:04:00.000Z",
+    "bytes": 17957
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-03.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-04T11:05:00.000Z",
+    "bytes": 53648
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-03.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-04T11:06:00.000Z",
+    "bytes": 334
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-03.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-04T11:10:00.000Z",
+    "bytes": 426
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-04.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-05T10:30:00.000Z",
+    "bytes": 11324
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-04.csv",
@@ -378,10 +594,82 @@
     "bytes": 8051
   },
   {
+    "path": "jewelry/jewelry_2026-08-04.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-05T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-04.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-05T10:45:00.000Z",
+    "bytes": 11092
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-05T10:50:00.000Z",
+    "bytes": 24933
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-05T10:51:00.000Z",
+    "bytes": 7034
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-05T10:52:00.000Z",
+    "bytes": 3158
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-05T10:52:00.000Z",
+    "bytes": 145
+  },
+  {
     "path": "upright/upright_2026-08-04.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-05T11:00:00.000Z",
     "bytes": 6759
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-04.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-05T11:03:00.000Z",
+    "bytes": 1549
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-04.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-05T11:04:00.000Z",
+    "bytes": 17199
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-04.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-05T11:05:00.000Z",
+    "bytes": 50561
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-04.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-05T11:06:00.000Z",
+    "bytes": 334
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-04.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-05T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-05.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-06T10:30:00.000Z",
+    "bytes": 9549
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-05.csv",
@@ -402,10 +690,88 @@
     "bytes": 6552
   },
   {
+    "path": "jewelry/jewelry_2026-08-05.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-06T10:35:00.000Z",
+    "bytes": 375
+  },
+  {
+    "path": "fedex/fedex_2026-08-05.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-06T10:45:00.000Z",
+    "bytes": 15899
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-06T10:50:00.000Z",
+    "bytes": 25463
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-06T10:51:00.000Z",
+    "bytes": 7013
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-06T10:52:00.000Z",
+    "bytes": 2086
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-06T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-06T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-08-05.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-06T11:00:00.000Z",
     "bytes": 6890
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-05.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-06T11:03:00.000Z",
+    "bytes": 1549
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-05.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-06T11:04:00.000Z",
+    "bytes": 18095
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-05.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-06T11:05:00.000Z",
+    "bytes": 52583
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-05.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-06T11:06:00.000Z",
+    "bytes": 334
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-05.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-06T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-06.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-07T10:30:00.000Z",
+    "bytes": 7609
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-06.csv",
@@ -426,10 +792,76 @@
     "bytes": 9027
   },
   {
+    "path": "jewelry/jewelry_2026-08-06.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-07T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-06.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-07T10:45:00.000Z",
+    "bytes": 13211
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-06.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-07T10:50:00.000Z",
+    "bytes": 25023
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-06.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-07T10:51:00.000Z",
+    "bytes": 7135
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-06.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-07T10:52:00.000Z",
+    "bytes": 2971
+  },
+  {
     "path": "upright/upright_2026-08-06.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-07T11:00:00.000Z",
     "bytes": 5030
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-06.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-07T11:03:00.000Z",
+    "bytes": 1852
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-06.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-07T11:04:00.000Z",
+    "bytes": 15595
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-06.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-07T11:05:00.000Z",
+    "bytes": 47641
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-06.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-07T11:06:00.000Z",
+    "bytes": 335
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-06.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-07T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-07.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-08T10:30:00.000Z",
+    "bytes": 1297
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-07.csv",
@@ -450,10 +882,88 @@
     "bytes": 7160
   },
   {
+    "path": "jewelry/jewelry_2026-08-07.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-08T10:35:00.000Z",
+    "bytes": 517
+  },
+  {
+    "path": "fedex/fedex_2026-08-07.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-08T10:45:00.000Z",
+    "bytes": 13242
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-08T10:50:00.000Z",
+    "bytes": 29356
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-08T10:51:00.000Z",
+    "bytes": 8100
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-08T10:52:00.000Z",
+    "bytes": 2287
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-08T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-08T10:52:00.000Z",
+    "bytes": 145
+  },
+  {
     "path": "upright/upright_2026-08-07.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-08T11:00:00.000Z",
     "bytes": 6427
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-07.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-08T11:03:00.000Z",
+    "bytes": 1469
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-07.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-08T11:04:00.000Z",
+    "bytes": 18206
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-07.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-08T11:05:00.000Z",
+    "bytes": 50572
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-07.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-08T11:06:00.000Z",
+    "bytes": 336
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-07.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-08T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-08.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-09T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-08.csv",
@@ -474,10 +984,76 @@
     "bytes": 9548
   },
   {
+    "path": "jewelry/jewelry_2026-08-08.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-09T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-08.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-09T10:45:00.000Z",
+    "bytes": 11648
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-09T10:50:00.000Z",
+    "bytes": 30536
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-09T10:51:00.000Z",
+    "bytes": 8675
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-09T10:52:00.000Z",
+    "bytes": 3252
+  },
+  {
     "path": "upright/upright_2026-08-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-09T11:00:00.000Z",
     "bytes": 8917
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-08.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-09T11:03:00.000Z",
+    "bytes": 872
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-08.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-09T11:04:00.000Z",
+    "bytes": 19249
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-08.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-09T11:05:00.000Z",
+    "bytes": 54425
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-08.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-09T11:06:00.000Z",
+    "bytes": 336
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-08.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-09T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-09.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-10T10:30:00.000Z",
+    "bytes": 1697
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-09.csv",
@@ -498,10 +1074,94 @@
     "bytes": 9585
   },
   {
+    "path": "jewelry/jewelry_2026-08-09.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-10T10:35:00.000Z",
+    "bytes": 296
+  },
+  {
+    "path": "fedex/fedex_2026-08-09.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-10T10:45:00.000Z",
+    "bytes": 12373
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-10T10:50:00.000Z",
+    "bytes": 36144
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-10T10:51:00.000Z",
+    "bytes": 10115
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-10T10:52:00.000Z",
+    "bytes": 3336
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-10T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-10T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-08-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-10T11:00:00.000Z",
     "bytes": 11975
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-09.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-10T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-09.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-10T11:04:00.000Z",
+    "bytes": 16040
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-09.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-10T11:05:00.000Z",
+    "bytes": 54036
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-09.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-10T11:06:00.000Z",
+    "bytes": 337
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-09.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-10T11:10:00.000Z",
+    "bytes": 304
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-10T14:23:00.000Z",
+    "bytes": 12469
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-10.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-11T10:30:00.000Z",
+    "bytes": 10879
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-10.csv",
@@ -522,10 +1182,76 @@
     "bytes": 8935
   },
   {
+    "path": "jewelry/jewelry_2026-08-10.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-11T10:35:00.000Z",
+    "bytes": 509
+  },
+  {
+    "path": "fedex/fedex_2026-08-10.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-11T10:45:00.000Z",
+    "bytes": 12815
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-11T10:50:00.000Z",
+    "bytes": 32702
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-11T10:51:00.000Z",
+    "bytes": 9277
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-11T10:52:00.000Z",
+    "bytes": 3216
+  },
+  {
     "path": "upright/upright_2026-08-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-11T11:00:00.000Z",
     "bytes": 8559
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-10.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-11T11:03:00.000Z",
+    "bytes": 1253
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-10.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-11T11:04:00.000Z",
+    "bytes": 16560
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-10.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-11T11:05:00.000Z",
+    "bytes": 55062
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-10.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-11T11:06:00.000Z",
+    "bytes": 337
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-10.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-11T11:10:00.000Z",
+    "bytes": 429
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-11.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-12T10:30:00.000Z",
+    "bytes": 5129
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-11.csv",
@@ -546,10 +1272,82 @@
     "bytes": 10485
   },
   {
+    "path": "jewelry/jewelry_2026-08-11.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-12T10:35:00.000Z",
+    "bytes": 410
+  },
+  {
+    "path": "fedex/fedex_2026-08-11.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-12T10:45:00.000Z",
+    "bytes": 16717
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-11.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-12T10:50:00.000Z",
+    "bytes": 27153
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-11.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-12T10:51:00.000Z",
+    "bytes": 7614
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-11.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-12T10:52:00.000Z",
+    "bytes": 3836
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-11.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-12T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-08-11.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-12T11:00:00.000Z",
     "bytes": 6852
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-11.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-12T11:03:00.000Z",
+    "bytes": 1699
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-11.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-12T11:04:00.000Z",
+    "bytes": 17185
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-11.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-12T11:05:00.000Z",
+    "bytes": 54013
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-11.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-12T11:06:00.000Z",
+    "bytes": 338
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-11.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-12T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-12.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-13T10:30:00.000Z",
+    "bytes": 1547
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-12.csv",
@@ -570,10 +1368,76 @@
     "bytes": 9565
   },
   {
+    "path": "jewelry/jewelry_2026-08-12.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-13T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-12.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-13T10:45:00.000Z",
+    "bytes": 14216
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-12.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-13T10:50:00.000Z",
+    "bytes": 27606
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-12.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-13T10:51:00.000Z",
+    "bytes": 7936
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-12.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-13T10:52:00.000Z",
+    "bytes": 3790
+  },
+  {
     "path": "upright/upright_2026-08-12.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-13T11:00:00.000Z",
     "bytes": 7659
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-12.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-13T11:03:00.000Z",
+    "bytes": 1035
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-12.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-13T11:04:00.000Z",
+    "bytes": 16523
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-12.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-13T11:05:00.000Z",
+    "bytes": 52863
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-12.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-13T11:06:00.000Z",
+    "bytes": 338
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-12.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-13T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-13.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-14T10:30:00.000Z",
+    "bytes": 8880
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-13.csv",
@@ -594,10 +1458,88 @@
     "bytes": 7790
   },
   {
+    "path": "jewelry/jewelry_2026-08-13.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-14T10:35:00.000Z",
+    "bytes": 512
+  },
+  {
+    "path": "fedex/fedex_2026-08-13.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-14T10:45:00.000Z",
+    "bytes": 17544
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-14T10:50:00.000Z",
+    "bytes": 23690
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-14T10:51:00.000Z",
+    "bytes": 6676
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-14T10:52:00.000Z",
+    "bytes": 3150
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-14T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-14T10:52:00.000Z",
+    "bytes": 213
+  },
+  {
     "path": "upright/upright_2026-08-13.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-14T11:00:00.000Z",
     "bytes": 5559
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-13.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-14T11:03:00.000Z",
+    "bytes": 1089
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-13.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-14T11:04:00.000Z",
+    "bytes": 16729
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-13.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-14T11:05:00.000Z",
+    "bytes": 52998
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-13.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-14T11:06:00.000Z",
+    "bytes": 338
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-13.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-14T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-14.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-15T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-14.csv",
@@ -618,10 +1560,76 @@
     "bytes": 9585
   },
   {
+    "path": "jewelry/jewelry_2026-08-14.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-15T10:35:00.000Z",
+    "bytes": 301
+  },
+  {
+    "path": "fedex/fedex_2026-08-14.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-15T10:45:00.000Z",
+    "bytes": 14236
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-14.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-15T10:50:00.000Z",
+    "bytes": 31007
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-14.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-15T10:51:00.000Z",
+    "bytes": 8771
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-14.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-15T10:52:00.000Z",
+    "bytes": 2877
+  },
+  {
     "path": "upright/upright_2026-08-14.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-15T11:00:00.000Z",
     "bytes": 6018
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-14.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-15T11:03:00.000Z",
+    "bytes": 1473
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-14.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-15T11:04:00.000Z",
+    "bytes": 14609
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-14.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-15T11:05:00.000Z",
+    "bytes": 51702
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-14.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-15T11:06:00.000Z",
+    "bytes": 338
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-14.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-15T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-15.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-16T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-15.csv",
@@ -642,10 +1650,82 @@
     "bytes": 8052
   },
   {
+    "path": "jewelry/jewelry_2026-08-15.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-16T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-15.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-16T10:45:00.000Z",
+    "bytes": 11519
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-16T10:50:00.000Z",
+    "bytes": 31867
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-16T10:51:00.000Z",
+    "bytes": 9144
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-16T10:52:00.000Z",
+    "bytes": 3257
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-16T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-08-15.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-16T11:00:00.000Z",
     "bytes": 8681
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-15.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-16T11:03:00.000Z",
+    "bytes": 953
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-15.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-16T11:04:00.000Z",
+    "bytes": 16613
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-15.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-16T11:05:00.000Z",
+    "bytes": 50352
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-15.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-16T11:06:00.000Z",
+    "bytes": 339
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-15.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-16T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-16.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-17T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-16.csv",
@@ -666,10 +1746,88 @@
     "bytes": 8743
   },
   {
+    "path": "jewelry/jewelry_2026-08-16.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-17T10:35:00.000Z",
+    "bytes": 506
+  },
+  {
+    "path": "fedex/fedex_2026-08-16.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-17T10:45:00.000Z",
+    "bytes": 15536
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-16.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-17T10:50:00.000Z",
+    "bytes": 26713
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-16.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-17T10:51:00.000Z",
+    "bytes": 7477
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-16.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-17T10:52:00.000Z",
+    "bytes": 4190
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-16.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-17T10:52:00.000Z",
+    "bytes": 145
+  },
+  {
     "path": "upright/upright_2026-08-16.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-17T11:00:00.000Z",
     "bytes": 10417
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-16.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-17T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-16.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-17T11:04:00.000Z",
+    "bytes": 15974
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-16.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-17T11:05:00.000Z",
+    "bytes": 53956
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-16.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-17T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-16.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-17T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-17T14:23:00.000Z",
+    "bytes": 13889
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-17.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-18T10:30:00.000Z",
+    "bytes": 3554
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-17.csv",
@@ -690,10 +1848,82 @@
     "bytes": 7198
   },
   {
+    "path": "jewelry/jewelry_2026-08-17.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-18T10:35:00.000Z",
+    "bytes": 289
+  },
+  {
+    "path": "fedex/fedex_2026-08-17.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-18T10:45:00.000Z",
+    "bytes": 16359
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-18T10:50:00.000Z",
+    "bytes": 25407
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-18T10:51:00.000Z",
+    "bytes": 7262
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-18T10:52:00.000Z",
+    "bytes": 3145
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-18T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-08-17.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-18T11:00:00.000Z",
     "bytes": 8855
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-17.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-18T11:03:00.000Z",
+    "bytes": 1789
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-17.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-18T11:04:00.000Z",
+    "bytes": 17212
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-17.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-18T11:05:00.000Z",
+    "bytes": 46997
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-17.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-18T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-17.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-18T11:10:00.000Z",
+    "bytes": 429
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-18.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-19T10:30:00.000Z",
+    "bytes": 5132
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-18.csv",
@@ -714,10 +1944,76 @@
     "bytes": 8664
   },
   {
+    "path": "jewelry/jewelry_2026-08-18.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-19T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-18.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-19T10:45:00.000Z",
+    "bytes": 12953
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-18.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-19T10:50:00.000Z",
+    "bytes": 27587
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-18.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-19T10:51:00.000Z",
+    "bytes": 7825
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-18.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-19T10:52:00.000Z",
+    "bytes": 2581
+  },
+  {
     "path": "upright/upright_2026-08-18.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-19T11:00:00.000Z",
     "bytes": 8911
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-18.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-19T11:03:00.000Z",
+    "bytes": 1555
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-18.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-19T11:04:00.000Z",
+    "bytes": 19335
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-18.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-19T11:05:00.000Z",
+    "bytes": 52550
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-18.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-19T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-18.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-19T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-19.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-20T10:30:00.000Z",
+    "bytes": 6025
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-19.csv",
@@ -738,10 +2034,82 @@
     "bytes": 10207
   },
   {
+    "path": "jewelry/jewelry_2026-08-19.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-20T10:35:00.000Z",
+    "bytes": 397
+  },
+  {
+    "path": "fedex/fedex_2026-08-19.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-20T10:45:00.000Z",
+    "bytes": 17672
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-20T10:50:00.000Z",
+    "bytes": 31421
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-20T10:51:00.000Z",
+    "bytes": 8929
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-20T10:52:00.000Z",
+    "bytes": 2771
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-20T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-08-19.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-20T11:00:00.000Z",
     "bytes": 7423
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-19.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-20T11:03:00.000Z",
+    "bytes": 1553
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-19.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-20T11:04:00.000Z",
+    "bytes": 16416
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-19.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-20T11:05:00.000Z",
+    "bytes": 55413
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-19.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-20T11:06:00.000Z",
+    "bytes": 343
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-19.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-20T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-20.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-21T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-20.csv",
@@ -762,10 +2130,82 @@
     "bytes": 8674
   },
   {
+    "path": "jewelry/jewelry_2026-08-20.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-21T10:35:00.000Z",
+    "bytes": 394
+  },
+  {
+    "path": "fedex/fedex_2026-08-20.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-21T10:45:00.000Z",
+    "bytes": 13656
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-21T10:50:00.000Z",
+    "bytes": 26252
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-21T10:51:00.000Z",
+    "bytes": 7474
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-21T10:52:00.000Z",
+    "bytes": 2116
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-21T10:52:00.000Z",
+    "bytes": 145
+  },
+  {
     "path": "upright/upright_2026-08-20.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-21T11:00:00.000Z",
     "bytes": 5154
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-20.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-21T11:03:00.000Z",
+    "bytes": 1631
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-20.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-21T11:04:00.000Z",
+    "bytes": 17796
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-20.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-21T11:05:00.000Z",
+    "bytes": 49549
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-20.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-21T11:06:00.000Z",
+    "bytes": 344
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-20.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-21T11:10:00.000Z",
+    "bytes": 286
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-21.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-22T10:30:00.000Z",
+    "bytes": 2032
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-21.csv",
@@ -786,10 +2226,76 @@
     "bytes": 7458
   },
   {
+    "path": "jewelry/jewelry_2026-08-21.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-22T10:35:00.000Z",
+    "bytes": 298
+  },
+  {
+    "path": "fedex/fedex_2026-08-21.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-22T10:45:00.000Z",
+    "bytes": 18151
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-22T10:50:00.000Z",
+    "bytes": 25407
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-22T10:51:00.000Z",
+    "bytes": 7114
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-22T10:52:00.000Z",
+    "bytes": 2091
+  },
+  {
     "path": "upright/upright_2026-08-21.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-22T11:00:00.000Z",
     "bytes": 6609
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-21.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-22T11:03:00.000Z",
+    "bytes": 1841
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-21.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-22T11:04:00.000Z",
+    "bytes": 18309
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-21.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-22T11:05:00.000Z",
+    "bytes": 50369
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-21.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-22T11:06:00.000Z",
+    "bytes": 344
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-21.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-22T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-22.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-23T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-22.csv",
@@ -810,10 +2316,88 @@
     "bytes": 9292
   },
   {
+    "path": "jewelry/jewelry_2026-08-22.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-23T10:35:00.000Z",
+    "bytes": 506
+  },
+  {
+    "path": "fedex/fedex_2026-08-22.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-23T10:45:00.000Z",
+    "bytes": 14206
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-23T10:50:00.000Z",
+    "bytes": 28487
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-23T10:51:00.000Z",
+    "bytes": 7890
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-23T10:52:00.000Z",
+    "bytes": 3641
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-23T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-23T10:52:00.000Z",
+    "bytes": 142
+  },
+  {
     "path": "upright/upright_2026-08-22.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-23T11:00:00.000Z",
     "bytes": 9824
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-22.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-23T11:03:00.000Z",
+    "bytes": 588
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-22.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-23T11:04:00.000Z",
+    "bytes": 19511
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-22.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-23T11:05:00.000Z",
+    "bytes": 57748
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-22.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-23T11:06:00.000Z",
+    "bytes": 344
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-22.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-23T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-23.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-24T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-23.csv",
@@ -834,10 +2418,94 @@
     "bytes": 10793
   },
   {
+    "path": "jewelry/jewelry_2026-08-23.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-24T10:35:00.000Z",
+    "bytes": 400
+  },
+  {
+    "path": "fedex/fedex_2026-08-23.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-24T10:45:00.000Z",
+    "bytes": 14187
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-24T10:50:00.000Z",
+    "bytes": 30171
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-24T10:51:00.000Z",
+    "bytes": 8642
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-24T10:52:00.000Z",
+    "bytes": 3837
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-24T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-24T10:52:00.000Z",
+    "bytes": 145
+  },
+  {
     "path": "upright/upright_2026-08-23.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-24T11:00:00.000Z",
     "bytes": 7612
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-23.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-24T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-23.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-24T11:04:00.000Z",
+    "bytes": 18437
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-23.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-24T11:05:00.000Z",
+    "bytes": 55425
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-23.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-24T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-23.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-24T11:10:00.000Z",
+    "bytes": 304
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-24T14:23:00.000Z",
+    "bytes": 13532
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-24.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-25T10:30:00.000Z",
+    "bytes": 7404
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-24.csv",
@@ -858,10 +2526,82 @@
     "bytes": 9258
   },
   {
+    "path": "jewelry/jewelry_2026-08-24.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-25T10:35:00.000Z",
+    "bytes": 407
+  },
+  {
+    "path": "fedex/fedex_2026-08-24.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-25T10:45:00.000Z",
+    "bytes": 15000
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-25T10:50:00.000Z",
+    "bytes": 29707
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-25T10:51:00.000Z",
+    "bytes": 8449
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-25T10:52:00.000Z",
+    "bytes": 2776
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-25T10:52:00.000Z",
+    "bytes": 145
+  },
+  {
     "path": "upright/upright_2026-08-24.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-25T11:00:00.000Z",
     "bytes": 8161
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-24.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-25T11:03:00.000Z",
+    "bytes": 1621
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-24.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-25T11:04:00.000Z",
+    "bytes": 18187
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-24.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-25T11:05:00.000Z",
+    "bytes": 52952
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-24.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-25T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-24.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-25T11:10:00.000Z",
+    "bytes": 429
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-25.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-26T10:30:00.000Z",
+    "bytes": 10182
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-25.csv",
@@ -882,10 +2622,76 @@
     "bytes": 6855
   },
   {
+    "path": "jewelry/jewelry_2026-08-25.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-26T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-25.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-26T10:45:00.000Z",
+    "bytes": 10688
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-25.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-26T10:50:00.000Z",
+    "bytes": 24569
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-25.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-26T10:51:00.000Z",
+    "bytes": 6775
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-25.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-26T10:52:00.000Z",
+    "bytes": 2770
+  },
+  {
     "path": "upright/upright_2026-08-25.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-26T11:00:00.000Z",
     "bytes": 8066
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-25.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-26T11:03:00.000Z",
+    "bytes": 1407
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-25.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-26T11:04:00.000Z",
+    "bytes": 18550
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-25.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-26T11:05:00.000Z",
+    "bytes": 47658
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-25.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-26T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-25.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-26T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-26.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-27T10:30:00.000Z",
+    "bytes": 11247
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-26.csv",
@@ -906,10 +2712,82 @@
     "bytes": 8077
   },
   {
+    "path": "jewelry/jewelry_2026-08-26.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-27T10:35:00.000Z",
+    "bytes": 516
+  },
+  {
+    "path": "fedex/fedex_2026-08-26.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-27T10:45:00.000Z",
+    "bytes": 12799
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-27T10:50:00.000Z",
+    "bytes": 28459
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-27T10:51:00.000Z",
+    "bytes": 7978
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-27T10:52:00.000Z",
+    "bytes": 2391
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-27T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
     "path": "upright/upright_2026-08-26.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-27T11:00:00.000Z",
     "bytes": 7908
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-26.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-27T11:03:00.000Z",
+    "bytes": 1389
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-26.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-27T11:04:00.000Z",
+    "bytes": 17188
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-26.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-27T11:05:00.000Z",
+    "bytes": 55179
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-26.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-27T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-26.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-27T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-27.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-28T10:30:00.000Z",
+    "bytes": 4233
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-27.csv",
@@ -930,10 +2808,76 @@
     "bytes": 8364
   },
   {
+    "path": "jewelry/jewelry_2026-08-27.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-28T10:35:00.000Z",
+    "bytes": 380
+  },
+  {
+    "path": "fedex/fedex_2026-08-27.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-28T10:45:00.000Z",
+    "bytes": 11548
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-27.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-28T10:50:00.000Z",
+    "bytes": 28874
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-27.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-28T10:51:00.000Z",
+    "bytes": 8306
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-27.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-28T10:52:00.000Z",
+    "bytes": 2383
+  },
+  {
     "path": "upright/upright_2026-08-27.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-28T11:00:00.000Z",
     "bytes": 8494
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-27.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-28T11:03:00.000Z",
+    "bytes": 1630
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-27.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-28T11:04:00.000Z",
+    "bytes": 15727
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-27.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-28T11:05:00.000Z",
+    "bytes": 53243
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-27.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-28T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-27.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-28T11:10:00.000Z",
+    "bytes": 286
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-28.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-29T10:30:00.000Z",
+    "bytes": 12448
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-28.csv",
@@ -954,10 +2898,82 @@
     "bytes": 10149
   },
   {
+    "path": "jewelry/jewelry_2026-08-28.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-29T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-08-28.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-29T10:45:00.000Z",
+    "bytes": 13631
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-29T10:50:00.000Z",
+    "bytes": 21992
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-29T10:51:00.000Z",
+    "bytes": 6058
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-29T10:52:00.000Z",
+    "bytes": 2959
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-29T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
     "path": "upright/upright_2026-08-28.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-29T11:00:00.000Z",
     "bytes": 6344
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-28.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-29T11:03:00.000Z",
+    "bytes": 1699
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-28.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-29T11:04:00.000Z",
+    "bytes": 17880
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-28.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-29T11:05:00.000Z",
+    "bytes": 48935
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-28.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-29T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-28.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-29T11:10:00.000Z",
+    "bytes": 289
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-29.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-30T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-29.csv",
@@ -978,10 +2994,76 @@
     "bytes": 12318
   },
   {
+    "path": "jewelry/jewelry_2026-08-29.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-30T10:35:00.000Z",
+    "bytes": 495
+  },
+  {
+    "path": "fedex/fedex_2026-08-29.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-30T10:45:00.000Z",
+    "bytes": 20645
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-29.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-30T10:50:00.000Z",
+    "bytes": 31026
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-29.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-30T10:51:00.000Z",
+    "bytes": 8701
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-29.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-30T10:52:00.000Z",
+    "bytes": 3835
+  },
+  {
     "path": "upright/upright_2026-08-29.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-30T11:00:00.000Z",
     "bytes": 7786
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-29.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-30T11:03:00.000Z",
+    "bytes": 876
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-29.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-30T11:04:00.000Z",
+    "bytes": 16441
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-29.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-30T11:05:00.000Z",
+    "bytes": 55370
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-29.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-30T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-29.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-30T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-30.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-08-31T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-30.csv",
@@ -1002,10 +3084,88 @@
     "bytes": 12263
   },
   {
+    "path": "jewelry/jewelry_2026-08-30.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-08-31T10:35:00.000Z",
+    "bytes": 304
+  },
+  {
+    "path": "fedex/fedex_2026-08-30.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-08-31T10:45:00.000Z",
+    "bytes": 14641
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-31T10:50:00.000Z",
+    "bytes": 36644
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-31T10:51:00.000Z",
+    "bytes": 10109
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-31T10:52:00.000Z",
+    "bytes": 3338
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-31T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
     "path": "upright/upright_2026-08-30.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-31T11:00:00.000Z",
     "bytes": 10923
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-30.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-08-31T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-30.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-08-31T11:04:00.000Z",
+    "bytes": 14759
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-30.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-08-31T11:05:00.000Z",
+    "bytes": 57527
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-30.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-08-31T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-30.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-08-31T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08-31.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-08-31T14:23:00.000Z",
+    "bytes": 13515
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-08-31.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-01T10:30:00.000Z",
+    "bytes": 14371
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-08-31.csv",
@@ -1026,10 +3186,76 @@
     "bytes": 9884
   },
   {
+    "path": "jewelry/jewelry_2026-08-31.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-01T10:35:00.000Z",
+    "bytes": 282
+  },
+  {
+    "path": "fedex/fedex_2026-08-31.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-01T10:45:00.000Z",
+    "bytes": 12787
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08-31.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-01T10:50:00.000Z",
+    "bytes": 29764
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08-31.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-01T10:51:00.000Z",
+    "bytes": 8453
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08-31.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-01T10:52:00.000Z",
+    "bytes": 2960
+  },
+  {
     "path": "upright/upright_2026-08-31.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-01T11:00:00.000Z",
     "bytes": 7320
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-08-31.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-01T11:03:00.000Z",
+    "bytes": 1254
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-08-31.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-01T11:04:00.000Z",
+    "bytes": 16744
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-08-31.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-01T11:05:00.000Z",
+    "bytes": 47648
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-08-31.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-01T11:06:00.000Z",
+    "bytes": 345
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-08-31.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-01T11:10:00.000Z",
+    "bytes": 429
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-01.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-02T10:30:00.000Z",
+    "bytes": 10284
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-01.csv",
@@ -1050,10 +3276,88 @@
     "bytes": 8348
   },
   {
+    "path": "jewelry/jewelry_2026-09-01.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-02T10:35:00.000Z",
+    "bytes": 400
+  },
+  {
+    "path": "fedex/fedex_2026-09-01.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-02T10:45:00.000Z",
+    "bytes": 14137
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-02T10:50:00.000Z",
+    "bytes": 24968
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-02T10:51:00.000Z",
+    "bytes": 6537
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-02T10:52:00.000Z",
+    "bytes": 2681
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-02T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-02T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-09-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-02T11:00:00.000Z",
     "bytes": 8550
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-01.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-02T11:03:00.000Z",
+    "bytes": 1413
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-01.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-02T11:04:00.000Z",
+    "bytes": 16414
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-01.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-02T11:05:00.000Z",
+    "bytes": 50684
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-01.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-02T11:06:00.000Z",
+    "bytes": 325
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-01.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-02T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-02.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-03T10:30:00.000Z",
+    "bytes": 3870
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-02.csv",
@@ -1074,22 +3378,76 @@
     "bytes": 9902
   },
   {
+    "path": "jewelry/jewelry_2026-09-02.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-03T10:35:00.000Z",
+    "bytes": 291
+  },
+  {
+    "path": "fedex/fedex_2026-09-02.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-03T10:45:00.000Z",
+    "bytes": 13266
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T10:50:00.000Z",
+    "bytes": 22408
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T10:51:00.000Z",
+    "bytes": 6405
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T10:52:00.000Z",
+    "bytes": 3817
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-03T10:52:00.000Z",
+    "bytes": 141
+  },
+  {
     "path": "upright/upright_2026-09-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-03T11:00:00.000Z",
     "bytes": 11045
   },
   {
-    "path": "cashmonkey/cashmonkey_2026-08.csv",
-    "sourceId": "cashmonkey",
-    "uploadedAt": "2026-09-03T14:00:00.000Z",
-    "bytes": 134007
+    "path": "timekeeping/timekeeping_2026-09-02.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-03T11:03:00.000Z",
+    "bytes": 1552
   },
   {
-    "path": "jewelry/jewelry_2026-08.csv",
-    "sourceId": "jewelry",
-    "uploadedAt": "2026-09-03T14:05:00.000Z",
-    "bytes": 5020
+    "path": "production_tracking/production_tracking_2026-09-02.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-03T11:04:00.000Z",
+    "bytes": 15041
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-02.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-03T11:05:00.000Z",
+    "bytes": 53743
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-02.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-03T11:06:00.000Z",
+    "bytes": 329
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-02.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-03T11:10:00.000Z",
+    "bytes": 216
   },
   {
     "path": "goodwill_books/goodwill_books_2026-08.csv",
@@ -1098,76 +3456,10 @@
     "bytes": 33131
   },
   {
-    "path": "fedex/fedex_2026-08.csv",
-    "sourceId": "fedex",
-    "uploadedAt": "2026-09-03T14:15:00.000Z",
-    "bytes": 330145
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-08.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-09-03T14:20:00.000Z",
-    "bytes": 860272
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-08.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-09-03T14:21:00.000Z",
-    "bytes": 242997
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-08.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-09-03T14:22:00.000Z",
-    "bytes": 91484
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-08.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-09-03T14:22:00.000Z",
-    "bytes": 963
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-08.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-09-03T14:22:00.000Z",
-    "bytes": 927
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-08.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-09-03T14:23:00.000Z",
-    "bytes": 57821
-  },
-  {
-    "path": "production_tracking/production_tracking_2026-08.csv",
-    "sourceId": "production_tracking",
-    "uploadedAt": "2026-09-03T14:29:00.000Z",
-    "bytes": 940290
-  },
-  {
-    "path": "upright_inventory/upright_inventory_2026-08.csv",
-    "sourceId": "upright_inventory",
-    "uploadedAt": "2026-09-03T14:30:00.000Z",
-    "bytes": 1261233
-  },
-  {
-    "path": "timekeeping/timekeeping_2026-08.csv",
-    "sourceId": "timekeeping",
-    "uploadedAt": "2026-09-03T14:31:00.000Z",
-    "bytes": 32323
-  },
-  {
-    "path": "marketplace_ratings/marketplace_ratings_2026-08.csv",
-    "sourceId": "marketplace_ratings",
-    "uploadedAt": "2026-09-03T14:32:00.000Z",
-    "bytes": 295
-  },
-  {
-    "path": "bank_1st_source/bank_1st_source_2026-08.csv",
-    "sourceId": "bank_1st_source",
-    "uploadedAt": "2026-09-03T14:40:00.000Z",
-    "bytes": 1667
+    "path": "cashmonkey/cashmonkey_2026-09-03.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-04T10:30:00.000Z",
+    "bytes": 14470
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-03.csv",
@@ -1188,10 +3480,82 @@
     "bytes": 8065
   },
   {
+    "path": "jewelry/jewelry_2026-09-03.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-04T10:35:00.000Z",
+    "bytes": 406
+  },
+  {
+    "path": "fedex/fedex_2026-09-03.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-04T10:45:00.000Z",
+    "bytes": 11102
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-04T10:50:00.000Z",
+    "bytes": 27608
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-04T10:51:00.000Z",
+    "bytes": 7631
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-04T10:52:00.000Z",
+    "bytes": 4097
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-04T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-09-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-04T11:00:00.000Z",
     "bytes": 8066
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-03.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-04T11:03:00.000Z",
+    "bytes": 1480
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-03.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-04T11:04:00.000Z",
+    "bytes": 17001
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-03.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-04T11:05:00.000Z",
+    "bytes": 55306
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-03.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-04T11:06:00.000Z",
+    "bytes": 332
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-03.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-04T11:10:00.000Z",
+    "bytes": 286
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-04.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-05T10:30:00.000Z",
+    "bytes": 11088
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-04.csv",
@@ -1212,10 +3576,82 @@
     "bytes": 8394
   },
   {
+    "path": "jewelry/jewelry_2026-09-04.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-05T10:35:00.000Z",
+    "bytes": 302
+  },
+  {
+    "path": "fedex/fedex_2026-09-04.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-05T10:45:00.000Z",
+    "bytes": 15047
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-05T10:50:00.000Z",
+    "bytes": 32687
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-05T10:51:00.000Z",
+    "bytes": 9152
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-05T10:52:00.000Z",
+    "bytes": 2771
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-04.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-05T10:52:00.000Z",
+    "bytes": 215
+  },
+  {
     "path": "upright/upright_2026-09-04.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-05T11:00:00.000Z",
     "bytes": 6486
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-04.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-05T11:03:00.000Z",
+    "bytes": 1410
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-04.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-05T11:04:00.000Z",
+    "bytes": 16705
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-04.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-05T11:05:00.000Z",
+    "bytes": 50377
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-04.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-05T11:06:00.000Z",
+    "bytes": 332
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-04.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-05T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-05.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-06T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-05.csv",
@@ -1236,10 +3672,82 @@
     "bytes": 11086
   },
   {
+    "path": "jewelry/jewelry_2026-09-05.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-06T10:35:00.000Z",
+    "bytes": 298
+  },
+  {
+    "path": "fedex/fedex_2026-09-05.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-06T10:45:00.000Z",
+    "bytes": 12840
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-06T10:50:00.000Z",
+    "bytes": 32736
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-06T10:51:00.000Z",
+    "bytes": 9185
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-06T10:52:00.000Z",
+    "bytes": 3527
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-05.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-06T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-09-05.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-06T11:00:00.000Z",
     "bytes": 7211
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-05.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-06T11:03:00.000Z",
+    "bytes": 661
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-05.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-06T11:04:00.000Z",
+    "bytes": 19030
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-05.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-06T11:05:00.000Z",
+    "bytes": 54233
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-05.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-06T11:06:00.000Z",
+    "bytes": 333
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-05.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-06T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-06.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-07T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-06.csv",
@@ -1260,10 +3768,82 @@
     "bytes": 12298
   },
   {
+    "path": "jewelry/jewelry_2026-09-06.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-07T10:35:00.000Z",
+    "bytes": 485
+  },
+  {
+    "path": "fedex/fedex_2026-09-06.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-07T10:45:00.000Z",
+    "bytes": 13702
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-06.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-07T10:50:00.000Z",
+    "bytes": 31899
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-06.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-07T10:51:00.000Z",
+    "bytes": 8904
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-06.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-07T10:52:00.000Z",
+    "bytes": 3448
+  },
+  {
     "path": "upright/upright_2026-09-06.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-07T11:00:00.000Z",
     "bytes": 8728
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-06.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-07T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-06.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-07T11:04:00.000Z",
+    "bytes": 21106
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-06.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-07T11:05:00.000Z",
+    "bytes": 59130
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-06.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-07T11:06:00.000Z",
+    "bytes": 333
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-06.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-07T11:10:00.000Z",
+    "bytes": 304
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-09-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-07T14:23:00.000Z",
+    "bytes": 13589
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-07.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-08T10:30:00.000Z",
+    "bytes": 2617
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-07.csv",
@@ -1284,10 +3864,82 @@
     "bytes": 8992
   },
   {
+    "path": "jewelry/jewelry_2026-09-07.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-08T10:35:00.000Z",
+    "bytes": 299
+  },
+  {
+    "path": "fedex/fedex_2026-09-07.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-08T10:45:00.000Z",
+    "bytes": 12815
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-08T10:50:00.000Z",
+    "bytes": 34512
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-08T10:51:00.000Z",
+    "bytes": 9764
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-08T10:52:00.000Z",
+    "bytes": 3718
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-07.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-08T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-09-07.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-08T11:00:00.000Z",
     "bytes": 8039
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-07.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-08T11:03:00.000Z",
+    "bytes": 1409
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-07.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-08T11:04:00.000Z",
+    "bytes": 18080
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-07.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-08T11:05:00.000Z",
+    "bytes": 52399
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-07.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-08T11:06:00.000Z",
+    "bytes": 334
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-07.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-08T11:10:00.000Z",
+    "bytes": 429
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-08.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-09T10:30:00.000Z",
+    "bytes": 7540
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-08.csv",
@@ -1308,10 +3960,76 @@
     "bytes": 7204
   },
   {
+    "path": "jewelry/jewelry_2026-09-08.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-09T10:35:00.000Z",
+    "bytes": 603
+  },
+  {
+    "path": "fedex/fedex_2026-09-08.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-09T10:45:00.000Z",
+    "bytes": 13769
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-09T10:50:00.000Z",
+    "bytes": 29313
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-09T10:51:00.000Z",
+    "bytes": 8290
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-08.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-09T10:52:00.000Z",
+    "bytes": 2098
+  },
+  {
     "path": "upright/upright_2026-09-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-09T11:00:00.000Z",
     "bytes": 9180
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-08.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-09T11:03:00.000Z",
+    "bytes": 1393
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-08.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-09T11:04:00.000Z",
+    "bytes": 18238
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-08.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-09T11:05:00.000Z",
+    "bytes": 51222
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-08.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-09T11:06:00.000Z",
+    "bytes": 335
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-08.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-09T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-09.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-10T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-09.csv",
@@ -1332,10 +4050,88 @@
     "bytes": 8976
   },
   {
+    "path": "jewelry/jewelry_2026-09-09.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-10T10:35:00.000Z",
+    "bytes": 706
+  },
+  {
+    "path": "fedex/fedex_2026-09-09.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-10T10:45:00.000Z",
+    "bytes": 11187
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-10T10:50:00.000Z",
+    "bytes": 25890
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-10T10:51:00.000Z",
+    "bytes": 7280
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-10T10:52:00.000Z",
+    "bytes": 3143
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-10T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-09.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-10T10:52:00.000Z",
+    "bytes": 145
+  },
+  {
     "path": "upright/upright_2026-09-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-10T11:00:00.000Z",
     "bytes": 5948
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-09.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-10T11:03:00.000Z",
+    "bytes": 1630
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-09.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-10T11:04:00.000Z",
+    "bytes": 21621
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-09.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-10T11:05:00.000Z",
+    "bytes": 49597
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-09.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-10T11:06:00.000Z",
+    "bytes": 336
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-09.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-10T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-10.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-11T10:30:00.000Z",
+    "bytes": 2732
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-10.csv",
@@ -1356,10 +4152,82 @@
     "bytes": 6883
   },
   {
+    "path": "jewelry/jewelry_2026-09-10.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-11T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-09-10.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-11T10:45:00.000Z",
+    "bytes": 13753
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-11T10:50:00.000Z",
+    "bytes": 27567
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-11T10:51:00.000Z",
+    "bytes": 7609
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-11T10:52:00.000Z",
+    "bytes": 2497
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-10.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-11T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-09-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-11T11:00:00.000Z",
     "bytes": 8015
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-10.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-11T11:03:00.000Z",
+    "bytes": 1545
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-10.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-11T11:04:00.000Z",
+    "bytes": 21012
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-10.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-11T11:05:00.000Z",
+    "bytes": 57535
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-10.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-11T11:06:00.000Z",
+    "bytes": 336
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-10.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-11T11:10:00.000Z",
+    "bytes": 359
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-11.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-12T10:30:00.000Z",
+    "bytes": 4266
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-11.csv",
@@ -1380,10 +4248,76 @@
     "bytes": 8109
   },
   {
+    "path": "jewelry/jewelry_2026-09-11.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-12T10:35:00.000Z",
+    "bytes": 591
+  },
+  {
+    "path": "fedex/fedex_2026-09-11.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-12T10:45:00.000Z",
+    "bytes": 16394
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-11.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-12T10:50:00.000Z",
+    "bytes": 27570
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-11.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-12T10:51:00.000Z",
+    "bytes": 7960
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-11.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-12T10:52:00.000Z",
+    "bytes": 2576
+  },
+  {
     "path": "upright/upright_2026-09-11.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-12T11:00:00.000Z",
     "bytes": 7817
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-11.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-12T11:03:00.000Z",
+    "bytes": 1621
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-11.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-12T11:04:00.000Z",
+    "bytes": 15724
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-11.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-12T11:05:00.000Z",
+    "bytes": 51654
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-11.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-12T11:06:00.000Z",
+    "bytes": 336
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-11.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-12T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-12.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-13T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-12.csv",
@@ -1404,10 +4338,82 @@
     "bytes": 8676
   },
   {
+    "path": "jewelry/jewelry_2026-09-12.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-13T10:35:00.000Z",
+    "bytes": 498
+  },
+  {
+    "path": "fedex/fedex_2026-09-12.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-13T10:45:00.000Z",
+    "bytes": 11581
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-12.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-13T10:50:00.000Z",
+    "bytes": 30602
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-12.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-13T10:51:00.000Z",
+    "bytes": 8562
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-12.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-13T10:52:00.000Z",
+    "bytes": 3918
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-12.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-13T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-09-12.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-13T11:00:00.000Z",
     "bytes": 5301
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-12.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-13T11:03:00.000Z",
+    "bytes": 945
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-12.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-13T11:04:00.000Z",
+    "bytes": 17911
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-12.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-13T11:05:00.000Z",
+    "bytes": 53796
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-12.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-13T11:06:00.000Z",
+    "bytes": 336
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-12.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-13T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-13.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-14T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-13.csv",
@@ -1428,10 +4434,94 @@
     "bytes": 12640
   },
   {
+    "path": "jewelry/jewelry_2026-09-13.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-14T10:35:00.000Z",
+    "bytes": 713
+  },
+  {
+    "path": "fedex/fedex_2026-09-13.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-14T10:45:00.000Z",
+    "bytes": 16849
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-14T10:50:00.000Z",
+    "bytes": 26750
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-14T10:51:00.000Z",
+    "bytes": 7601
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-14T10:52:00.000Z",
+    "bytes": 5327
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-14T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-13.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-14T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-09-13.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-14T11:00:00.000Z",
     "bytes": 9092
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-13.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-14T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-13.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-14T11:04:00.000Z",
+    "bytes": 17842
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-13.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-14T11:05:00.000Z",
+    "bytes": 59979
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-13.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-14T11:06:00.000Z",
+    "bytes": 336
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-13.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-14T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-09-14.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-14T14:23:00.000Z",
+    "bytes": 13638
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-14.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-15T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-14.csv",
@@ -1452,17 +4542,76 @@
     "bytes": 11690
   },
   {
+    "path": "jewelry/jewelry_2026-09-14.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-15T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-09-14.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-15T10:45:00.000Z",
+    "bytes": 11944
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-14.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-15T10:50:00.000Z",
+    "bytes": 28452
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-14.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-15T10:51:00.000Z",
+    "bytes": 7864
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-14.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-15T10:52:00.000Z",
+    "bytes": 3349
+  },
+  {
     "path": "upright/upright_2026-09-14.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-15T11:00:00.000Z",
     "bytes": 10988
   },
   {
-    "path": "ebay/ebay_2026-09-14_reupload.csv",
-    "sourceId": "ebay",
-    "uploadedAt": "2026-09-15T13:04:00.000Z",
-    "bytes": 11690,
-    "note": "exact duplicate upload of ebay_2026-09-14.csv"
+    "path": "timekeeping/timekeeping_2026-09-14.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-15T11:03:00.000Z",
+    "bytes": 1394
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-14.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-15T11:04:00.000Z",
+    "bytes": 18208
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-14.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-15T11:05:00.000Z",
+    "bytes": 51387
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-14.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-15T11:06:00.000Z",
+    "bytes": 337
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-14.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-15T11:10:00.000Z",
+    "bytes": 429
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-15.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-16T10:30:00.000Z",
+    "bytes": 13212
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-15.csv",
@@ -1480,8 +4629,43 @@
     "path": "ebay/ebay_2026-09-15.csv",
     "sourceId": "ebay",
     "uploadedAt": "2026-09-16T10:34:00.000Z",
-    "bytes": 5963,
-    "note": "renamed columns (Order ID, Buyer User ID, Item Price, Order Date)"
+    "bytes": 5965
+  },
+  {
+    "path": "jewelry/jewelry_2026-09-15.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-16T10:35:00.000Z",
+    "bytes": 601
+  },
+  {
+    "path": "fedex/fedex_2026-09-15.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-16T10:45:00.000Z",
+    "bytes": 16269
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-16T10:50:00.000Z",
+    "bytes": 37005
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-16T10:51:00.000Z",
+    "bytes": 10674
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-16T10:52:00.000Z",
+    "bytes": 2765
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-15.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-16T10:52:00.000Z",
+    "bytes": 103
   },
   {
     "path": "upright/upright_2026-09-15.csv",
@@ -1489,6 +4673,42 @@
     "uploadedAt": "2026-09-16T11:00:00.000Z",
     "bytes": 9738,
     "note": "2 two-item Mercari order(s): order-level money repeated on both item rows"
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-15.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-16T11:03:00.000Z",
+    "bytes": 1854
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-15.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-16T11:04:00.000Z",
+    "bytes": 15514
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-15.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-16T11:05:00.000Z",
+    "bytes": 53794
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-15.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-16T11:06:00.000Z",
+    "bytes": 337
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-15.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-16T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-16.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-17T10:30:00.000Z",
+    "bytes": 7706
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-16.csv",
@@ -1509,10 +4729,76 @@
     "bytes": 8696
   },
   {
+    "path": "jewelry/jewelry_2026-09-16.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-17T10:35:00.000Z",
+    "bytes": 697
+  },
+  {
+    "path": "fedex/fedex_2026-09-16.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-17T10:45:00.000Z",
+    "bytes": 13680
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-16.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-17T10:50:00.000Z",
+    "bytes": 28930
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-16.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-17T10:51:00.000Z",
+    "bytes": 8084
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-16.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-17T10:52:00.000Z",
+    "bytes": 2471
+  },
+  {
     "path": "upright/upright_2026-09-16.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-17T11:00:00.000Z",
     "bytes": 6688
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-16.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-17T11:03:00.000Z",
+    "bytes": 1398
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-16.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-17T11:04:00.000Z",
+    "bytes": 18176
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-16.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-17T11:05:00.000Z",
+    "bytes": 52461
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-16.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-17T11:06:00.000Z",
+    "bytes": 338
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-16.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-17T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-17.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-18T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-17.csv",
@@ -1533,10 +4819,82 @@
     "bytes": 8081
   },
   {
+    "path": "jewelry/jewelry_2026-09-17.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-18T10:35:00.000Z",
+    "bytes": 298
+  },
+  {
+    "path": "fedex/fedex_2026-09-17.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-18T10:45:00.000Z",
+    "bytes": 13328
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-18T10:50:00.000Z",
+    "bytes": 27116
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-18T10:51:00.000Z",
+    "bytes": 7602
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-18T10:52:00.000Z",
+    "bytes": 3721
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-17.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-18T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
     "path": "upright/upright_2026-09-17.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-18T11:00:00.000Z",
     "bytes": 6572
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-17.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-18T11:03:00.000Z",
+    "bytes": 1553
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-17.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-18T11:04:00.000Z",
+    "bytes": 15563
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-17.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-18T11:05:00.000Z",
+    "bytes": 51250
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-17.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-18T11:06:00.000Z",
+    "bytes": 339
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-17.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-18T11:10:00.000Z",
+    "bytes": 286
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-18.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-19T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-18.csv",
@@ -1557,10 +4915,82 @@
     "bytes": 9638
   },
   {
+    "path": "jewelry/jewelry_2026-09-18.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-19T10:35:00.000Z",
+    "bytes": 516
+  },
+  {
+    "path": "fedex/fedex_2026-09-18.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-19T10:45:00.000Z",
+    "bytes": 12914
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-18.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-19T10:50:00.000Z",
+    "bytes": 23301
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-18.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-19T10:51:00.000Z",
+    "bytes": 6445
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-18.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-19T10:52:00.000Z",
+    "bytes": 3149
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-18.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-19T10:52:00.000Z",
+    "bytes": 141
+  },
+  {
     "path": "upright/upright_2026-09-18.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-19T11:00:00.000Z",
     "bytes": 7150
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-18.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-19T11:03:00.000Z",
+    "bytes": 1487
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-18.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-19T11:04:00.000Z",
+    "bytes": 16121
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-18.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-19T11:05:00.000Z",
+    "bytes": 47334
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-18.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-19T11:06:00.000Z",
+    "bytes": 339
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-18.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-19T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-19.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-20T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-19.csv",
@@ -1581,10 +5011,88 @@
     "bytes": 10473
   },
   {
+    "path": "jewelry/jewelry_2026-09-19.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-20T10:35:00.000Z",
+    "bytes": 298
+  },
+  {
+    "path": "fedex/fedex_2026-09-19.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-20T10:45:00.000Z",
+    "bytes": 15980
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-20T10:50:00.000Z",
+    "bytes": 27986
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-20T10:51:00.000Z",
+    "bytes": 7729
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-20T10:52:00.000Z",
+    "bytes": 3705
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-20T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-19.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-20T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-09-19.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-20T11:00:00.000Z",
     "bytes": 8215
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-19.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-20T11:03:00.000Z",
+    "bytes": 367
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-19.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-20T11:04:00.000Z",
+    "bytes": 14107
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-19.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-20T11:05:00.000Z",
+    "bytes": 52236
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-19.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-20T11:06:00.000Z",
+    "bytes": 340
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-19.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-20T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-20.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-21T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-20.csv",
@@ -1605,11 +5113,89 @@
     "bytes": 13848
   },
   {
+    "path": "jewelry/jewelry_2026-09-20.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-21T10:35:00.000Z",
+    "bytes": 303
+  },
+  {
+    "path": "fedex/fedex_2026-09-20.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-21T10:45:00.000Z",
+    "bytes": 15590
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-21T10:50:00.000Z",
+    "bytes": 28441
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-21T10:51:00.000Z",
+    "bytes": 7991
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-21T10:52:00.000Z",
+    "bytes": 4118
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-20.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-21T10:52:00.000Z",
+    "bytes": 141
+  },
+  {
     "path": "upright/upright_2026-09-20.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-21T11:00:00.000Z",
     "bytes": 8216,
     "note": "4 order(s) also in that day's eBay/ShopGoodwill files (every Upright file overlaps a little)"
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-20.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-21T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-20.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-21T11:04:00.000Z",
+    "bytes": 13613
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-20.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-21T11:05:00.000Z",
+    "bytes": 55698
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-20.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-21T11:06:00.000Z",
+    "bytes": 340
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-20.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-21T11:10:00.000Z",
+    "bytes": 304
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-09-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-21T14:23:00.000Z",
+    "bytes": 13113
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-21.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-22T10:30:00.000Z",
+    "bytes": 6637
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-21.csv",
@@ -1630,10 +5216,82 @@
     "bytes": 5660
   },
   {
+    "path": "jewelry/jewelry_2026-09-21.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-22T10:35:00.000Z",
+    "bytes": 288
+  },
+  {
+    "path": "fedex/fedex_2026-09-21.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-22T10:45:00.000Z",
+    "bytes": 12887
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-22T10:50:00.000Z",
+    "bytes": 24522
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-22T10:51:00.000Z",
+    "bytes": 6777
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-22T10:52:00.000Z",
+    "bytes": 2867
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-21.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-22T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
     "path": "upright/upright_2026-09-21.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-22T11:00:00.000Z",
     "bytes": 4651
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-21.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-22T11:03:00.000Z",
+    "bytes": 1703
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-21.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-22T11:04:00.000Z",
+    "bytes": 14987
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-21.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-22T11:05:00.000Z",
+    "bytes": 46177
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-21.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-22T11:06:00.000Z",
+    "bytes": 340
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-21.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-22T11:10:00.000Z",
+    "bytes": 429
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-22.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-23T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-22.csv",
@@ -1654,10 +5312,76 @@
     "bytes": 10510
   },
   {
+    "path": "jewelry/jewelry_2026-09-22.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-23T10:35:00.000Z",
+    "bytes": 394
+  },
+  {
+    "path": "fedex/fedex_2026-09-22.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-23T10:45:00.000Z",
+    "bytes": 11070
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-23T10:50:00.000Z",
+    "bytes": 28441
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-23T10:51:00.000Z",
+    "bytes": 8078
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-22.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-23T10:52:00.000Z",
+    "bytes": 3905
+  },
+  {
     "path": "upright/upright_2026-09-22.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-23T11:00:00.000Z",
     "bytes": 7736
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-22.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-23T11:03:00.000Z",
+    "bytes": 1555
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-22.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-23T11:04:00.000Z",
+    "bytes": 14374
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-22.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-23T11:05:00.000Z",
+    "bytes": 49876
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-22.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-23T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-22.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-23T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-23.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-24T10:30:00.000Z",
+    "bytes": 6382
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-23.csv",
@@ -1678,10 +5402,88 @@
     "bytes": 8391
   },
   {
+    "path": "jewelry/jewelry_2026-09-23.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-24T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-09-23.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-24T10:45:00.000Z",
+    "bytes": 11140
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-24T10:50:00.000Z",
+    "bytes": 26751
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-24T10:51:00.000Z",
+    "bytes": 7393
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-24T10:52:00.000Z",
+    "bytes": 2961
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-24T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-23.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-24T10:52:00.000Z",
+    "bytes": 141
+  },
+  {
     "path": "upright/upright_2026-09-23.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-24T11:00:00.000Z",
     "bytes": 8722
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-23.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-24T11:03:00.000Z",
+    "bytes": 1474
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-23.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-24T11:04:00.000Z",
+    "bytes": 13643
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-23.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-24T11:05:00.000Z",
+    "bytes": 48309
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-23.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-24T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-23.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-24T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-24.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-25T10:30:00.000Z",
+    "bytes": 10280
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-24.csv",
@@ -1693,8 +5495,7 @@
     "path": "amazon/amazon_2026-09-24.csv",
     "sourceId": "amazon",
     "uploadedAt": "2026-09-25T10:32:00.000Z",
-    "bytes": 10745,
-    "note": "unknown transaction type \"Liquidations\" (booked as an adjustment, with a warning)"
+    "bytes": 10586
   },
   {
     "path": "ebay/ebay_2026-09-24.csv",
@@ -1703,10 +5504,82 @@
     "bytes": 9902
   },
   {
+    "path": "jewelry/jewelry_2026-09-24.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-25T10:35:00.000Z",
+    "bytes": 285
+  },
+  {
+    "path": "fedex/fedex_2026-09-24.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-25T10:45:00.000Z",
+    "bytes": 12871
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-25T10:50:00.000Z",
+    "bytes": 27142
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-25T10:51:00.000Z",
+    "bytes": 7804
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-25T10:52:00.000Z",
+    "bytes": 4124
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-24.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-25T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
     "path": "upright/upright_2026-09-24.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-25T11:00:00.000Z",
     "bytes": 6531
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-24.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-25T11:03:00.000Z",
+    "bytes": 1624
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-24.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-25T11:04:00.000Z",
+    "bytes": 10270
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-24.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-25T11:05:00.000Z",
+    "bytes": 48800
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-24.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-25T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-24.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-25T11:10:00.000Z",
+    "bytes": 286
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-25.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-26T10:30:00.000Z",
+    "bytes": 10721
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-25.csv",
@@ -1727,10 +5600,82 @@
     "bytes": 7468
   },
   {
+    "path": "jewelry/jewelry_2026-09-25.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-26T10:35:00.000Z",
+    "bytes": 289
+  },
+  {
+    "path": "fedex/fedex_2026-09-25.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-26T10:45:00.000Z",
+    "bytes": 18130
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-25.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-26T10:50:00.000Z",
+    "bytes": 33946
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-25.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-26T10:51:00.000Z",
+    "bytes": 9446
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-25.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-26T10:52:00.000Z",
+    "bytes": 3054
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-25.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-26T10:52:00.000Z",
+    "bytes": 286
+  },
+  {
     "path": "upright/upright_2026-09-25.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-26T11:00:00.000Z",
     "bytes": 8626
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-25.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-26T11:03:00.000Z",
+    "bytes": 1536
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-25.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-26T11:04:00.000Z",
+    "bytes": 12568
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-25.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-26T11:05:00.000Z",
+    "bytes": 49528
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-25.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-26T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-25.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-26T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-26.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-27T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-26.csv",
@@ -1751,10 +5696,88 @@
     "bytes": 10514
   },
   {
+    "path": "jewelry/jewelry_2026-09-26.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-27T10:35:00.000Z",
+    "bytes": 475
+  },
+  {
+    "path": "fedex/fedex_2026-09-26.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-27T10:45:00.000Z",
+    "bytes": 15529
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-27T10:50:00.000Z",
+    "bytes": 37394
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-27T10:51:00.000Z",
+    "bytes": 10582
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-27T10:52:00.000Z",
+    "bytes": 4000
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-27T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-26.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-27T10:52:00.000Z",
+    "bytes": 215
+  },
+  {
     "path": "upright/upright_2026-09-26.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-27T11:00:00.000Z",
     "bytes": 8554
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-26.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-27T11:03:00.000Z",
+    "bytes": 950
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-26.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-27T11:04:00.000Z",
+    "bytes": 9785
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-26.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-27T11:05:00.000Z",
+    "bytes": 54411
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-26.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-27T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-26.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-27T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-27.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-28T10:30:00.000Z",
+    "bytes": 199
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-27.csv",
@@ -1775,10 +5798,88 @@
     "bytes": 10807
   },
   {
+    "path": "jewelry/jewelry_2026-09-27.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-28T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-09-27.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-28T10:45:00.000Z",
+    "bytes": 17616
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-27.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-28T10:50:00.000Z",
+    "bytes": 34837
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-27.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-28T10:51:00.000Z",
+    "bytes": 9652
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-27.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-28T10:52:00.000Z",
+    "bytes": 3927
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09-27.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-28T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-09-27.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-28T11:00:00.000Z",
     "bytes": 8135
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-27.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-28T11:03:00.000Z",
+    "bytes": 140
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-27.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-28T11:04:00.000Z",
+    "bytes": 10008
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-27.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-28T11:05:00.000Z",
+    "bytes": 53627
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-27.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-28T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-27.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-28T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-09-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-28T14:23:00.000Z",
+    "bytes": 12603
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-28.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-29T10:30:00.000Z",
+    "bytes": 11439
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-28.csv",
@@ -1799,10 +5900,82 @@
     "bytes": 8728
   },
   {
+    "path": "jewelry/jewelry_2026-09-28.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-29T10:35:00.000Z",
+    "bytes": 395
+  },
+  {
+    "path": "fedex/fedex_2026-09-28.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-29T10:45:00.000Z",
+    "bytes": 15834
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-29T10:50:00.000Z",
+    "bytes": 25887
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-29T10:51:00.000Z",
+    "bytes": 7472
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-29T10:52:00.000Z",
+    "bytes": 2569
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-28.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-29T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
     "path": "upright/upright_2026-09-28.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-29T11:00:00.000Z",
     "bytes": 7985
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-28.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-29T11:03:00.000Z",
+    "bytes": 1702
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-28.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-29T11:04:00.000Z",
+    "bytes": 7141
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-28.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-29T11:05:00.000Z",
+    "bytes": 44725
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-28.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-29T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-28.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-29T11:10:00.000Z",
+    "bytes": 502
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-29.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-09-30T10:30:00.000Z",
+    "bytes": 4100
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-29.csv",
@@ -1824,10 +5997,76 @@
     "bytes": 10506
   },
   {
+    "path": "jewelry/jewelry_2026-09-29.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-09-30T10:35:00.000Z",
+    "bytes": 628
+  },
+  {
+    "path": "fedex/fedex_2026-09-29.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-09-30T10:45:00.000Z",
+    "bytes": 16345
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-29.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-30T10:50:00.000Z",
+    "bytes": 28031
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-29.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-30T10:51:00.000Z",
+    "bytes": 8171
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-29.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-09-30T10:52:00.000Z",
+    "bytes": 3354
+  },
+  {
     "path": "upright/upright_2026-09-29.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-30T11:00:00.000Z",
     "bytes": 7386
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-29.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-09-30T11:03:00.000Z",
+    "bytes": 1639
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-29.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-09-30T11:04:00.000Z",
+    "bytes": 7905
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-29.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-09-30T11:05:00.000Z",
+    "bytes": 45955
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-29.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-09-30T11:06:00.000Z",
+    "bytes": 341
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-29.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-09-30T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-09-30.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-10-01T10:30:00.000Z",
+    "bytes": 3173
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-09-30.csv",
@@ -1849,10 +6088,82 @@
     "bytes": 6882
   },
   {
+    "path": "jewelry/jewelry_2026-09-30.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-10-01T10:35:00.000Z",
+    "bytes": 297
+  },
+  {
+    "path": "fedex/fedex_2026-09-30.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-10-01T10:45:00.000Z",
+    "bytes": 14997
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-01T10:50:00.000Z",
+    "bytes": 29725
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-01T10:51:00.000Z",
+    "bytes": 8321
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-01T10:52:00.000Z",
+    "bytes": 3055
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09-30.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-01T10:52:00.000Z",
+    "bytes": 104
+  },
+  {
     "path": "upright/upright_2026-09-30.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-01T11:00:00.000Z",
     "bytes": 9391
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-09-30.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-10-01T11:03:00.000Z",
+    "bytes": 1636
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-09-30.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-10-01T11:04:00.000Z",
+    "bytes": 5412
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-09-30.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-10-01T11:05:00.000Z",
+    "bytes": 41579
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-09-30.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-10-01T11:06:00.000Z",
+    "bytes": 342
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-09-30.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-10-01T11:10:00.000Z",
+    "bytes": 216
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-10-01.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-10-02T10:30:00.000Z",
+    "bytes": 12948
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-10-01.csv",
@@ -1873,10 +6184,76 @@
     "bytes": 8429
   },
   {
+    "path": "jewelry/jewelry_2026-10-01.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-10-02T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-10-01.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-10-02T10:45:00.000Z",
+    "bytes": 12014
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-10-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-02T10:50:00.000Z",
+    "bytes": 32361
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-10-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-02T10:51:00.000Z",
+    "bytes": 8811
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-10-01.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-02T10:52:00.000Z",
+    "bytes": 3450
+  },
+  {
     "path": "upright/upright_2026-10-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-02T11:00:00.000Z",
     "bytes": 8239
+  },
+  {
+    "path": "timekeeping/timekeeping_2026-10-01.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-10-02T11:03:00.000Z",
+    "bytes": 1613
+  },
+  {
+    "path": "production_tracking/production_tracking_2026-10-01.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-10-02T11:04:00.000Z",
+    "bytes": 6120
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-10-01.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-10-02T11:05:00.000Z",
+    "bytes": 43254
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-10-01.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-10-02T11:06:00.000Z",
+    "bytes": 326
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-10-01.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-10-02T11:10:00.000Z",
+    "bytes": 286
+  },
+  {
+    "path": "cashmonkey/cashmonkey_2026-10-02.csv",
+    "sourceId": "cashmonkey",
+    "uploadedAt": "2026-10-03T10:30:00.000Z",
+    "bytes": 7177
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-10-02.csv",
@@ -1897,104 +6274,88 @@
     "bytes": 8062
   },
   {
+    "path": "jewelry/jewelry_2026-10-02.csv",
+    "sourceId": "jewelry",
+    "uploadedAt": "2026-10-03T10:35:00.000Z",
+    "bytes": 187
+  },
+  {
+    "path": "fedex/fedex_2026-10-02.csv",
+    "sourceId": "fedex",
+    "uploadedAt": "2026-10-03T10:45:00.000Z",
+    "bytes": 16166
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-10-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T10:50:00.000Z",
+    "bytes": 26283
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-10-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T10:51:00.000Z",
+    "bytes": 7467
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-10-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T10:52:00.000Z",
+    "bytes": 2961
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-10-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T10:52:00.000Z",
+    "bytes": 103
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-10-02.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T10:52:00.000Z",
+    "bytes": 144
+  },
+  {
     "path": "upright/upright_2026-10-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-03T11:00:00.000Z",
     "bytes": 7869
   },
   {
-    "path": "cashmonkey/cashmonkey_2026-09.csv",
-    "sourceId": "cashmonkey",
-    "uploadedAt": "2026-10-03T14:00:00.000Z",
-    "bytes": 127201,
-    "note": "per-item rows; a book titled \"Total Recall\" must not be read as the footer"
+    "path": "timekeeping/timekeeping_2026-10-02.csv",
+    "sourceId": "timekeeping",
+    "uploadedAt": "2026-10-03T11:03:00.000Z",
+    "bytes": 1694
   },
   {
-    "path": "jewelry/jewelry_2026-09.csv",
-    "sourceId": "jewelry",
-    "uploadedAt": "2026-10-03T14:05:00.000Z",
-    "bytes": 6593,
-    "note": "43 ShopGoodwill items already in the ShopGoodwill files (dedupe, no new revenue); one row without Supplier; one return"
+    "path": "production_tracking/production_tracking_2026-10-02.csv",
+    "sourceId": "production_tracking",
+    "uploadedAt": "2026-10-03T11:04:00.000Z",
+    "bytes": 4363
+  },
+  {
+    "path": "upright_inventory/upright_inventory_2026-10-02.csv",
+    "sourceId": "upright_inventory",
+    "uploadedAt": "2026-10-03T11:05:00.000Z",
+    "bytes": 43931
+  },
+  {
+    "path": "marketplace_ratings/marketplace_ratings_2026-10-02.csv",
+    "sourceId": "marketplace_ratings",
+    "uploadedAt": "2026-10-03T11:06:00.000Z",
+    "bytes": 330
+  },
+  {
+    "path": "bank_1st_source/bank_1st_source_2026-10-02.csv",
+    "sourceId": "bank_1st_source",
+    "uploadedAt": "2026-10-03T11:10:00.000Z",
+    "bytes": 216
   },
   {
     "path": "goodwill_books/goodwill_books_2026-09.csv",
     "sourceId": "goodwill_books",
     "uploadedAt": "2026-10-03T14:10:00.000Z",
     "bytes": 34097
-  },
-  {
-    "path": "fedex/fedex_2026-09.csv",
-    "sourceId": "fedex",
-    "uploadedAt": "2026-10-03T14:15:00.000Z",
-    "bytes": 318318
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-09.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-10-03T14:20:00.000Z",
-    "bytes": 860563,
-    "note": "real 43-column shipment report; 3 OSM labels bought through EasyPost (carrier-billed, 1-cent rate) must not count"
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-09.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-10-03T14:21:00.000Z",
-    "bytes": 242160,
-    "note": "every label is also a service_fee row; refunds also in the shipment report; creditable recharge; payment_refund"
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-09.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-10-03T14:22:00.000Z",
-    "bytes": 97812
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refills_2026-09.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-10-03T14:22:00.000Z",
-    "bytes": 1025
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb-refunds_2026-09.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-10-03T14:22:00.000Z",
-    "bytes": 1198
-  },
-  {
-    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_osm_2026-09.csv",
-    "sourceId": "shipping_osm_pb_easypost",
-    "uploadedAt": "2026-10-03T14:23:00.000Z",
-    "bytes": 57116
-  },
-  {
-    "path": "production_tracking/production_tracking_2026-09.csv",
-    "sourceId": "production_tracking",
-    "uploadedAt": "2026-10-03T14:29:00.000Z",
-    "bytes": 900278
-  },
-  {
-    "path": "upright_inventory/upright_inventory_2026-09.csv",
-    "sourceId": "upright_inventory",
-    "uploadedAt": "2026-10-03T14:30:00.000Z",
-    "bytes": 1188752
-  },
-  {
-    "path": "timekeeping/timekeeping_2026-09.csv",
-    "sourceId": "timekeeping",
-    "uploadedAt": "2026-10-03T14:31:00.000Z",
-    "bytes": 33367
-  },
-  {
-    "path": "marketplace_ratings/marketplace_ratings_2026-09.csv",
-    "sourceId": "marketplace_ratings",
-    "uploadedAt": "2026-10-03T14:32:00.000Z",
-    "bytes": 292
-  },
-  {
-    "path": "bank_1st_source/bank_1st_source_2026-09.csv",
-    "sourceId": "bank_1st_source",
-    "uploadedAt": "2026-10-03T14:40:00.000Z",
-    "bytes": 1670
   },
   {
     "path": "shopgoodwill/shopgoodwill_2026-10-03.csv",
@@ -2015,33 +6376,45 @@
     "bytes": 6903
   },
   {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_2026-10-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T15:40:00.000Z",
+    "bytes": 9950
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_paylog_2026-10-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T15:41:00.000Z",
+    "bytes": 2745
+  },
+  {
+    "path": "shipping_osm_pb_easypost/shipping_osm_pb_easypost_pb_2026-10-03.csv",
+    "sourceId": "shipping_osm_pb_easypost",
+    "uploadedAt": "2026-10-03T15:42:00.000Z",
+    "bytes": 1342
+  },
+  {
     "path": "upright/upright_2026-10-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-03T15:50:00.000Z",
     "bytes": 4376
   },
   {
-    "path": "timekeeping/timekeeping_2026-10.csv",
-    "sourceId": "timekeeping",
-    "uploadedAt": "2026-10-03T15:53:00.000Z",
-    "bytes": 3633
-  },
-  {
-    "path": "production_tracking/production_tracking_2026-10.csv",
+    "path": "production_tracking/production_tracking_2026-10-03.csv",
     "sourceId": "production_tracking",
     "uploadedAt": "2026-10-03T15:54:00.000Z",
-    "bytes": 456383
+    "bytes": 3020
   },
   {
-    "path": "upright_inventory/upright_inventory_2026-10.csv",
+    "path": "upright_inventory/upright_inventory_2026-10-03.csv",
     "sourceId": "upright_inventory",
     "uploadedAt": "2026-10-03T15:55:00.000Z",
-    "bytes": 498502
+    "bytes": 31428
   },
   {
-    "path": "marketplace_ratings/marketplace_ratings_2026-10.csv",
+    "path": "marketplace_ratings/marketplace_ratings_2026-10-03.csv",
     "sourceId": "marketplace_ratings",
     "uploadedAt": "2026-10-03T15:56:00.000Z",
-    "bytes": 294
+    "bytes": 333
   }
 ]

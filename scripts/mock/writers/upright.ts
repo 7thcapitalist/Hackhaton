@@ -78,6 +78,11 @@ function render(orders: UprightOrder[]): string {
   return lines(rows, "\n");
 }
 
+/** An Upright report for `orders` as single-item orders (demo upload 03; not in the baseline). */
+export function uprightFileOf(orders: MockOrder[]): string {
+  return render(orders.map((o) => ({ head: o, items: [o] })));
+}
+
 /** Group a day's items into Upright orders; merge some Mercari pairs into two-item orders. */
 function group(items: MockOrder[], date: string): UprightOrder[] {
   const out: UprightOrder[] = [];

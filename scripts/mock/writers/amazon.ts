@@ -10,12 +10,13 @@
  * 2026 columns Transaction Status / Transaction Release Date are included
  * (nightly files: Deferred; prior-year month files: Released).
  *
- * Messy cases: no file for MISSING_AMAZON_DATE; a Refund row for an order of
- * an earlier file (LATE_REFUND_DATE); an unknown "Liquidations" row (2026-09-24).
+ * A file every day (clean baseline). Normal case: a Refund row for an order
+ * of an earlier file (LATE_REFUND_DATE). The unknown "Liquidations" type is a
+ * live demo upload (data/demo-uploads/02_amazon_2026-10-02_unknown_type.csv).
  */
 import { addDays, daysBetween } from "../../../src/lib/views/dates";
 import { amazonDate, csvRow, dec, lines } from "../format";
-import { LATE_REFUND_DATE, MISSING_AMAZON_DATE, type AmazonEvent, type MockModel, type MockOrder } from "../model";
+import { LATE_REFUND_DATE, type AmazonEvent, type MockModel, type MockOrder } from "../model";
 import { ALL_DATES, PRIOR_YEAR_PERIODS, dailyUpload, monthlyUpload } from "../schedule";
 import type { FixtureFile } from "../types";
 
@@ -87,12 +88,18 @@ function eventRow(e: AmazonEvent): string[] {
   ];
 }
 
+/** A Date Range Transaction report holding only `events` (demo upload 02; not in the baseline). */
+export function amazonEventsFile(events: AmazonEvent[]): string {
+  const rows = [...events].sort((a, b) => a.ts.getTime() - b.ts.getTime()).map((e) => [...eventRow(e), "Released", ""]);
+  return lines([...PREAMBLE.map((p) => csvRow([p], new Set([0]))), csvRow(HEADER), ...rows.map((r) => csvRow(r, QUOTED))], "\r\n");
+}
+
 export function writeAmazon(model: MockModel): FixtureFile[] {
   const files: FixtureFile[] = [];
   const amazon = model.orders.filter((o) => o.stream === "amazon");
   // Nightly files (2026), then one date-range file per prior-year month.
   const specs = [
-    ...ALL_DATES.filter((d) => d !== MISSING_AMAZON_DATE).map((d) => ({ key: d, match: (x: string) => x === d, upload: dailyUpload(d, 2) })),
+    ...ALL_DATES.map((d) => ({ key: d, match: (x: string) => x === d, upload: dailyUpload(d, 2) })),
     ...PRIOR_YEAR_PERIODS.map((p) => ({ key: p, match: (x: string) => x.startsWith(p), upload: monthlyUpload(p, 2) })),
   ];
   for (const { key, match, upload } of specs) {
@@ -119,7 +126,6 @@ export function writeAmazon(model: MockModel): FixtureFile[] {
     ];
     const notes: string[] = [];
     if (late) notes.push("refund row for an order in an earlier file");
-    if (rows.some((r) => r.cells[2] === "Liquidations")) notes.push('unknown transaction type "Liquidations" (booked as an adjustment, with a warning)');
     files.push({
       sourceId: "amazon",
       path: `amazon/amazon_${key}.csv`,

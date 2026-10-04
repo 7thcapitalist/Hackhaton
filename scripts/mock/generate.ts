@@ -10,17 +10,34 @@
  */
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { buildDemoUploads } from "./demo-uploads";
 import { buildFixtures, manifestOf, type ManifestEntry } from "./fixtures";
+import { buildModel } from "./model";
 
 const ROOT = join(__dirname, "..", "..", "data", "fixtures");
+/** Live demo uploads (messy cases), NOT ingested by the seed. */
+const DEMO = join(__dirname, "..", "..", "data", "demo-uploads");
 const MANIFEST = join(ROOT, "manifest.json");
 
 function main() {
   const check = process.argv.includes("--check");
   const t0 = Date.now();
-  const files = buildFixtures();
+  const model = buildModel();
+  const files = buildFixtures(model);
+  const demo = buildDemoUploads(model);
   const manifest = manifestOf(files);
   const manifestText = JSON.stringify(manifest, null, 2) + "\n";
+
+  // Two fixtures with the same bytes would be a duplicate_file on ingest: the baseline must not have one.
+  const byContent = new Map<string, string>();
+  for (const f of files) {
+    const prev = byContent.get(f.content);
+    if (prev) {
+      console.error(`Fixtures ${prev} and ${f.path} have identical bytes (would ingest as a duplicate file).`);
+      process.exit(1);
+    }
+    byContent.set(f.content, f.path);
+  }
 
   if (check) {
     const bad: string[] = [];
@@ -29,6 +46,10 @@ function main() {
       if (!existsSync(p) || readFileSync(p, "utf8") !== f.content) bad.push(f.path);
     }
     if (!existsSync(MANIFEST) || readFileSync(MANIFEST, "utf8") !== manifestText) bad.push("manifest.json");
+    for (const d of demo) {
+      const p = join(DEMO, d.name);
+      if (!existsSync(p) || readFileSync(p, "utf8") !== d.content) bad.push(`../demo-uploads/${d.name}`);
+    }
     if (bad.length) {
       console.error(`${bad.length} fixture file(s) differ from the generator (run npm run mock:generate):`);
       for (const b of bad.slice(0, 20)) console.error(`  ${b}`);
@@ -48,6 +69,8 @@ function main() {
     writeFileSync(p, f.content, "utf8");
   }
   writeFileSync(MANIFEST, manifestText, "utf8");
+  mkdirSync(DEMO, { recursive: true });
+  for (const d of demo) writeFileSync(join(DEMO, d.name), d.content, "utf8");
 
   const bySource = new Map<string, { n: number; bytes: number }>();
   for (const m of manifest) {
@@ -63,8 +86,8 @@ function main() {
     console.log(`${id.padEnd(26)} ${String(s.n).padStart(5)} ${(s.bytes / 1024).toFixed(0).padStart(8)}`);
   }
   console.log(`${"total".padEnd(26)} ${String(files.length).padStart(5)} ${(total / 1024).toFixed(0).padStart(8)}`);
-  for (const m of manifest) if (m.note) console.log(`  messy: ${m.path}: ${m.note}`);
-  console.log(`Wrote data/fixtures in ${((Date.now() - t0) / 1000).toFixed(1)}s.`);
+  for (const m of manifest) if (m.note) console.log(`  note: ${m.path}: ${m.note}`);
+  console.log(`Wrote data/fixtures and ${demo.length} data/demo-uploads files in ${((Date.now() - t0) / 1000).toFixed(1)}s.`);
 }
 
 main();

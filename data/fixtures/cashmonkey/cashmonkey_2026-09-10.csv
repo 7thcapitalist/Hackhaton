@@ -1,0 +1,23 @@
+Orders Report: 09/10/2026 - 09/10/2026,,,,,,,,,,,,,
+Order Date,Marketplace,Order ID,SKU,ISBN,Title,Condition,Qty,Price,Shipping,Tax,Marketplace Fee,Net,Status
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-001,9780013110873,Atlas of the World,Like New,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-002,9780013118792,Collected Poems,Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-003,9780013126711,A Brief History of Time,Very Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-004,9780013134630,Pride and Prejudice,Acceptable,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-005,9780013142549,The Great Gatsby,Like New,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-006,9780013150468,Moby-Dick,Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-007,9780013158387,Organic Chemistry 8e,Very Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-008,9780013166306,Gardening Basics,Acceptable,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-009,9780013174225,Lonely Planet USA,Like New,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-010,9780013182144,The Odyssey,Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-011,9780013190063,Field Guide to Birds,Very Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-012,9780013197982,Joy of Cooking,Acceptable,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-013,9780013205901,Atlas of the World,Like New,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-014,9780013213820,Collected Poems,Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-015,9780013221739,A Brief History of Time,Very Good,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-016,9780013229658,Pride and Prejudice,Acceptable,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-017,9780013237577,The Great Gatsby,Like New,1,3.99,0.00,0.00,0.60,3.39,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-018,9780013245496,Moby-Dick,Good,1,3.99,0.00,0.00,0.59,3.40,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-019,9780013253415,Organic Chemistry 8e,Very Good,1,3.99,0.00,0.00,0.59,3.40,Completed
+09/10/2026,ThriftBooks,CM-100083,CM-B-100083-020,9780013261334,Gardening Basics,Acceptable,1,3.99,0.00,0.00,0.59,3.40,Completed
+Total,,,,,,,20,79.80,0.00,0.00,11.97,67.83,

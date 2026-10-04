@@ -9,6 +9,7 @@ const config: Record<BadgeStatus, { label: string; tone: string; mark: ReactNode
   received: { label: "Received", tone: "bg-ok-soft text-ok", mark: <CheckIcon className="size-[11px]" /> },
   warnings: { label: "Warnings", tone: "bg-warn-soft text-warn", mark: <WarnIcon className="size-3 text-warn-icon" /> },
   missing: { label: "Missing", tone: "bg-muted-soft text-muted", mark: <DashedRingIcon className="size-[11px]" /> },
+  not_due: { label: "Not due yet", tone: "bg-muted-soft text-muted", mark: <span className="size-[7px] rounded-full border-[1.5px] border-muted" /> },
 };
 
 /** Color is always paired with a distinct shape and a text label. */

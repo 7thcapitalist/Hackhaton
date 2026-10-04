@@ -276,9 +276,9 @@ export function buildOps(model: Omit<MockModel, "ops">, ratingPeriods: readonly 
     if (amountCents === 0) return;
     bank.push({ date, description, amountCents, type, reference: String(++ref) });
   };
-  const bankPeriods = [...new Set(model.amazonEvents.map((e) => e.businessDate.slice(0, 7)))]
-    .filter((p) => p !== OPS_END.slice(0, 7))
-    .sort();
+  // Every month with activity, the current one too: the daily bank feed only
+  // writes lines already posted (the writer drops dates from today on).
+  const bankPeriods = [...new Set(model.amazonEvents.map((e) => e.businessDate.slice(0, 7)))].sort();
   const inBank = (d: string) => bankPeriods.includes(d.slice(0, 7));
   for (const e of model.amazonEvents) {
     if (e.type === "Transfer" && inBank(e.businessDate)) {

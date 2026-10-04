@@ -117,12 +117,19 @@ export interface ScorecardView {
 
 export interface SourceStatus {
   sourceId: string; name: string;
-  status: "received" | "warnings" | "missing";
+  cadence: "daily" | "weekly" | "monthly";   // sources.config_json.cadence
+  // not_due = no file yet and none expected yet: a weekly/monthly file of the
+  // running month (e.g. Goodwill Books in October), or a daily source with no
+  // finished day in the period. missing = a due file is absent; for a daily
+  // source, a finished day (before `asOf`) without a file (see missingDates).
+  status: "received" | "warnings" | "missing" | "not_due";
   lastIngestAt: string | null;
   rowCount: number;
   openExceptions: number;
+  missingDates?: string[];                   // daily sources: finished days without a file
 }
-export interface SourceStatusView { period: string; sources: SourceStatus[] }
+// asOf = latest business day with an ingested file (the data's clock); days before it are due.
+export interface SourceStatusView { period: string; asOf: string; sources: SourceStatus[] }
 
 export interface OrdersView {
   rows: { id: string; channel: ChannelId; sourceId: string; externalOrderId: string;

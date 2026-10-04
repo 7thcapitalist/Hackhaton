@@ -157,8 +157,63 @@ export const CHANNEL_SOURCES: Record<ChannelId, string[]> = {
   other: ["cashmonkey", "jewelry"],
 };
 
-/** Sources that can deliver a nightly file (checked by the daily completeness check). */
-export const DAILY_SOURCES = ["shopgoodwill", "amazon", "ebay", "upright"];
+export type SourceCadence = "daily" | "weekly" | "monthly";
+
+/**
+ * How often each source is pulled: the highest frequency its real system
+ * supports (Joao, 2026-10-03; research in docs/sources/*.md). Stored in
+ * sources.config_json.cadence too (seed + ensureConfig). Drives the source
+ * status: a weekly/monthly file for the running period is "not_due", a daily
+ * source is "missing" only for days with no file.
+ *  - daily: marketplace feeds (Upright, ShopGoodwill, eBay, Amazon), Cash
+ *    Monkey (orders report takes any date range), EasyPost + Pitney Bowes
+ *    (daily files/API; OSM invoices inside this source are weekly), FedEx
+ *    (Billing Online can invoice daily), the Jewelry report, production
+ *    tracking, Upright inventory, timecards, the 1st Source daily statement and
+ *    the seller-dashboard ratings (daily rolling month-to-date snapshot).
+ *  - monthly: Goodwill Books (its payment statement only exists monthly; its
+ *    sales arrive daily through Upright anyway).
+ */
+export const SOURCE_CADENCE: Record<string, SourceCadence> = {
+  shopgoodwill: "daily",
+  amazon: "daily",
+  ebay: "daily",
+  cashmonkey: "daily",
+  upright: "daily",
+  jewelry: "daily",
+  shipping_osm_pb_easypost: "daily",
+  fedex: "daily",
+  goodwill_books: "monthly",
+  production_tracking: "daily",
+  upright_inventory: "daily",
+  timekeeping: "daily",
+  marketplace_ratings: "daily",
+  bank_1st_source: "daily",
+};
+
+/**
+ * Sub-feeds with their own cadence inside one source (config_json.feeds).
+ * OSM Worldwide bills weekly; its invoices ride in shipping_osm_pb_easypost.
+ */
+export const SOURCE_FEEDS: Record<string, Record<string, SourceCadence>> = {
+  shipping_osm_pb_easypost: { easypost: "daily", pitney_bowes: "daily", osm: "weekly" },
+};
+
+/** A source's cadence: config_json.cadence when set, else SOURCE_CADENCE, else monthly. */
+export function cadenceOf(sourceId: string, configJson?: string | null): SourceCadence {
+  if (configJson) {
+    try {
+      const c = (JSON.parse(configJson) as { cadence?: string }).cadence;
+      if (c === "daily" || c === "weekly" || c === "monthly") return c;
+    } catch {
+      // fall through to the default
+    }
+  }
+  return SOURCE_CADENCE[sourceId] ?? "monthly";
+}
+
+/** Sources that deliver a file per business day (checked by the daily completeness check). */
+export const DAILY_SOURCES = Object.keys(SOURCE_CADENCE).filter((id) => SOURCE_CADENCE[id] === "daily");
 
 const ensured = new WeakSet<object>();
 
@@ -166,7 +221,17 @@ const ensured = new WeakSet<object>();
 export async function ensureConfig(db: Db): Promise<void> {
   if (ensured.has(db)) return;
   await db.batch([
-    db.insert(sources).values(SOURCE_CONFIG).onConflictDoNothing(),
+    db
+      .insert(sources)
+      .values(
+        SOURCE_CONFIG.map((s) => ({
+          ...s,
+          configJson:
+            s.configJson ??
+            JSON.stringify({ cadence: SOURCE_CADENCE[s.id] ?? "monthly", ...(SOURCE_FEEDS[s.id] ? { feeds: SOURCE_FEEDS[s.id] } : {}) }),
+        })),
+      )
+      .onConflictDoNothing(),
     db.insert(channels).values(CHANNEL_CONFIG).onConflictDoNothing(),
   ]);
   ensured.add(db);
