@@ -20,6 +20,7 @@ Config and audit: sources (id, name, kind, owner, revenue_authority), channels (
 # Conventions
 - Money is stored in integer cents. Always present dollars: 123456 -> $1,234.56.
 - business_date is the sales day in America/Indiana/Indianapolis; period is YYYY-MM. For weekday use strftime('%w', business_date) (0 = Sunday).
+- When a question names no period, use the latest COMPLETE month (the month before the latest data date's month) for monthly measures like margins, categories and KPIs, and say which month you used. Use the current partial month only if the user asks about "this month" or "so far".
 - Revenue = Σ net_cents (already net of refunds and marketplace fees, includes shipping charged, excludes tax). Tax is never revenue.
 - Customers on the pulse = transactions = distinct channel + external_order_id, non-cancelled. Buyers = distinct buyer_key (per channel; no cross-channel identity). Repeat buyers = buyers with 2+ transactions in the period; new buyers = first-ever transaction in the period.
 - Upright (a listing tool) reports sales from several channels; when two sources report the same order, the source with revenue_authority = 1 wins and duplicates are flagged as exceptions. Do not double count.
