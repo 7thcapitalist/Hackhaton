@@ -27,7 +27,7 @@
     "path": "jewelry/jewelry_2025-08.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2025-09-03T14:05:00.000Z",
-    "bytes": 4489
+    "bytes": 4982
   },
   {
     "path": "goodwill_books/goodwill_books_2025-08.csv",
@@ -81,7 +81,7 @@
     "path": "upright/upright_2025-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2025-09-03T14:30:00.000Z",
-    "bytes": 185929
+    "bytes": 172657
   },
   {
     "path": "marketplace_ratings/marketplace_ratings_2025-08.csv",
@@ -123,7 +123,7 @@
     "path": "jewelry/jewelry_2025-09.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2025-10-03T14:05:00.000Z",
-    "bytes": 3362
+    "bytes": 3716
   },
   {
     "path": "goodwill_books/goodwill_books_2025-09.csv",
@@ -177,7 +177,7 @@
     "path": "upright/upright_2025-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2025-10-03T14:30:00.000Z",
-    "bytes": 206364
+    "bytes": 191620
   },
   {
     "path": "marketplace_ratings/marketplace_ratings_2025-09.csv",
@@ -219,7 +219,7 @@
     "path": "jewelry/jewelry_2025-10.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2025-11-03T14:05:00.000Z",
-    "bytes": 5092
+    "bytes": 5649
   },
   {
     "path": "goodwill_books/goodwill_books_2025-10.csv",
@@ -273,7 +273,7 @@
     "path": "upright/upright_2025-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2025-11-03T14:30:00.000Z",
-    "bytes": 227967
+    "bytes": 211839
   },
   {
     "path": "marketplace_ratings/marketplace_ratings_2025-10.csv",
@@ -315,7 +315,7 @@
     "path": "jewelry/jewelry_2026-08-01.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-02T10:35:00.000Z",
-    "bytes": 297
+    "bytes": 308
   },
   {
     "path": "fedex/fedex_2026-08-01.csv",
@@ -345,7 +345,7 @@
     "path": "upright/upright_2026-08-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-02T11:00:00.000Z",
-    "bytes": 6955
+    "bytes": 6493
   },
   {
     "path": "timekeeping/timekeeping_2026-08-01.csv",
@@ -435,7 +435,7 @@
     "path": "upright/upright_2026-08-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-03T11:00:00.000Z",
-    "bytes": 7082
+    "bytes": 6620
   },
   {
     "path": "timekeeping/timekeeping_2026-08-02.csv",
@@ -501,7 +501,7 @@
     "path": "jewelry/jewelry_2026-08-03.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-04T10:35:00.000Z",
-    "bytes": 620
+    "bytes": 672
   },
   {
     "path": "fedex/fedex_2026-08-03.csv",
@@ -537,7 +537,7 @@
     "path": "upright/upright_2026-08-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-04T11:00:00.000Z",
-    "bytes": 8005
+    "bytes": 7480
   },
   {
     "path": "timekeeping/timekeeping_2026-08-03.csv",
@@ -633,7 +633,7 @@
     "path": "upright/upright_2026-08-04.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-05T11:00:00.000Z",
-    "bytes": 6759
+    "bytes": 6318
   },
   {
     "path": "timekeeping/timekeeping_2026-08-04.csv",
@@ -693,7 +693,7 @@
     "path": "jewelry/jewelry_2026-08-05.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-06T10:35:00.000Z",
-    "bytes": 375
+    "bytes": 397
   },
   {
     "path": "fedex/fedex_2026-08-05.csv",
@@ -735,7 +735,7 @@
     "path": "upright/upright_2026-08-05.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-06T11:00:00.000Z",
-    "bytes": 6890
+    "bytes": 6428
   },
   {
     "path": "timekeeping/timekeeping_2026-08-05.csv",
@@ -825,7 +825,7 @@
     "path": "upright/upright_2026-08-06.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-07T11:00:00.000Z",
-    "bytes": 5030
+    "bytes": 4715
   },
   {
     "path": "timekeeping/timekeeping_2026-08-06.csv",
@@ -885,7 +885,7 @@
     "path": "jewelry/jewelry_2026-08-07.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-08T10:35:00.000Z",
-    "bytes": 517
+    "bytes": 558
   },
   {
     "path": "fedex/fedex_2026-08-07.csv",
@@ -927,7 +927,7 @@
     "path": "upright/upright_2026-08-07.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-08T11:00:00.000Z",
-    "bytes": 6427
+    "bytes": 6007
   },
   {
     "path": "timekeeping/timekeeping_2026-08-07.csv",
@@ -1017,7 +1017,7 @@
     "path": "upright/upright_2026-08-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-09T11:00:00.000Z",
-    "bytes": 8917
+    "bytes": 8308
   },
   {
     "path": "timekeeping/timekeeping_2026-08-08.csv",
@@ -1077,7 +1077,7 @@
     "path": "jewelry/jewelry_2026-08-09.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-10T10:35:00.000Z",
-    "bytes": 296
+    "bytes": 311
   },
   {
     "path": "fedex/fedex_2026-08-09.csv",
@@ -1119,7 +1119,7 @@
     "path": "upright/upright_2026-08-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-10T11:00:00.000Z",
-    "bytes": 11975
+    "bytes": 11156
   },
   {
     "path": "timekeeping/timekeeping_2026-08-09.csv",
@@ -1185,7 +1185,7 @@
     "path": "jewelry/jewelry_2026-08-10.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-11T10:35:00.000Z",
-    "bytes": 509
+    "bytes": 540
   },
   {
     "path": "fedex/fedex_2026-08-10.csv",
@@ -1215,7 +1215,7 @@
     "path": "upright/upright_2026-08-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-11T11:00:00.000Z",
-    "bytes": 8559
+    "bytes": 7992
   },
   {
     "path": "timekeeping/timekeeping_2026-08-10.csv",
@@ -1275,7 +1275,7 @@
     "path": "jewelry/jewelry_2026-08-11.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-12T10:35:00.000Z",
-    "bytes": 410
+    "bytes": 436
   },
   {
     "path": "fedex/fedex_2026-08-11.csv",
@@ -1311,7 +1311,7 @@
     "path": "upright/upright_2026-08-11.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-12T11:00:00.000Z",
-    "bytes": 6852
+    "bytes": 6430
   },
   {
     "path": "timekeeping/timekeeping_2026-08-11.csv",
@@ -1401,7 +1401,7 @@
     "path": "upright/upright_2026-08-12.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-13T11:00:00.000Z",
-    "bytes": 7659
+    "bytes": 7155
   },
   {
     "path": "timekeeping/timekeeping_2026-08-12.csv",
@@ -1461,7 +1461,7 @@
     "path": "jewelry/jewelry_2026-08-13.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-14T10:35:00.000Z",
-    "bytes": 512
+    "bytes": 544
   },
   {
     "path": "fedex/fedex_2026-08-13.csv",
@@ -1503,7 +1503,7 @@
     "path": "upright/upright_2026-08-13.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-14T11:00:00.000Z",
-    "bytes": 5559
+    "bytes": 5202
   },
   {
     "path": "timekeeping/timekeeping_2026-08-13.csv",
@@ -1563,7 +1563,7 @@
     "path": "jewelry/jewelry_2026-08-14.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-15T10:35:00.000Z",
-    "bytes": 301
+    "bytes": 316
   },
   {
     "path": "fedex/fedex_2026-08-14.csv",
@@ -1593,7 +1593,7 @@
     "path": "upright/upright_2026-08-14.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-15T11:00:00.000Z",
-    "bytes": 6018
+    "bytes": 5619
   },
   {
     "path": "timekeeping/timekeeping_2026-08-14.csv",
@@ -1689,7 +1689,7 @@
     "path": "upright/upright_2026-08-15.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-16T11:00:00.000Z",
-    "bytes": 8681
+    "bytes": 8114
   },
   {
     "path": "timekeeping/timekeeping_2026-08-15.csv",
@@ -1749,7 +1749,7 @@
     "path": "jewelry/jewelry_2026-08-16.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-17T10:35:00.000Z",
-    "bytes": 506
+    "bytes": 539
   },
   {
     "path": "fedex/fedex_2026-08-16.csv",
@@ -1785,7 +1785,7 @@
     "path": "upright/upright_2026-08-16.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-17T11:00:00.000Z",
-    "bytes": 10417
+    "bytes": 9703
   },
   {
     "path": "timekeeping/timekeeping_2026-08-16.csv",
@@ -1851,7 +1851,7 @@
     "path": "jewelry/jewelry_2026-08-17.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-18T10:35:00.000Z",
-    "bytes": 289
+    "bytes": 304
   },
   {
     "path": "fedex/fedex_2026-08-17.csv",
@@ -1887,7 +1887,7 @@
     "path": "upright/upright_2026-08-17.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-18T11:00:00.000Z",
-    "bytes": 8855
+    "bytes": 8267
   },
   {
     "path": "timekeeping/timekeeping_2026-08-17.csv",
@@ -1977,7 +1977,7 @@
     "path": "upright/upright_2026-08-18.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-19T11:00:00.000Z",
-    "bytes": 8911
+    "bytes": 8323
   },
   {
     "path": "timekeeping/timekeeping_2026-08-18.csv",
@@ -2037,7 +2037,7 @@
     "path": "jewelry/jewelry_2026-08-19.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-20T10:35:00.000Z",
-    "bytes": 397
+    "bytes": 419
   },
   {
     "path": "fedex/fedex_2026-08-19.csv",
@@ -2073,7 +2073,7 @@
     "path": "upright/upright_2026-08-19.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-20T11:00:00.000Z",
-    "bytes": 7423
+    "bytes": 6940
   },
   {
     "path": "timekeeping/timekeeping_2026-08-19.csv",
@@ -2133,7 +2133,7 @@
     "path": "jewelry/jewelry_2026-08-20.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-21T10:35:00.000Z",
-    "bytes": 394
+    "bytes": 415
   },
   {
     "path": "fedex/fedex_2026-08-20.csv",
@@ -2169,7 +2169,7 @@
     "path": "upright/upright_2026-08-20.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-21T11:00:00.000Z",
-    "bytes": 5154
+    "bytes": 4839
   },
   {
     "path": "timekeeping/timekeeping_2026-08-20.csv",
@@ -2229,7 +2229,7 @@
     "path": "jewelry/jewelry_2026-08-21.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-22T10:35:00.000Z",
-    "bytes": 298
+    "bytes": 309
   },
   {
     "path": "fedex/fedex_2026-08-21.csv",
@@ -2259,7 +2259,7 @@
     "path": "upright/upright_2026-08-21.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-22T11:00:00.000Z",
-    "bytes": 6609
+    "bytes": 6168
   },
   {
     "path": "timekeeping/timekeeping_2026-08-21.csv",
@@ -2319,7 +2319,7 @@
     "path": "jewelry/jewelry_2026-08-22.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-23T10:35:00.000Z",
-    "bytes": 506
+    "bytes": 541
   },
   {
     "path": "fedex/fedex_2026-08-22.csv",
@@ -2361,7 +2361,7 @@
     "path": "upright/upright_2026-08-22.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-23T11:00:00.000Z",
-    "bytes": 9824
+    "bytes": 9173
   },
   {
     "path": "timekeeping/timekeeping_2026-08-22.csv",
@@ -2421,7 +2421,7 @@
     "path": "jewelry/jewelry_2026-08-23.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-24T10:35:00.000Z",
-    "bytes": 400
+    "bytes": 420
   },
   {
     "path": "fedex/fedex_2026-08-23.csv",
@@ -2463,7 +2463,7 @@
     "path": "upright/upright_2026-08-23.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-24T11:00:00.000Z",
-    "bytes": 7612
+    "bytes": 7108
   },
   {
     "path": "timekeeping/timekeeping_2026-08-23.csv",
@@ -2529,7 +2529,7 @@
     "path": "jewelry/jewelry_2026-08-24.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-25T10:35:00.000Z",
-    "bytes": 407
+    "bytes": 433
   },
   {
     "path": "fedex/fedex_2026-08-24.csv",
@@ -2565,7 +2565,7 @@
     "path": "upright/upright_2026-08-24.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-25T11:00:00.000Z",
-    "bytes": 8161
+    "bytes": 7615
   },
   {
     "path": "timekeeping/timekeeping_2026-08-24.csv",
@@ -2655,7 +2655,7 @@
     "path": "upright/upright_2026-08-25.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-26T11:00:00.000Z",
-    "bytes": 8066
+    "bytes": 7520
   },
   {
     "path": "timekeeping/timekeeping_2026-08-25.csv",
@@ -2715,7 +2715,7 @@
     "path": "jewelry/jewelry_2026-08-26.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-27T10:35:00.000Z",
-    "bytes": 516
+    "bytes": 549
   },
   {
     "path": "fedex/fedex_2026-08-26.csv",
@@ -2751,7 +2751,7 @@
     "path": "upright/upright_2026-08-26.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-27T11:00:00.000Z",
-    "bytes": 7908
+    "bytes": 7383
   },
   {
     "path": "timekeeping/timekeeping_2026-08-26.csv",
@@ -2811,7 +2811,7 @@
     "path": "jewelry/jewelry_2026-08-27.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-28T10:35:00.000Z",
-    "bytes": 380
+    "bytes": 401
   },
   {
     "path": "fedex/fedex_2026-08-27.csv",
@@ -2841,7 +2841,7 @@
     "path": "upright/upright_2026-08-27.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-28T11:00:00.000Z",
-    "bytes": 8494
+    "bytes": 7927
   },
   {
     "path": "timekeeping/timekeeping_2026-08-27.csv",
@@ -2937,7 +2937,7 @@
     "path": "upright/upright_2026-08-28.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-29T11:00:00.000Z",
-    "bytes": 6344
+    "bytes": 5924
   },
   {
     "path": "timekeeping/timekeeping_2026-08-28.csv",
@@ -2997,7 +2997,7 @@
     "path": "jewelry/jewelry_2026-08-29.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-30T10:35:00.000Z",
-    "bytes": 495
+    "bytes": 531
   },
   {
     "path": "fedex/fedex_2026-08-29.csv",
@@ -3027,7 +3027,7 @@
     "path": "upright/upright_2026-08-29.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-30T11:00:00.000Z",
-    "bytes": 7786
+    "bytes": 7282
   },
   {
     "path": "timekeeping/timekeeping_2026-08-29.csv",
@@ -3087,7 +3087,7 @@
     "path": "jewelry/jewelry_2026-08-30.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-08-31T10:35:00.000Z",
-    "bytes": 304
+    "bytes": 319
   },
   {
     "path": "fedex/fedex_2026-08-30.csv",
@@ -3123,7 +3123,7 @@
     "path": "upright/upright_2026-08-30.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-08-31T11:00:00.000Z",
-    "bytes": 10923
+    "bytes": 10188
   },
   {
     "path": "timekeeping/timekeeping_2026-08-30.csv",
@@ -3189,7 +3189,7 @@
     "path": "jewelry/jewelry_2026-08-31.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-01T10:35:00.000Z",
-    "bytes": 282
+    "bytes": 293
   },
   {
     "path": "fedex/fedex_2026-08-31.csv",
@@ -3219,7 +3219,7 @@
     "path": "upright/upright_2026-08-31.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-01T11:00:00.000Z",
-    "bytes": 7320
+    "bytes": 6837
   },
   {
     "path": "timekeeping/timekeeping_2026-08-31.csv",
@@ -3279,7 +3279,7 @@
     "path": "jewelry/jewelry_2026-09-01.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-02T10:35:00.000Z",
-    "bytes": 400
+    "bytes": 426
   },
   {
     "path": "fedex/fedex_2026-09-01.csv",
@@ -3321,7 +3321,7 @@
     "path": "upright/upright_2026-09-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-02T11:00:00.000Z",
-    "bytes": 8550
+    "bytes": 8006
   },
   {
     "path": "timekeeping/timekeeping_2026-09-01.csv",
@@ -3381,7 +3381,7 @@
     "path": "jewelry/jewelry_2026-09-02.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-03T10:35:00.000Z",
-    "bytes": 291
+    "bytes": 306
   },
   {
     "path": "fedex/fedex_2026-09-02.csv",
@@ -3417,7 +3417,7 @@
     "path": "upright/upright_2026-09-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-03T11:00:00.000Z",
-    "bytes": 11045
+    "bytes": 10289
   },
   {
     "path": "timekeeping/timekeeping_2026-09-02.csv",
@@ -3483,7 +3483,7 @@
     "path": "jewelry/jewelry_2026-09-03.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-04T10:35:00.000Z",
-    "bytes": 406
+    "bytes": 436
   },
   {
     "path": "fedex/fedex_2026-09-03.csv",
@@ -3519,7 +3519,7 @@
     "path": "upright/upright_2026-09-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-04T11:00:00.000Z",
-    "bytes": 8066
+    "bytes": 7520
   },
   {
     "path": "timekeeping/timekeeping_2026-09-03.csv",
@@ -3579,7 +3579,7 @@
     "path": "jewelry/jewelry_2026-09-04.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-05T10:35:00.000Z",
-    "bytes": 302
+    "bytes": 317
   },
   {
     "path": "fedex/fedex_2026-09-04.csv",
@@ -3615,7 +3615,7 @@
     "path": "upright/upright_2026-09-04.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-05T11:00:00.000Z",
-    "bytes": 6486
+    "bytes": 6066
   },
   {
     "path": "timekeeping/timekeeping_2026-09-04.csv",
@@ -3675,7 +3675,7 @@
     "path": "jewelry/jewelry_2026-09-05.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-06T10:35:00.000Z",
-    "bytes": 298
+    "bytes": 309
   },
   {
     "path": "fedex/fedex_2026-09-05.csv",
@@ -3711,7 +3711,7 @@
     "path": "upright/upright_2026-09-05.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-06T11:00:00.000Z",
-    "bytes": 7211
+    "bytes": 6749
   },
   {
     "path": "timekeeping/timekeeping_2026-09-05.csv",
@@ -3771,7 +3771,7 @@
     "path": "jewelry/jewelry_2026-09-06.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-07T10:35:00.000Z",
-    "bytes": 485
+    "bytes": 522
   },
   {
     "path": "fedex/fedex_2026-09-06.csv",
@@ -3801,7 +3801,7 @@
     "path": "upright/upright_2026-09-06.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-07T11:00:00.000Z",
-    "bytes": 8728
+    "bytes": 8140
   },
   {
     "path": "timekeeping/timekeeping_2026-09-06.csv",
@@ -3867,7 +3867,7 @@
     "path": "jewelry/jewelry_2026-09-07.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-08T10:35:00.000Z",
-    "bytes": 299
+    "bytes": 310
   },
   {
     "path": "fedex/fedex_2026-09-07.csv",
@@ -3903,7 +3903,7 @@
     "path": "upright/upright_2026-09-07.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-08T11:00:00.000Z",
-    "bytes": 8039
+    "bytes": 7493
   },
   {
     "path": "timekeeping/timekeeping_2026-09-07.csv",
@@ -3963,7 +3963,7 @@
     "path": "jewelry/jewelry_2026-09-08.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-09T10:35:00.000Z",
-    "bytes": 603
+    "bytes": 646
   },
   {
     "path": "fedex/fedex_2026-09-08.csv",
@@ -3993,7 +3993,7 @@
     "path": "upright/upright_2026-09-08.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-09T11:00:00.000Z",
-    "bytes": 9180
+    "bytes": 8550
   },
   {
     "path": "timekeeping/timekeeping_2026-09-08.csv",
@@ -4053,7 +4053,7 @@
     "path": "jewelry/jewelry_2026-09-09.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-10T10:35:00.000Z",
-    "bytes": 706
+    "bytes": 759
   },
   {
     "path": "fedex/fedex_2026-09-09.csv",
@@ -4095,7 +4095,7 @@
     "path": "upright/upright_2026-09-09.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-10T11:00:00.000Z",
-    "bytes": 5948
+    "bytes": 5570
   },
   {
     "path": "timekeeping/timekeeping_2026-09-09.csv",
@@ -4191,7 +4191,7 @@
     "path": "upright/upright_2026-09-10.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-11T11:00:00.000Z",
-    "bytes": 8015
+    "bytes": 7490
   },
   {
     "path": "timekeeping/timekeeping_2026-09-10.csv",
@@ -4251,7 +4251,7 @@
     "path": "jewelry/jewelry_2026-09-11.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-12T10:35:00.000Z",
-    "bytes": 591
+    "bytes": 633
   },
   {
     "path": "fedex/fedex_2026-09-11.csv",
@@ -4281,7 +4281,7 @@
     "path": "upright/upright_2026-09-11.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-12T11:00:00.000Z",
-    "bytes": 7817
+    "bytes": 7292
   },
   {
     "path": "timekeeping/timekeeping_2026-09-11.csv",
@@ -4341,7 +4341,7 @@
     "path": "jewelry/jewelry_2026-09-12.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-13T10:35:00.000Z",
-    "bytes": 498
+    "bytes": 530
   },
   {
     "path": "fedex/fedex_2026-09-12.csv",
@@ -4377,7 +4377,7 @@
     "path": "upright/upright_2026-09-12.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-13T11:00:00.000Z",
-    "bytes": 5301
+    "bytes": 4965
   },
   {
     "path": "timekeeping/timekeeping_2026-09-12.csv",
@@ -4437,7 +4437,7 @@
     "path": "jewelry/jewelry_2026-09-13.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-14T10:35:00.000Z",
-    "bytes": 713
+    "bytes": 771
   },
   {
     "path": "fedex/fedex_2026-09-13.csv",
@@ -4479,7 +4479,7 @@
     "path": "upright/upright_2026-09-13.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-14T11:00:00.000Z",
-    "bytes": 9092
+    "bytes": 8483
   },
   {
     "path": "timekeeping/timekeeping_2026-09-13.csv",
@@ -4575,7 +4575,7 @@
     "path": "upright/upright_2026-09-14.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-15T11:00:00.000Z",
-    "bytes": 10988
+    "bytes": 10253
   },
   {
     "path": "timekeeping/timekeeping_2026-09-14.csv",
@@ -4635,7 +4635,7 @@
     "path": "jewelry/jewelry_2026-09-15.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-16T10:35:00.000Z",
-    "bytes": 601
+    "bytes": 645
   },
   {
     "path": "fedex/fedex_2026-09-15.csv",
@@ -4671,7 +4671,7 @@
     "path": "upright/upright_2026-09-15.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-16T11:00:00.000Z",
-    "bytes": 9738,
+    "bytes": 9087,
     "note": "2 two-item Mercari order(s): order-level money repeated on both item rows"
   },
   {
@@ -4732,7 +4732,7 @@
     "path": "jewelry/jewelry_2026-09-16.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-17T10:35:00.000Z",
-    "bytes": 697
+    "bytes": 763
   },
   {
     "path": "fedex/fedex_2026-09-16.csv",
@@ -4762,7 +4762,7 @@
     "path": "upright/upright_2026-09-16.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-17T11:00:00.000Z",
-    "bytes": 6688
+    "bytes": 6247
   },
   {
     "path": "timekeeping/timekeeping_2026-09-16.csv",
@@ -4822,7 +4822,7 @@
     "path": "jewelry/jewelry_2026-09-17.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-18T10:35:00.000Z",
-    "bytes": 298
+    "bytes": 313
   },
   {
     "path": "fedex/fedex_2026-09-17.csv",
@@ -4858,7 +4858,7 @@
     "path": "upright/upright_2026-09-17.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-18T11:00:00.000Z",
-    "bytes": 6572
+    "bytes": 6152
   },
   {
     "path": "timekeeping/timekeeping_2026-09-17.csv",
@@ -4918,7 +4918,7 @@
     "path": "jewelry/jewelry_2026-09-18.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-19T10:35:00.000Z",
-    "bytes": 516
+    "bytes": 549
   },
   {
     "path": "fedex/fedex_2026-09-18.csv",
@@ -4954,7 +4954,7 @@
     "path": "upright/upright_2026-09-18.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-19T11:00:00.000Z",
-    "bytes": 7150
+    "bytes": 6688
   },
   {
     "path": "timekeeping/timekeeping_2026-09-18.csv",
@@ -5014,7 +5014,7 @@
     "path": "jewelry/jewelry_2026-09-19.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-20T10:35:00.000Z",
-    "bytes": 298
+    "bytes": 309
   },
   {
     "path": "fedex/fedex_2026-09-19.csv",
@@ -5056,7 +5056,7 @@
     "path": "upright/upright_2026-09-19.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-20T11:00:00.000Z",
-    "bytes": 8215
+    "bytes": 7669
   },
   {
     "path": "timekeeping/timekeeping_2026-09-19.csv",
@@ -5116,7 +5116,7 @@
     "path": "jewelry/jewelry_2026-09-20.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-21T10:35:00.000Z",
-    "bytes": 303
+    "bytes": 314
   },
   {
     "path": "fedex/fedex_2026-09-20.csv",
@@ -5152,7 +5152,7 @@
     "path": "upright/upright_2026-09-20.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-21T11:00:00.000Z",
-    "bytes": 8216,
+    "bytes": 7670,
     "note": "4 order(s) also in that day's eBay/ShopGoodwill files (every Upright file overlaps a little)"
   },
   {
@@ -5219,7 +5219,7 @@
     "path": "jewelry/jewelry_2026-09-21.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-22T10:35:00.000Z",
-    "bytes": 288
+    "bytes": 303
   },
   {
     "path": "fedex/fedex_2026-09-21.csv",
@@ -5255,7 +5255,7 @@
     "path": "upright/upright_2026-09-21.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-22T11:00:00.000Z",
-    "bytes": 4651
+    "bytes": 4357
   },
   {
     "path": "timekeeping/timekeeping_2026-09-21.csv",
@@ -5315,7 +5315,7 @@
     "path": "jewelry/jewelry_2026-09-22.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-23T10:35:00.000Z",
-    "bytes": 394
+    "bytes": 415
   },
   {
     "path": "fedex/fedex_2026-09-22.csv",
@@ -5345,7 +5345,7 @@
     "path": "upright/upright_2026-09-22.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-23T11:00:00.000Z",
-    "bytes": 7736
+    "bytes": 7232
   },
   {
     "path": "timekeeping/timekeeping_2026-09-22.csv",
@@ -5447,7 +5447,7 @@
     "path": "upright/upright_2026-09-23.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-24T11:00:00.000Z",
-    "bytes": 8722
+    "bytes": 8134
   },
   {
     "path": "timekeeping/timekeeping_2026-09-23.csv",
@@ -5507,7 +5507,7 @@
     "path": "jewelry/jewelry_2026-09-24.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-25T10:35:00.000Z",
-    "bytes": 285
+    "bytes": 296
   },
   {
     "path": "fedex/fedex_2026-09-24.csv",
@@ -5543,7 +5543,7 @@
     "path": "upright/upright_2026-09-24.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-25T11:00:00.000Z",
-    "bytes": 6531
+    "bytes": 6111
   },
   {
     "path": "timekeeping/timekeeping_2026-09-24.csv",
@@ -5603,7 +5603,7 @@
     "path": "jewelry/jewelry_2026-09-25.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-26T10:35:00.000Z",
-    "bytes": 289
+    "bytes": 299
   },
   {
     "path": "fedex/fedex_2026-09-25.csv",
@@ -5639,7 +5639,7 @@
     "path": "upright/upright_2026-09-25.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-26T11:00:00.000Z",
-    "bytes": 8626
+    "bytes": 8059
   },
   {
     "path": "timekeeping/timekeeping_2026-09-25.csv",
@@ -5699,7 +5699,7 @@
     "path": "jewelry/jewelry_2026-09-26.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-27T10:35:00.000Z",
-    "bytes": 475
+    "bytes": 508
   },
   {
     "path": "fedex/fedex_2026-09-26.csv",
@@ -5741,7 +5741,7 @@
     "path": "upright/upright_2026-09-26.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-27T11:00:00.000Z",
-    "bytes": 8554
+    "bytes": 7987
   },
   {
     "path": "timekeeping/timekeeping_2026-09-26.csv",
@@ -5837,7 +5837,7 @@
     "path": "upright/upright_2026-09-27.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-28T11:00:00.000Z",
-    "bytes": 8135
+    "bytes": 7589
   },
   {
     "path": "timekeeping/timekeeping_2026-09-27.csv",
@@ -5903,7 +5903,7 @@
     "path": "jewelry/jewelry_2026-09-28.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-29T10:35:00.000Z",
-    "bytes": 395
+    "bytes": 415
   },
   {
     "path": "fedex/fedex_2026-09-28.csv",
@@ -5939,7 +5939,7 @@
     "path": "upright/upright_2026-09-28.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-29T11:00:00.000Z",
-    "bytes": 7985
+    "bytes": 7460
   },
   {
     "path": "timekeeping/timekeeping_2026-09-28.csv",
@@ -6000,7 +6000,7 @@
     "path": "jewelry/jewelry_2026-09-29.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-09-30T10:35:00.000Z",
-    "bytes": 628
+    "bytes": 676
   },
   {
     "path": "fedex/fedex_2026-09-29.csv",
@@ -6030,7 +6030,7 @@
     "path": "upright/upright_2026-09-29.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-09-30T11:00:00.000Z",
-    "bytes": 7386
+    "bytes": 6903
   },
   {
     "path": "timekeeping/timekeeping_2026-09-29.csv",
@@ -6091,7 +6091,7 @@
     "path": "jewelry/jewelry_2026-09-30.csv",
     "sourceId": "jewelry",
     "uploadedAt": "2026-10-01T10:35:00.000Z",
-    "bytes": 297
+    "bytes": 312
   },
   {
     "path": "fedex/fedex_2026-09-30.csv",
@@ -6127,7 +6127,7 @@
     "path": "upright/upright_2026-09-30.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-01T11:00:00.000Z",
-    "bytes": 9391
+    "bytes": 8761
   },
   {
     "path": "timekeeping/timekeeping_2026-09-30.csv",
@@ -6217,7 +6217,7 @@
     "path": "upright/upright_2026-10-01.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-02T11:00:00.000Z",
-    "bytes": 8239
+    "bytes": 7693
   },
   {
     "path": "timekeeping/timekeeping_2026-10-01.csv",
@@ -6319,7 +6319,7 @@
     "path": "upright/upright_2026-10-02.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-03T11:00:00.000Z",
-    "bytes": 7869
+    "bytes": 7344
   },
   {
     "path": "timekeeping/timekeeping_2026-10-02.csv",
@@ -6397,7 +6397,7 @@
     "path": "upright/upright_2026-10-03.csv",
     "sourceId": "upright",
     "uploadedAt": "2026-10-03T15:50:00.000Z",
-    "bytes": 4376
+    "bytes": 4103
   },
   {
     "path": "production_tracking/production_tracking_2026-10-03.csv",

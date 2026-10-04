@@ -46,7 +46,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run test:exports` | Tests for report exports, without a database or email delivery |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
-| `npm run seed [-- --direct\|--staged] [--no-golden]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that |
+| `npm run seed [-- --direct\|--staged] [--no-golden] [--archive]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that. Fixtures are not copied to the raw-file archive (runs point at `data/fixtures/...`, backend `repo`); `--archive` copies them |
 | `npm run demo:reset` | Restore the golden snapshot into the live tables (one write batch, no rows over the network). ~1.3-2.5 s on a local file. Fails if `npm run seed` never ran against this database |
 | `npm run mock:generate [-- --check]` | Render the deterministic mock truth (`scripts/mock/model.ts`: 2026-08-01..2026-10-03 nightly + 2025-08..10 monthly) into each platform's real export layout under `data/fixtures/<source_id>/` (~308 files, ~6.5 MB). `--check` fails if the committed files differ |
 | `npm run ingest -- <file...> [--source id] [--period YYYY-MM]` | Parse export files and write clean rows to the database (same pipeline as `POST /api/ingest`) |
@@ -79,6 +79,7 @@ See `.env.example`.
 | `PAYROLL_API_CLIENT_ID`, `PAYROLL_API_CLIENT_SECRET` | Future timekeeping API (not wired; leave empty: the drop folder is used) |
 | `MARKETPLACE_RATINGS_API_KEY` | Future marketplace ratings API (not wired; leave empty) |
 | `CONNECTOR_DATA_DIR` | Optional folder holding `inbox/` and `fixtures/` (default `./data`) |
+| `BLOB_READ_WRITE_TOKEN` or `BLOB_STORE_ID` (optional `ARCHIVE_DIR`) | Raw-file archive: every ingested file is kept under `Month End/<YYYY>/<MM>/<source_id>/<file>` in a private Vercel Blob store (set by connecting the store to the project). Unset: `data/archive/` on local disk (gitignored). Download: `GET /api/archive?run=<ingest run id>` |
 
 Prefixed names from the Vercel Turso integration (e.g. `STORAGE_TURSO_DATABASE_URL`)
 are also accepted. Database code: `src/db/schema.ts` (schema), `src/db/client.ts`
@@ -162,7 +163,7 @@ business dates in America/Indiana/Indianapolis. KPI formulas live in `src/kpis/`
 | `getSourceStatus(period)` | `/api/views/sources?period=YYYY-MM` (default this month) | `received` / `warnings` / `missing` per source, open exceptions |
 | `getOrders({channel,date,period,limit,offset})` | `/api/views/orders?…` | Drill-down rows with `ingestRunId` + `sourceRow` |
 | `getExceptions({status,sourceId,kind,period,limit,offset})` | `/api/views/exceptions?…` | Exceptions inbox + `countsByKind`; resolve with `PATCH /api/exceptions/:id` `{ status, note? }` |
-| `getIngestRuns({sourceId,period,limit,offset})` | `/api/views/ingest-runs?…` | Upload history with the first 20 warnings per file |
+| `getIngestRuns({sourceId,period,limit,offset})` | `/api/views/ingest-runs?…` | Upload history with the first 20 warnings per file, plus `archiveKey` / `archiveUrl` / `archiveBackend` / `archiveDownloadPath` (`/api/archive?run=<id>`, the original file) |
 
 **Reset demo data: seed once, reset from golden.** The full seed is slow (~1000 mock
 files through ingest, then ~75k rows copied to Turso), so it runs once from a laptop:

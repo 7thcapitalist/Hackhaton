@@ -25,6 +25,9 @@ yarn-error.log*
 local.db*
 eval.db*
 
+# raw-file archive (dev; production uses Vercel Blob)
+/data/archive/
+
 # vercel
 .vercel
 
