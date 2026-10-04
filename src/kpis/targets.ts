@@ -33,9 +33,9 @@ export const DEFAULT_KPI_TARGETS: Readonly<Record<string, number>> = {
   // ---- Rest of slides 33-34 ----
   gross_margin_pct: 75,
   profit_per_labor_hour: 3_800, // cents per hour = $38/h (Aug $39.11, Sep $36.60)
-  items_identified: 4_700, // Aug 5,096, Sep 4,198 (avg 4,647)
-  items_sent_to_ecom: 4_800, // Aug 5,164, Sep 4,301 (avg 4,733)
-  listings_per_day: 155, // Aug 168.1, Sep 138.5 (avg 153.3)
+  items_identified: 4_400, // Aug 5,096, Sep 4,198 (avg 4,647); just under the avg so a soft month reads "near"
+  items_sent_to_ecom: 4_400, // Aug 5,164, Sep 4,301 (avg 4,733)
+  listings_per_day: 145, // Aug 168.1, Sep 138.5 (avg 153.3)
   avg_time_to_list_days: 5, // ceiling; Aug 5.1, Sep 5.1
   median_sale_price: 1_750, // cents = $17.50 (Aug $16.99, Sep $17.00)
   days_to_sell: 20, // ceiling; Aug 19.5, Sep 19.7
