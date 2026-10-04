@@ -49,7 +49,7 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
             <span role="columnheader">Marketplace</span>
             <span role="columnheader" className="text-right">Revenue</span>
             <span role="columnheader">Share of revenue</span>
-            <span role="columnheader" className="text-right">Customers</span>
+            <span role="columnheader" className="text-right">Unique customers</span>
             <span role="columnheader" className="text-right">Orders</span>
           </div>
           {ok.map(r => (
@@ -57,7 +57,7 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
               <Label row={r} />
               <Num label={`${r.label} revenue ${formatMoney(r.revenueCents!)}, view source rows`} onClick={() => onCellClick(r.channelId, "revenue")}>{formatMoney(r.revenueCents!)}</Num>
               <Share pct={totals.revenueCents ? (r.revenueCents! / totals.revenueCents) * 100 : 0} color={marketplaceColor(r.channelId)} />
-              <Num label={`${r.label} customers ${formatInt(r.customers!)}, view source rows`} onClick={() => onCellClick(r.channelId, "customers")}>{formatInt(r.customers!)}</Num>
+              <Num label={`${r.label} unique customers ${formatInt(r.customers!)}, view source rows`} onClick={() => onCellClick(r.channelId, "customers")}>{formatInt(r.customers!)}</Num>
               <Num label={`${r.label} orders ${formatInt(r.orders!)}, view source rows`} onClick={() => onCellClick(r.channelId, "orders")}>{formatInt(r.orders!)}</Num>
             </div>
           ))}
@@ -77,7 +77,7 @@ export function PulseTable({ rows, totals, dateLabel, onCellClick, onMissingClic
               <span className="text-xs text-ink-3">{ok.length} of {rows.length} marketplaces reporting</span></div>
             <Num bold label={`Total revenue ${formatMoney(totals.revenueCents)}, view source rows`} onClick={() => onCellClick("total", "revenue")}>{formatMoney(totals.revenueCents)}</Num>
             <span />
-            <Num bold label={`Total customers ${formatInt(totals.customers)}, view source rows`} onClick={() => onCellClick("total", "customers")}>{formatInt(totals.customers)}</Num>
+            <Num bold label={`Total unique customers ${formatInt(totals.customers)}, view source rows`} onClick={() => onCellClick("total", "customers")}>{formatInt(totals.customers)}</Num>
             <Num bold label={`Total orders ${formatInt(totals.orders)}, view source rows`} onClick={() => onCellClick("total", "orders")}>{formatInt(totals.orders)}</Num>
           </div>
         </div>

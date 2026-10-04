@@ -123,7 +123,7 @@ export function PulseChart({ data, selectedDate, lastCompleteDate, onSelectDate 
         <div className="flex flex-wrap gap-2">
           <div role="group" aria-label="Chart metric" className="flex gap-0.5 rounded-[9px] border border-line bg-surface-2 p-[3px]">
             {(["revenue", "customers"] as const).map(m => (
-              <button key={m} type="button" aria-pressed={metric === m} onClick={() => setMetric(m)} className={`${segmentBtn(metric === m)} capitalize`}>{m}</button>
+              <button key={m} type="button" aria-pressed={metric === m} onClick={() => setMetric(m)} className={segmentBtn(metric === m)}>{m === "revenue" ? "Revenue" : "Unique customers"}</button>
             ))}
           </div>
           <div role="group" aria-label="Chart layout" className="flex gap-0.5 rounded-[9px] border border-line bg-surface-2 p-[3px]">

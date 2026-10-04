@@ -122,10 +122,16 @@ function buildRows(view: ViewPulse, orders: OrdersView, runsById: Map<string, In
   });
 }
 
+/** Unique-customer key, same rule as the pulse view (src/lib/views/pulse.ts): buyer per marketplace, else the transaction. */
+export function customerKeyOf(o: OrdersView["rows"][number]): string {
+  return o.buyerKey ? `b:${o.channel}:${o.buyerKey}` : `t:${o.channel}:${o.externalOrderId}`;
+}
+
 function toSourceOrders(orders: OrdersView, rows: PulseRow[], runsById: Map<string, IngestRunRow>): SourceOrder[] {
   return orders.rows.map(o => ({
     id: o.id,
     orderId: o.externalOrderId,
+    customerKey: customerKeyOf(o),
     channelLabel: rows.find(r => r.channelId === rowFor(o.channel, rows))?.label ?? o.channel,
     category: o.category ?? "Uncategorized",
     status: o.status,

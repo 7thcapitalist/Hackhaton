@@ -55,6 +55,8 @@ export type SourceOrder = {
   id: string;
   orderId: string;
   channelLabel: string;
+  /** Unique-customer key, same rule as the pulse view: buyer per marketplace, else the transaction. */
+  customerKey: string;
   category: string;
   status: string; // paid | refunded | cancelled
   grossCents: number;

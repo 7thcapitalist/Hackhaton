@@ -65,7 +65,7 @@ test("up day: unusually high revenue, heavy orders and many customers", () => {
     rows: rows(330000, 120000, 70000, 30000),
     totals: { revenueCents: 550000, customers: 170, orders: 180 },
   }));
-  assert.equal(text, "Friday closed at $5,500, unusually high at 15% above a typical Friday. ShopGoodwill carried 60% of revenue; orders were unusually heavy and customers were unusually many.");
+  assert.equal(text, "Friday closed at $5,500, unusually high at 15% above a typical Friday. ShopGoodwill carried 60% of revenue; orders were unusually heavy and unique customers were unusually many.");
 });
 
 test("a non-reporting marketplace is named, and totals still describe the reporting ones", () => {

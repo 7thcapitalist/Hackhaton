@@ -19,7 +19,7 @@ type PulseScreenProps = PulseScreenData & { baseline: PulseBaseline | null; late
 
 type DrawerState = { channel: ChannelId | "total"; field: PulseField } | { channel: ChannelId; missing: true } | null;
 
-const FIELD_NAME: Record<PulseField, string> = { revenue: "Revenue", customers: "Customers", orders: "Orders" };
+const FIELD_NAME: Record<PulseField, string> = { revenue: "Revenue", customers: "Unique customers", orders: "Orders" };
 const href = (date: string) => `/pulse?date=${date}`;
 const ADVANCED_KEY = "pulse-advanced"; // per-viewer preference, so the simple view stays the default
 
@@ -64,7 +64,7 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
 
   const emailPulse = () => {
     const subject = `Daily Pulse · ${dateShort}: ${formatMoneyWhole(T.revenueCents)} e-commerce revenue`;
-    const body = `${summary}\n\nDaily Pulse for ${dateLong} (Eastern Time)\n\nRevenue: ${formatMoney(T.revenueCents)}\nCustomers: ${formatInt(T.customers)}\nOrders: ${formatInt(T.orders)}\n${missing.length ? `Awaiting data: ${missing.map(r => r.label).join(", ")}\n` : ""}\n${window.location.origin}${href(date)}`;
+    const body = `${summary}\n\nDaily Pulse for ${dateLong} (Eastern Time)\n\nRevenue: ${formatMoney(T.revenueCents)}\nUnique customers: ${formatInt(T.customers)}\nOrders: ${formatInt(T.orders)}\n${missing.length ? `Awaiting data: ${missing.map(r => r.label).join(", ")}\n` : ""}\n${window.location.origin}${href(date)}`;
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
@@ -109,7 +109,7 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevD
       <div className={`grid grid-cols-1 md:grid-cols-3 ${advanced ? "gap-4" : "gap-5"}`}>
         <HeroStat label="E-commerce revenue" value={formatMoneyWhole(T.revenueCents)}
           change={change("revenue", T.revenueCents)} comparedTo={comparedTo("revenue", formatMoneyWhole)} onOpen={() => openCell("total", "revenue")} large={!advanced} />
-        <HeroStat label="Customers" value={formatInt(T.customers)}
+        <HeroStat label="Unique customers" value={formatInt(T.customers)}
           change={change("customers", T.customers)} comparedTo={comparedTo("customers", formatInt)} onOpen={() => openCell("total", "customers")} large={!advanced} />
         <HeroStat label="Orders" value={formatInt(T.orders)}
           change={change("orders", T.orders)} comparedTo={comparedTo("orders", formatInt)} onOpen={() => openCell("total", "orders")} large={!advanced} />
@@ -180,7 +180,7 @@ function buildDrawer(state: NonNullable<DrawerState>, view: PulseView, orders: S
 
 /** Option A (2026-10-03): unique buyers where the marketplace sends a buyer ID, one per transaction where it doesn't. */
 function customersCaption(rows: PulseView["rows"], custs: number, ords: number) {
-  const head = `${formatInt(custs)} customers across ${formatInt(ords)} orders`;
+  const head = `${formatInt(custs)} unique customers across ${formatInt(ords)} orders`;
   const fallback = rows.map(r => NO_BUYER_ID[r.channelId]).filter((x): x is string => !!x);
   if (fallback.length === 0) return `${head}, counted as unique buyers.`;
   return `${head}. Unique buyers per marketplace, except where there is no buyer ID: ${fallback.join("; ")}, so each transaction counts as one customer.`;

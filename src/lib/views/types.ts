@@ -123,6 +123,7 @@ export interface OrdersView {
     channel: ChannelId;
     sourceId: string;
     externalOrderId: string;
+    buyerKey: string | null;
     businessDate: string;
     category: string | null;
     grossCents: number;
