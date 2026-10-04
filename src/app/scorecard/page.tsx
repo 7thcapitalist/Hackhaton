@@ -75,7 +75,7 @@ export default async function ScorecardPage({ searchParams }: { searchParams: Pr
         <span>
           Sources: {src.arrived} of {src.total} received for {label.split(" ")[0]}
           {src.missing.length > 0 && ` · ${src.missing.map(s => s.name).join(", ")} pending`}
-          {sourcesData.openIssues > 0 && ` · ${sourcesData.openIssues} open issues`} · Simulated values use synthetic item and labor data.
+          {sourcesData.openIssues > 0 && ` · ${sourcesData.openIssues} open issues`}.
         </span>
         <span>Data as of {formatStampFull(range.lastImportAt)}</span>
       </footer>

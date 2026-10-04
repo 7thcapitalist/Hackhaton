@@ -5,7 +5,7 @@
  * contribution = net revenue (Σ orders.net_cents, already after per-order fees
  * and refunds) − shipping label cost (money_lines shipping_label + shipping_refund)
  * − other charges (non-order marketplace_fee / fulfillment_fee / adjustment lines)
- * − processing labor (labor_hours × LABOR_RATE_CENTS_PER_HOUR, SIMULATED).
+ * − processing labor (labor_hours from timekeeping × LABOR_RATE_CENTS_PER_HOUR, an assumed loaded rate).
  * The all-channel contribution % equals the scorecard's net_margin_pct (same SQL
  * in ./cost-sql.ts, same formula in src/kpis). Overhead is not in the data.
  * Definitions: docs/kpi-definitions.md ("Costs"). Server-only.
@@ -115,7 +115,7 @@ interface CostingFacts {
   /** Channels whose order reports mostly carry no category. */
   uncategorizedChannels: string[];
   itemsByChannel: Map<string, number>;
-  /** Items sold in the period (simulated): count and Σ days listed→sold, by category and by channel. */
+  /** Items sold in the period: count and Σ days listed→sold, by category and by channel. */
   soldCategory: Map<string, { n: number; days: number }>;
   soldChannel: Map<string, { n: number; days: number }>;
   missing: string[];
@@ -255,14 +255,14 @@ async function loadCostingFacts(period: string): Promise<CostingFacts> {
 }
 
 const METHOD_COMMON =
-  "Contribution = net revenue (Σ orders.net_cents: gross + shipping charged − refunds − per-order marketplace fees; tax excluded) − shipping label cost (money_lines shipping_label + shipping_refund) − other charges (marketplace_fee / fulfillment_fee / adjustment money lines not tied to an order: ads, subscriptions, service fees, carrier adjustments) − processing labor (labor_hours × loaded rate; SIMULATED hours, assumed rate). Donated goods have no cost of goods sold; overhead (rent, utilities, management) is not in the data.";
+  "Contribution = net revenue (Σ orders.net_cents: gross + shipping charged − refunds − per-order marketplace fees; tax excluded) − shipping label cost (money_lines shipping_label + shipping_refund) − other charges (marketplace_fee / fulfillment_fee / adjustment money lines not tied to an order: ads, subscriptions, service fees, carrier adjustments) − processing labor (labor_hours from the timekeeping source × an assumed $18/h loaded rate). Donated goods have no cost of goods sold; overhead (rent, utilities, management) is not in the data.";
 
 function methodFor(by: CostedMarginBy, f: CostingFacts): string {
   const rate = f.rate;
   const unc = f.uncategorizedChannels.join(", ");
   const labor =
     by === "category"
-      ? `Labor is allocated by each category's share of items listed in the period (items.category, simulated).${unc ? ` The ${unc} order reports carry no category, so those channels' revenue is in "${UNCATEGORIZED}" and their listings' labor is weighted there too; "${UNCATEGORIZED}" is a mix of categories, not a category, so leave it out of category rankings.` : ""}`
+      ? `Labor is allocated by each category's share of items listed in the period (items.category).${unc ? ` The ${unc} order reports carry no category, so those channels' revenue is in "${UNCATEGORIZED}" and their listings' labor is weighted there too; "${UNCATEGORIZED}" is a mix of categories, not a category, so leave it out of category rankings.` : ""}`
       : "Labor is allocated by each channel's share of items listed in the period (items.channel_source_id; listings made through Upright, a multi-channel tool, are spread in the same proportions, so they do not change the shares; 'other' has no listings and gets no labor).";
   const other =
     by === "channel"
@@ -384,7 +384,7 @@ export async function getCostedMargin(opts: { period: string; by: CostedMarginBy
     groups: rows,
     totals,
     method: methodFor(opts.by, f),
-    laborSimulated: true,
+    laborSimulated: false,
     missing: f.missing,
   };
 }
@@ -491,7 +491,7 @@ export async function getCostBreakdown(opts: { period: string; channel?: Channel
     channel,
     revenue,
     shippingLabels: shipping,
-    labor: { hours: f.hours, rateCentsPerHour: f.rate, costCents: laborCost, simulated: true, allocated: channel !== null },
+    labor: { hours: f.hours, rateCentsPerHour: f.rate, costCents: laborCost, simulated: false, allocated: channel !== null },
     otherCharges,
     contributionCents,
     contributionPct: pct(contributionCents, revenue.netRevenueCents),

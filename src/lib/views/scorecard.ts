@@ -3,9 +3,9 @@
  * "coo15") plus every other KPI of slides 33-34 (group "extended"), each with
  * prior month and target. This file only queries aggregates; every formula
  * lives in src/kpis/ (docs/kpi-definitions.md).
- * Status: "ok" (orders / marketplace metrics), "simulated" (uses synthetic
- * items/labor hours), "awaiting_data" (not computable; value null, never a
- * made-up number).
+ * Status: "ok" (computable from ingested data: orders, marketplace metrics,
+ * items, labor hours), "awaiting_data" (not computable; value null, never a
+ * made-up number). Whether the dataset is mock is shown app-wide, not per KPI.
  * Server-only (uses the DB client).
  */
 import { sql } from "drizzle-orm";
@@ -286,10 +286,11 @@ export async function getScorecard(period: string): Promise<ScorecardView> {
   const kpis: Kpi[] = KPI_DEFINITIONS.map((def) => {
     const value = def.compute(cur, prev);
     const previous = def.compute(prev, prev2);
-    const status: Kpi["status"] = value === null ? "awaiting_data" : def.dataBasis === "synthetic" ? "simulated" : "ok";
+    // Items and labor now arrive through ingested sources like orders do, so every computable KPI is "ok".
+    // Whether the whole dataset is mock is shown app-wide (demo banner), not per KPI.
+    const status: Kpi["status"] = value === null ? "awaiting_data" : "ok";
     const notes = [def.note];
     if (value !== null && def.dynamicNote) notes.push(def.dynamicNote(cur) ?? undefined);
-    if (status === "simulated") notes.push("Simulated: uses synthetic item/labor data.");
     if (status === "awaiting_data") notes.push("Awaiting data for this period.");
     if (partialNote && value !== null) notes.push(partialNote);
     const note = notes.filter(Boolean).join(" ");
