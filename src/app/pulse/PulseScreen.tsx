@@ -29,7 +29,7 @@ const FIELD_NAME: Record<PulseField, string> = { revenue: "Revenue", customers: 
 const href = (date: string) => `/pulse?date=${date}`;
 const ADVANCED_KEY = "pulse-advanced"; // per-viewer preference, so the simple view stays the default
 
-/** Simple view by default; "Advanced" adds exports, provenance, the full table and the chart. */
+/** Simple view by default; "Advanced" adds exports, provenance, the full table and the charts. */
 function useAdvanced() {
   const [advanced, setAdvanced] = useState(false);
   useEffect(() => {
@@ -76,38 +76,37 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, pace, categor
 
   return (
     <div className={`flex flex-col px-4 pt-7 pb-12 sm:px-8 ${advanced ? "gap-5" : "gap-6"}`}>
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
+        {/* Advanced is pinned top-right on the title row; nothing it toggles sits on that row, so it never moves. */}
+        <div className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-0.5">
-            <p className="text-[12.5px] font-medium text-ink-3">Nightly close · all marketplaces</p>
+            <p className="text-[12.5px] font-medium text-ink-3">
+              Nightly close · all marketplaces
+              {advanced && <> · Eastern Time{dataAsOf && <> · Data as of {formatStamp(dataAsOf, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET ({files} file{files === 1 ? "" : "s"})</>}</>}
+            </p>
             <h1 className="font-display text-[34px] leading-[1.05] font-semibold sm:text-[38px]">Daily Pulse</h1>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <PeriodStepper label={dateLong} minWidth="200px"
-              center={<DatePicker label={dateLong} value={date} min={firstDate} max={latestDate} today={today} days={days} href={href} />}
-              prevHref={prevDate && href(prevDate)} nextHref={nextDate && nextDate <= latestDate ? href(nextDate) : null}
-              prevLabel="Previous day" nextLabel="Next day" />
-            {advanced && (
-              <span className="text-[12.5px] text-ink-3">
-                Eastern Time{dataAsOf && <> · Data as of {formatStamp(dataAsOf, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET ({files} file{files === 1 ? "" : "s"})</>}
-              </span>
-            )}
-            {date < latestDate && <Link href={href(latestDate)} className="text-[12.5px] font-medium text-accent hover:text-ink">Jump to latest →</Link>}
-          </div>
-        </div>
-        <div data-print-hide className="flex flex-wrap items-center gap-2">
-          <label className="flex h-9 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-[13px] font-medium text-ink-2 select-none hover:bg-surface-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent">
+          <label data-print-hide className="flex h-9 shrink-0 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-[13px] font-medium text-ink-2 select-none hover:bg-surface-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent">
             <input type="checkbox" checked={advanced} onChange={e => setAdvanced(e.target.checked)} aria-describedby="advanced-hint"
               className="size-4 cursor-pointer accent-[var(--accent)] focus-visible:outline-none" />
             Advanced
-            <span id="advanced-hint" className="sr-only">Show exports, data sources, the full marketplace table and the 30-day chart</span>
+            <span id="advanced-hint" className="sr-only">Show exports, data sources, the full marketplace table and the charts</span>
           </label>
-          {advanced && <>
-            {/* Export routes are Denis's lane (docs/interfaces.md §3). */}
-            <a href={`/api/export/pulse?date=${date}&format=csv`} className={buttonClass("secondary")}><DownloadIcon />Export CSV</a>
-            <a href={`/api/export/pulse?date=${date}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
-          </>}
-          <button type="button" onClick={emailPulse} className={buttonClass("primary", "px-[15px]")}><MailIcon />Email this pulse</button>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <PeriodStepper label={dateLong} minWidth="200px"
+            center={<DatePicker label={dateLong} value={date} min={firstDate} max={latestDate} today={today} days={days} href={href} />}
+            prevHref={prevDate && href(prevDate)} nextHref={nextDate && nextDate <= latestDate ? href(nextDate) : null}
+            prevLabel="Previous day" nextLabel="Next day" />
+          {date < latestDate && <Link href={href(latestDate)} className="text-[12.5px] font-medium text-accent hover:text-ink">Jump to latest</Link>}
+          <div data-print-hide className="flex flex-wrap items-center gap-2">
+            <button type="button" onClick={emailPulse} className={buttonClass("primary", "px-[15px]")}><MailIcon />Email this pulse</button>
+            {advanced && <>
+              {/* Export routes are Denis's lane (docs/interfaces.md §3). */}
+              <a href={`/api/export/pulse?date=${date}&format=csv`} className={buttonClass("secondary")}><DownloadIcon />Export CSV</a>
+              <a href={`/api/export/pulse?date=${date}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
+            </>}
+          </div>
         </div>
       </div>
 
@@ -143,11 +142,12 @@ export function PulseScreen({ view, orders, ordersTotal, baseline, pace, categor
         ? <PulseTable rows={view.rows} totals={T} dateLabel={dateShort} onCellClick={openCell} onMissingClick={channel => setDrawer({ channel, missing: true })} />
         : <RevenueSplit rows={view.rows} totalCents={T.revenueCents} />}
 
-      {/* Both views: is the month on track, and what sold today. */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-        <MonthPaceCard pace={pace} />
-        <CategoryMixCard mix={categoryMix} dateLabel={dateShort} />
-      </div>
+      {advanced && (
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          <MonthPaceCard pace={pace} />
+          <CategoryMixCard mix={categoryMix} dateLabel={dateShort} />
+        </div>
+      )}
 
       {advanced && <PulseChart data={series} selectedDate={date} lastCompleteDate={latestDate} onSelectDate={d => router.push(href(d), { scroll: false })} />}
 
