@@ -27,7 +27,7 @@ export function ExceptionsPanel({ exceptions, sourceNames, locked }: Props) {
   for (const e of shown) byOwner.set(e.owner ?? "Unassigned", [...(byOwner.get(e.owner ?? "Unassigned") ?? []), e]);
 
   return (
-    <section aria-labelledby="exc-h" className="flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
+    <section aria-labelledby="exc-h" className="flex flex-col overflow-hidden rounded-lg border border-line bg-surface">
       <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-4 py-3.5">
         <h2 id="exc-h" className="text-sm font-semibold">Exceptions</h2>
         <div className="flex items-center gap-3 text-xs text-ink-3">
@@ -77,7 +77,7 @@ function ExceptionItem({ e, sourceName, locked }: { e: CloseExceptionView; sourc
           <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11.5px] text-ink-3">
             <span className="font-semibold text-ink-2">{KIND[e.kind] ?? e.kind}</span>
             {sourceName && <span>{sourceName}</span>}
-            {!isOpen && <span className="rounded-full bg-muted-soft px-1.5 font-semibold text-muted capitalize">{e.status}{e.resolvedAt ? ` ${formatStamp(e.resolvedAt, { month: "short", day: "numeric" })}` : ""}</span>}
+            {!isOpen && <span className="rounded-[4px] bg-muted-soft px-1.5 font-medium text-muted capitalize">{e.status}{e.resolvedAt ? ` ${formatStamp(e.resolvedAt, { month: "short", day: "numeric" })}` : ""}</span>}
           </p>
           <p className={`text-[13px] text-pretty whitespace-pre-line ${isOpen ? "" : "text-ink-3"}`}>{e.message}</p>
           {amounts && (

@@ -8,7 +8,7 @@ const day = (d: string | null) => (d ? formatDay(d, { month: "short", day: "nume
 /** Business Central General Journal lines, one collapsible block per Document No. */
 export function JournalPreview({ documents, batch }: { documents: CloseDocumentView[]; batch: string }) {
   return (
-    <section aria-labelledby="jnl-h" className="flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
+    <section aria-labelledby="jnl-h" className="flex flex-col overflow-hidden rounded-lg border border-line bg-surface">
       <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line px-4 py-3.5">
         <h2 id="jnl-h" className="text-sm font-semibold">General Journal preview</h2>
         <span className="text-xs text-ink-3">Template GENERAL · batch <span className="font-mono">{batch}</span> · + debit, − credit</span>
@@ -30,7 +30,7 @@ export function JournalPreview({ documents, batch }: { documents: CloseDocumentV
                   <span className="ml-auto flex items-center gap-3 text-xs">
                     <span className="text-ink-3">Dr <strong className="font-semibold text-ink">{formatMoney(d.debitCents)}</strong></span>
                     <span className="text-ink-3">Cr <strong className="font-semibold text-ink">{formatMoney(d.creditCents)}</strong></span>
-                    <span className={`inline-flex items-center gap-1 rounded-full px-1.5 text-[11px] font-semibold ${d.balanced ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-[4px] px-1.5 text-[11px] font-medium ${d.balanced ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>
                       {d.balanced ? <CheckIcon className="size-[10px]" /> : <WarnIcon className="size-3" />}{d.balanced ? "Balanced" : "Unbalanced"}
                     </span>
                   </span>
@@ -75,7 +75,7 @@ export function JournalPreview({ documents, batch }: { documents: CloseDocumentV
 /** The AR invoice for Goodwill Books (slide 39 step 6), as BC Sales Invoice lines. */
 export function InvoiceCard({ invoice }: { invoice: CloseInvoiceView | null }) {
   return (
-    <section aria-labelledby="inv-h" className="flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
+    <section aria-labelledby="inv-h" className="flex flex-col overflow-hidden rounded-lg border border-line bg-surface">
       <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line px-4 py-3.5">
         <h2 id="inv-h" className="text-sm font-semibold">AR invoice</h2>
         {invoice && <span className="text-xs text-ink-3">Customer <span className="font-mono">{invoice.customerNo ?? <span className="font-sans text-warn">TBC</span>}</span></span>}

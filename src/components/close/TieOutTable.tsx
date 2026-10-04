@@ -50,7 +50,7 @@ export function TieOutTable({ view }: { view: UiCloseView }) {
   const wbDiffs = rows.filter(r => r.workbook != null && r.workbook !== r.journal).length;
 
   return (
-    <section aria-labelledby="tie-h" className="flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xs">
+    <section aria-labelledby="tie-h" className="flex flex-col overflow-hidden rounded-lg border border-line bg-surface">
       <header className="flex flex-col gap-3 border-b border-line px-4 py-3.5">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="tie-h" className="text-sm font-semibold">Control totals and tie-out</h2>
@@ -67,7 +67,7 @@ export function TieOutTable({ view }: { view: UiCloseView }) {
         {documents.length > 0 && (
           <ul className="flex flex-wrap gap-1.5" aria-label="Journal documents">
             {documents.map(d => (
-              <li key={d.documentNo} className={`inline-flex items-center gap-1.5 rounded-full py-0.5 pr-2 pl-1.5 text-[11.5px] font-semibold ${d.balanced ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>
+              <li key={d.documentNo} className={`inline-flex items-center gap-1.5 rounded-[4px] py-0.5 pr-2 pl-1.5 text-[11.5px] font-medium ${d.balanced ? "bg-ok-soft text-ok" : "bg-bad-soft text-bad"}`}>
                 {d.balanced ? <CheckIcon className="size-[11px]" /> : <WarnIcon className="size-3" />}
                 <span className="font-mono font-medium">{d.documentNo}</span>
                 {d.balanced ? "Balanced" : `Off by ${formatMoney(d.balanceCents)}`}
