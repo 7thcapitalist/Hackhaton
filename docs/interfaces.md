@@ -106,6 +106,7 @@ export interface Kpi {
   target: number | null;         // from kpi_targets
   status: "ok" | "simulated" | "awaiting_data";
   anchor2027: boolean;           // one of the 3 KPIs on slide 36
+  higherIsBetter?: boolean;      // direction of "good"; always set (required in src/kpis/definitions.ts)
   note?: string;
 }
 export interface ScorecardView {

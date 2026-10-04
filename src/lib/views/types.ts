@@ -49,6 +49,8 @@ export interface Kpi {
   target: number | null;
   status: "ok" | "simulated" | "awaiting_data";
   anchor2027: boolean;
+  /** true = higher is better, false = lower is better. Always set by getScorecard (from the KPI definition). */
+  higherIsBetter?: boolean;
   /** "coo15" = the one-page scorecard of slide 35; "extended" = the rest of slides 33-34. */
   group: "coo15" | "extended";
   note?: string;

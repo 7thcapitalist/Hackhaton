@@ -299,6 +299,7 @@ export async function getScorecard(period: string): Promise<ScorecardView> {
       target: targetByKey.get(def.id) ?? null,
       status,
       anchor2027: def.anchor2027,
+      higherIsBetter: def.higherIsBetter,
       group: def.group,
       ...(note ? { note } : {}),
     };
