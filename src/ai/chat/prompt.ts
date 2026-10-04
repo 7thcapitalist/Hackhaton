@@ -17,7 +17,7 @@ Facts:
 - items: item lifecycle (category, donated_at, identified_at, sent_to_ecom_at, listed_at, sold_at, listed_by pseudonym, list/sale price cents, relist_count). From the production-tracking and Upright inventory sources.
 - labor_hours: employee pseudonym, team, work_date, hours. From the timekeeping source.
 - marketplace_metrics: per channel and period, metric csat | nps | conversion_rate (percent) | seller_rating. MOCK data.
-Config and audit: sources (id, name, kind, owner, revenue_authority), channels (id, name, pulse_group), kpi_targets (kpi_key, period, target_value), ingest_runs (one per ingested file: source_id, file_name, period, business_date, status, row_count, is_synthetic, uploaded_at), exceptions (kind, message, status open|resolved|waived, owner, expected/actual cents).
+Config and audit: sources (id, name, kind, owner, revenue_authority), channels (id, name, pulse_group), kpi_targets (kpi_key, period, target_value; stored for a few periods only, so read targets from get_scorecard, which also fills in the default placeholder targets), ingest_runs (one per ingested file: source_id, file_name, period, business_date, status, row_count, is_synthetic, uploaded_at), exceptions (kind, message, status open|resolved|waived, owner, expected/actual cents).
 
 # Conventions
 - Money is stored in integer cents. Always present dollars: 123456 -> $1,234.56.

@@ -12,6 +12,7 @@ import { sql } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import {
   AGED_LISTING_DAYS,
+  DEFAULT_KPI_TARGETS,
   DEFAULT_LABOR_RATE_CENTS_PER_HOUR,
   KPI_DEFINITIONS,
   categoryBreakdown,
@@ -288,13 +289,24 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
   };
 }
 
+/** Loads one period's facts; pass a per-request cached loader to share loads between views. */
+export type PeriodFactsLoader = (period: string) => Promise<PeriodFacts>;
+
+/**
+ * Target for a KPI: the period's kpi_targets row when there is one, otherwise the
+ * default placeholder target (src/kpis/targets.ts), otherwise null.
+ */
+function targetFor(kpiId: string, stored: Map<string, number>): number | null {
+  return stored.get(kpiId) ?? DEFAULT_KPI_TARGETS[kpiId] ?? null;
+}
+
 /** Scorecard for a period (`YYYY-MM`). */
-export async function getScorecard(period: string): Promise<ScorecardView> {
+export async function getScorecard(period: string, load: PeriodFactsLoader = loadPeriodFacts): Promise<ScorecardView> {
   const prevPeriod = previousPeriod(period);
   const [cur, prev, prev2, targets] = await Promise.all([
-    loadPeriodFacts(period),
-    loadPeriodFacts(prevPeriod),
-    loadPeriodFacts(previousPeriod(prevPeriod)),
+    load(period),
+    load(prevPeriod),
+    load(previousPeriod(prevPeriod)),
     getDb().all<{ kpi_key: string; target_value: number }>(
       sql`select kpi_key, target_value from kpi_targets where period = ${period}`,
     ),
@@ -322,7 +334,7 @@ export async function getScorecard(period: string): Promise<ScorecardView> {
       unit: def.unit,
       value,
       previous,
-      target: targetByKey.get(def.id) ?? null,
+      target: targetFor(def.id, targetByKey),
       status,
       anchor2027: def.anchor2027,
       higherIsBetter: def.higherIsBetter,

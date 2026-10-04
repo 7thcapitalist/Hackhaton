@@ -16,6 +16,7 @@
  */
 import type { NewChannel, NewKpiTarget, NewSource } from "../../src/db/schema";
 import type { SourceCadence } from "../../src/ingest/config";
+import { DEFAULT_KPI_TARGETS } from "../../src/kpis/targets";
 
 export type { SourceCadence };
 export interface SourceConfig {
@@ -176,23 +177,8 @@ export const CHANNELS: NewChannel[] = [
   { id: "goodwill_books", name: "Goodwill Books", pulseGroup: "Other e-commerce", sortOrder: 5 },
 ];
 
-/** Plausible monthly targets (placeholders until Goodwill gives real ones). */
-const TARGETS: Record<string, number> = {
-  total_revenue: 14_500_000, // cents = $145k/month
-  revenue_growth_pct: 3,
-  net_margin_pct: 55, // net of processing labor (labor hours × $18/h) since the KPI update
-  gross_margin_pct: 75,
-  listings_created: 5_000,
-  revenue_per_labor_hour: 7_000, // cents per hour = $70/h
-  listings_per_employee: 400,
-  days_donation_to_listing: 12,
-  unlisted_backlog: 800,
-  unsold_inventory_pct: 20,
-  avg_selling_price: 2_700, // cents
-  sell_through_rate: 55,
-  sales_per_employee: 1_100_000, // cents per employee per month
-  repeat_buyer_rate: 30,
-};
+/** Monthly targets: placeholders until Goodwill gives real ones (single source: src/kpis/targets.ts). */
+const TARGETS = DEFAULT_KPI_TARGETS;
 
 export const KPI_TARGET_PERIODS = ["2026-08", "2026-09", "2026-10"];
 

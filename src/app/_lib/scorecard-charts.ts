@@ -3,10 +3,10 @@
 // Never import from a client component.
 import { cache } from "react";
 import { KPI_DEFINITIONS } from "@/kpis";
-import { getPulseSeries, loadPeriodFacts } from "@/lib/views";
+import { getPulseSeries } from "@/lib/views";
 import { dateRange, periodBounds } from "@/lib/views/dates";
 import type { DataRange } from "./data";
-import { getScorecardView, periodShort } from "./data";
+import { getPeriodFacts, getScorecardView, periodShort } from "./data";
 import type { Kpi } from "./types";
 
 /** Same month one year earlier ("2026-09" → "2025-09"). */
@@ -84,7 +84,7 @@ export type RepeatBuyers = {
 };
 
 const repeatDef = KPI_DEFINITIONS.find(d => d.id === "repeat_buyer_rate")!;
-const repeatRate = cache(async (period: string) => repeatDef.compute(await loadPeriodFacts(period), null));
+const repeatRate = cache(async (period: string) => repeatDef.compute(await getPeriodFacts(period), null));
 
 export type ScorecardCharts = {
   revenuePace: RevenuePace | null;
@@ -92,10 +92,11 @@ export type ScorecardCharts = {
   repeatBuyers: RepeatBuyers | null;
 };
 
-export async function getScorecardCharts(range: DataRange, period: string, kpis: Kpi[]): Promise<ScorecardCharts> {
-  const kpi = (id: string) => kpis.find(k => k.id === id);
+/** kpis may be a promise, so the charts' own loads start before the screen's KPIs are ready. */
+export async function getScorecardCharts(range: DataRange, period: string, kpisIn: Kpi[] | Promise<Kpi[]>): Promise<ScorecardCharts> {
   const ly = priorYearPeriod(period);
-  const [current, lastYear, view, repeat] = await Promise.all([
+  const [kpis, current, lastYear, view, repeat] = await Promise.all([
+    kpisIn,
     paceSeries(period, range.latestDate, range.completeDate),
     paceSeries(ly, range.latestDate, range.completeDate),
     getScorecardView(period),
@@ -107,6 +108,7 @@ export async function getScorecardCharts(range: DataRange, period: string, kpis:
     })),
   ]);
 
+  const kpi = (id: string) => kpis.find(k => k.id === id);
   const { start, end } = periodBounds(period);
   const revenuePace: RevenuePace | null = current
     ? { days: dateRange(start, end).length, targetCents: kpi("total_revenue")?.target ?? null, current, lastYear }
