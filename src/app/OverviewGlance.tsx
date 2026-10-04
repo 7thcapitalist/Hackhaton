@@ -10,7 +10,7 @@
 // marketplaces keep their series color as the bar and a swatch, categories stay plain ink.
 // Numbers are set in the UI face with tabular figures, sized for reading, not for show.
 import type { ReactNode } from "react";
-import { bucketBy, biggestMover, matches, sliceStats, type Bucket, type Mover, type OrderLike } from "./_lib/overview-filters";
+import { bucketBy, matches, rankMovers, sliceStats, type Bucket, type Mover, type OrderLike } from "./_lib/overview-filters";
 import { MARKET_THEME, type MarketKey } from "./_lib/overview-theme";
 import { formatInt, formatMoney, formatMoneyCompact, pctChange } from "./_lib/format";
 
@@ -37,17 +37,17 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
   if (channel === "all" && category === "all") {
     const byChannel = bucketBy(current, o => o.channelLabel);
     const byCategory = bucketBy(current, o => o.category);
-    const mover = previous
-      ? biggestMover(
+    const movers = previous
+      ? rankMovers(
           [...tag(byChannel, "m:"), ...tag(byCategory, "c:")],
           [...tag(bucketBy(previous, o => o.channelLabel), "m:"), ...tag(bucketBy(previous, o => o.category), "c:")],
         )
-      : null;
+      : [];
     return (
       <Row>
         <RankPanel title="Top marketplaces today" keyLabel="Marketplace" rows={byChannel} barColor={marketBarColor} />
         <RankPanel title="Top categories today" keyLabel="Category" rows={byCategory} limit={4} />
-        <MoverPanel title="Biggest mover" mover={mover} comparedTo={comparedTo} describeKey={describeTaggedKey} />
+        <MoverPanel title="Biggest mover" movers={movers} comparedTo={comparedTo} describeKey={describeTaggedKey} />
       </Row>
     );
   }
@@ -56,7 +56,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const byCategory = bucketBy(current, o => o.category);
     const stats = sliceStats(current);
     const prevStats = previous ? sliceStats(previous) : null;
-    const mover = previous ? biggestMover(bucketBy(current, o => o.category), bucketBy(previous, o => o.category)) : null;
+    const movers = previous ? rankMovers(bucketBy(current, o => o.category), bucketBy(previous, o => o.category)) : [];
     return (
       <Row>
         <RankPanel title={`Top categories in ${channelLabel}`} keyLabel="Category" rows={byCategory} limit={4} barColor={() => MARKET_THEME[channel].accent} />
@@ -64,7 +64,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? `, ${formatInt(stats.cancelled)} cancelled` : ""}`} />
-        <MoverPanel title={`Biggest mover in ${channelLabel}`} mover={mover} comparedTo={comparedTo} describeKey={k => k} />
+        <MoverPanel title={`Biggest mover in ${channelLabel}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} />
       </Row>
     );
   }
@@ -73,7 +73,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
     const byChannel = bucketBy(current, o => o.channelLabel);
     const stats = sliceStats(current);
     const prevStats = previous ? sliceStats(previous) : null;
-    const mover = previous ? biggestMover(bucketBy(current, o => o.channelLabel), bucketBy(previous, o => o.channelLabel)) : null;
+    const movers = previous ? rankMovers(bucketBy(current, o => o.channelLabel), bucketBy(previous, o => o.channelLabel)) : [];
     return (
       <Row>
         <RankPanel title={`Top marketplaces selling ${category}`} keyLabel="Marketplace" rows={byChannel} barColor={marketBarColor} />
@@ -81,7 +81,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
           changePct={pctChange(stats.avgCents, prevStats?.avgCents ?? null)} comparedTo={comparedTo}
           secondary={`${formatMoneyCompact(stats.revenueCents)} total revenue`}
           caption={`${formatInt(stats.orders)} orders${stats.cancelled ? `, ${formatInt(stats.cancelled)} cancelled` : ""}`} />
-        <MoverPanel title={`Biggest mover for ${category}`} mover={mover} comparedTo={comparedTo} describeKey={k => k} />
+        <MoverPanel title={`Biggest mover for ${category}`} movers={movers} comparedTo={comparedTo} describeKey={k => k} />
       </Row>
     );
   }
@@ -99,7 +99,7 @@ export function OverviewGlance({ orders, cmpOrders, channel, channelLabel, categ
       <StatPanel title="Cancelled orders" value={formatInt(stats.cancelled)}
         changePct={null} comparedTo={comparedTo} caption={stats.cancelled ? `${(stats.cancelRate * 100).toFixed(1)}% of this slice` : "none in this slice"} />
       <MoverPanel title="Change vs comparison day" comparedTo={comparedTo} describeKey={() => `${channelLabel}, ${category}`}
-        mover={revenueChangePct == null ? null : { key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents }} />
+        movers={revenueChangePct == null ? [] : [{ key: "slice", pct: revenueChangePct, currentCents: stats.revenueCents }]} />
     </Row>
   );
 }
@@ -197,12 +197,16 @@ function StatPanel({ title, value, changePct, comparedTo, caption, secondary }: 
   );
 }
 
-function MoverPanel({ title, mover, comparedTo, describeKey }: {
+/** The biggest swing, explained in a sentence, then up to 3 runners-up (rankMovers order; #47). */
+function MoverPanel({ title, movers, comparedTo, describeKey }: {
   title: string;
-  mover: Mover | null;
+  movers: Mover[];
   comparedTo: string;
   describeKey: (key: string) => string | { label: string; hint: string };
 }) {
+  const mover = movers[0] ?? null;
+  const others = movers.slice(1, 4);
+  const nameOf = (key: string) => { const d = describeKey(key); return typeof d === "string" ? d : d.label; };
   const described = mover ? describeKey(mover.key) : null;
   const label = described == null ? null : typeof described === "string" ? described : described.label;
   const hint = described == null || typeof described === "string" ? null : described.hint;
@@ -218,6 +222,16 @@ function MoverPanel({ title, mover, comparedTo, describeKey }: {
           <p className="text-[13px] text-pretty text-ink-2">
             <span className="font-medium text-ink">{label}</span>{hint && <span className="text-ink-3"> ({hint})</span>} {verb} {Math.abs(mover.pct).toFixed(1)}% vs {comparedTo}, to {formatMoneyCompact(mover.currentCents)} today.
           </p>
+          {others.length > 0 && (
+            <ul className="flex flex-col text-[13px]">
+              {others.map(m => (
+                <li key={m.key} className="flex items-baseline justify-between gap-3 border-t border-line-2 py-1.5">
+                  <span className="truncate text-ink-2">{nameOf(m.key)}</span>
+                  <ChangeText pct={m.pct} />
+                </li>
+              ))}
+            </ul>
+          )}
         </>
       )}
     </Panel>

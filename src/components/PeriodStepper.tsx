@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { CalendarIcon, ChevronIcon } from "./icons";
 
 type PeriodStepperProps = {
@@ -8,12 +9,13 @@ type PeriodStepperProps = {
   prevLabel: string;       // "Previous day"
   nextLabel: string;
   minWidth?: string;
+  center?: ReactNode;      // replaces the plain label, e.g. a date picker
 };
 
 const arrow = "grid w-8 place-items-center text-ink-2 transition-colors";
 
 /** ‹ [calendar] Friday, Oct 2, 2026 › — links, so every period has a shareable URL. */
-export function PeriodStepper({ label, prevHref, nextHref, prevLabel, nextLabel, minWidth }: PeriodStepperProps) {
+export function PeriodStepper({ label, prevHref, nextHref, prevLabel, nextLabel, minWidth, center }: PeriodStepperProps) {
   return (
     <div className="flex h-8 items-stretch rounded-md border border-line bg-surface">
       {prevHref ? (
@@ -21,10 +23,14 @@ export function PeriodStepper({ label, prevHref, nextHref, prevLabel, nextLabel,
       ) : (
         <span aria-disabled="true" aria-label={prevLabel} className={`${arrow} opacity-35`}><ChevronIcon dir="left" /></span>
       )}
-      <div className="flex items-center gap-2 border-x border-line px-3 text-[13px] font-medium whitespace-nowrap" style={{ minWidth }}>
-        <CalendarIcon className="size-[15px] text-ink-3" />
-        <span>{label}</span>
-      </div>
+      {center ? (
+        <div className="flex border-x border-line" style={{ minWidth }}>{center}</div>
+      ) : (
+        <div className="flex items-center gap-2 border-x border-line px-3 text-[13px] font-medium whitespace-nowrap" style={{ minWidth }}>
+          <CalendarIcon className="size-[15px] text-ink-3" />
+          <span>{label}</span>
+        </div>
+      )}
       {nextHref ? (
         <Link href={nextHref} aria-label={nextLabel} className={`${arrow} rounded-r-md hover:bg-surface-2`}><ChevronIcon dir="right" /></Link>
       ) : (
