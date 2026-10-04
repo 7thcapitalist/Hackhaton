@@ -29,7 +29,7 @@ import { CHAT_SYSTEM_PROMPT } from "./prompt";
 import { latestBusinessDate } from "./sql";
 import { CHAT_TOOL_DEFS, parseToolArgs, runTool, toolLabel } from "./tools";
 
-export const DEFAULT_CHAT_MODEL = "gpt-6-astra";
+export const DEFAULT_CHAT_MODEL = "gpt-6.1-sol";
 export const MAX_TOOL_ITERATIONS = 8;
 export const MAX_HISTORY_MESSAGES = 20;
 const MAX_OUTPUT_TOKENS = 16_000;

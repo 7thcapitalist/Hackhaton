@@ -69,7 +69,7 @@ See `.env.example`.
 | `BUYER_KEY_SALT` | Salt for hashed buyer keys (privacy) |
 | `DEMO_RESET_SECRET` | Guards the "Reset demo data" route |
 | `ANTHROPIC_API_KEY` | Optional AI note on the scorecard |
-| `OPENAI_API_KEY` (optional `OPENAI_MODEL`, default `gpt-6-astra`) | Data chat, `POST /api/chat` (503 without the key) |
+| `OPENAI_API_KEY` (optional `OPENAI_MODEL`, default `gpt-6.1-sol`) | Data chat, `POST /api/chat` (503 without the key) |
 | `CHAT_DATABASE_URL`, `CHAT_DATABASE_AUTH_TOKEN` | Optional read-only Turso credentials for the chat's `run_sql` tool (falls back to the main DB client) |
 | `CONNECTORS_MOCK` | `1` = `/api/connectors/pull` uses mock connector data unless the request says otherwise |
 | `AMAZON_SP_CLIENT_ID`, `AMAZON_SP_CLIENT_SECRET`, `AMAZON_SP_REFRESH_TOKEN` (optional `AMAZON_SP_MARKETPLACE_ID`, `AMAZON_SP_ENDPOINT`, `AMAZON_SP_FEED` = `finances` (default) or `reports`, `AMAZON_SP_REPORT_TYPE`) | Real Amazon SP-API pulls |
@@ -199,7 +199,7 @@ renamed columns, missing Supplier) are live-demo files in
 ## Data chat ("ask anything about the data")
 
 `POST /api/chat` answers questions with the OpenAI Responses API (model `OPENAI_MODEL`,
-default `gpt-6-astra`) and a function-calling loop over the same view functions the
+default `gpt-6.1-sol`) and a function-calling loop over the same view functions the
 dashboard uses (`get_pulse`, `get_pulse_series`, `get_scorecard`, `get_source_status`,
 `get_exceptions`, `get_orders`) plus `run_sql`, a guarded read-only SQL tool. Code:
 `src/ai/chat/` (agent loop, tools, system prompt, SQL guard).
