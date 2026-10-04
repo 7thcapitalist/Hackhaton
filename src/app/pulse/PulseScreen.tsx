@@ -1,28 +1,45 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { buttonClass } from "@/components/Button";
 import { DrillDownDrawer, type DrawerContent } from "@/components/DrillDownDrawer";
 import { HeroStat } from "@/components/HeroStat";
 import { ClockIcon, DownloadIcon, MailIcon, WarnIcon } from "@/components/icons";
 import { PeriodStepper } from "@/components/PeriodStepper";
 import { PulseChart } from "@/components/PulseChart";
-import { PulseTable, type PulseField } from "@/components/PulseTable";
+import { RevenueSplit } from "@/components/RevenueSplit";
+import { NO_BUYER_ID, PulseTable, type PulseField } from "@/components/PulseTable";
 import type { PulseScreenData } from "../_lib/data";
-import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyCompact, formatStamp } from "../_lib/format";
+import { formatDay, formatDayLong, formatInt, formatMoney, formatMoneyWhole, formatStamp } from "../_lib/format";
+import { baselineLabel, buildPulseSummary, significance, weekdayOf, type PulseBaseline, type PulseMetric } from "./summary";
 import type { ChannelId, PulseSeries, PulseView, SourceOrder } from "../_lib/types";
 
-type PulseScreenProps = PulseScreenData & { latestDate: string }; // last complete day
+type PulseScreenProps = PulseScreenData & { baseline: PulseBaseline | null; latestDate: string }; // latestDate = last complete day
 
 type DrawerState = { channel: ChannelId | "total"; field: PulseField } | { channel: ChannelId; missing: true } | null;
 
 const FIELD_NAME: Record<PulseField, string> = { revenue: "Revenue", customers: "Customers", orders: "Orders" };
 const href = (date: string) => `/pulse?date=${date}`;
+const ADVANCED_KEY = "pulse-advanced"; // per-viewer preference, so the simple view stays the default
 
-export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDate, nextDate, isPartial, latestDate }: PulseScreenProps) {
+/** Simple view by default; "Advanced" adds exports, provenance, the full table and the chart. */
+function useAdvanced() {
+  const [advanced, setAdvanced] = useState(false);
+  useEffect(() => {
+    try { setAdvanced(localStorage.getItem(ADVANCED_KEY) === "1"); } catch {}
+  }, []);
+  const set = (on: boolean) => {
+    setAdvanced(on);
+    try { localStorage.setItem(ADVANCED_KEY, on ? "1" : "0"); } catch {}
+  };
+  return [advanced, set] as const;
+}
+
+export function PulseScreen({ view, orders, ordersTotal, baseline, series, prevDate, nextDate, isPartial, latestDate }: PulseScreenProps) {
   const router = useRouter();
   const [drawer, setDrawer] = useState<DrawerState>(null);
+  const [advanced, setAdvanced] = useAdvanced();
   const close = useCallback(() => setDrawer(null), []);
   const date = view.businessDate;
   const dateLong = formatDayLong(date);
@@ -30,20 +47,29 @@ export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDa
   const reporting = view.rows.filter(r => r.status === "ok");
   const missing = view.rows.filter(r => r.status === "missing");
   const T = view.totals;
-  const cmpLabel = compare ? formatDay(compare.date) : "prior week";
+  const weekday = weekdayOf(date);
+  // Compared with the same weekday over the previous 4 weeks (fewer near the start of the data).
+  const compared = baseline && baseline.dates.length > 0 ? baseline : null;
+  const change = (metric: PulseMetric, value: number) => (compared ? significance(value, compared.stats[metric], weekday) : null);
+  const comparedTo = (metric: PulseMetric, fmt: (v: number) => string) =>
+    compared ? (advanced ? `${baselineLabel(compared)} (avg ${fmt(compared.stats[metric].mean)})` : `vs a typical ${weekday}`)
+      : isPartial ? "partial day, not compared" : `no earlier ${weekday}s to compare`;
+  const summary = buildPulseSummary({ date, partial: isPartial, rows: view.rows, totals: T, baseline });
+  // When this day's files were imported (not the newest file of any day, which the sidebar shows).
   const files = new Set(reporting.flatMap(r => r.sourceFiles)).size;
+  const dataAsOf = reporting.map(r => r.importedAt).filter((x): x is string => !!x).sort().pop();
 
   const drawerContent = useMemo(() => drawer && buildDrawer(drawer, view, orders, ordersTotal, series), [drawer, view, orders, ordersTotal, series]);
   const openCell = (channel: ChannelId | "total", field: PulseField) => setDrawer({ channel, field });
 
   const emailPulse = () => {
-    const subject = `Daily Pulse · ${dateShort}: ${formatMoneyCompact(T.revenueCents)} e-commerce revenue`;
-    const body = `Daily Pulse for ${dateLong} (Eastern Time)\n\nRevenue: ${formatMoney(T.revenueCents)}\nCustomers: ${formatInt(T.customers)}\nOrders: ${formatInt(T.orders)}\n${missing.length ? `Awaiting data: ${missing.map(r => r.label).join(", ")}\n` : ""}\n${window.location.origin}${href(date)}`;
+    const subject = `Daily Pulse · ${dateShort}: ${formatMoneyWhole(T.revenueCents)} e-commerce revenue`;
+    const body = `${summary}\n\nDaily Pulse for ${dateLong} (Eastern Time)\n\nRevenue: ${formatMoney(T.revenueCents)}\nCustomers: ${formatInt(T.customers)}\nOrders: ${formatInt(T.orders)}\n${missing.length ? `Awaiting data: ${missing.map(r => r.label).join(", ")}\n` : ""}\n${window.location.origin}${href(date)}`;
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
-    <div className="flex flex-col gap-5 px-4 pt-7 pb-12 sm:px-8">
+    <div className={`flex flex-col px-4 pt-7 pb-12 sm:px-8 ${advanced ? "gap-5" : "gap-6"}`}>
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-0.5">
@@ -54,25 +80,39 @@ export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDa
             <PeriodStepper label={dateLong} minWidth="200px"
               prevHref={prevDate && href(prevDate)} nextHref={nextDate && href(nextDate)}
               prevLabel="Previous day" nextLabel="Next day" />
-            <span className="text-[12.5px] text-ink-3">Eastern Time (Indianapolis)</span>
+            {advanced && (
+              <span className="text-[12.5px] text-ink-3">
+                Eastern Time{dataAsOf && <> · Data as of {formatStamp(dataAsOf, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET ({files} file{files === 1 ? "" : "s"})</>}
+              </span>
+            )}
             {date < latestDate && <Link href={href(latestDate)} className="text-[12.5px] font-medium text-accent hover:text-ink">Jump to latest →</Link>}
           </div>
         </div>
         <div data-print-hide className="flex flex-wrap items-center gap-2">
-          {/* Export routes are Denis's lane (docs/interfaces.md §3). */}
-          <a href={`/api/export/pulse?date=${date}&format=csv`} className={buttonClass("secondary")}><DownloadIcon />Export CSV</a>
-          <a href={`/api/export/pulse?date=${date}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
+          <label className="flex h-9 cursor-pointer items-center gap-2 rounded-lg px-2.5 text-[13px] font-medium text-ink-2 select-none hover:bg-surface-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent">
+            <input type="checkbox" checked={advanced} onChange={e => setAdvanced(e.target.checked)} aria-describedby="advanced-hint"
+              className="size-4 cursor-pointer accent-[var(--accent)] focus-visible:outline-none" />
+            Advanced
+            <span id="advanced-hint" className="sr-only">Show exports, data sources, the full marketplace table and the 30-day chart</span>
+          </label>
+          {advanced && <>
+            {/* Export routes are Denis's lane (docs/interfaces.md §3). */}
+            <a href={`/api/export/pulse?date=${date}&format=csv`} className={buttonClass("secondary")}><DownloadIcon />Export CSV</a>
+            <a href={`/api/export/pulse?date=${date}&format=xlsx`} className={buttonClass("secondary")}><DownloadIcon />Export XLSX</a>
+          </>}
           <button type="button" onClick={emailPulse} className={buttonClass("primary", "px-[15px]")}><MailIcon />Email this pulse</button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <HeroStat label="E-commerce revenue" value={formatMoneyCompact(T.revenueCents)} traceLabel={`${files} file${files === 1 ? "" : "s"}`}
-          changePct={compare?.changes.revenue ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "revenue")} />
-        <HeroStat label="Customers" value={formatInt(T.customers)} traceLabel="1 per transaction"
-          changePct={compare?.changes.customers ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "customers")} />
-        <HeroStat label="Orders" value={formatInt(T.orders)} traceLabel={`${formatInt(ordersTotal)} rows`}
-          changePct={compare?.changes.orders ?? null} comparedTo={cmpLabel} onOpen={() => openCell("total", "orders")} />
+      <p className={`max-w-[920px] leading-[1.5] font-medium text-pretty text-ink ${advanced ? "text-[17px]" : "text-[19px] sm:text-[21px]"}`}>{summary}</p>
+
+      <div className={`grid grid-cols-1 md:grid-cols-3 ${advanced ? "gap-4" : "gap-5"}`}>
+        <HeroStat label="E-commerce revenue" value={formatMoneyWhole(T.revenueCents)}
+          change={change("revenue", T.revenueCents)} comparedTo={comparedTo("revenue", formatMoneyWhole)} onOpen={() => openCell("total", "revenue")} large={!advanced} />
+        <HeroStat label="Customers" value={formatInt(T.customers)}
+          change={change("customers", T.customers)} comparedTo={comparedTo("customers", formatInt)} onOpen={() => openCell("total", "customers")} large={!advanced} />
+        <HeroStat label="Orders" value={formatInt(T.orders)}
+          change={change("orders", T.orders)} comparedTo={comparedTo("orders", formatInt)} onOpen={() => openCell("total", "orders")} large={!advanced} />
       </div>
 
       {isPartial && (
@@ -92,9 +132,14 @@ export function PulseScreen({ view, orders, ordersTotal, compare, series, prevDa
         </div>
       )}
 
-      <PulseTable rows={view.rows} totals={T} dateLabel={dateShort} onCellClick={openCell} onMissingClick={channel => setDrawer({ channel, missing: true })} />
-
-      <PulseChart data={series} selectedDate={date} onSelectDate={d => router.push(href(d), { scroll: false })} />
+      {advanced ? (
+        <>
+          <PulseTable rows={view.rows} totals={T} dateLabel={dateShort} onCellClick={openCell} onMissingClick={channel => setDrawer({ channel, missing: true })} />
+          <PulseChart data={series} selectedDate={date} lastCompleteDate={latestDate} onSelectDate={d => router.push(href(d), { scroll: false })} />
+        </>
+      ) : (
+        <RevenueSplit rows={view.rows} totalCents={T.revenueCents} />
+      )}
 
       <DrillDownDrawer content={drawerContent} dateLong={dateLong} dateShort={dateShort} onClose={close} />
     </div>
@@ -124,11 +169,19 @@ function buildDrawer(state: NonNullable<DrawerState>, view: PulseView, orders: S
     kind: "rows",
     title: `${one ? one.label : "Total e-commerce"} · ${FIELD_NAME[state.field]}`,
     value: state.field === "revenue" ? formatMoney(rev) : state.field === "customers" ? formatInt(custs) : formatInt(ords),
-    caption: state.field === "customers" ? `${formatInt(custs)} customers (one per transaction) across ${formatInt(ords)} orders` : `${formatInt(ords)} orders · net of marketplace fees`,
-    fileLabel: files.length === 1 ? files[0] : `${files.length} source files`,
+    caption: state.field === "customers" ? customersCaption(rows, custs, ords) : `${formatInt(ords)} orders · net of marketplace fees`,
+    files,
     fileMeta: imported ? `Imported ${formatStamp(imported, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} ET · ${formatInt(mine.length)} rows` : `${formatInt(mine.length)} rows`,
     orders: mine,
     totalNetCents: rev,
     complete: orders.length >= ordersTotal,
   };
+}
+
+/** Option A (2026-10-03): unique buyers where the marketplace sends a buyer ID, one per transaction where it doesn't. */
+function customersCaption(rows: PulseView["rows"], custs: number, ords: number) {
+  const head = `${formatInt(custs)} customers across ${formatInt(ords)} orders`;
+  const fallback = rows.map(r => NO_BUYER_ID[r.channelId]).filter((x): x is string => !!x);
+  if (fallback.length === 0) return `${head}, counted as unique buyers.`;
+  return `${head}. Unique buyers per marketplace, except where there is no buyer ID: ${fallback.join("; ")}, so each transaction counts as one customer.`;
 }

@@ -44,6 +44,7 @@ Check the database connection at <http://localhost:3000/api/health>, which retur
 | `npm run dev` / `build` / `start` | Next.js dev server, production build, production server |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test:exports` | Tests for report exports, without a database or email delivery |
+| `npm run test:pulse` | Tests for the Daily Pulse summary sentence and same-weekday baseline (pure, no database) |
 | `npm run db:push` | Push `src/db/schema.ts` to the database in `TURSO_DATABASE_URL` |
 | `npm run db:studio` | Drizzle Studio (browse the database) |
 | `npm run seed [-- --direct\|--staged] [--no-golden]` | Wipe facts, upsert config + KPI targets, then pull every file in `data/fixtures/` through the mock connectors (`pullAndIngest({ mock: true })`, month by month) into `ingestFile()`, like real pulls. Every fact (orders, money lines, items, labor hours, marketplace metrics) comes from an ingest run; only config + KPI targets are inserted directly. Local DB: ~20 s; remote Turso: stages in a scratch SQLite file and copies in one transaction. Ends by saving the golden snapshot (below); `--no-golden` skips that |
