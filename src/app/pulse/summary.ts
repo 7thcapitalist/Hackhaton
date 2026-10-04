@@ -100,7 +100,7 @@ export function buildPulseSummary({ date, partial, rows, totals, baseline }: Sum
     const orders = significance(totals.orders, baseline.stats.orders, weekday);
     const customers = significance(totals.customers, baseline.stats.customers, weekday);
     if (orders.level !== "neutral") unusual.push(`orders were unusually ${orders.level === "up" ? "heavy" : "light"}`);
-    if (customers.level !== "neutral") unusual.push(`customers were unusually ${customers.level === "up" ? "many" : "few"}`);
+    if (customers.level !== "neutral") unusual.push(`unique customers were unusually ${customers.level === "up" ? "many" : "few"}`);
     if (unusual.length) clauses.push(list(unusual));
   }
   if (clauses.length === 0) return first;

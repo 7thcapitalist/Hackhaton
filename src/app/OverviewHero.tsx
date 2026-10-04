@@ -37,7 +37,7 @@ function aggregateTotals(rows: OrderLike[], channelLabel: string | "all", catego
   const live = filtered.filter(o => o.status !== "cancelled"); // revenue sums every row (net already reflects refunds); orders/customers exclude cancellations, same as the pulse view
   return {
     revenueCents: filtered.reduce((a, o) => a + o.netCents, 0),
-    customers: new Set(live.map(o => `${o.channelLabel}:${o.orderId}`)).size,
+    customers: new Set(live.map(o => o.customerKey)).size,
     orders: live.length,
   };
 }
@@ -84,7 +84,7 @@ export function OverviewHero({ date, cmpDate, channelOptions, totals, compareCha
         <div className="grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           <HeroNumber label={suffix ? `Daily sales — ${suffix}` : "Daily sales"} value={formatMoneyCompact(current.revenueCents)}
             changePct={changes?.revenue ?? null} comparedTo={comparedTo} side="first" />
-          <HeroNumber label={suffix ? `Daily customers — ${suffix}` : "Daily customers"} value={formatInt(current.customers)}
+          <HeroNumber label={suffix ? `Daily unique customers — ${suffix}` : "Daily unique customers"} value={formatInt(current.customers)}
             changePct={changes?.customers ?? null} comparedTo={comparedTo} side="middle" />
           <HeroNumber label={suffix ? `Daily orders — ${suffix}` : "Daily orders"} value={formatInt(current.orders)}
             changePct={changes?.orders ?? null} comparedTo={comparedTo} side="last" />

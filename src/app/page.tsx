@@ -3,7 +3,7 @@ import { getOrders, ORDERS_MAX_LIMIT } from "@/lib/views";
 import { CheckIcon } from "@/components/icons";
 import { SourceStrip } from "@/components/SourceStrip";
 import { CHANNELS, GROUP_MEMBERS } from "./_lib/channels";
-import { getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
+import { customerKeyOf, getDataRange, getPulseScreen, getSourcesScreen, periodLabel, summarizeSources } from "./_lib/data";
 import { formatStampFull } from "./_lib/format";
 import { OverviewHero, type OrderLike } from "./OverviewHero";
 import type { ChannelId } from "./_lib/types";
@@ -31,7 +31,7 @@ export default async function OverviewPage() {
   const channelOptions = pulse.rows.filter(r => r.status === "ok").map(r => ({ id: r.channelId, label: r.label }));
   const cmpOrdersRaw = cmpDate ? await getOrders({ date: cmpDate, limit: ORDERS_MAX_LIMIT }) : null;
   const cmpOrders: OrderLike[] | null = cmpOrdersRaw
-    ? cmpOrdersRaw.rows.map(o => ({ channelLabel: groupLabel(o.channel), category: o.category ?? "Uncategorized", netCents: o.netCents, status: o.status, orderId: o.externalOrderId }))
+    ? cmpOrdersRaw.rows.map(o => ({ channelLabel: groupLabel(o.channel), category: o.category ?? "Uncategorized", netCents: o.netCents, status: o.status, orderId: o.externalOrderId, customerKey: customerKeyOf(o) }))
     : null;
 
   const SOURCES = sourcesData.sources;
