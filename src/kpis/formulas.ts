@@ -25,11 +25,16 @@ export function totalRevenue(f: PeriodFacts): number | null {
  * - YoY when the same month last year has orders:
  *   (revenue − revenue same month last year) / revenue same month last year × 100
  * - else MoM: (revenue − prior month revenue) / prior month revenue × 100
+ * - partial period (f.monthToDate set, e.g. the running month): month to date,
+ *   days 1..N vs the same days 1..N of the comparison month, not the full month.
  */
 export function revenueGrowthPct(f: PeriodFacts, prev: PeriodFacts | null): number | null {
   const cur = totalRevenue(f);
   if (cur === null) return null;
-  const before = f.priorYear ? f.priorYear.netCents : prev ? totalRevenue(prev) : null;
+  const mtd = f.monthToDate;
+  const before = f.priorYear
+    ? mtd ? mtd.priorYearNetCents : f.priorYear.netCents
+    : mtd ? mtd.prevMonthNetCents : prev ? totalRevenue(prev) : null;
   if (before === null || before <= 0) return null;
   return round1(((cur - before) / before) * 100);
 }

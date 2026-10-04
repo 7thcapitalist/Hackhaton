@@ -166,6 +166,26 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
     select count(*) as n, coalesce(sum(net_cents), 0) as net
     from orders where business_date between ${pyBounds.start} and ${pyBounds.end}`);
 
+  // Partial period (orders stop before period end, e.g. the running month):
+  // revenue of the same days 1..N in the comparison months, for growth.
+  const lastDate = o?.last_date ?? null;
+  let monthToDate: PeriodFacts["monthToDate"] = null;
+  if (lastDate && lastDate < end) {
+    const throughDay = Number(lastDate.slice(8, 10));
+    const upTo = (p: string) => {
+      const b = periodBounds(p);
+      return { start: b.start, end: `${p}-${String(Math.min(throughDay, Number(b.end.slice(8, 10)))).padStart(2, "0")}` };
+    };
+    const pyMtd = upTo(py);
+    const pmMtd = upTo(previousPeriod(period));
+    const [m] = await db.all<{ py: number; pm: number }>(sql`
+      select coalesce(sum(case when business_date between ${pyMtd.start} and ${pyMtd.end} then net_cents end), 0) as py,
+             coalesce(sum(case when business_date between ${pmMtd.start} and ${pmMtd.end} then net_cents end), 0) as pm
+      from orders
+      where business_date between ${pyMtd.start} and ${pyMtd.end} or business_date between ${pmMtd.start} and ${pmMtd.end}`);
+    monthToDate = { throughDay, priorYearNetCents: Number(m?.py ?? 0), prevMonthNetCents: Number(m?.pm ?? 0) };
+  }
+
   const mm = await db.all<{ channel: string; metric: MarketplaceMetricName; value: number; sample_size: number | null }>(sql`
     select channel, metric, value, sample_size
     from marketplace_metrics
@@ -258,6 +278,7 @@ export async function loadPeriodFacts(period: string): Promise<PeriodFacts> {
       : null,
     categories: [...catMap.values()],
     priorYear: pyRev && Number(pyRev.n) > 0 ? { period: py, netCents: Number(pyRev.net) } : null,
+    monthToDate,
     marketplace: mm.map((r) => ({
       channel: r.channel,
       metric: r.metric,
