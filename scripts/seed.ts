@@ -58,6 +58,8 @@ async function main() {
     for (const p of r.problems) console.error(`  ${p}`);
     process.exit(1);
   }
+  // Prior allocation-workbook baselines (data/workbook) the close reconciles against.
+  await (await import("./workbook-baseline")).importAllWorkbooks((l) => console.log(l));
   if (argv.includes("--no-golden")) {
     console.log("Golden snapshot: skipped (--no-golden).");
   } else {
